@@ -1,18 +1,9 @@
 
-proc average(x, y: float): float =
-   var samesign: bool
-   if x >= 0.0:
-      if y >= 0.0: 
-         samesign = true
-      else:
-         samesign = false
-   else:
-      if y >= 0.0: 
-         samesign = false
-      else:
-         samesign = true
+func sameSign(x, y: float): bool =
+   x >= 0.0 == y >= 0.0
 
-   if samesign:
+func average(x, y: float): float =
+   if sameSign(x, y):
       if y >= x:
          x + ((y - x) / 2.0)
       else:

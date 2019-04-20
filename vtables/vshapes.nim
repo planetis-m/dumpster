@@ -33,8 +33,7 @@ proc circlePerimeter(c: CirclePtr): float =
 
 var theCircleVtab = CircleVTable(
    area: circleArea,
-   perimeter: circlePerimeter
-)
+   perimeter: circlePerimeter)
 
 proc initCircle(r: float): Circle =
    result.radius = r
@@ -59,8 +58,7 @@ proc rectanglePerimeter(r: RectanglePtr): float =
 
 var theRectangleVtab = RectangleVTable(
    area: rectangleArea,
-   perimeter: rectanglePerimeter
-)
+   perimeter: rectanglePerimeter)
 
 proc initRectangle(h, w: float): Rectangle =
    result.height = h

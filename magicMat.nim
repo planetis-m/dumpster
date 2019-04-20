@@ -1,23 +1,9 @@
-type
-   Matrix = seq[seq[float]]
 
-proc newMatrix(m, n: int): Matrix =
-   newSeq(result, m)
-   for i in 0 ..< m:
-      newSeq(result[i], n)
-
-template `[]`(m: Matrix, i, j: int): float =
-   m[i][j]
-
-template `[]=`(m: Matrix, i, j: int, v: float) =
-   m[i][j] = v
-
-template `[]=`(m: Matrix, i, j: int, v) =
-   m[i][j] = float(v)
-
-proc magicSquare(n: int): Matrix =
+proc magicSquare(n: int): seq[float] =
    assert n != 2, "Magic square of order 2 cannot be constructed"
-   var m = newMatrix(n, n)
+   template `[]`(s: seq; a, b: int): untyped = s[a * n + b]
+   template `[]=`(s: seq; a, b: int; val: untyped) = s[a * n + b] = float(val)
+   var m = newSeq[float](n * n)
    # Odd order
    if n mod 2 == 1:
       let a = (n + 1) div 2
@@ -28,7 +14,7 @@ proc magicSquare(n: int): Matrix =
    # Doubly Even Order
    elif n div 4 == 0:
       for j in 0 ..< n:
-         for i in 0  ..< n:
+         for i in 0 ..< n:
             if (i + 1) div 2 mod 2 == (j + 1) div 2 mod 2:
                m[i, j] = n * n - n * i - j
             else:
@@ -52,6 +38,16 @@ proc magicSquare(n: int): Matrix =
             swap(m[i, j], m[i + p, j])
       swap(m[k, 0], m[k + p, 0])
       swap(m[k, k], m[k + p, k])
-   return m
+   result = m
 
-echo magicSquare(5)
+proc display(data: seq[string]; n: int) =
+   for i in 0 ..< n:
+      var line = ""
+      let offset = i * n
+      for j in 0 ..< n:
+         if line.len > 0: line.add(", ")
+         line.add(data[offset + j])
+      echo line
+
+let m5 = magicSquare(5)
+display(m5, 5)

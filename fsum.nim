@@ -23,7 +23,7 @@ proc bitLen(num: int): int =
    # returns the number of bits necessary to represent an integer in binary
    # excluding the sign and leading zeros.
    var num = num
-   while num != 0:
+   while num > 0:
       result.inc
       num = num shr 1
 

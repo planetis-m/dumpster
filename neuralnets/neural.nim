@@ -12,7 +12,7 @@ else:
 
 type
    ActivationFunction* = object
-      fn*, deriv*: func(x: NeuralFloat): NeuralFloat {.nimcall.}
+      fn*, deriv*: proc(x: NeuralFloat): NeuralFloat {.nimcall.}
 
    NeuralNet* = object
       layerSizes*: seq[int]

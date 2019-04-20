@@ -8,7 +8,7 @@ type
       CardInserted,
       PinEntered,
       OptionSelected,
-      AmountEntered,
+      AmountEntered
 
    # Different type events
    SystemEvent = enum
@@ -67,8 +67,7 @@ proc main() =
       CardInserted: [PinEnter: enterPinHandler],
       PinEntered: [OptionSelection: optionSelectionHandler],
       OptionSelected: [AmountEnter: enterAmountHandler],
-      AmountEntered: [AmountDispatch: amountDispatchHandler]
-   ]
+      AmountEntered: [AmountDispatch: amountDispatchHandler]]
 
    while true:
       # Read system Events

@@ -38,7 +38,7 @@ proc insertCardHandler(): SystemState =
    result = CardInserted
 
 proc main() =
-   var eNextState = IdleState
+   var eNextState = Idle
    while true:
       # Read system Events
       let eNewEvent = readEvent()

@@ -1,8 +1,8 @@
-
+# http://www.cs.toronto.edu/~heap/270F02/node64.html
 proc mult(x: openArray[(string, int, int)]): tuple[cost: int, order: string, rows, cols: int] =
    # return the linear index of row, column
-   template `[]`(s: seq; a, b: int) = s[a * n + b]
-   template `[]=`(s: seq; a, b: int; val: typed) = s[a * n + b] = val
+   template `[]`(s: seq; a, b: int): untyped = s[a * n + b]
+   template `[]=`(s: seq; a, b: int; val: untyped) = s[a * n + b] = val
    let n = len(x)
    var aux = newSeq[(int, string, int, int)](n * n)
    for i in 0 ..< n:

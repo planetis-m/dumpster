@@ -6,7 +6,7 @@ type
       CardInserted,
       PinEntered,
       OptionSelected,
-      AmountEntered,
+      AmountEntered
 
    # Different type events
    SystemEvent = enum

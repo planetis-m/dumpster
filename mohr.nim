@@ -1,4 +1,4 @@
-import algorithm, os, math, strutils
+import algorithm, os, math, strutils, strformat
 import morpheus
 
 
@@ -10,12 +10,12 @@ import morpheus
 
 proc headerprint(s: string) =
    # Prints a centered string to divide output sections.
-   const mywidth = 64
-   const mychar = "="
-   let numspaces = mywidth - len(s)
+   const width = 64
+   const ch = "="
+   let numspaces = width - len(s)
    let before = int(ceil(numspaces / 2))
    let after = int(floor(numspaces / 2))
-   echo("\n" & mychar.repeat(before) & s & mychar.repeat(after) & "\n")
+   echo("\n" & ch.repeat(before) & s & ch.repeat(after) & "\n")
 
 proc valprint(s: string, value: float) =
    # Ensure uniform formatting of scalar value outputs.
@@ -29,7 +29,7 @@ proc usage() =
    # When the user needs help, print the script usage.
    headerprint(" Analyze Stress State ")
    let appname = getAppFilename().extractFilename()
-   let s = """ For a given stress state this script computes many
+   let s = &""" For a given stress state this script computes many
  useful quantities that help to analyze the stress state.
 
  Currently, the following values are output:
@@ -47,11 +47,11 @@ proc usage() =
 
  Command line syntax option 1:
 
-     > ./$1 sig11 sig22 sig33
+     > ./{appname} sig11 sig22 sig33
 
  Command line syntax option 2:
 
-     > ./$1 sig11 sig22 sig33 sig12 sig13 sig23""" % appname
+     > ./{appname} sig11 sig22 sig33 sig12 sig13 sig23"""
    quit(s)
 
 # ------------------------------
@@ -68,12 +68,12 @@ proc main() =
 
    # load stress components from the command line in a temporary
    # container
-   var dum = newSeq[float64](6)
+   var dum = newSeq[float](6)
    for idx in 0 ..< params.len:
       try:
          dum[idx] = parseFloat(params[idx])
       except ValueError:
-         quit("Argument '$1' is not a valid float" % params[idx])
+         quit(&"Argument '{params[idx]}' is not a valid float")
 
    # load the stresses into our matrix and compute the
    # deviatoric and isotropic stress matricies
@@ -88,7 +88,7 @@ proc main() =
 
    # compute principal stresses
    var eigvals = eig(sigma).getRealEigenvalues
-   eigvals.sort(cmp, Descending)
+   eigvals.sort(Descending)
 
    # compute max shear stress
    let maxshear = (eigvals.max-eigvals.min)/2.0
