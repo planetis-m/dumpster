@@ -32,8 +32,7 @@ proc crackEz21(c: Context; args: JsonNode): JsonNode {.exportc.} =
             break
    result = %*{
       "ok": success,
-      "msg": ret
-   }
+      "msg": ret}
 
 proc crackEz40(c: Context; args: JsonNode): JsonNode {.exportc.} =
    ## Usage: script {target: #s.some_user.their_loc}
@@ -44,8 +43,7 @@ proc crackEz40(c: Context; args: JsonNode): JsonNode {.exportc.} =
    if ret.contains("EZ_40"):
       const primes = [
          2, 3, 5, 7, 11, 13, 17, 19, 23, 29, 31, 37, 41,
-         43, 47, 53, 59, 61, 67, 71, 73, 79, 83, 89, 97
-      ]
+         43, 47, 53, 59, 61, 67, 71, 73, 79, 83, 89, 97]
       for p in primes:
          let v = %*{"ez_40": p}
          ret = target.call(v)
@@ -55,5 +53,4 @@ proc crackEz40(c: Context; args: JsonNode): JsonNode {.exportc.} =
             break
    result = %*{
       "ok": success,
-      "msg": ret
-   }
+      "msg": ret}

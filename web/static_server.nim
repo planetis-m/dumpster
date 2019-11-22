@@ -9,7 +9,7 @@ proc main =
       var err: HttpCode = Http200
       if '.' in path:
          let contentType = getMimetype(newMimeTypes(), splitFile(path).ext)
-         let headers = newHttpHeaders([("Content-Type", contentType)])
+         let headers = newHttpHeaders({"Content-Type": contentType})
          var file: AsyncFile
          var data = ""
          try:

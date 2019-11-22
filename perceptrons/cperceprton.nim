@@ -1,5 +1,5 @@
 # github: RichardKnop/ansi-c-perceptron
-import math, random, strscans, strformat
+import math, random, parsecsv, strformat, strutils
 # -O2 -ftree-vectorize -fopt-info-vec-missed
 # -Wno-discarded-qualifiers -fopt-info
 when defined(debugAsm):
@@ -10,10 +10,8 @@ when defined(marchNative):
    {.passC: "-march=native".}
 
 const
-   learningRate = 0.1
+   learningRate = 0.0001
    maxIteration = 100
-   halfOfIter = maxIteration div 2
-   threeFourthsOfIter = (maxIteration div 4) * 3
 
 proc calculateOutput(weights: array[3, float]; x, y: float): int {.inline.} =
    let sum = x * weights[0] + y * weights[1] + weights[2]
@@ -22,21 +20,25 @@ proc calculateOutput(weights: array[3, float]; x, y: float): int {.inline.} =
 proc main() =
    randomize(5155) # reproducible
    var
-      fp: File
       x: array[208, float]
       y: array[208, float]
       weights: array[3, float]
       outputs: array[208, int]
-   if not fp.open("test1.txt", fmRead):
-      quit("Cannot open file.")
+   var cp: CsvParser
+   open(cp, "test1.txt", '\t')
    var i = 0
-   for s in fp.lines:
-      doAssert scanf(s, "$f$s$f$s$i", x[i], y[i], outputs[i])
-      if outputs[i] == 0:
-         outputs[i] = -1
+   while readRow(cp):
+      x[i] = parseFloat(cp.row[0])
+      y[i] = parseFloat(cp.row[1])
+      outputs[i] = if parseInt(cp.row[2]) == 0: -1 else: 1
       i.inc
-   fp.close
+   close(cp)
    let patternCount = i
+   for i in countdown(x.high, 1):
+      let j = rand(i)
+      swap(x[i], x[j])
+      swap(y[i], y[j])
+      swap(outputs[i], outputs[j])
    weights[0] = rand(1.0)
    weights[1] = rand(1.0)
    weights[2] = rand(1.0)
@@ -44,9 +46,6 @@ proc main() =
    var eps = pow(2.0, -966.0)
    while true:
       iter.inc
-      if iter == halfOfIter or iter == threeFourthsOfIter:
-         echo("Perceptron taking a long time: making convergence criterion less exact.")
-         eps = pow(0.8, eps)
       var globalError = 0.0
       for p in 0 ..< patternCount:
          let output = calculateOutput(weights, x[p], y[p])

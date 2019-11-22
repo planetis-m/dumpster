@@ -1,5 +1,5 @@
 import algorithm, os, math, strutils, strformat
-import morpheus
+import "../manu/manu.nim"
 
 
 # From: https://csmbrannon.net/2011/04/25/stress-state-analysis-python-script/
@@ -11,11 +11,11 @@ import morpheus
 proc headerprint(s: string) =
    # Prints a centered string to divide output sections.
    const width = 64
-   const ch = "="
+   const ch = '='
    let numspaces = width - len(s)
    let before = int(ceil(numspaces / 2))
    let after = int(floor(numspaces / 2))
-   echo("\n" & ch.repeat(before) & s & ch.repeat(after) & "\n")
+   echo("\n", ch.repeat(before), s, ch.repeat(after), "\n")
 
 proc valprint(s: string, value: float) =
    # Ensure uniform formatting of scalar value outputs.
@@ -63,7 +63,7 @@ proc main() =
    # or if the user is asking for help, print the usage information.
    let params = commandLineParams()
    if "--help" in params or "-h" in params or
-      params.len != 3 and params.len != 6:
+         params.len != 3 and params.len != 6:
       usage()
 
    # load stress components from the command line in a temporary
@@ -83,58 +83,59 @@ proc main() =
          @[dum[3], dum[1], dum[5]],
          @[dum[4], dum[5], dum[2]]
       ])
-      sigma_iso = 1.0/3.0*trace(sigma)*identity(sigma.m)
-      sigma_dev = sigma - sigma_iso
+      sigmaIso = 1.0/3.0*trace(sigma)*identity(sigma.m)
+      sigmaDev = sigma - sigmaIso
 
    # compute principal stresses
-   var eigvals = eig(sigma).getRealEigenvalues
-   eigvals.sort(Descending)
+   var eigVals = eig(sigma).getRealEigenvalues
+   sort(eigVals)
+   reverse(eigVals)
 
    # compute max shear stress
-   let maxshear = (eigvals.max-eigvals.min)/2.0
+   let maxShear = (eigVals[0]-eigVals[2])/2.0
 
    # compute the stress invariants
    let
       I1 = trace(sigma)
-      J2 = 1.0/2.0*trace(sigma_dev*sigma_dev)
-      J3 = 1.0/3.0*trace(sigma_dev*sigma_dev*sigma_dev)
+      J2 = 1.0/2.0*trace(sigmaDev*sigmaDev)
+      J3 = 1.0/3.0*trace(sigmaDev*sigmaDev*sigmaDev)
 
    # compute other common stress measures
    let
-      mean_stress = 1.0/3.0*I1
-      eqv_stress  = sqrt(3.0*J2)
+      meanStress = 1.0/3.0*I1
+      eqvStress = sqrt(3.0*J2)
 
    # compute lode coordinates
    let
-      lode_r = sqrt(2.0*J2)
-      lode_z = I1/sqrt(3.0)
+      lodeR = sqrt(2.0*J2)
+      lodeZ = I1/sqrt(3.0)
 
-      temp = 3.0*sqrt(6.0)*det(sigma_dev/lode_r)
-      lode_theta = 1.0/3.0*arcsin(temp)
+      temp = 3.0*sqrt(6.0)*det(sigmaDev/lodeR)
+      lodeTheta = 1.0/3.0*arcsin(temp)
 
    # compute the stress triaxiality
-   let triaxiality = mean_stress/eqv_stress
+   let triaxiality = meanStress/eqvStress
 
    # Print out what we've found
    headerprint(" Stress State Analysis ")
    matprint("Input Stress", sigma)
    headerprint(" Component Matricies ")
-   matprint("Isotropic Stress", sigma_iso)
-   matprint("Deviatoric Stress", sigma_dev)
+   matprint("Isotropic Stress", sigmaIso)
+   matprint("Deviatoric Stress", sigmaDev)
    headerprint(" Scalar Values ")
-   valprint("P1", eigvals[0])
-   valprint("P2", eigvals[1])
-   valprint("P3", eigvals[2])
-   valprint("Max Shear", maxshear)
-   valprint("Mean Stress", mean_stress)
-   valprint("Equivalent Stress", eqv_stress)
+   valprint("P1", eigVals[0])
+   valprint("P2", eigVals[1])
+   valprint("P3", eigVals[2])
+   valprint("Max Shear", maxShear)
+   valprint("Mean Stress", meanStress)
+   valprint("Equivalent Stress", eqvStress)
    valprint("I1", I1)
    valprint("J2", J2)
    valprint("J3", J3)
-   valprint("Lode z", lode_z)
-   valprint("Lode r", lode_r)
-   valprint("Lode theta (rad)", lode_theta)
-   valprint("Lode theta (deg)", radToDeg(lode_theta))
+   valprint("Lode z", lodeZ)
+   valprint("Lode r", lodeR)
+   valprint("Lode theta (rad)", lodeTheta)
+   valprint("Lode theta (deg)", radToDeg(lodeTheta))
    valprint("Triaxiality", triaxiality)
    headerprint(" End Output ")
 

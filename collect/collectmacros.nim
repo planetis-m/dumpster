@@ -1,27 +1,9 @@
-discard """
-  output: '''@[2, 3, 4, 2, 3, 4, 2, 3, 4, 2, 3, 4, 2, 3, 4]
-@[0, 1, 2, 3]'''
-"""
-
-const data = [1,2,3,4,5,6]
-
 import macros
 
-macro collect(body): untyped =
+macro collect*(body: untyped): untyped =
   # analyse the body, find the deepest expression 'it' and replace it via
   # 'result.add it'
   let res = genSym(nskVar, "collectResult")
-
-  when false:
-    proc detectForLoopVar(n: NimNode): NimNode =
-      if n.kind == nnkForStmt:
-        result = n[0]
-      else:
-        for x in n:
-          result = detectForLoopVar(x)
-          if result != nil: return result
-        return nil
-
   proc t(n, res: NimNode): NimNode =
     case n.kind
     of nnkStmtList, nnkStmtListExpr, nnkBlockStmt, nnkBlockExpr,
@@ -32,37 +14,36 @@ macro collect(body): untyped =
       if n.len >= 1:
         result[^1] = t(n[^1], res)
     else:
-      if true: #n == it:
-        template adder(res, it) =
-          res.add it
-        result = getAst adder(res, n)
-      else:
-        result = n
-
-  when false:
-    let it = detectForLoopVar(body)
-    if it == nil: error("no for loop in body", body)
+      template adder(res, it) =
+         res.add it
+      result = getAst adder(res, n)
 
   let v = newTree(nnkVarSection,
      newTree(nnkIdentDefs, res, newTree(nnkBracketExpr, bindSym"seq",
      newCall(bindSym"typeof", body)), newEmptyNode()))
 
   result = newTree(nnkStmtListExpr, v, t(body, res), res)
-  echo repr result
+  echo result.treeRepr
 
-let stuff = collect:
-  var i = -1
-  while i < 4:
-    inc i
-    for it in data:
-      if it < 5 and it > 1:
-        it
 
-echo stuff
+when isMainModule:
+   const data = [1, 2, 3, 4, 5, 6]
 
-let t = collect:
-   for i in 0 .. 3:
-      if i mod 2 == 0:
-         i
+   block test1:
+      let stuff = collect:
+         var i = -1
+         while i < 4:
+            inc i
+            for it in data:
+               if it < 5 and it > 1:
+                  it
+      assert stuff == @[2, 3, 4, 2, 3, 4, 2, 3, 4, 2, 3, 4, 2, 3, 4]
 
-echo t
+   block test2:
+      let keys = @["bird", "word"]
+      let values = @[5, 2]
+      let stuff = collect:
+         let len = min(keys.len, values.len)
+         for i in 0 ..< len:
+            (keys[i], values[i])
+      assert stuff == @[("bird", 5), ("word", 2)]

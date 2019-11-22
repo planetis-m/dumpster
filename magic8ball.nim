@@ -1,9 +1,10 @@
 # http://blog.initprogram.com/2010/10/14/a-quick-basic-primer-on-the-irc-protocol/
+# Original python code by gitgood
 import random, net, strutils, strformat
 
 const
    phrases = [
-      "It is certain.", # First ten phrases are "positive"
+      "It is certain.",         # First ten phrases are "positive"
       "It is decidedly so.",
       "Without a doubt.",
       "Yes, definitely.",
@@ -18,7 +19,7 @@ const
       "Better not tell you now.",
       "Cannot predict now.",
       "Concentrate and ask again.",
-      "Don't count on it.", # Five "negative" phrases.
+      "Don't count on it.",     # Five "negative" phrases.
       "My reply is no.",
       "My sources say no.",
       "Outlook not so good.",
@@ -39,11 +40,12 @@ proc magicbot() =
       irc.send(&"NICK {nickname}\r\n")
       irc.send(&"JOIN {channel}\r\n")
       # Recieve data from the socket.
-      var recieved = irc.recvLine()
+      var recieved = ""
+      irc.readLine(recieved)
       while recieved.len > 0:
          # Remove any trailing whitespace characters such as '\r' and '\n'
          recieved.stripLineEnd()
-         # echo(recieved)
+         #echo(recieved)
          # If the server sends a PING.
          if recieved.startsWith("PING"):
             # Respond with a PONG to prevent timing out.
@@ -58,7 +60,7 @@ proc magicbot() =
                echo(&"The question was: {question}")
                # Then send a a random phrase from the phrases array to the channel.
                irc.send(&"PRIVMSG {channel} :{sample(phrases)}\r\n")
-         recieved = irc.recvLine()
+         irc.readLine(recieved)
       # Recieved is empty string so the server disconnected.
       echo(&"{server} disconnected.")
    finally:

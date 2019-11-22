@@ -1,26 +1,36 @@
-import random, times, stats, strutils
+import times, stats, strformat, macros
 
-template ff(f): untyped = formatFloat(f, ffDecimal, 3)
+proc printStats(name: string, stats: RunningStat, dur: float) =
+   echo &"""{name}:
+   Collected {stats.n} samples in {dur:.4} seconds
+   Average time: {stats.mean * 1000:.4} ms
+   Stddev  time: {stats.standardDeviationS * 1000:.4} ms
+   Min     time: {stats.min * 1000:.4} ms
+   Max     time: {stats.max * 1000:.4} ms"""
 
-template printStats(name, acc, stats, dur): untyped =
-   echo "\n", name,
-      "\nCollected ", stats.n, " samples in ", dur.ff, " seconds",
-      "\nAverage time: ", ff(stats.mean * 1000), " ms",
-      "\nStddev  time: ", ff(stats.standardDeviationS * 1000), " ms",
-      "\nMin     time: ", ff(stats.min * 1000), " ms",
-      "\nMax     time: ", ff(stats.max * 1000), " ms",
-      "\nDisplay accumulator to make sure it's not optimized away: ", acc
-
-template benchAcc*(name: string; samples: int; code: untyped) =
-   proc runBench() {.gensym.} =
+template makeBench(name, samples, init, code: untyped) =
+   proc runBench() {.gensym, nimcall.} =
       var stats: RunningStat
+      init
       let globalStart = cpuTime()
-      var acc: typeof(code)
       for i in 1 .. samples:
          let start = cpuTime()
-         acc = code
+         code
          let duration = cpuTime() - start
          stats.push duration
       let globalDuration = cpuTime() - globalStart
-      printStats(name, acc, stats, globalDuration)
+      printStats(name, stats, globalDuration)
    runBench()
+
+macro bench*(name: string; samples: int; metabody: untyped): untyped =
+   var init, code: NimNode
+   for body in metabody:
+      body.expectKind nnkCall
+      body.expectLen 2
+      if eqIdent(body[0], "init"):
+         init = body[1]
+      elif eqIdent(body[0], "code"):
+         code = body[1]
+      else:
+         error("unexpectecd section", body[0])
+   result = getAst(makeBench(name, samples, init, code))
