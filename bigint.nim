@@ -59,7 +59,7 @@ proc inc(a: var BigInt) =
       # if it overflows (i.e., it was 9, now it's 10, too
       # big to be a digit) then...
       if a.d[i] == Base:
-         # make it zero and index to the next 
+         # make it zero and index to the next
          # significant digit
          a.d[i] = 0
          i.inc
@@ -173,9 +173,7 @@ var d = toBigInt("1000000000")
 d = d * 2
 echo d
 
-var i = 0
-while i < 10:
+for i in 0 ..< 10:
    c = c * d
-   i.inc
+   echo c
 
-echo c

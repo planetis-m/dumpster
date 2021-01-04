@@ -22,15 +22,27 @@ template makeBench(name, samples, init, code: untyped) =
       printStats(name, stats, globalDuration)
    runBench()
 
-macro bench*(name: string; samples: int; metabody: untyped): untyped =
-   var init, code: NimNode
-   for body in metabody:
-      body.expectKind nnkCall
-      body.expectLen 2
-      if eqIdent(body[0], "init"):
-         init = body[1]
-      elif eqIdent(body[0], "code"):
-         code = body[1]
-      else:
-         error("unexpectecd section", body[0])
-   result = getAst(makeBench(name, samples, init, code))
+# macro bench*(name: string; samples: int; metabody: untyped): untyped =
+#    var init, code: NimNode
+# #    # for init
+# #    if body[0].kind in nnkCallKinds:
+# #       if eqIdent(body[0][0], "init"):
+# #          init = body[0][1]
+# #          code = body[1][1]
+# #       else:
+# #          init = newNimNode(nnkStmtList)
+# #          code = body[0]
+# #    else:
+# #       init = newNimNode(nnkStmtList)
+# #       code = body[0]
+#
+#    for body in metabody:
+#       body.expectKind nnkCall
+#       body.expectLen 2
+#       if eqIdent(body[0], "init"):
+#          init = body[1]
+#       elif eqIdent(body[0], "code"):
+#          code = body[1]
+#       else:
+#          error("unexpectecd section", body[0])
+#    result = getAst(makeBench(name, samples, init, code))

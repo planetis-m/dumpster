@@ -14,7 +14,7 @@ proc main =
          var data = ""
          try:
             file = openAsync("public" / path, fmRead)
-         except OSError, IOError:
+         except:
             err = Http404
          if err != Http404:
             data = await file.readAll()

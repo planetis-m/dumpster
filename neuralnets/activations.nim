@@ -31,8 +31,8 @@ let
       fn(x): tanh(x)
       deriv(fx): (let t = tanh(fx); 1 - t * t)
    relu* = act:
-      fn(x): max(0, x)
-      deriv(fx): (if fx == 0: 0 else: 1)
+      fn(x): max(0, x) # x * NeuralFloat(x > 0)
+      deriv(fx): (if fx == 0: 0 else: 1) # 1 - NeuralFloat(fx == 0) # NeuralFloat(fx != 0)
    leakyrelu* = act:
-      fn(x): (if x < 0: 0.01 * x else: x)
+      fn(x): (if x < 0: 0.01 * x else: x) # (1 - 0.99 * (x < 0)) * x # ((x >= 0) * 0.99 + 0.01) * x
       deriv(fx): (if fx < 0: 0.01 else: 1)

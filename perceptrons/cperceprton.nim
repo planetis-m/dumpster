@@ -39,9 +39,7 @@ proc main() =
       swap(x[i], x[j])
       swap(y[i], y[j])
       swap(outputs[i], outputs[j])
-   weights[0] = rand(1.0)
-   weights[1] = rand(1.0)
-   weights[2] = rand(1.0)
+   weights = [rand(1.0), rand(1.0), rand(1.0)]
    var iter = 0
    var eps = pow(2.0, -966.0)
    while true:

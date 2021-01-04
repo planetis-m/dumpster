@@ -11,10 +11,7 @@ type
 
 func targetOutput(a, b: int): int =
    # the function the perceptron will be learning is f(x) = 2x + 1
-   if a * 2 + 1 < b:
-      result = 1
-   else:
-      result = -1
+   result = if a * 2 + 1 < b: 1 else: -1
 
 template write(x) =
    stdout.write(x)
@@ -26,14 +23,14 @@ proc showTargetOutput() =
             write('#')
          else:
             write('O')
-      echo()
-   echo()
+      write('\n')
+   write('\n')
 
 proc randomWeights(ws: var Weights) =
-   # start with random weights -- NB pass by reference
+   # start with random weights
    randomize() # seed random-number generator
    for i in 0 .. 2:
-      ws[i] = rand(1.0) * 2 - 1
+      ws[i] = rand(-1.0..1.0)
 
 func feedForward(ins: Inputs; ws: Weights): int =
    # the perceptron outputs 1 if the sum of its inputs multiplied by
@@ -41,10 +38,7 @@ func feedForward(ins: Inputs; ws: Weights): int =
    var sum = 0.0
    for i in 0 .. 2:
       sum = sum + ins[i].float * ws[i]
-   if sum > 0.0:
-      result = 1
-   else:
-      result = -1
+   result = if sum > 0.0: 1 else: -1
 
 proc showOutput(ws: Weights) =
    var inputs: Inputs
@@ -57,11 +51,10 @@ proc showOutput(ws: Weights) =
             write('#')
          else:
             write('O')
-      echo()
-   echo()
+      write('\n')
+   write('\n')
 
 proc train(ws: var Weights; runs: int) =
-   # pass the array of weights by reference so it can be modified
    var inputs: Inputs
    inputs[2] = 1 # bias
    for i in 1 .. runs:
