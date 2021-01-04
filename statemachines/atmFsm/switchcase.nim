@@ -57,7 +57,7 @@ macro cases(state, event, table: untyped): untyped =
           `else`:
             discardStmt(empty())
 
-proc main() =
+proc main1() =
    var eNextState = Idle
    while true:
       # Read system Events
@@ -70,18 +70,16 @@ proc main() =
         AmountEntered: [AmountDispatch: amountDispatchHandler]]
 
 macro cases(state, event: untyped, table: varargs[untyped]): untyped =
-  result = buildAst(stmtList):
+  result = buildAst(ifStmt):
     for n in table:
       expectKind(n, nnkOfBranch)
       expectKind(n[0], nnkPar)
       expectMinLen(n[1], 1)
-      ifStmt:
-        elifBranch(infix(ident"==", n[0][0], state)):
-          ifStmt:
-            elifBranch(infix(ident"==", n[0][1], event)):
-              asgn(state, call(n[1]))
+      elifBranch(infix(ident"and", infix(ident"==", n[0][0], state),
+          infix(ident"==", n[0][1], event))):
+        asgn(state, call(n[1]))
 
-proc main() =
+proc main2() =
    var eNextState = Idle
    while true:
       # Read system Events
