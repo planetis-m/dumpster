@@ -1,5 +1,5 @@
 # https://www.youtube.com/watch?v=M0Sx_M61ILU
-import random, math, strformat
+import random, strformat
 
 const
   maxHealingPotions = 3
@@ -13,7 +13,7 @@ type
     Attack, Heal, RunAway
 
 proc initPlayer(): Player =
-  result = Player(health: 1.0, healingPotions: maxHealingPotions)
+  result = Player(health: 1, healingPotions: maxHealingPotions)
 
 # Considerations
 proc healthWeight(p: Player): float32 =
@@ -24,16 +24,16 @@ proc healingPotionsWeight(p: Player): float32 =
 
 # Curve
 proc boundedLinear(value: float32): float32 =
-  result = (1'f32 - value).max(0.5'f32)
+  result = max(1 - value, 0.5'f32)
 
 proc inverse(value, factor, offset: float32): float32 =
-  result = 1'f32 / (value * factor + offset)
+  result = 1 / (value * factor + offset)
 
 proc aboveZero(value: float32): float32 =
-  result = if value > 0: 1'f32 else: 0'f32
+  result = if value > 0: 1 else: 0
 
 proc equalsZero(value: float32): float32 =
-  result = if value == 0: 1'f32 else: 0'f32
+  result = if value == 0: 1 else: 0
 
 # Reasoner
 proc attackWeight(enemy: Player): float32 =
@@ -68,7 +68,7 @@ proc chooseAction(p, enemy: Player): Action =
 
 proc main =
   randomize()
-  var players = [initPlayer(), initPlayer()]
+  var players = @[initPlayer(), initPlayer()]
   while true:
     echo &"Player 1: health: {players[0].health:.3} potions {players[0].healingPotions}"
     let action1 = chooseAction(players[0], players[1])
