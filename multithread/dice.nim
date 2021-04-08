@@ -1,5 +1,5 @@
 # https://www.youtube.com/watch?v=MDgVJVIRBnM
-import std / [random, os, strformat], barriers
+import std / [random, os, strformat], threadutils
 
 const
   numThreads = 8

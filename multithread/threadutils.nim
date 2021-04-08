@@ -1,5 +1,6 @@
-import locks
-{.push stackTrace:off.}
+import nlocks
+
+{.push stackTrace: off.}
 
 type
   Semaphore* = object
@@ -51,28 +52,32 @@ proc destroyBarrier*(b: var Barrier) {.inline.} =
 
 proc sync*(b: var Barrier) =
   assert b.maxThreads < high(int)
-  var localSense = not b.globalSense
+  let localSense = not b.globalSense
   acquire(b.L)
   dec b.counter
   if b.counter == 0:
     b.counter = b.maxThreads
     b.globalSense = localSense
+    broadcast(b.c)
   else:
-    while b.globalSense != localSense: wait(b.c, b.L)
+    #while b.globalSense != localSense:
+    wait(b.c, b.L)
+    assert b.globalSense == localSense
   release(b.L)
-  signal(b.c)
 
 proc sync*(b: var Barrier; numThreads: int) =
   assert numThreads <= b.maxThreads
-  var localSense = not b.globalSense
+  let localSense = not b.globalSense
   acquire(b.L)
   dec b.counter
   if b.counter == b.maxThreads - numThreads:
     b.counter = b.maxThreads
     b.globalSense = localSense
+    broadcast(b.c)
   else:
-    while b.globalSense != localSense: wait(b.c, b.L)
+    #while b.globalSense != localSense:
+    wait(b.c, b.L)
+    assert b.globalSense == localSense
   release(b.L)
-  signal(b.c)
 
 {.pop.}
