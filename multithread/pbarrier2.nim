@@ -4,29 +4,29 @@ import nlocks
 
 type
   Barrier* = object
-    L: Lock
     c: Cond
-    threadsRequired: int # number of threads needed for the barrier to continue
-    left: int # current barrier count, # of threads still needed.
+    L: Lock
+    required: int # number of threads needed for the barrier to continue
+    left: int # current barrier count, number of threads still needed.
     cycle: uint # generation count
 
-proc initBarrier*(b: var Barrier; count: int) =
-  b.threadsRequired = count
+proc initBarrier*(b: var Barrier; count: Natural) =
+  b.required = count
   b.left = count
   b.cycle = 0
-  initLock(b.L)
   initCond(b.c)
+  initLock(b.L)
 
 proc destroyBarrier*(b: var Barrier) {.inline.} =
-  deinitLock(b.L)
   deinitCond(b.c)
+  deinitLock(b.L)
 
 proc wait*(b: var Barrier) =
   acquire(b.L)
   dec b.left
   if b.left == 0:
     inc b.cycle
-    b.left = b.threadsRequired
+    b.left = b.required
     broadcast(b.c)
   else:
     let cycle = b.cycle
