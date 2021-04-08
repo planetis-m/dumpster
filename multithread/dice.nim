@@ -16,8 +16,8 @@ proc roll(i: int) =
   while true:
     diceValues[i] = rand(1 .. 6)
     sleep(1000)
-    sync barrierRolledDice
-    sync barrierCalculated
+    wait barrierRolledDice
+    wait barrierCalculated
     if status[i]:
       echo &"({i} rolled {diceValues[i]}) I won"
     else:
@@ -32,7 +32,7 @@ proc main =
     createThread(p[i], roll, i)
 
   while true:
-    sync barrierRolledDice
+    wait barrierRolledDice
     # Calculate winner
     var maxRoll = diceValues[0]
     for i in 1 ..< numThreads:
@@ -41,7 +41,7 @@ proc main =
     for i in 0 ..< numThreads:
       status[i] = diceValues[i] == maxRoll
     sleep(1000)
-    sync barrierCalculated
+    wait barrierCalculated
     echo("==== New round starting ====")
 
   joinThreads(p)

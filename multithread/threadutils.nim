@@ -39,7 +39,7 @@ type
     globalSense: bool
 
 proc initBarrier*(b: var Barrier; numThreads = high(int)) =
-  # When `numThreads` isn't specified, it has to be passed when syncing `sync(numThreads)`.
+  # When `numThreads` isn't specified, it has to be passed when waiting `wait(numThreads)`.
   initCond(b.c)
   initLock(b.L)
   b.counter = numThreads
@@ -50,7 +50,7 @@ proc destroyBarrier*(b: var Barrier) {.inline.} =
   deinitCond(b.c)
   deinitLock(b.L)
 
-proc sync*(b: var Barrier) =
+proc wait*(b: var Barrier) =
   assert b.maxThreads < high(int)
   let localSense = not b.globalSense
   acquire(b.L)
@@ -65,7 +65,7 @@ proc sync*(b: var Barrier) =
     assert b.globalSense == localSense
   release(b.L)
 
-proc sync*(b: var Barrier; numThreads: int) =
+proc wait*(b: var Barrier; numThreads: int) =
   assert numThreads <= b.maxThreads
   let localSense = not b.globalSense
   acquire(b.L)

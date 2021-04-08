@@ -1,8 +1,8 @@
-import std / os, threadutils, benchtool
+import std / os, pbarrier2, benchtool
 
 const
   numThreads = 3
-  maxIter = 10_000
+  maxIter = 100_000
 
 var
   p: array[numThreads, Thread[int]]
@@ -10,12 +10,12 @@ var
   benchStart: Barrier
 
 proc routine(i: int) =
-  sync benchStart
+  wait benchStart
   #echo "thread continues"
   for i in 1 .. maxIter:
     #sleep(1000)
     #echo("Waiting at the barrier ", i)
-    sync barrier
+    wait barrier
     #echo("Passed the barrier ", i)
 
 proc main =
@@ -23,12 +23,11 @@ proc main =
   initBarrier(benchStart, numThreads+1)
   for i in 0 ..< numThreads:
     createThread(p[i], routine, i)
-
   warmup()
   #echo "bench starting"
-  sync benchStart
+  wait benchStart
   bench "reusable barrier", maxIter:
-    sync barrier
+    wait barrier
   joinThreads(p)
   destroyBarrier benchStart
   destroyBarrier barrier
