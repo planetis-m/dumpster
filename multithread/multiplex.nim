@@ -10,7 +10,7 @@ var
 proc a(i: int) =
   echo i, " starts"
   blockUntil arrived
-  sleep(2000)
+  sleep(1000)
   echo i, " progresses"
   signal arrived
 

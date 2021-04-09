@@ -1,5 +1,4 @@
 import nlocks
-
 {.push stackTrace: off.}
 
 type
@@ -8,7 +7,7 @@ type
     L: Lock
     counter: int
 
-proc initSemaphore*(cv: var Semaphore; counter = 0) =
+proc initSemaphore*(cv: var Semaphore; counter: Natural = 0) =
   initCond(cv.c)
   initLock(cv.L)
   cv.counter = counter
@@ -34,50 +33,31 @@ type
   Barrier* = object
     c: Cond
     L: Lock
-    counter: int
-    maxThreads: int
-    globalSense: bool
+    required: int # number of threads needed for the barrier to continue
+    left: int # current barrier count, number of threads still needed.
+    cycle: uint # generation count
 
-proc initBarrier*(b: var Barrier; numThreads = high(int)) =
-  # When `numThreads` isn't specified, it has to be passed when waiting `wait(numThreads)`.
+proc initBarrier*(b: var Barrier; count: Natural) =
+  b.required = count
+  b.left = count
+  b.cycle = 0
   initCond(b.c)
   initLock(b.L)
-  b.counter = numThreads
-  b.maxThreads = numThreads
-  b.globalSense = false
 
 proc destroyBarrier*(b: var Barrier) {.inline.} =
   deinitCond(b.c)
   deinitLock(b.L)
 
 proc wait*(b: var Barrier) =
-  assert b.maxThreads < high(int)
-  let localSense = not b.globalSense
   acquire(b.L)
-  dec b.counter
-  if b.counter == 0:
-    b.counter = b.maxThreads
-    b.globalSense = localSense
+  dec b.left
+  if b.left == 0:
+    inc b.cycle
+    b.left = b.required
     broadcast(b.c)
   else:
-    #while b.globalSense != localSense:
-    wait(b.c, b.L)
-    assert b.globalSense == localSense
-  release(b.L)
-
-proc wait*(b: var Barrier; numThreads: int) =
-  assert numThreads <= b.maxThreads
-  let localSense = not b.globalSense
-  acquire(b.L)
-  dec b.counter
-  if b.counter == b.maxThreads - numThreads:
-    b.counter = b.maxThreads
-    b.globalSense = localSense
-    broadcast(b.c)
-  else:
-    #while b.globalSense != localSense:
-    wait(b.c, b.L)
-    assert b.globalSense == localSense
+    let cycle = b.cycle
+    while cycle == b.cycle: wait(b.c, b.L)
   release(b.L)
 
 {.pop.}

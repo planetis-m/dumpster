@@ -1,5 +1,5 @@
 # https://www.youtube.com/watch?v=MDgVJVIRBnM
-import std / [random, os, strformat], threadutils
+import std / [random, os, strformat], pbarrier2
 
 const
   numThreads = 8
@@ -15,7 +15,7 @@ var
 proc roll(i: int) =
   while true:
     diceValues[i] = rand(1 .. 6)
-    sleep(1000)
+    #sleep(1000)
     wait barrierRolledDice
     wait barrierCalculated
     if status[i]:
@@ -33,6 +33,7 @@ proc main =
 
   while true:
     wait barrierRolledDice
+    echo("==== New round started ====")
     # Calculate winner
     var maxRoll = diceValues[0]
     for i in 1 ..< numThreads:
@@ -40,9 +41,8 @@ proc main =
         maxRoll = diceValues[i]
     for i in 0 ..< numThreads:
       status[i] = diceValues[i] == maxRoll
-    sleep(1000)
+    #sleep(1000)
     wait barrierCalculated
-    echo("==== New round starting ====")
 
   joinThreads(p)
 

@@ -1,11 +1,11 @@
-import locks, os
+import nlocks, threadutils, std / os
 
 const
   N = 6
 
 var
   p: array[N, Thread[int]]
-  mutex: Lock
+  sem: Semaphore
   fuel: int
   readers: int
   readMutex: Lock
@@ -15,7 +15,7 @@ proc counter(i: int) =
     acquire(readMutex)
     readers.inc
     if readers == 1:
-      acquire(mutex)
+      blockUntil(sem)
     release(readMutex)
 
     echo "#", i, " observed fuel. Now left: ", fuel
@@ -23,22 +23,22 @@ proc counter(i: int) =
     acquire(readMutex)
     readers.dec
     if readers == 0:
-      release(mutex)
+      signal(sem)
     release(readMutex)
 
     sleep(1000)
 
 proc refuel(i: int) =
   for _ in 0 ..< 5:
-    acquire(mutex)
+    blockUntil(sem)
     echo "#", i, " filled with fuel..."
     fuel += 30
-    release(mutex)
+    signal(sem)
     sleep(2000)
 
 proc main =
   #randomize()
-  initLock mutex
+  initSemaphore sem, 1
   initLock readMutex
 
   for i in 0 ..< N:
@@ -47,8 +47,9 @@ proc main =
     else: createThread(p[i], counter, i)
 
   joinThreads(p)
+  echo fuel
 
   deinitLock readMutex
-  deinitLock mutex
+  destroySemaphore sem
 
 main()

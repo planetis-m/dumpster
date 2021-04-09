@@ -1,4 +1,4 @@
-import std / os, pbarrier2, benchtool
+import std / os, threadutils, benchtool
 
 const
   numThreads = 3
@@ -28,6 +28,7 @@ proc main =
   wait benchStart
   bench "reusable barrier", maxIter:
     wait barrier
+  # another barrier here?
   joinThreads(p)
   destroyBarrier benchStart
   destroyBarrier barrier
