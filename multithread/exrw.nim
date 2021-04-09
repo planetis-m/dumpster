@@ -1,4 +1,4 @@
-import std / os, readerwriter
+import std / os, thrsync
 
 var
   m: RwMonitor # global object of monitor class
@@ -6,33 +6,32 @@ var
   writers: array[5, Thread[int]]
   fuel: int
 
-proc reader(id: int) =
+proc gauge(id: int) =
   # each reader attempts to read 5 times
   for i in 0 ..< 5:
-    #sleep(1000)
-    writer m:
+    readWith m:
       echo "#", id, " observed fuel. Now left: ", fuel
-      #sleep(500)
+    sleep(500)
 
-proc writer(id: int) =
+proc pump(id: int) =
   # each writer attempts to write 5 times
   for i in 0 ..< 5:
-    #sleep(1000)
-    reader m:
+    writeWith m:
       echo "#", id, " filled with fuel..."
       fuel += 30
-      #sleep(1000)
+      sleep(250)
+    sleep(250)
 
 proc main =
   initRwMonitor(m)
   for i in 0 ..< 5:
-    # creating threads which execute reader function
-    createThread(readers[i], reader, i)
     # creating threads which execute writer function
-    createThread(writers[i], writer, i)
+    createThread(writers[i], pump, i)
+    # creating threads which execute reader function
+    createThread(readers[i], gauge, i)
   joinThreads(readers)
   joinThreads(writers)
-  echo fuel
+  assert fuel == 750
   destroyRwMonitor(m)
 
 main()

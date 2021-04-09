@@ -57,7 +57,7 @@ proc endWrite*(rw: var RwMonitor) =
   rw.noWriters.broadcast()
   release(rw.L)
 
-template reader*(a: RwMonitor, body: untyped) =
+template readWith*(a: RwMonitor, body: untyped) =
   mixin beginRead, endRead
   beginRead(a)
   try:
@@ -65,7 +65,7 @@ template reader*(a: RwMonitor, body: untyped) =
   finally:
     endRead(a)
 
-template writer*(a: RwMonitor, body: untyped) =
+template writeWith*(a: RwMonitor, body: untyped) =
   mixin beginWrite, endWrite
   beginWrite(a)
   try:

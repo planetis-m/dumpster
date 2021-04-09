@@ -1,4 +1,4 @@
-import std / os, threadutils, benchtool
+import std / os, thrsync, benchtool
 
 const
   numThreads = 3

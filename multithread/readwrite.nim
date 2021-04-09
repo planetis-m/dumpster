@@ -1,4 +1,4 @@
-import nlocks, threadutils, std / os
+import nlocks, thrsync, std / os
 
 const
   N = 6
@@ -47,7 +47,7 @@ proc main =
     else: createThread(p[i], counter, i)
 
   joinThreads(p)
-  echo fuel
+  assert fuel == 300
 
   deinitLock readMutex
   destroySemaphore sem

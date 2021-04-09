@@ -1,4 +1,4 @@
-import os, threadutils
+import os, thrsync
 
 const
   N = 4
