@@ -38,8 +38,8 @@ proc beginRead*(rw: var RwMonitor) =
     dec rw.waitr
   # else reader reads the resource
   inc rw.rcnt
-  release(rw.condLock)
   broadcast(rw.canRead)
+  release(rw.condLock)
 
 proc endRead*(rw: var RwMonitor) =
   # if there are no readers left then writer enters monitor

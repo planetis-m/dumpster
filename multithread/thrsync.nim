@@ -7,10 +7,10 @@ type
     L: Lock
     counter: int
 
-proc initSemaphore*(cv: var Semaphore; counter: Natural = 0) =
+proc initSemaphore*(cv: var Semaphore; value: Natural = 0) =
   initCond(cv.c)
   initLock(cv.L)
-  cv.counter = counter
+  cv.counter = value
 
 proc destroySemaphore*(cv: var Semaphore) {.inline.} =
   deinitCond(cv.c)
@@ -62,50 +62,48 @@ proc wait*(b: var Barrier) =
 
 type
   RwMonitor* = object
-    noWriters: Cond
-    noRw: Cond
+    readPhase: Cond
+    writePhase: Cond
     L: Lock
-    numReaders: int
-    isWriter: bool
+    counter: int
 
 proc initRwMonitor*(rw: var RwMonitor) =
+  initCond rw.readPhase
+  initCond rw.writePhase
   initLock rw.L
-  rw.numReaders = 0
-  rw.isWriter = false
-  initCond rw.noWriters
-  initCond rw.noRw
+  rw.counter = 0
 
 proc destroyRwMonitor*(rw: var RwMonitor) {.inline.} =
-  deinitCond(rw.noWriters)
-  deinitCond(rw.noRw)
+  deinitCond(rw.readPhase)
+  deinitCond(rw.writePhase)
   deinitLock(rw.L)
 
 proc beginRead*(rw: var RwMonitor) =
   acquire(rw.L)
-  while rw.isWriter:
-    wait(rw.noWriters, rw.L)
-  inc rw.numReaders
+  while rw.counter == -1:
+    wait(rw.readPhase, rw.L)
+  inc rw.counter
   release(rw.L)
 
 proc beginWrite*(rw: var RwMonitor) =
   acquire(rw.L)
-  while rw.numReaders > 0 or rw.isWriter:
-    wait(rw.noRw, rw.L)
-  rw.isWriter = true
+  while rw.counter != 0:
+    wait(rw.writePhase, rw.L)
+  rw.counter = -1
   release(rw.L)
 
 proc endRead*(rw: var RwMonitor) =
   acquire(rw.L)
-  dec rw.numReaders
-  if rw.numReaders == 0:
-    rw.noRw.signal()
+  dec rw.counter
+  if rw.counter == 0:
+    rw.writePhase.signal()
   release(rw.L)
 
 proc endWrite*(rw: var RwMonitor) =
   acquire(rw.L)
-  rw.isWriter = false
-  rw.noRw.signal()
-  rw.noWriters.broadcast()
+  rw.counter = 0
+  rw.readPhase.broadcast()
+  rw.writePhase.signal()
   release(rw.L)
 
 template readWith*(a: RwMonitor, body: untyped) =
