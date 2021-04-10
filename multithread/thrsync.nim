@@ -57,7 +57,8 @@ proc wait*(b: var Barrier) =
     broadcast(b.c)
   else:
     let cycle = b.cycle
-    while cycle == b.cycle: wait(b.c, b.L)
+    while cycle == b.cycle:
+      wait(b.c, b.L)
   release(b.L)
 
 type
@@ -65,7 +66,7 @@ type
     readPhase: Cond
     writePhase: Cond
     L: Lock
-    counter: int
+    counter: int # can be in three states: free = 0, reading > 0, writing = -1
 
 proc initRwMonitor*(rw: var RwMonitor) =
   initCond rw.readPhase
