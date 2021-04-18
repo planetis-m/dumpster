@@ -7,27 +7,27 @@ type
     L: Lock
     counter: int
 
-proc initSemaphore*(cv: var Semaphore; value: Natural = 0) =
-  initCond(cv.c)
-  initLock(cv.L)
-  cv.counter = value
+proc initSemaphore*(s: var Semaphore; value: Natural = 0) =
+  initCond(s.c)
+  initLock(s.L)
+  s.counter = value
 
-proc destroySemaphore*(cv: var Semaphore) {.inline.} =
-  deinitCond(cv.c)
-  deinitLock(cv.L)
+proc destroySemaphore*(s: var Semaphore) {.inline.} =
+  deinitCond(s.c)
+  deinitLock(s.L)
 
-proc blockUntil*(cv: var Semaphore) =
-  acquire(cv.L)
-  while cv.counter <= 0:
-    wait(cv.c, cv.L)
-  dec cv.counter
-  release(cv.L)
+proc blockUntil*(s: var Semaphore) =
+  acquire(s.L)
+  while s.counter <= 0:
+    wait(s.c, s.L)
+  dec s.counter
+  release(s.L)
 
-proc signal*(cv: var Semaphore) =
-  acquire(cv.L)
-  inc cv.counter
-  signal(cv.c)
-  release(cv.L)
+proc signal*(s: var Semaphore) =
+  acquire(s.L)
+  inc s.counter
+  signal(s.c)
+  release(s.L)
 
 type
   Barrier* = object

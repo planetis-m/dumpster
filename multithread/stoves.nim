@@ -33,12 +33,9 @@ proc main =
   #randomize()
   for i in 0 .. stoveMutex.high:
     initLock stoveMutex[i]
-
   for i in 0 ..< numThreads:
     createThread(p[i], routine, i)
-
   joinThreads(p)
-
   for i in 0 .. stoveMutex.high:
     deinitLock stoveMutex[i]
 

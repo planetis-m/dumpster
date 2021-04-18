@@ -48,7 +48,6 @@ proc startThread =
       taskQueue[i] = taskQueue[i + 1]
     taskCount.dec
     release(mutexQueue)
-
     executeTask(task)
 
 proc main =

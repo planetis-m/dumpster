@@ -7,10 +7,11 @@ const
 var
   p: array[numThreads, Thread[int]]
   barrier: Barrier
-  benchStart: Barrier
+  state: int
 
 proc routine(i: int) =
-  wait benchStart
+  while atomicLoadN(addr state, AtomicAcquire) == 0:
+    cpuRelax()
   #echo "thread continues"
   for i in 1 .. maxIter:
     #sleep(1000)
@@ -20,17 +21,16 @@ proc routine(i: int) =
 
 proc main =
   initBarrier(barrier, numThreads+1)
-  initBarrier(benchStart, numThreads+1)
+  atomicStoreN(addr state, 0, AtomicRelease)
   for i in 0 ..< numThreads:
     createThread(p[i], routine, i)
   warmup()
   #echo "bench starting"
-  wait benchStart
+  atomicStoreN(addr state, 1, AtomicRelease)
   bench "reusable barrier", maxIter:
     wait barrier
   # another barrier here?
   joinThreads(p)
-  destroyBarrier benchStart
   destroyBarrier barrier
 
 main()
