@@ -1,5 +1,7 @@
 # https://github.com/nim-lang/Nim/pull/16192
 # https://www.youtube.com/watch?v=lVBvHbJsg5Y
+# https://www.cs.cornell.edu/courses/cs6120/2019fa/blog/double-checked-locking/
+# https://preshing.com/20130930/double-checked-locking-is-fixed-in-cpp11/
 import std / locks
 
 type

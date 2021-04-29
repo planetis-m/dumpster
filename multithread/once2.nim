@@ -1,7 +1,7 @@
 
 type
   Once*[T] = object
-    L: Lock
+    L: Lock # ???
     val: ptr T
 
 proc `=destroy`*[T](p: var Once[T]) =
