@@ -2,12 +2,10 @@ when not compileOption("threads"):
   {.error: "This module requires --threads:on compilation flag".}
 
 type
-  Payload[T] = tuple[value: T, atomicCounter: int]
   Owned*[T] = object
-    val: ptr Payload[T]
+    val: ptr tuple[value: T, atomicCounter: int]
 
-  Unowned*[T] = object
-    val: ptr Payload[T]
+  Unowned*[T] = distinct Owned[T]
 
 proc `=destroy`*[T](p: var Owned[T]) =
   mixin `=destroy`
@@ -21,13 +19,13 @@ proc `=copy`*[T](dest: var Owned[T]; src: Owned[T]) {.
     error: "owned refs can only be moved".}
 
 proc `=destroy`*[T](p: var Unowned[T]) =
-  if p.val != nil: atomicDec(p.val[].atomicCounter)
+  if Owned[T](p).val != nil: atomicDec(Owned[T](p).val[].atomicCounter)
 
 proc `=copy`*[T](dest: var Unowned[T]; src: Unowned[T]) =
   # No need to check for self-assignments here.
-  if src.val != nil: atomicInc(src.val[].atomicCounter)
-  if dest.val != nil: atomicDec(dest.val[].atomicCounter)
-  dest.val = src.val # raw pointer copy
+  if Owned[T](src).val != nil: atomicInc(Owned[T](src).val[].atomicCounter)
+  if Owned[T](dest).val != nil: atomicDec(Owned[T](dest).val[].atomicCounter)
+  Owned[T](dest).val = Owned[T](src).val # raw pointer copy
 
 proc `=sink`*[T](dest: var Unowned[T], src: Unowned[T]) {.
     error: "moves are not available for unowned refs".}
@@ -38,8 +36,7 @@ proc newOwned*[T](val: sink T): Owned[T] {.nodestroy.} =
   result.val.value = val
 
 proc unown*[T](p: Owned[T]): Unowned[T] =
-  if p.val != nil: atomicInc(p.val[].atomicCounter)
-  result.val = p.val
+  result = Unowned[T](p)
 
 proc dispose*[T](p: var Unowned[T]) {.inline.} =
   `=destroy`(p)
@@ -49,7 +46,7 @@ proc isNil*[T](p: Owned[T]): bool {.inline.} =
   p.val == nil
 
 proc isNil*[T](p: Unowned[T]): bool {.inline.} =
-  p.val == nil
+  Owned[T](p).val == nil
 
 proc `[]`*[T](p: Owned[T]): var T {.inline.} =
   when compileOption("boundChecks"):
@@ -58,16 +55,16 @@ proc `[]`*[T](p: Owned[T]): var T {.inline.} =
 
 proc `[]`*[T](p: Unowned[T]): var T {.inline.} =
   when compileOption("boundChecks"):
-    doAssert(p.val != nil, "deferencing nil shared pointer")
-  p.val.value
+    doAssert(Owned[T](p).val != nil, "deferencing nil shared pointer")
+  Owned[T](p).val.value
 
 proc `$`*[T](p: Owned[T]): string {.inline.} =
   if p.val == nil: "Owned[" & $T & "](nil)"
   else: "Owned[" & $T & "](" & $p.val.value & ")"
 
 proc `$`*[T](p: Unowned[T]): string {.inline.} =
-  if p.val == nil: "Unowned[" & $T & "](nil)"
-  else: "Unowned[" & $T & "](" & $p.val.value & ")"
+  if Owned[T](p).val == nil: "Unowned[" & $T & "](nil)"
+  else: "Unowned[" & $T & "](" & $Owned[T](p).val.value & ")"
 
 when isMainModule:
   # https://nim-lang.org/araq/ownedrefs.html
@@ -76,7 +73,7 @@ when isMainModule:
       data: int
 
   var x = newOwned(Node(data: 3))
-  let dangling = unown x
+  var dangling = unown x
   assert dangling[].data == 3
   dispose dangling
   # reassignment causes the memory of what ``x`` points to to be freed:
