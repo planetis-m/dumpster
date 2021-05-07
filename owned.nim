@@ -2,7 +2,7 @@ when not compileOption("threads"):
   {.error: "This module requires --threads:on compilation flag".}
 
 type
-  Owned*[T] = object
+  Owned*[T] = object # make them distinct SharedPtr?
     val: ptr tuple[value: T, atomicCounter: int]
 
   Unowned*[T] = distinct Owned[T]
