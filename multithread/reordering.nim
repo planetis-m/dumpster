@@ -16,7 +16,6 @@ proc reorder1 =
   while true:
     # Wait for the signal to start
     s1.blockUntil()
-    echo "start 1"
     # Write to v1
     v1 = 1
     # Barrier to prevent re-ordering in the hardware!
@@ -24,7 +23,6 @@ proc reorder1 =
     # Read v2
     r1 = v2
     # Say we're done for this iteration
-    echo "end 1"
     e.signal()
 
 proc reorder2 =
@@ -32,7 +30,6 @@ proc reorder2 =
   while true:
     # Wait for the signal to start
     s2.blockUntil()
-    echo "start 2"
     # Write to v2
     v2 = 1
     # Barrier to prevent re-ordering in the hardware!
@@ -40,7 +37,6 @@ proc reorder2 =
     # Read v1
     r2 = v1
     # Say we're done for this iteration
-    echo "end 2"
     e.signal()
 
 proc main =
@@ -62,7 +58,7 @@ proc main =
     s1.signal()
     s2.signal()
     # Wait for them to finish
-    e.blockUntil(1)
+    e.blockUntil(2)
     # Check of both read values bypassed the loads
     if r1 == 0 and r2 == 0:
       echo &"ERROR! R1 = {r1}, R2 = {r2}, ITER {i}"
