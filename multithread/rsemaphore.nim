@@ -6,7 +6,7 @@ type
     L: Lock
     value, wakeups: int
 
-proc initSemaphore*(s: var Semaphore; value: int) =
+proc initSemaphore*(s: var Semaphore; value = 0) =
   initCond(s.c)
   initLock(s.L)
   s.value = value
