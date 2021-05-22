@@ -13,7 +13,8 @@ type
     hash: Sha1Digest
 
 var
-  isSolutionFound = false # atomic
+  isSolutionFound: Semaphore
+  shutdown = false
   threads: array[numThreads, Thread[int]]
   queue: MpscQueue[Solution]
 
@@ -29,29 +30,26 @@ func verifyNumber(number: int; solution: var Solution): bool =
 proc searchForSolution(startAt: int) =
   var
     solution: Solution
-    iterationNo = 0
     number = startAt
-  while true:
+  while not shutdown:
     if verifyNumber(number, solution):
-      atomicStoreN(addr isSolutionFound, true, AtomicRelaxed)
+      signal isSolutionFound
       queue.enqueue(solution)
       return
-    elif iterationNo mod Delay == 0 and atomicLoadN(addr isSolutionFound, AtomicRelaxed):
-      return
     inc number, numThreads
-    inc iterationNo
 
 proc main =
   echo(&"Attempting to find a number, which - while multiplied by {Base} and hashed using SHA1 - will result in a hash ending with 000000. \nPlease wait...")
   queue = newMpscQueue[Solution]()
+  initSemaphore isSolutionFound
   for i in 0 ..< numThreads:
     createThread(threads[i], searchForSolution, i)
 
-  while not atomicLoadN(addr isSolutionFound, AtomicRelaxed):
-    var solution: Solution
-    while not queue.dequeue(solution):
-      for i in 0 ..< Backoff: cpuRelax()
-    echo(&"Found the solution.\nThe number is: {solution.number}.\nResult hash: {SecureHash(solution.hash)}.")
+  blockUntil isSolutionFound
+  shutdown = true
+  var solution: Solution
+  while not queue.dequeue(solution): cpuRelax()
+  echo(&"Found the solution.\nThe number is: {solution.number}.\nResult hash: {SecureHash(solution.hash)}.")
 
   joinThreads(threads)
 

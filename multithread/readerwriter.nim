@@ -1,15 +1,16 @@
 # http://www.cs.cornell.edu/courses/cs4410/2017su/lectures/lec08-rw.html
-import nlocks
+import std/locks
 
 type
-  RwMonitor* = object
+  RwMonitor*[T] = object
     noWriters: Cond
     noRw: Cond
     L: Lock
     numReaders: int
     isWriter: bool
+    data: T
 
-proc initRwMonitor*(rw: var RwMonitor) =
+proc initRwMonitor*[T](rw: var RwMonitor[T]; data: sink T) {.nodestroy.} =
   initLock rw.L
   rw.numReaders = 0
   rw.isWriter = false
@@ -18,13 +19,15 @@ proc initRwMonitor*(rw: var RwMonitor) =
   # predicate: rw.numReaders == 0 and not rw.isWriter
   # NOTE: safe to call signal, waiter must invalidate
   initCond rw.noRw
+  rw.data = data
 
-proc destroyRwMonitor*(rw: var RwMonitor) {.inline.} =
+proc `=destroy`*[T](rw: var RwMonitor[T]) {.inline.} =
   deinitCond(rw.noWriters)
   deinitCond(rw.noRw)
   deinitLock(rw.L)
+  `=destroy`(rw.data)
 
-proc beginRead*(rw: var RwMonitor) =
+proc beginRead*[T](rw: var RwMonitor[T]) =
   acquire(rw.L)
   while rw.isWriter:
     wait(rw.noWriters, rw.L)
@@ -32,7 +35,7 @@ proc beginRead*(rw: var RwMonitor) =
   # no need to signal
   release(rw.L)
 
-proc beginWrite*(rw: var RwMonitor) =
+proc beginWrite*[T](rw: var RwMonitor[T]) =
   acquire(rw.L)
   while rw.numReaders > 0 or rw.isWriter:
     wait(rw.noRw, rw.L)
@@ -40,14 +43,14 @@ proc beginWrite*(rw: var RwMonitor) =
   # no need to signal
   release(rw.L)
 
-proc endRead*(rw: var RwMonitor) =
+proc endRead*[T](rw: var RwMonitor[T]) =
   acquire(rw.L)
   dec rw.numReaders
   if rw.numReaders == 0:
     rw.noRw.signal()
   release(rw.L)
 
-proc endWrite*(rw: var RwMonitor) =
+proc endWrite*[T](rw: var RwMonitor[T]) =
   acquire(rw.L)
   rw.isWriter = false
   # note: noRw must not have been true before because of precondition
@@ -57,18 +60,31 @@ proc endWrite*(rw: var RwMonitor) =
   rw.noWriters.broadcast()
   release(rw.L)
 
-template readWith*(a: RwMonitor, body: untyped) =
-  mixin beginRead, endRead
-  beginRead(a)
-  try:
-    body
-  finally:
-    endRead(a)
+type
+  RwReader*[T] = object
+    rw: ptr RwMonitor[T]
+    data: ptr[T]
 
-template writeWith*(a: RwMonitor, body: untyped) =
-  mixin beginWrite, endWrite
-  beginWrite(a)
-  try:
-    body
-  finally:
-    endWrite(a)
+proc `=destroy`*[T](x: var RwReader[T]) =
+  endRead(x.rw[])
+
+proc read*[T](x: var RwMonitor[T]): RwReader[T] =
+  beginRead(x)
+  result = RwReader[T](rw: addr x, data: addr x.data)
+
+proc data*[T](x: RwReader[T]): lent T = x.data[]
+
+type
+  RwWriter*[T] = object
+    rw: ptr RwMonitor[T]
+    data: ptr[T]
+
+proc `=destroy`*[T](x: var RwWriter[T]) =
+  endWrite(x.rw[])
+
+proc write*[T](x: var RwMonitor[T]): RwWriter[T] =
+  beginWrite(x)
+  result = RwWriter[T](rw: addr x, data: addr x.data)
+
+proc data*[T](x: RwWriter[T]): var T = x.data[]
+proc `data=`*[T](x: RwWriter[T]; value: sink T) = x.data[] = value
