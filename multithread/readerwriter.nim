@@ -1,5 +1,5 @@
 # http://www.cs.cornell.edu/courses/cs4410/2017su/lectures/lec08-rw.html
-import std/locks
+import std/[locks, typetraits]
 
 type
   RwMonitor*[T] = object
@@ -61,28 +61,26 @@ proc endWrite*[T](rw: var RwMonitor[T]) =
   release(rw.L)
 
 type
-  RwReader*[T] = object
-    rw: ptr RwMonitor[T]
+  RwReader*[T] = distinct ptr RwMonitor[T]
 
 proc `=destroy`*[T](x: var RwReader[T]) =
-  endRead(x.rw[])
+  endRead(distinctBase(x)[])
 
 proc read*[T](x: var RwMonitor[T]): RwReader[T] =
   beginRead(x)
-  result = RwReader[T](rw: addr x)
+  result = RwReader[T](addr x)
 
-proc data*[T](x: RwReader[T]): lent T = x.rw.data
+proc data*[T](x: RwReader[T]): lent T = distinctBase(x).data
 
 type
-  RwWriter*[T] = object
-    rw: ptr RwMonitor[T]
+  RwWriter*[T] = distinct ptr RwMonitor[T]
 
 proc `=destroy`*[T](x: var RwWriter[T]) =
-  endWrite(x.rw[])
+  endWrite(distinctBase(x)[])
 
 proc write*[T](x: var RwMonitor[T]): RwWriter[T] =
   beginWrite(x)
-  result = RwWriter[T](rw: addr x)
+  result = RwWriter[T](addr x)
 
-proc data*[T](x: RwWriter[T]): var T = x.rw.data
-proc `data=`*[T](x: RwWriter[T]; value: sink T) = x.rw.data = value
+proc data*[T](x: RwWriter[T]): var T = distinctBase(x).data
+proc `data=`*[T](x: RwWriter[T]; value: sink T) = distinctBase(x).data = value
