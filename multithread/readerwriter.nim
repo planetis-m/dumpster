@@ -63,28 +63,26 @@ proc endWrite*[T](rw: var RwMonitor[T]) =
 type
   RwReader*[T] = object
     rw: ptr RwMonitor[T]
-    data: ptr[T]
 
 proc `=destroy`*[T](x: var RwReader[T]) =
   endRead(x.rw[])
 
 proc read*[T](x: var RwMonitor[T]): RwReader[T] =
   beginRead(x)
-  result = RwReader[T](rw: addr x, data: addr x.data)
+  result = RwReader[T](rw: addr x)
 
-proc data*[T](x: RwReader[T]): lent T = x.data[]
+proc data*[T](x: RwReader[T]): lent T = x.rw.data
 
 type
   RwWriter*[T] = object
     rw: ptr RwMonitor[T]
-    data: ptr[T]
 
 proc `=destroy`*[T](x: var RwWriter[T]) =
   endWrite(x.rw[])
 
 proc write*[T](x: var RwMonitor[T]): RwWriter[T] =
   beginWrite(x)
-  result = RwWriter[T](rw: addr x, data: addr x.data)
+  result = RwWriter[T](rw: addr x)
 
-proc data*[T](x: RwWriter[T]): var T = x.data[]
-proc `data=`*[T](x: RwWriter[T]; value: sink T) = x.data[] = value
+proc data*[T](x: RwWriter[T]): var T = x.rw.data
+proc `data=`*[T](x: RwWriter[T]; value: sink T) = x.rw.data = value
