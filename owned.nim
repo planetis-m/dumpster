@@ -1,3 +1,5 @@
+import std/typetraits
+
 when not compileOption("threads"):
   {.error: "This module requires --threads:on compilation flag".}
 
@@ -19,13 +21,13 @@ proc `=copy`*[T](dest: var Owned[T]; src: Owned[T]) {.
     error: "owned refs can only be moved".}
 
 proc `=destroy`*[T](p: var Unowned[T]) =
-  if Owned[T](p).val != nil: atomicDec(Owned[T](p).val[].atomicCounter)
+  if distinctBase(p).val != nil: atomicDec(distinctBase(p).val[].atomicCounter)
 
 proc `=copy`*[T](dest: var Unowned[T]; src: Unowned[T]) =
   # No need to check for self-assignments here.
-  if Owned[T](src).val != nil: atomicInc(Owned[T](src).val[].atomicCounter)
-  if Owned[T](dest).val != nil: atomicDec(Owned[T](dest).val[].atomicCounter)
-  Owned[T](dest).val = Owned[T](src).val # raw pointer copy
+  if distinctBase(src).val != nil: atomicInc(distinctBase(src).val[].atomicCounter)
+  if distinctBase(dest).val != nil: atomicDec(distinctBase(dest).val[].atomicCounter)
+  distinctBase(dest).val = distinctBase(src).val # raw pointer copy
 
 proc `=sink`*[T](dest: var Unowned[T], src: Unowned[T]) {.
     error: "moves are not available for unowned refs".}
@@ -46,7 +48,7 @@ proc isNil*[T](p: Owned[T]): bool {.inline.} =
   p.val == nil
 
 proc isNil*[T](p: Unowned[T]): bool {.inline.} =
-  Owned[T](p).val == nil
+  distinctBase(p).val == nil
 
 proc `[]`*[T](p: Owned[T]): var T {.inline.} =
   when compileOption("boundChecks"):
@@ -55,16 +57,16 @@ proc `[]`*[T](p: Owned[T]): var T {.inline.} =
 
 proc `[]`*[T](p: Unowned[T]): var T {.inline.} =
   when compileOption("boundChecks"):
-    doAssert(Owned[T](p).val != nil, "deferencing nil shared pointer")
-  Owned[T](p).val.value
+    doAssert(distinctBase(p).val != nil, "deferencing nil shared pointer")
+  distinctBase(p).val.value
 
 proc `$`*[T](p: Owned[T]): string {.inline.} =
   if p.val == nil: "Owned[" & $T & "](nil)"
   else: "Owned[" & $T & "](" & $p.val.value & ")"
 
 proc `$`*[T](p: Unowned[T]): string {.inline.} =
-  if Owned[T](p).val == nil: "Unowned[" & $T & "](nil)"
-  else: "Unowned[" & $T & "](" & $Owned[T](p).val.value & ")"
+  if distinctBase(p).val == nil: "Unowned[" & $T & "](nil)"
+  else: "Unowned[" & $T & "](" & $distinctBase(p).val.value & ")"
 
 when isMainModule:
   # https://nim-lang.org/araq/ownedrefs.html

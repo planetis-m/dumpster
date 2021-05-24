@@ -8,9 +8,9 @@ type
     L: Lock
     numReaders: int
     isWriter: bool
-    data: T
+    val: T
 
-proc initRwMonitor*[T](rw: var RwMonitor[T]; data: sink T) {.nodestroy.} =
+proc initRwMonitor*[T](rw: var RwMonitor[T]; val: sink T) {.nodestroy.} =
   initLock rw.L
   rw.numReaders = 0
   rw.isWriter = false
@@ -19,13 +19,13 @@ proc initRwMonitor*[T](rw: var RwMonitor[T]; data: sink T) {.nodestroy.} =
   # predicate: rw.numReaders == 0 and not rw.isWriter
   # NOTE: safe to call signal, waiter must invalidate
   initCond rw.noRw
-  rw.data = data
+  rw.val = val
 
 proc `=destroy`*[T](rw: var RwMonitor[T]) {.inline.} =
   deinitCond(rw.noWriters)
   deinitCond(rw.noRw)
   deinitLock(rw.L)
-  `=destroy`(rw.data)
+  `=destroy`(rw.val)
 
 proc beginRead*[T](rw: var RwMonitor[T]) =
   acquire(rw.L)
@@ -70,7 +70,7 @@ proc read*[T](x: var RwMonitor[T]): RwReader[T] =
   beginRead(x)
   result = RwReader[T](addr x)
 
-proc data*[T](x: RwReader[T]): lent T = distinctBase(x).data
+proc val*[T](x: RwReader[T]): lent T = distinctBase(x).val
 
 type
   RwWriter*[T] = distinct ptr RwMonitor[T]
@@ -82,5 +82,5 @@ proc write*[T](x: var RwMonitor[T]): RwWriter[T] =
   beginWrite(x)
   result = RwWriter[T](addr x)
 
-proc data*[T](x: RwWriter[T]): var T = distinctBase(x).data
-proc `data=`*[T](x: RwWriter[T]; value: sink T) = distinctBase(x).data = value
+proc val*[T](x: RwWriter[T]): var T = distinctBase(x).val
+proc `val=`*[T](x: RwWriter[T]; val: sink T) = distinctBase(x).val = val
