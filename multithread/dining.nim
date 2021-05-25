@@ -88,7 +88,6 @@ proc main =
 
 setControlCHook(proc () {.noconv.} =
   exit = true
-  echo "Quiting, please wait...."
 )
 
 main()
