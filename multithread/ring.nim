@@ -1,4 +1,4 @@
-import std/math
+import std/[math, isolation]
 
 type
   RingBuffer*[Cap: static[int], T] = object
@@ -7,16 +7,19 @@ type
 
 template next(current: untyped): untyped = (current + 1) and Cap - 1
 
-proc push*[Cap, T](this: var RingBuffer[Cap, T]; value: sink T): bool =
+proc push*[Cap, T](this: var RingBuffer[Cap, T]; value: sink Isolated[T]): bool {.nodestroy.} =
   assert isPowerOfTwo(Cap)
   let head = atomicLoadN(addr this.head, AtomicRelaxed)
   let nextHead = next(head)
   if nextHead == atomicLoadN(addr this.tail, AtomicAcquire):
     result = false
   else:
-    this.data[head] = value
+    this.data[head] = extract value
     atomicStoreN(addr this.head, nextHead, AtomicRelease)
     result = true
+
+template push*[Cap, T](this: RingBuffer[Cap, T]; value: T): bool =
+  push(this, isolate(value))
 
 proc pop*[Cap, T](this: var RingBuffer[Cap, T]; value: var T): bool =
   assert isPowerOfTwo(Cap)
