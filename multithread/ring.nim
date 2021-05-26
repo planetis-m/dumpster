@@ -1,61 +1,52 @@
-import std/[math, isolation]
+import std/math
 
 type
-  Ringbuffer*[Cap: static[int], T] = object
-    ring: array[Cap, T]
+  RingBuffer*[Cap: static[int], T] = object
     head, tail: int # atomic
+    data: array[Cap, T]
 
 template next(current: untyped): untyped = (current + 1) and Cap - 1
 
-proc push*[Cap, T](this: var Ringbuffer[Cap, T]; value: sink Isolated[T]): bool =
+proc push*[Cap, T](this: var RingBuffer[Cap, T]; value: sink T): bool =
   assert isPowerOfTwo(Cap)
   let head = atomicLoadN(addr this.head, AtomicRelaxed)
   let nextHead = next(head)
   if nextHead == atomicLoadN(addr this.tail, AtomicAcquire):
     result = false
   else:
-    this.ring[head] = extract value
+    this.data[head] = value
     atomicStoreN(addr this.head, nextHead, AtomicRelease)
     result = true
 
-template push*[Cap, T](this: Ringbuffer[Cap, T]; value: T): bool =
-  push(this, isolate(value))
-
-proc pop*[Cap, T](this: var Ringbuffer[Cap, T]; value: var T): bool =
+proc pop*[Cap, T](this: var RingBuffer[Cap, T]; value: var T): bool =
   assert isPowerOfTwo(Cap)
   let tail = atomicLoadN(addr this.tail, AtomicRelaxed)
   if tail == atomicLoadN(addr this.head, AtomicAcquire):
     result = false
   else:
-    value = move this.ring[tail]
+    value = move this.data[tail]
     atomicStoreN(addr this.tail, next(tail), AtomicRelease)
     result = true
 
-const
-  seed = 99
-  bufCap = 16
-  numIters = 1000
+when isMainModule:
+  proc testBasic =
+    var r: RingBuffer[32, int]
+    for i in 0..<r.Cap:
+      # try to insert an element
+      if r.push(i):
+        # succeeded
+        discard
+      else:
+        assert i == r.Cap - 1
+        # buffer full
+    for i in 0..<r.Cap:
+      # try to retrieve an element
+      var value: int
+      if r.pop(value):
+        # succeeded
+        discard
+      else:
+        # buffer empty
+        discard
 
-var
-  rng: Ringbuffer[bufCap, int]
-  thr1, thr2: Thread[void]
-
-proc producer =
-  for i in 0 ..< numIters:
-    while not rng.push(i + seed): cpuRelax()
-    #echo " >> pushed ", i+seed
-
-proc consumer =
-  for i in 0 ..< numIters:
-    var res: int
-    while not rng.pop(res): cpuRelax()
-    #echo " >> popped ", res
-    assert res == seed + i
-
-proc testSpScRing =
-  createThread(thr1, producer)
-  createThread(thr2, consumer)
-  joinThread(thr1)
-  joinThread(thr2)
-
-testSpScRing()
+  testBasic()
