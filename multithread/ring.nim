@@ -1,13 +1,14 @@
-import std/isolation
+import std/[math, isolation]
 
 type
   Ringbuffer*[Cap: static[int], T] = object
     ring: array[Cap, T]
     head, tail: int # atomic
 
-template next(current: untyped): untyped = (current + 1) mod Cap
+template next(current: untyped): untyped = (current + 1) and Cap - 1
 
 proc push*[Cap, T](this: var Ringbuffer[Cap, T]; value: sink Isolated[T]): bool =
+  assert isPowerOfTwo(Cap)
   let head = atomicLoadN(addr this.head, AtomicRelaxed)
   let nextHead = next(head)
   if nextHead == atomicLoadN(addr this.tail, AtomicAcquire):
@@ -21,6 +22,7 @@ template push*[Cap, T](this: Ringbuffer[Cap, T]; value: T): bool =
   push(this, isolate(value))
 
 proc pop*[Cap, T](this: var Ringbuffer[Cap, T]; value: var T): bool =
+  assert isPowerOfTwo(Cap)
   let tail = atomicLoadN(addr this.tail, AtomicRelaxed)
   if tail == atomicLoadN(addr this.head, AtomicAcquire):
     result = false
@@ -31,7 +33,7 @@ proc pop*[Cap, T](this: var Ringbuffer[Cap, T]; value: var T): bool =
 
 const
   seed = 99
-  bufCap = 10
+  bufCap = 16
   numIters = 1000
 
 var

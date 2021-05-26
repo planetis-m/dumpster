@@ -1,5 +1,6 @@
 # Port from https://github.com/dhylands/TimerUART/blob/master/CBUF.h
-# todo: make an unsigned generic index type
+# questionable benefit over the 'traditional' design
+# 1 element buffer, imo doesn't justify it
 import math
 
 type
