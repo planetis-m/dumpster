@@ -1,3 +1,4 @@
+# --threads:on --panics:on --gc:arc -d:useMalloc -t:"-O3 -fsanitize=thread" -l:"-ltsan" -d:danger -g
 import ring
 
 const
