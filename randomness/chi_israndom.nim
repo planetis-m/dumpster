@@ -5,13 +5,12 @@ const
    count = 120
 
 type
-   Iterable = concept c
-      for x in items(c): discard
+   Iterable[T] = concept
+      iterator items(a: Self): T
 
-   Indexable[T] = concept c
-      var i: int
-      c[i] is T
-      c.len is int
+   Indexable[T] = concept
+      proc `[]`(a: Self; b: int): T
+      proc len(a: Self): int
 
 proc rank(arr: Indexable[int]): int =
    let h = high(arr)

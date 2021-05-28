@@ -1,19 +1,22 @@
 # https://github.com/google/sanitizers/wiki/ThreadSanitizerPopularDataRaces
+# pbl benign
+# --threads:on --panics:on --gc:arc -d:useMalloc -t:"-O3 -fsanitize=thread"
+# -l:"-fsanitize=thread" -d:nosignalhandler -d:danger -g
 # TSAN_OPTIONS="force_seq_cst_atomics=1"
-import std/os
+import std/[atomics, os]
 
 const
   delay = 1_000
 
 var
   thread: Thread[void]
-  proceed = false # Atomic
+  proceed: Atomic[bool]
   bArrived = false
 
 proc routine =
   var count = 0
   while true:
-    if count mod delay == 0 and atomicLoadN(addr proceed, AtomicRelaxed):
+    if count mod delay == 0 and proceed.load(moRelaxed):
       break
     cpuRelax()
     inc count
@@ -23,7 +26,7 @@ proc testNotify =
   createThread(thread, routine)
   sleep 10
   bArrived = true
-  atomicStoreN(addr proceed, true, AtomicRelaxed)
+  proceed.store(true, moRelaxed)
   joinThread thread
 
 testNotify()
