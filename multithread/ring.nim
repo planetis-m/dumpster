@@ -50,6 +50,6 @@ when isMainModule:
         discard
       else:
         # buffer empty
-        discard
+        assert i == r.Cap - 1
 
   testBasic()
