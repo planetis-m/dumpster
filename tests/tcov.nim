@@ -1,3 +1,4 @@
+# Compile with:
 # --panics:on --gc:arc -d:useMalloc --cc:clang -t:"-fprofile-instr-generate -fcoverage-mapping"
 # -l:"-fprofile-instr-generate -fcoverage-mapping" -d:danger
 # Run the executable

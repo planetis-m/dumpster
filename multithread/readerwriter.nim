@@ -60,6 +60,14 @@ proc endWrite*[T](rw: var RwMonitor[T]) =
   rw.noWriters.broadcast()
   release(rw.L)
 
+template readWith*(val: untyped, a: RwMonitor, body: untyped) =
+  beginRead(a)
+  try:
+    template val: untyped = a.val
+    body
+  finally:
+    endRead(a)
+
 type
   RwReader*[T] = distinct ptr RwMonitor[T]
 

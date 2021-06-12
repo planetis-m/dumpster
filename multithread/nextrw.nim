@@ -25,7 +25,7 @@ proc frob =
     assert r.val != "abc"
   joinThreads(threads)
 
-  let r = read(rw)
-  assert r.val.len == 40
+  val.readWith(rw):
+    assert val.len == 40
 
 frob()
