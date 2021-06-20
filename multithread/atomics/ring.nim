@@ -1,21 +1,21 @@
-import std/[math, isolation]
+import std/[atomics, math, isolation]
 
 type
   RingBuffer*[Cap: static[int], T] = object
-    head, tail: int # atomic
+    head, tail: Atomic[int]
     data: array[Cap, T]
 
 template next(current: untyped): untyped = (current + 1) and Cap - 1
 
 proc push*[Cap, T](this: var RingBuffer[Cap, T]; value: sink Isolated[T]): bool {.nodestroy.} =
   assert isPowerOfTwo(Cap)
-  let head = atomicLoadN(addr this.head, AtomicRelaxed)
+  let head = this.head.load(moRelaxed)
   let nextHead = next(head)
-  if nextHead == atomicLoadN(addr this.tail, AtomicAcquire):
+  if nextHead == this.tail.load(moAcquire):
     result = false
   else:
     this.data[head] = extract value
-    atomicStoreN(addr this.head, nextHead, AtomicRelease)
+    this.head.store(nextHead, moRelease)
     result = true
 
 template push*[Cap, T](this: RingBuffer[Cap, T]; value: T): bool =
@@ -23,12 +23,12 @@ template push*[Cap, T](this: RingBuffer[Cap, T]; value: T): bool =
 
 proc pop*[Cap, T](this: var RingBuffer[Cap, T]; value: var T): bool =
   assert isPowerOfTwo(Cap)
-  let tail = atomicLoadN(addr this.tail, AtomicRelaxed)
-  if tail == atomicLoadN(addr this.head, AtomicAcquire):
+  let tail = this.tail.load(moRelaxed)
+  if tail == this.head.load(moAcquire):
     result = false
   else:
     value = move this.data[tail]
-    atomicStoreN(addr this.tail, next(tail), AtomicRelease)
+    this.tail.store(next(tail), moRelease)
     result = true
 
 when isMainModule:

@@ -9,8 +9,8 @@ proc testOneInput*(data: openarray[byte]): cint {.
       stderr.write("BINGO\n")
       quit(1)
 
-proc strcmp(a, b: cstring): cint {.noSideEffect,
-    importc, header: "<string.h>".}
+#proc strcmp(a, b: cstring): cint {.noSideEffect,
+    #importc, header: "<string.h>".}
 
 #proc testOneInput*(data: openarray[byte]): cint {.
     #exportc: "LLVMFuzzerTestOneInput".} =
