@@ -1,4 +1,4 @@
-import std/[os, isolation]
+import std/[os, isolation, atomics]
 
 const
   numThreads = 4
@@ -6,12 +6,12 @@ const
 var
   threads: array[numThreads, Thread[void]]
   exc: Isolated[ref Exception]
-  excIsSet: bool
+  excIsSet: Atomic[bool]
 
 proc exceptHook(e: sink Isolated[ref Exception]) =
   # Only one's thread exception will be propagated to the main.
-  if not atomicLoadN(addr excIsSet, AtomicRelaxed) and
-      not atomicExchangeN(addr excIsSet, true, AtomicAcquire):
+  if not excIsSet.load(moRelaxed) and
+      not exchange(excIsSet, true, moRelaxed):
     exc = e
 
 proc routine {.thread.} =
@@ -25,9 +25,9 @@ proc routine {.thread.} =
 proc main =
   for i in 0..<numThreads:
     createThread(threads[i], routine)
+  joinThreads(threads)
   try:
-    joinThreads(threads)
-    if excIsSet: # no need for atomic!
+    if excIsSet.load(moRelaxed):
       raise exc.extract
   except:
     echo "Exception caught! ", getCurrentExceptionMsg()
