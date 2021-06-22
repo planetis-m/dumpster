@@ -4,13 +4,19 @@ type
   Edge = object
     neighbor {.cursor.}: Node
 
-  Node = ref object
+  NodeObj = object
     neighbors: seq[Edge]
     label: string
     visited: bool
+  Node = ref NodeObj
 
   Graph = object
     nodes: seq[Node]
+
+proc `=destroy`(x: var NodeObj) =
+  echo x.label
+  `=destroy`(x.neighbors)
+  `=destroy`(x.label)
 
 proc addNode(self: var Graph; label: string): Node =
   self.nodes.add(Node(label: label))

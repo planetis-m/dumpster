@@ -7,7 +7,8 @@ type
 
 template next(current: untyped): untyped = (current + 1) and Cap - 1
 
-proc push*[Cap, T](this: var RingBuffer[Cap, T]; value: sink Isolated[T]): bool {.nodestroy.} =
+proc push*[Cap, T](this: var RingBuffer[Cap, T]; value: sink Isolated[
+    T]): bool {.nodestroy.} =
   assert isPowerOfTwo(Cap)
   let head = this.head.load(moRelaxed)
   let nextHead = next(head)
