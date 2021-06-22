@@ -1,29 +1,33 @@
-import std/[os, isolation, atomics]
+import std/[os, isolation]
+
+const
+  numThreads = 4
 
 var
-  p: Thread[void]
+  threads: array[numThreads, Thread[void]]
   exc: Isolated[ref Exception]
-  excIsSet: Atomic[bool]
+  excIsSet: bool
 
 proc exceptHook(e: sink Isolated[ref Exception]) =
   # Only one's thread exception will be propagated to the main.
-  if not excIsSet.load(moRelaxed) and
-      not excIsSet.exchange(true, moAcquire):
+  if not atomicLoadN(addr excIsSet, AtomicRelaxed) and
+      not atomicExchangeN(addr excIsSet, true, AtomicAcquire):
     exc = e
 
 proc routine {.thread.} =
   try:
-    echo("Raising exception...")
+    echo("Raising exception... ", getThreadId())
     sleep(100)
     raise newException(CatchableError, "From thread: " & $getThreadId())
   except:
     exceptHook(isolate(getCurrentException()))
 
 proc main =
-  createThread(p, routine)
+  for i in 0..<numThreads:
+    createThread(threads[i], routine)
   try:
-    joinThread(p)
-    if excIsSet.load(moAcquire):
+    joinThreads(threads)
+    if excIsSet: # no need for atomic!
       raise exc.extract
   except:
     echo "Exception caught! ", getCurrentExceptionMsg()
