@@ -1,4 +1,4 @@
-import os, thrsync
+import std/os, sync
 
 const
   N = 2
@@ -11,7 +11,7 @@ var
 template right: untyped = (i + 1) mod N
 
 proc a(i: int) =
-  blockUntil arrived[right]
+  wait arrived[right]
   echo "#", i, " observed fuel. Now left: ", fuel
   sleep(1000)
 
@@ -32,8 +32,5 @@ proc main =
     else: createThread(p[i], b, i)
 
   joinThreads(p)
-
-  for i in 0 ..< N:
-    destroySemaphore arrived[i]
 
 main()

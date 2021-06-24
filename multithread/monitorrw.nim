@@ -1,4 +1,4 @@
-import nlocks
+import std/locks
 
 # Reader-Writer problem using monitors
 type

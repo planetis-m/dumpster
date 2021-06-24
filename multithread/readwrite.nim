@@ -1,4 +1,4 @@
-import nlocks, thrsync, std / os
+import sync, std/[os, locks]
 
 const
   N = 6
@@ -15,7 +15,7 @@ proc counter(i: int) =
     acquire(readMutex)
     readers.inc
     if readers == 1:
-      blockUntil(sem)
+      wait(sem)
     release(readMutex)
 
     echo "#", i, " observed fuel. Now left: ", fuel
@@ -30,7 +30,7 @@ proc counter(i: int) =
 
 proc refuel(i: int) =
   for _ in 0 ..< 5:
-    blockUntil(sem)
+    wait(sem)
     echo "#", i, " filled with fuel..."
     fuel += 30
     signal(sem)
@@ -50,6 +50,5 @@ proc main =
   assert fuel == 300
 
   deinitLock readMutex
-  destroySemaphore sem
 
 main()

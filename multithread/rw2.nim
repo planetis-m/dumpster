@@ -1,5 +1,5 @@
 # https://medium.com/adamedelwiess/operating-system-6-thread-part-2-reader-writer-problem-spurious-wakeups-and-deadlocks-6e28ab161002
-import nlocks
+import std/locks
 
 type
   RwMonitor* = object

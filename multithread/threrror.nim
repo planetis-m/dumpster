@@ -1,3 +1,4 @@
+# Invalid don't look
 import std/[os, isolation, atomics]
 
 const
@@ -27,7 +28,7 @@ proc main =
     createThread(threads[i], routine)
   joinThreads(threads)
   try:
-    if excIsSet.load(moRelaxed):
+    if excIsSet.load(moRelaxed): # no need for atomic!
       raise exc.extract
   except:
     echo "Exception caught! ", getCurrentExceptionMsg()

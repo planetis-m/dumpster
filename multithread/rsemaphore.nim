@@ -12,11 +12,14 @@ proc initSemaphore*(s: var Semaphore; value = 0) =
   s.value = value
   s.wakeups = 0
 
-proc destroySemaphore*(s: var Semaphore) {.inline.} =
+proc `=destroy`*(s: var Semaphore) =
   deinitCond(s.c)
   deinitLock(s.L)
 
-proc blockUntil*(s: var Semaphore) =
+proc `=sink`*(dest: var Semaphore; source: Semaphore) {.error.}
+proc `=copy`*(dest: var Semaphore; source: Semaphore) {.error.}
+
+proc wait*(s: var Semaphore) =
   acquire(s.L)
   dec s.value
   if s.value < 0:

@@ -1,4 +1,4 @@
-import locks, random, os
+import std/[locks, random, os]
 
 const
   philosophers = 5

@@ -45,7 +45,7 @@ proc main =
   for i in 0 ..< numThreads:
     createThread(threads[i], searchForSolution, i)
 
-  blockUntil isSolutionFound
+  wait isSolutionFound
   shutdown = true
   var solution: Solution
   while not queue.dequeue(solution): cpuRelax()

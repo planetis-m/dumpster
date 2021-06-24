@@ -1,4 +1,4 @@
-import os, thrsync
+import os, sync
 
 const
   N = 4
@@ -9,7 +9,7 @@ var
 
 proc a(i: int) =
   echo i, " starts"
-  blockUntil arrived
+  wait arrived
   sleep(1000)
   echo i, " progresses"
   signal arrived
@@ -20,6 +20,5 @@ proc main =
   for i in 0 ..< N:
     createThread(p[i], a, i)
   joinThreads(p)
-  destroySemaphore arrived
 
 main()

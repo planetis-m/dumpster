@@ -13,8 +13,11 @@ proc initOnce*(o: var Once) =
   initLock(o.L)
   o.finished = false
 
-proc destroyOnce*(o: var Once) {.inline.} =
+proc `=destroy`*(o: var Once) =
   deinitLock(o.L)
+
+proc `=sink`*(dest: var Once; source: Once) {.error.}
+proc `=copy`*(dest: var Once; source: Once) {.error.}
 
 template once*(o: Once, body: untyped) =
   if not atomicLoadN(addr o.finished, AtomicAcquire):

@@ -1,4 +1,4 @@
-import os, thrsync
+import std/os, sync
 
 const
   N = 2
@@ -10,14 +10,14 @@ var
 proc a =
   echo "A starts"
   signal aArrived
-  blockUntil bArrived
+  wait bArrived
   sleep(1000)
   echo "A progresses"
 
 proc b =
   echo "B starts"
   signal bArrived
-  blockUntil aArrived
+  wait aArrived
   sleep(2000)
   echo "B progresses"
 
@@ -30,8 +30,5 @@ proc main =
   createThread(bThread, a)
   joinThread(aThread)
   joinThread(bThread)
-
-  destroySemaphore aArrived
-  destroySemaphore bArrived
 
 main()

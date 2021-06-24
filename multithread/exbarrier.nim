@@ -31,6 +31,5 @@ proc main =
     wait barrier
   # another barrier here?
   joinThreads(p)
-  destroyBarrier barrier
 
 main()
