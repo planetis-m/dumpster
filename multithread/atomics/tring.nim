@@ -1,26 +1,32 @@
 # --threads:on --panics:on --gc:arc -d:useMalloc -t:"-O3 -fsanitize=thread" -l:"-fsanitize=thread" -d:danger -g
-import ring
+import ring, std/isolation
 
 const
   seed = 99
   bufCap = 20
   numIters = 1000
 
+type
+  Person = ref object
+    name: string
+
 var
-  rng: SpscQueue[int]
+  rng: SpscQueue[Person]
   thr1, thr2: Thread[void]
 
 proc producer =
+  const names = ["Dimitris", "Antonis", "Maria", "George"]
   for i in 0 ..< numIters:
-    while not rng.push(i + seed): cpuRelax()
-    #echo " >> pushed ", i+seed
+    var p = Person(name: names[i and 3])
+    echo " >> pushing ", p.name
+    while not rng.push(p.unsafeIsolate): cpuRelax()
+    wasMoved(p)
 
 proc consumer =
   for i in 0 ..< numIters:
-    var res: int
+    var res: Person
     while not rng.pop(res): cpuRelax()
-    #echo " >> popped ", res
-    assert res == seed + i
+    echo " >> popped ", res.name
 
 proc testSpScRing =
   init(rng, bufCap)

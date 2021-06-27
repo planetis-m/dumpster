@@ -11,15 +11,16 @@ type
     head, tail {.align(cacheLineSize).}: Atomic[int]
 
 proc `=destroy`*[T](this: var SpscQueue[T]) =
-  when not supportsCopyMem(T):
-    var tail = this.tail.load(moRelaxed)
-    let head = this.head.load(moRelaxed)
-    while tail != head:
-      `=destroy`(this.data[tail])
-      tail = tail + 1
-      if tail == this.cap:
-        tail = 0
-  deallocShared(this.data)
+  if this.data != nil:
+    when not supportsCopyMem(T):
+      var tail = this.tail.load(moRelaxed)
+      let head = this.head.load(moRelaxed)
+      while tail != head:
+        `=destroy`(this.data[tail])
+        inc tail
+        if tail == this.cap:
+          tail = 0
+    deallocShared(this.data)
 
 proc `=sink`*[T](dest: var SpscQueue[T]; source: SpscQueue[T]) {.error.}
 proc `=copy`*[T](dest: var SpscQueue[T]; source: SpscQueue[T]) {.error.}
@@ -28,8 +29,10 @@ proc init*[T](this: var SpscQueue[T]; capacity: Natural) =
   this.cap = capacity + 1
   this.data = cast[ptr UncheckedArray[T]](allocShared(this.cap))
 
-proc push*[T](this: var SpscQueue[T]; value: sink Isolated[
-    T]): bool {.nodestroy.} =
+proc cap*[T](this: SpscQueue[T]): int = this.cap
+
+proc push*[T](this: var SpscQueue[T]; value: sink Isolated[T]): bool {.
+    nodestroy.} =
   let head = this.head.load(moRelaxed)
   var nextHead = head + 1
   if nextHead == this.cap:
