@@ -40,10 +40,8 @@ proc push*[T](this: var SpscQueue[T]; value: sink Isolated[T]): bool {.
   if nextHead == this.tail.load(moAcquire):
     result = false
   else:
-    var tmp = extract value
-    this.data[head] = tmp
+    this.data[head] = extract value
     this.head.store(nextHead, moRelease)
-    wasMoved(tmp)
     result = true
 
 template push*[T](this: SpscQueue[T]; value: T): bool =

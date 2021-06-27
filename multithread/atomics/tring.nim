@@ -17,7 +17,7 @@ var
 proc producer =
   const names = ["Dimitris", "Antonis", "Maria", "George"]
   for i in 0 ..< numIters:
-    var p = Person(name: names[i and 3])
+    let p = Person(name: names[i and 3])
     echo " >> pushing ", p.name
     while not rng.push(p): cpuRelax()
 
