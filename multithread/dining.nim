@@ -1,4 +1,4 @@
-import std/[locks, random, os]
+import std/[locks, random, os, atomics]
 
 const
   philosophers = 5
@@ -11,7 +11,7 @@ template left: untyped = (i - 1) mod philosophers
 template right: untyped = (i + 1) mod philosophers
 
 var
-  exit = false
+  exit: Atomic[bool]
   p: array[philosophers, Thread[int]]
   infot: Thread[void]
   state: array[philosophers, State] # array keeping everyone's state
@@ -43,7 +43,7 @@ proc eat(i: int) =
 
 proc philosopher(i: int) =
   echo "Philosopher :", i
-  while not exit:
+  while not exit.load(moAcquire):
     think(i)
     pickup(i)
     eat(i)
@@ -67,7 +67,7 @@ proc printInfo =
   echo "# of philosophers eating is ", n, ": ", buf
 
 proc info =
-  while not exit:
+  while not exit.load(moAcquire):
     sleep(1000)
     printInfo()
 
@@ -87,7 +87,7 @@ proc main =
   deinitLock mutex
 
 setControlCHook(proc () {.noconv.} =
-  exit = true
+  exit.store(true, moRelease)
 )
 
 main()

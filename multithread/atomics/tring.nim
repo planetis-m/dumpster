@@ -3,7 +3,7 @@ import ring
 
 const
   seed = 99
-  bufCap = 16
+  bufCap = 20
   numIters = 1000
 
 var

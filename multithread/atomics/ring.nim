@@ -1,17 +1,18 @@
-import std/[atomics, math, isolation]
+import std/[atomics, isolation]
+
+template Spaces: untyped = Cap + 1
 
 type
   RingBuffer*[Cap: static[int], T] = object
     head, tail: Atomic[int]
-    data: array[Cap, T]
-
-template next(current: untyped): untyped = (current + 1) and Cap - 1
+    data: array[Spaces, T]
 
 proc push*[Cap, T](this: var RingBuffer[Cap, T]; value: sink Isolated[
     T]): bool {.nodestroy.} =
-  assert isPowerOfTwo(Cap)
   let head = this.head.load(moRelaxed)
-  let nextHead = next(head)
+  var nextHead = head + 1
+  if nextHead == Spaces:
+    nextHead = 0
   if nextHead == this.tail.load(moAcquire):
     result = false
   else:
@@ -23,34 +24,26 @@ template push*[Cap, T](this: RingBuffer[Cap, T]; value: T): bool =
   push(this, isolate(value))
 
 proc pop*[Cap, T](this: var RingBuffer[Cap, T]; value: var T): bool =
-  assert isPowerOfTwo(Cap)
   let tail = this.tail.load(moRelaxed)
   if tail == this.head.load(moAcquire):
     result = false
   else:
     value = move this.data[tail]
-    this.tail.store(next(tail), moRelease)
+    var nextTail = tail + 1
+    if nextTail == Spaces:
+      nextTail = 0
+    this.tail.store(nextTail, moRelease)
     result = true
 
 when isMainModule:
   proc testBasic =
-    var r: RingBuffer[32, int]
+    var r: RingBuffer[100, int]
     for i in 0..<r.Cap:
       # try to insert an element
-      if r.push(i):
-        # succeeded
-        discard
-      else:
-        assert i == r.Cap - 1
-        # buffer full
+      assert r.push(i)
     for i in 0..<r.Cap:
       # try to retrieve an element
       var value: int
-      if r.pop(value):
-        # succeeded
-        discard
-      else:
-        # buffer empty
-        assert i == r.Cap - 1
+      assert r.pop(value)
 
   testBasic()
