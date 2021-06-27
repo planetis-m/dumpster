@@ -19,8 +19,7 @@ proc producer =
   for i in 0 ..< numIters:
     var p = Person(name: names[i and 3])
     echo " >> pushing ", p.name
-    while not rng.push(p.unsafeIsolate): cpuRelax()
-    wasMoved(p)
+    while not rng.push(p): cpuRelax()
 
 proc consumer =
   for i in 0 ..< numIters:
