@@ -14,7 +14,7 @@ proc `=destroy`*[T](this: var SpscQueue[T]) =
   if this.data != nil:
     when not supportsCopyMem(T):
       var tail = this.tail.load(moRelaxed)
-      let head = this.head.load(moRelaxed)
+      let head = this.head.load(moAcquire)
       while tail != head:
         `=destroy`(this.data[tail])
         inc tail
@@ -29,7 +29,12 @@ proc init*[T](this: var SpscQueue[T]; capacity: Natural) =
   this.cap = capacity + 1
   this.data = cast[ptr UncheckedArray[T]](allocShared(this.cap))
 
-proc cap*[T](this: SpscQueue[T]): int = this.cap
+proc cap*[T](this: SpscQueue[T]): int = this.cap - 1
+
+proc len*[T](this: SpscQueue[T]): int =
+  result = this.head.load(moAcquire) - this.tail.load(moAcquire)
+  if result < 0:
+    result += this.cap
 
 proc push*[T](this: var SpscQueue[T]; value: sink Isolated[T]): bool {.
     nodestroy.} =
