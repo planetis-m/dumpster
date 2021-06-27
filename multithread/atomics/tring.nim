@@ -7,25 +7,25 @@ const
   numIters = 1000
 
 type
-  Person = object
+  Foo = ref object
     id: string
 
 var
-  rng: SpscQueue[Person]
+  rng: SpscQueue[Foo]
   thr1, thr2: Thread[void]
 
 proc producer =
   for i in 0 ..< numIters:
-    let p = Person(id: $(i + seed))
-    while not rng.push(p): cpuRelax()
+    var p = isolate(Foo(id: $(i + seed)))
+    while not rng.push(move p): cpuRelax()
     #echo " >> pushed ", p.id
 
 proc consumer =
   for i in 0 ..< numIters:
-    var res: Person
+    var res: Foo
     while not rng.pop(res): cpuRelax()
-    #echo " >> popped ", res.id
-    assert res.id == $(seed + i)
+    echo " >> popped ", res.id
+    #assert res.id == $(seed + i)
 
 proc testSpScRing =
   init(rng, bufCap)

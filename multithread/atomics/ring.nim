@@ -75,7 +75,7 @@ when isMainModule:
         discard
       else:
         # buffer full
-        assert i == r.cap - 1
+        assert i == cap(r)
     for i in 0..<r.cap:
       # try to retrieve an element
       var value: int
@@ -84,6 +84,6 @@ when isMainModule:
         discard
       else:
         # buffer empty
-        assert i == r.cap - 1
+        assert i == cap(r)
 
   testBasic()
