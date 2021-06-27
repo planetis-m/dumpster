@@ -7,7 +7,7 @@ const
   numIters = 1000
 
 var
-  rng: RingBuffer[bufCap, int]
+  rng: SpscQueue[int]
   thr1, thr2: Thread[void]
 
 proc producer =
@@ -23,6 +23,7 @@ proc consumer =
     assert res == seed + i
 
 proc testSpScRing =
+  init(rng, bufCap)
   createThread(thr1, producer)
   createThread(thr2, consumer)
   joinThread(thr1)

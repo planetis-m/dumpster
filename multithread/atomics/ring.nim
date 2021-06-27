@@ -1,17 +1,38 @@
 import std/[atomics, isolation]
+from std/typetraits import supportsCopyMem
 
-template Spaces: untyped = Cap + 1
+const
+  cacheLineSize = 64
 
 type
-  RingBuffer*[Cap: static[int], T] = object
-    head, tail: Atomic[int]
-    data: array[Spaces, T]
+  SpscQueue*[T] = object
+    cap: int
+    data: ptr UncheckedArray[T]
+    head, tail {.align(cacheLineSize).}: Atomic[int]
 
-proc push*[Cap, T](this: var RingBuffer[Cap, T]; value: sink Isolated[
+proc `=destroy`*[T](this: var SpscQueue[T]) =
+  when not supportsCopyMem(T):
+    var tail = this.tail.load(moRelaxed)
+    let head = this.head.load(moRelaxed)
+    while tail != head:
+      `=destroy`(this.data[tail])
+      tail = tail + 1
+      if tail == this.cap:
+        tail = 0
+  deallocShared(this.data)
+
+proc `=sink`*[T](dest: var SpscQueue[T]; source: SpscQueue[T]) {.error.}
+proc `=copy`*[T](dest: var SpscQueue[T]; source: SpscQueue[T]) {.error.}
+
+proc init*[T](this: var SpscQueue[T]; capacity: Natural) =
+  this.cap = capacity + 1
+  this.data = cast[ptr UncheckedArray[T]](allocShared(this.cap))
+
+proc push*[T](this: var SpscQueue[T]; value: sink Isolated[
     T]): bool {.nodestroy.} =
   let head = this.head.load(moRelaxed)
   var nextHead = head + 1
-  if nextHead == Spaces:
+  if nextHead == this.cap:
     nextHead = 0
   if nextHead == this.tail.load(moAcquire):
     result = false
@@ -20,30 +41,41 @@ proc push*[Cap, T](this: var RingBuffer[Cap, T]; value: sink Isolated[
     this.head.store(nextHead, moRelease)
     result = true
 
-template push*[Cap, T](this: RingBuffer[Cap, T]; value: T): bool =
+template push*[T](this: SpscQueue[T]; value: T): bool =
   push(this, isolate(value))
 
-proc pop*[Cap, T](this: var RingBuffer[Cap, T]; value: var T): bool =
+proc pop*[T](this: var SpscQueue[T]; value: var T): bool =
   let tail = this.tail.load(moRelaxed)
   if tail == this.head.load(moAcquire):
     result = false
   else:
     value = move this.data[tail]
     var nextTail = tail + 1
-    if nextTail == Spaces:
+    if nextTail == this.cap:
       nextTail = 0
     this.tail.store(nextTail, moRelease)
     result = true
 
 when isMainModule:
   proc testBasic =
-    var r: RingBuffer[100, int]
-    for i in 0..<r.Cap:
+    var r: SpscQueue[int]
+    init(r, 100)
+    for i in 0..<r.cap:
       # try to insert an element
-      assert r.push(i)
-    for i in 0..<r.Cap:
+      if r.push(i):
+        # succeeded
+        discard
+      else:
+        # buffer full
+        assert i == r.cap - 1
+    for i in 0..<r.cap:
       # try to retrieve an element
       var value: int
-      assert r.pop(value)
+      if r.pop(value):
+        # succeeded
+        discard
+      else:
+        # buffer empty
+        assert i == r.cap - 1
 
   testBasic()
