@@ -27,7 +27,7 @@ proc `=copy`*[T](dest: var SpscQueue[T]; source: SpscQueue[T]) {.error.}
 
 proc init*[T](this: var SpscQueue[T]; capacity: Natural) =
   this.cap = capacity + 1
-  this.data = cast[ptr UncheckedArray[T]](allocShared(this.cap))
+  this.data = cast[ptr UncheckedArray[T]](allocShared(this.cap * sizeof(T)))
 
 proc cap*[T](this: SpscQueue[T]): int = this.cap - 1
 

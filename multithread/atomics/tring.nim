@@ -16,16 +16,17 @@ var
 
 proc producer =
   for i in 0 ..< numIters:
-    var p = isolate(Foo(id: $(i + seed)))
-    while not rng.push(move p): cpuRelax()
-    #echo " >> pushed ", p.id
+    #var p = isolate(Foo(id: $(i + seed))) # crashes
+    #while not rng.push(move p): cpuRelax()
+    while not rng.push(Foo(id: $(i + seed))): cpuRelax()
+    #echo " >> pushed ", $(i + seed)
 
 proc consumer =
   for i in 0 ..< numIters:
     var res: Foo
     while not rng.pop(res): cpuRelax()
-    echo " >> popped ", res.id
-    #assert res.id == $(seed + i)
+    #echo " >> popped ", res.id
+    assert res.id == $(seed + i)
 
 proc testSpScRing =
   init(rng, bufCap)
