@@ -50,6 +50,7 @@ proc tryPush*[T](this: var SpscQueue[T]; value: var Isolated[T]): bool {.
     result = true
 
 template tryPush*[T](this: SpscQueue[T]; value: T): bool =
+  ## .. warning:: Using this template in a loop causes multiple evaluation of `value`.
   var p = isolate(value)
   tryPush(this, p)
 
