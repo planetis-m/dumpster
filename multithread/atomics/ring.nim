@@ -36,7 +36,7 @@ proc len*[T](this: SpscQueue[T]): int =
   if result < 0:
     result += this.cap
 
-proc push*[T](this: var SpscQueue[T]; value: sink Isolated[T]): bool {.
+proc tryPush*[T](this: var SpscQueue[T]; value: var Isolated[T]): bool {.
     nodestroy.} =
   let head = this.head.load(moRelaxed)
   var nextHead = head + 1
@@ -49,10 +49,10 @@ proc push*[T](this: var SpscQueue[T]; value: sink Isolated[T]): bool {.
     this.head.store(nextHead, moRelease)
     result = true
 
-template push*[T](this: SpscQueue[T]; value: T): bool =
-  push(this, isolate(value))
+template tryPush*[T](this: SpscQueue[T]; value: T): bool =
+  tryPush(this, isolate(value))
 
-proc pop*[T](this: var SpscQueue[T]; value: var T): bool =
+proc tryPop*[T](this: var SpscQueue[T]; value: var T): bool =
   let tail = this.tail.load(moRelaxed)
   if tail == this.head.load(moAcquire):
     result = false
