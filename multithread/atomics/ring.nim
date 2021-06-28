@@ -1,3 +1,4 @@
+# Nim port of https://github.com/rigtorp/SPSCQueue
 import std/[atomics, isolation]
 from std/typetraits import supportsCopyMem
 
@@ -9,14 +10,18 @@ type
     cap: int
     data: ptr UncheckedArray[T]
     head, tail {.align(cacheLineSize).}: Atomic[int]
+    # Padding to avoid adjacent allocations to share cache line with tail
+    padding: array[cacheLineSize - sizeof(Atomic[int]), byte]
+
+template Pad: untyped = (cacheLineSize - 1) div sizeof(T) + 1
 
 proc `=destroy`*[T](this: var SpscQueue[T]) =
   if this.data != nil:
     when not supportsCopyMem(T):
-      var tail = this.tail.load(moRelaxed)
       let head = this.head.load(moAcquire)
+      var tail = this.tail.load(moRelaxed)
       while tail != head:
-        `=destroy`(this.data[tail])
+        `=destroy`(this.data[tail + Pad])
         inc tail
         if tail == this.cap:
           tail = 0
@@ -27,7 +32,7 @@ proc `=copy`*[T](dest: var SpscQueue[T]; source: SpscQueue[T]) {.error.}
 
 proc init*[T](this: var SpscQueue[T]; capacity: Natural) =
   this.cap = capacity + 1
-  this.data = cast[ptr UncheckedArray[T]](allocShared(this.cap * sizeof(T)))
+  this.data = cast[ptr UncheckedArray[T]](allocShared((this.cap + 2 * Pad) * sizeof(T)))
 
 proc cap*[T](this: SpscQueue[T]): int = this.cap - 1
 
@@ -45,12 +50,12 @@ proc tryPush*[T](this: var SpscQueue[T]; value: var Isolated[T]): bool {.
   if nextHead == this.tail.load(moAcquire):
     result = false
   else:
-    this.data[head] = extract value
+    this.data[head + Pad] = extract value
     this.head.store(nextHead, moRelease)
     result = true
 
 template tryPush*[T](this: SpscQueue[T]; value: T): bool =
-  ## .. warning:: Using this template in a loop causes multiple evaluation of `value`.
+  ## .. warning:: Using this template in a loop causes multiple evaluations of `value`.
   var p = isolate(value)
   tryPush(this, p)
 
@@ -59,7 +64,7 @@ proc tryPop*[T](this: var SpscQueue[T]; value: var T): bool =
   if tail == this.head.load(moAcquire):
     result = false
   else:
-    value = move this.data[tail]
+    value = move this.data[tail + Pad]
     var nextTail = tail + 1
     if nextTail == this.cap:
       nextTail = 0
