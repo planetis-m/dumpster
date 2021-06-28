@@ -71,7 +71,7 @@ when isMainModule:
     init(r, 100)
     for i in 0..<r.cap:
       # try to insert an element
-      if r.push(i):
+      if r.tryPush(i):
         # succeeded
         discard
       else:
@@ -80,7 +80,7 @@ when isMainModule:
     for i in 0..<r.cap:
       # try to retrieve an element
       var value: int
-      if r.pop(value):
+      if r.tryPop(value):
         # succeeded
         discard
       else:

@@ -16,9 +16,9 @@ var
 
 proc producer =
   for i in 0 ..< numIters:
-    #var p = isolate(Foo(id: $(i + seed))) # crashes
-    #while not rng.tryPush(p): cpuRelax()
-    while not rng.tryPush(Foo(id: $(i + seed))): cpuRelax()
+    var p = isolate(Foo(id: $(i + seed))) # crashes
+    while not rng.tryPush(p): cpuRelax()
+    #while not rng.tryPush(Foo(id: $(i + seed))): cpuRelax()
     #echo " >> pushed ", $(i + seed)
 
 proc consumer =
