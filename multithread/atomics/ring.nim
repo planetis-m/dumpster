@@ -50,7 +50,8 @@ proc tryPush*[T](this: var SpscQueue[T]; value: var Isolated[T]): bool {.
     result = true
 
 template tryPush*[T](this: SpscQueue[T]; value: T): bool =
-  tryPush(this, isolate(value))
+  var p = isolate(value)
+  tryPush(this, p)
 
 proc tryPop*[T](this: var SpscQueue[T]; value: var T): bool =
   let tail = this.tail.load(moRelaxed)
