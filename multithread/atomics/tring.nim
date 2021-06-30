@@ -10,27 +10,47 @@ type
   Foo = ref object
     id: string
 
-var
-  rng: SpscQueue[Foo]
-  thr1, thr2: Thread[void]
+type
+  ThreadArgs = object
+    id: WorkerKind
+    queue: ptr SpscQueue[Foo]
 
-proc producer =
-  for i in 0 ..< numIters:
-    var p = isolate(Foo(id: $(i + seed)))
-    while not rng.tryPush(p): cpuRelax()
-    #echo " >> pushed ", $(i + seed)
+  WorkerKind = enum
+    Producer
+    Consumer
 
-proc consumer =
-  for i in 0 ..< numIters:
-    var res: Foo
-    while not rng.tryPop(res): cpuRelax()
-    #echo " >> popped ", res.id
-    assert res.id == $(seed + i)
+template work(expectedId: typed, body: untyped): untyped {.dirty.} =
+  if args.id == expectedId:
+    body
+
+template pushLoop(queue, data: typed, body: untyped): untyped =
+  while not queue.tryPush(data):
+    body
+
+template popLoop(queue, data: typed, body: untyped): untyped =
+  while not queue.tryPop(data):
+    body
+
+proc threadFn(args: ThreadArgs) =
+  work(Consumer):
+    for i in 0 ..< numIters:
+      var res: Foo
+      args.queue[].popLoop(res): cpuRelax()
+      #echo " >> popped ", res.id
+      assert res.id == $(seed + i)
+  work(Producer):
+    for i in 0 ..< numIters:
+      var p = isolate(Foo(id: $(i + seed)))
+      args.queue[].pushLoop(p): cpuRelax()
+      #echo " >> pushed ", $(i + seed)
 
 proc testSpScRing =
-  init(rng, bufCap)
-  createThread(thr1, producer)
-  createThread(thr2, consumer)
+  var
+    queue: SpscQueue[Foo]
+    thr1, thr2: Thread[ThreadArgs]
+  init(queue, bufCap)
+  createThread(thr1, threadFn, ThreadArgs(id: Producer, queue: addr queue))
+  createThread(thr2, threadFn, ThreadArgs(id: Consumer, queue: addr queue))
   joinThread(thr1)
   joinThread(thr2)
 

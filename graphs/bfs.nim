@@ -1,5 +1,7 @@
 import std / [deques, with]
 
+{.experimental: "strictFuncs".}
+
 type
   Edge = object
     neighbor {.cursor.}: Node
