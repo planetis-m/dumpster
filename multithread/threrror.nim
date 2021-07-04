@@ -6,14 +6,14 @@ const
 
 var
   threads: array[numThreads, Thread[void]]
-  exc: Isolated[ref Exception]
+  exc: ref Exception
   excIsSet: Atomic[bool]
 
 proc exceptHook(e: sink Isolated[ref Exception]) =
   # Only one's thread exception will be propagated to the main.
   if not excIsSet.load(moRelaxed) and
       not exchange(excIsSet, true, moRelaxed):
-    exc = e
+    exc = extract e
 
 proc routine {.thread.} =
   try:
@@ -21,7 +21,7 @@ proc routine {.thread.} =
     sleep(100)
     raise newException(CatchableError, "From thread: " & $getThreadId())
   except:
-    exceptHook(isolate(getCurrentException()))
+    exceptHook(unsafeIsolate(getCurrentException()))
 
 proc main =
   for i in 0..<numThreads:

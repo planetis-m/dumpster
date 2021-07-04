@@ -3,7 +3,8 @@ import std / [locks, os], fusion/smartptrs
 
 type
   CriticalData = object
-    lock: Lock
+    L: Lock
+    data {.guard: L.}: string
 
   ThreadData = tuple
     c1, c2: SharedPtr[CriticalData]
@@ -12,18 +13,18 @@ var
   threads: array[2, Thread[ThreadData]]
 
 proc deadlock(data: ThreadData) =
-  acquire data.c1[].lock
+  acquire data.c1[].L
   echo "Thread: ", getThreadId(), " locking of the first mutex"
   sleep 1
-  acquire data.c2[].lock
+  acquire data.c2[].L
   echo "Thread: ", getThreadId(), " locking of the second mutex"
-  release data.c2[].lock
-  release data.c1[].lock
+  release data.c2[].L
+  release data.c1[].L
   echo "Thread: ", getThreadId(), " locking them both atomically"
 
 proc newCriticalData: SharedPtr[CriticalData] =
   result = newSharedPtr(CriticalData())
-  initLock(result[].lock)
+  initLock(result[].L)
 
 proc main =
   let c1 = newCriticalData()
@@ -34,7 +35,7 @@ proc main =
   joinThread(threads[0])
   joinThread(threads[1])
 
-  deinitLock(c1[].lock)
-  deinitLock(c2[].lock)
+  deinitLock(c1[].L)
+  deinitLock(c2[].L)
 
 main()
