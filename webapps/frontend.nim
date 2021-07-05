@@ -18,7 +18,7 @@ proc onQuote(httpStatus: int, response: cstring) =
 
 # RateLimiter
 var
-  queue: seq[proc ()] = @[]
+  stack: seq[proc ()] = @[]
   timeOutRef: Interval = nil
   wasEmptied = true
 
@@ -26,14 +26,14 @@ proc rateLimit(action: proc (), rate: int) =
   if wasEmptied:
     wasEmptied = false
     timeOutRef = setInterval(proc () =
-      if queue.len > 0:
-        let call = queue.pop()
+      if stack.len > 0:
+        let call = stack.pop()
         call()
       else:
         wasEmptied = true
         clearInterval(timeOutRef)
     , rate)
-  queue.add(action)
+  stack.add(action)
 
 proc main(): VNode =
   result = buildHtml(tdiv):
