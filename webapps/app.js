@@ -2,6 +2,7 @@
 var framePtr = null;
 var excHandler = 0;
 var lastJSError = null;
+var NTI33555113 = {size: 0, kind: 17, base: null, node: null, finalizer: null};
 var NTI570425351 = {size: 0, kind: 18, base: null, node: null, finalizer: null};
 var NTI654311460 = {size: 0, kind: 18, base: null, node: null, finalizer: null};
 var NTI654311461 = {size: 0, kind: 22, base: null, node: null, finalizer: null};
@@ -41,11 +42,11 @@ var NTI687865957 = {size: 0,kind: 25,base: null,node: null,finalizer: null};
 var NTI687865956 = {size: 0,kind: 25,base: null,node: null,finalizer: null};
 var NTI687865861 = {size: 0, kind: 17, base: null, node: null, finalizer: null};
 var NTI687865904 = {size: 0, kind: 22, base: null, node: null, finalizer: null};
-var NTI687866043 = {size: 0,kind: 25,base: null,node: null,finalizer: null};
-var NTI687866040 = {size: 0,kind: 25,base: null,node: null,finalizer: null};
-var NTI687866039 = {size: 0, kind: 18, base: null, node: null, finalizer: null};
+var NTI687866044 = {size: 0,kind: 25,base: null,node: null,finalizer: null};
+var NTI687866041 = {size: 0,kind: 25,base: null,node: null,finalizer: null};
+var NTI687866040 = {size: 0, kind: 18, base: null, node: null, finalizer: null};
 var NTI687865953 = {size: 0, kind: 22, base: null, node: null, finalizer: null};
-var NTI687866042 = {size: 0, kind: 18, base: null, node: null, finalizer: null};
+var NTI687866043 = {size: 0, kind: 18, base: null, node: null, finalizer: null};
 var NTI687865954 = {size: 0, kind: 22, base: null, node: null, finalizer: null};
 var NTI687865893 = {size: 0, kind: 17, base: null, node: null, finalizer: null};
 var NTI687865892 = {size: 0, kind: 22, base: null, node: null, finalizer: null};
@@ -65,6 +66,7 @@ var NTI687866007 = {size: 0, kind: 24, base: null, node: null, finalizer: null};
 var NTI687865899 = {size: 0, kind: 17, base: null, node: null, finalizer: null};
 var NTI687865898 = {size: 0, kind: 22, base: null, node: null, finalizer: null};
 var NTI687866006 = {size: 0, kind: 24, base: null, node: null, finalizer: null};
+var NTI33554456 = {size: 0,kind: 31,base: null,node: null,finalizer: null};
 var NTI687866010 = {size: 0, kind: 24, base: null, node: null, finalizer: null};
 var NTI687865901 = {size: 0, kind: 17, base: null, node: null, finalizer: null};
 var NTI687865900 = {size: 0, kind: 22, base: null, node: null, finalizer: null};
@@ -89,8 +91,6 @@ var NTI33555107 = {size: 0, kind: 17, base: null, node: null, finalizer: null};
 var NTI33555096 = {size: 0, kind: 17, base: null, node: null, finalizer: null};
 var NTI33555103 = {size: 0, kind: 17, base: null, node: null, finalizer: null};
 var NTI33555105 = {size: 0, kind: 17, base: null, node: null, finalizer: null};
-var NTI33554456 = {size: 0,kind: 31,base: null,node: null,finalizer: null};
-var NTI33555897 = {size: 0, kind: 18, base: null, node: null, finalizer: null};
 var NTI33555066 = {size: 0, kind: 17, base: null, node: null, finalizer: null};
 var NTI33555148 = {size: 0, kind: 22, base: null, node: null, finalizer: null};
 var NTI33554439 = {size: 0,kind: 28,base: null,node: null,finalizer: null};
@@ -108,10 +108,6 @@ NTI33555095.node = NNI33555095;
 var NNI33555066 = {kind: 2, len: 0, offset: 0, typ: null, name: null, sons: []};
 NTI33555066.node = NNI33555066;
 NTI33555095.base = NTI33555066;
-var NNI33555897 = {kind: 2, len: 3, offset: 0, typ: null, name: null, sons: [{kind: 1, offset: "Field0", len: 0, typ: NTI33554440, name: "Field0", sons: null}, 
-{kind: 1, offset: "Field1", len: 0, typ: NTI33554456, name: "Field1", sons: null}, 
-{kind: 1, offset: "Field2", len: 0, typ: NTI33554440, name: "Field2", sons: null}]};
-NTI33555897.node = NNI33555897;
 var NNI33555105 = {kind: 2, len: 0, offset: 0, typ: null, name: null, sons: []};
 NTI33555105.node = NNI33555105;
 var NNI33555103 = {kind: 2, len: 0, offset: 0, typ: null, name: null, sons: []};
@@ -610,13 +606,13 @@ NTI687865893.node = NNI687865893;
 NTI687865893.base = NTI687865881;
 NTI687865892.base = NTI687865893;
 NTI687866005.base = NTI687865892;
-var NNI687866039 = {kind: 1, offset: "then", len: 0, typ: NTI687866040, name: "then", sons: null};
-NTI687866039.node = NNI687866039;
-NTI687865953.base = NTI687866039;
-var NNI687866042 = {kind: 2, len: 2, offset: 0, typ: null, name: null, sons: [{kind: 1, offset: "ready", len: 0, typ: NTI687865953, name: "ready", sons: null}, 
-{kind: 1, offset: "onloadingdone", len: 0, typ: NTI687866043, name: "onloadingdone", sons: null}]};
-NTI687866042.node = NNI687866042;
-NTI687865954.base = NTI687866042;
+var NNI687866040 = {kind: 1, offset: "then", len: 0, typ: NTI687866041, name: "then", sons: null};
+NTI687866040.node = NNI687866040;
+NTI687865953.base = NTI687866040;
+var NNI687866043 = {kind: 2, len: 2, offset: 0, typ: null, name: null, sons: [{kind: 1, offset: "ready", len: 0, typ: NTI687865953, name: "ready", sons: null}, 
+{kind: 1, offset: "onloadingdone", len: 0, typ: NTI687866044, name: "onloadingdone", sons: null}]};
+NTI687866043.node = NNI687866043;
+NTI687865954.base = NTI687866043;
 var NNI687865879 = {kind: 2, len: 23, offset: 0, typ: null, name: null, sons: [{kind: 1, offset: "activeElement", len: 0, typ: NTI687865880, name: "activeElement", sons: null}, 
 {kind: 1, offset: "documentElement", len: 0, typ: NTI687865880, name: "documentElement", sons: null}, 
 {kind: 1, offset: "alinkColor", len: 0, typ: NTI33554440, name: "alinkColor", sons: null}, 
@@ -975,6 +971,9 @@ var NNI570425351 = {kind: 2, len: 3, offset: 0, typ: null, name: null, sons: [{k
 {kind: 1, offset: "newChild", len: 0, typ: NTI603979875, name: "newChild", sons: null}, 
 {kind: 1, offset: "pos", len: 0, typ: NTI33554456, name: "pos", sons: null}]};
 NTI570425351.node = NNI570425351;
+var NNI33555113 = {kind: 2, len: 0, offset: 0, typ: null, name: null, sons: []};
+NTI33555113.node = NNI33555113;
+NTI33555113.base = NTI33555096;
 
 function cstrToNimstr(c_33556807) {
       var ln = c_33556807.length;
@@ -1026,9 +1025,87 @@ function makeNimstrLit(c_33556804) {
   
 }
 
-function arrayConstr(len_33557185, value_33557186, typ_33557187) {
-        var result = new Array(len_33557185);
-    for (var i = 0; i < len_33557185; ++i) result[i] = nimCopy(null, value_33557186, typ_33557187);
+function toJSStr(s_33556810) {
+                    var Temporary5;
+            var Temporary7;
+
+  var result_33556811 = null;
+
+    var res_33556845 = newSeq_33556828((s_33556810).length);
+    var i_33556846 = 0;
+    var j_33556847 = 0;
+    Label1: do {
+        Label2: while (true) {
+        if (!(i_33556846 < (s_33556810).length)) break Label2;
+          var c_33556848 = s_33556810[i_33556846];
+          if ((c_33556848 < 128)) {
+          res_33556845[j_33556847] = String.fromCharCode(c_33556848);
+          i_33556846 += 1;
+          }
+          else {
+            var helper_33556860 = newSeq_33556828(0);
+            Label3: do {
+                Label4: while (true) {
+                if (!true) break Label4;
+                  var code_33556861 = c_33556848.toString(16);
+                  if ((((code_33556861) == null ? 0 : (code_33556861).length) == 1)) {
+                  helper_33556860.push("%0");;
+                  }
+                  else {
+                  helper_33556860.push("%");;
+                  }
+                  
+                  helper_33556860.push(code_33556861);;
+                  i_33556846 += 1;
+                    if (((s_33556810).length <= i_33556846)) Temporary5 = true; else {                      Temporary5 = (s_33556810[i_33556846] < 128);                    }                  if (Temporary5) {
+                  break Label3;
+                  }
+                  
+                  c_33556848 = s_33556810[i_33556846];
+                }
+            } while (false);
+++excHandler;
+            Temporary7 = framePtr;
+            try {
+            res_33556845[j_33556847] = decodeURIComponent(helper_33556860.join(""));
+--excHandler;
+} catch (EXCEPTION) {
+ var prevJSError = lastJSError;
+ lastJSError = EXCEPTION;
+ --excHandler;
+            framePtr = Temporary7;
+            res_33556845[j_33556847] = helper_33556860.join("");
+            lastJSError = prevJSError;
+            } finally {
+            framePtr = Temporary7;
+            }
+          }
+          
+          j_33556847 += 1;
+        }
+    } while (false);
+    if (res_33556845.length < j_33556847) { for (var i = res_33556845.length ; i < j_33556847 ; ++i) res_33556845.push(null); }
+               else { res_33556845.length = j_33556847; };
+    result_33556811 = res_33556845.join("");
+
+  return result_33556811;
+
+}
+
+function raiseException(e_33556671, ename_33556672) {
+    e_33556671.name = ename_33556672;
+    if ((excHandler == 0)) {
+    unhandledException(e_33556671);
+    }
+    
+    throw e_33556671;
+
+  
+}
+
+function addInt(a_33556943, b_33556944) {
+        var result = a_33556943 + b_33556944;
+    checkOverflowInt(result);
     return result;
   
 
@@ -1131,94 +1208,6 @@ function nimCopy(dest_33557146, src_33557147, ti_33557148) {
   return result_33557157;
 
 }
-
-function toJSStr(s_33556810) {
-                    var Temporary5;
-            var Temporary7;
-
-  var result_33556811 = null;
-
-    var res_33556845 = newSeq_33556828((s_33556810).length);
-    var i_33556846 = 0;
-    var j_33556847 = 0;
-    Label1: do {
-        Label2: while (true) {
-        if (!(i_33556846 < (s_33556810).length)) break Label2;
-          var c_33556848 = s_33556810[i_33556846];
-          if ((c_33556848 < 128)) {
-          res_33556845[j_33556847] = String.fromCharCode(c_33556848);
-          i_33556846 += 1;
-          }
-          else {
-            var helper_33556860 = newSeq_33556828(0);
-            Label3: do {
-                Label4: while (true) {
-                if (!true) break Label4;
-                  var code_33556861 = c_33556848.toString(16);
-                  if ((((code_33556861) == null ? 0 : (code_33556861).length) == 1)) {
-                  helper_33556860.push("%0");;
-                  }
-                  else {
-                  helper_33556860.push("%");;
-                  }
-                  
-                  helper_33556860.push(code_33556861);;
-                  i_33556846 += 1;
-                    if (((s_33556810).length <= i_33556846)) Temporary5 = true; else {                      Temporary5 = (s_33556810[i_33556846] < 128);                    }                  if (Temporary5) {
-                  break Label3;
-                  }
-                  
-                  c_33556848 = s_33556810[i_33556846];
-                }
-            } while (false);
-++excHandler;
-            Temporary7 = framePtr;
-            try {
-            res_33556845[j_33556847] = decodeURIComponent(helper_33556860.join(""));
---excHandler;
-} catch (EXCEPTION) {
- var prevJSError = lastJSError;
- lastJSError = EXCEPTION;
- --excHandler;
-            framePtr = Temporary7;
-            res_33556845[j_33556847] = helper_33556860.join("");
-            lastJSError = prevJSError;
-            } finally {
-            framePtr = Temporary7;
-            }
-          }
-          
-          j_33556847 += 1;
-        }
-    } while (false);
-    if (res_33556845.length < j_33556847) { for (var i = res_33556845.length ; i < j_33556847 ; ++i) res_33556845.push(null); }
-               else { res_33556845.length = j_33556847; };
-    result_33556811 = res_33556845.join("");
-
-  return result_33556811;
-
-}
-
-function raiseException(e_33556671, ename_33556672) {
-    e_33556671.name = ename_33556672;
-    if ((excHandler == 0)) {
-    unhandledException(e_33556671);
-    }
-    
-    e_33556671.trace = nimCopy(null, rawWriteStackTrace_33556635(), NTI33554439);
-    throw e_33556671;
-
-  
-}
-
-function addInt(a_33556943, b_33556944) {
-        var result = a_33556943 + b_33556944;
-    checkOverflowInt(result);
-    return result;
-  
-
-  
-}
       var toTag_603980124 = ["#text", "#int", "#bool", "#vthunk", "#dthunk", "#component", "#verbatim", "HTML", "HEAD", "TITLE", "BASE", "LINK", "META", "STYLE", "SCRIPT", "NOSCRIPT", "BODY", "SECTION", "NAV", "ARTICLE", "ASIDE", "H1", "H2", "H3", "H4", "H5", "H6", "HEADER", "FOOTER", "ADDRESS", "MAIN", "P", "HR", "PRE", "BLOCKQUOTE", "OL", "UL", "LI", "DL", "DT", "DD", "FIGURE", "FIGCAPTION", "DIV", "A", "EM", "STRONG", "SMALL", "S", "CITE", "QUOTE", "DFN", "ABBR", "DATA", "TIME", "CODE", "VAR", "SAMP", "KDB", "SUB", "SUP", "I", "B", "U", "MARK", "RUBY", "RT", "RP", "BDI", "DBO", "SPAN", "BR", "WBR", "INS", "DEL", "IMG", "IFRAME", "EMBED", "OBJECT", "PARAM", "VIDEO", "AUDIO", "SOURCE", "TRACK", "CANVAS", "MAP", "AREA", "ANIMATE", "ANIMATEMOTION", "ANIMATETRANSFORM", "CIRCLE", "CLIPPATH", "DEFS", "DESC", "DISCARD", "ELLIPSE", "FEBLEND", "FECOLORMATRIX", "FECOMPONENTTRANSFER", "FECOMPOSITE", "FECONVOLVEMATRIX", "FEDIFFUSELIGHTING", "FEDISPLACEMENTMAP", "FEDISTANTLIGHT", "FEDROPSHADOW", "FEFLOOD", "FEFUNCA", "FEFUNCB", "FEFUNCG", "FEFUNCR", "FEGAUSSIANBLUR", "FEIMAGE", "FEMERGE", "FEMERGENODE", "FEMORPHOLOGY", "FEOFFSET", "FEPOINTLIGHT", "FESPECULARLIGHTING", "FESPOTLIGHT", "FETILE", "FETURBULENCE", "FILTER", "FOREIGNOBJECT", "G", "IMAGE", "LINE", "LINEARGRADIENT", "MARKER", "MASK", "METADATA", "MPATH", "PATH", "PATTERN", "POLYGON", "POLYLINE", "RADIALGRADIENT", "RECT", "SET", "STOP", "SVG", "SWITCH", "SYMBOL", "TEXT", "TEXTPATH", "TSPAN", "UNKNOWN", "USE", "VIEW", "MACTION", "MATH", "MENCLOSE", "MERROR", "MFENCED", "MFRAC", "MGLYPH", "MI", "MLABELEDTR", "MMULTISCRIPTS", "MN", "MO", "MOVER", "MPADDED", "MPHANTOM", "MROOT", "MROW", "MS", "MSPACE", "MSQRT", "MSTYLE", "MSUB", "MSUBSUP", "MSUP", "MTABLE", "MTD", "MTEXT", "MTR", "MUNDER", "MUNDEROVER", "SEMANTICS", "TABLE", "CAPTION", "COLGROUP", "COL", "TBODY", "THEAD", "TFOOT", "TR", "TD", "TH", "FORM", "FIELDSET", "LEGEND", "LABEL", "INPUT", "BUTTON", "SELECT", "DATALIST", "OPTGROUP", "OPTION", "TEXTAREA", "KEYGEN", "OUTPUT", "PROGRESS", "METER", "DETAILS", "SUMMARY", "COMMAND", "MENU"];
 
 function chckIndx(i_33557190, a_33557191, b_33557192) {
@@ -1271,6 +1260,37 @@ function nimMin(a_33557000, b_33557001) {
   return result_33557002;
 
 }
+
+function rawEcho() {
+          var buf = "";
+      for (var i = 0; i < arguments.length; ++i) {
+        buf += toJSStr(arguments[i]);
+      }
+      console.log(buf);
+    
+
+  
+}
+
+function chckRange(i_33557195, a_33557196, b_33557197) {
+      var Temporary1;
+
+  var result_33557198 = 0;
+
+  BeforeRet: do {
+      if (!(a_33557196 <= i_33557195)) Temporary1 = false; else {        Temporary1 = (i_33557195 <= b_33557197);      }    if (Temporary1) {
+    result_33557198 = i_33557195;
+    break BeforeRet;
+    }
+    else {
+    raiseRangeError();
+    }
+    
+  } while (false);
+
+  return result_33557198;
+
+}
 if (!Math.trunc) {
   Math.trunc = function(v) {
     v = +v;
@@ -1279,4409 +1299,16 @@ if (!Math.trunc) {
   };
 }
 
-var F = {procname: "module kbase", prev: framePtr, filename: "/home/markedone/code/repos/karax/karax/kbase.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module kbase", prev: framePtr, filename: "/home/markedone/code/repos/karax/karax/kbase.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module kbase", prev: framePtr, filename: "/home/markedone/code/repos/karax/karax/kbase.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module karax", prev: framePtr, filename: "/home/markedone/code/repos/karax/karax/karax.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module kdom", prev: framePtr, filename: "/home/markedone/code/repos/karax/karax/kdom.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module dom", prev: framePtr, filename: "/home/markedone/build/Nim/lib/js/dom.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module dom", prev: framePtr, filename: "/home/markedone/build/Nim/lib/js/dom.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module dom", prev: framePtr, filename: "/home/markedone/build/Nim/lib/js/dom.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module dom", prev: framePtr, filename: "/home/markedone/build/Nim/lib/js/dom.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module dom", prev: framePtr, filename: "/home/markedone/build/Nim/lib/js/dom.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module dom", prev: framePtr, filename: "/home/markedone/build/Nim/lib/js/dom.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module dom", prev: framePtr, filename: "/home/markedone/build/Nim/lib/js/dom.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module dom", prev: framePtr, filename: "/home/markedone/build/Nim/lib/js/dom.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module dom", prev: framePtr, filename: "/home/markedone/build/Nim/lib/js/dom.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module dom", prev: framePtr, filename: "/home/markedone/build/Nim/lib/js/dom.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module dom", prev: framePtr, filename: "/home/markedone/build/Nim/lib/js/dom.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module dom", prev: framePtr, filename: "/home/markedone/build/Nim/lib/js/dom.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module dom", prev: framePtr, filename: "/home/markedone/build/Nim/lib/js/dom.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module dom", prev: framePtr, filename: "/home/markedone/build/Nim/lib/js/dom.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module dom", prev: framePtr, filename: "/home/markedone/build/Nim/lib/js/dom.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module dom", prev: framePtr, filename: "/home/markedone/build/Nim/lib/js/dom.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module dom", prev: framePtr, filename: "/home/markedone/build/Nim/lib/js/dom.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module dom", prev: framePtr, filename: "/home/markedone/build/Nim/lib/js/dom.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module dom", prev: framePtr, filename: "/home/markedone/build/Nim/lib/js/dom.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module dom", prev: framePtr, filename: "/home/markedone/build/Nim/lib/js/dom.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module dom", prev: framePtr, filename: "/home/markedone/build/Nim/lib/js/dom.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module dom", prev: framePtr, filename: "/home/markedone/build/Nim/lib/js/dom.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module dom", prev: framePtr, filename: "/home/markedone/build/Nim/lib/js/dom.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module dom", prev: framePtr, filename: "/home/markedone/build/Nim/lib/js/dom.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module dom", prev: framePtr, filename: "/home/markedone/build/Nim/lib/js/dom.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module dom", prev: framePtr, filename: "/home/markedone/build/Nim/lib/js/dom.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module dom", prev: framePtr, filename: "/home/markedone/build/Nim/lib/js/dom.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module dom", prev: framePtr, filename: "/home/markedone/build/Nim/lib/js/dom.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module dom", prev: framePtr, filename: "/home/markedone/build/Nim/lib/js/dom.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module dom", prev: framePtr, filename: "/home/markedone/build/Nim/lib/js/dom.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module dom", prev: framePtr, filename: "/home/markedone/build/Nim/lib/js/dom.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module dom", prev: framePtr, filename: "/home/markedone/build/Nim/lib/js/dom.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module dom", prev: framePtr, filename: "/home/markedone/build/Nim/lib/js/dom.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module dom", prev: framePtr, filename: "/home/markedone/build/Nim/lib/js/dom.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module dom", prev: framePtr, filename: "/home/markedone/build/Nim/lib/js/dom.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module dom", prev: framePtr, filename: "/home/markedone/build/Nim/lib/js/dom.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module dom", prev: framePtr, filename: "/home/markedone/build/Nim/lib/js/dom.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module dom", prev: framePtr, filename: "/home/markedone/build/Nim/lib/js/dom.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module dom", prev: framePtr, filename: "/home/markedone/build/Nim/lib/js/dom.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module dom", prev: framePtr, filename: "/home/markedone/build/Nim/lib/js/dom.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module dom", prev: framePtr, filename: "/home/markedone/build/Nim/lib/js/dom.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module dom", prev: framePtr, filename: "/home/markedone/build/Nim/lib/js/dom.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module dom", prev: framePtr, filename: "/home/markedone/build/Nim/lib/js/dom.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module dom", prev: framePtr, filename: "/home/markedone/build/Nim/lib/js/dom.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module dom", prev: framePtr, filename: "/home/markedone/build/Nim/lib/js/dom.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module dom", prev: framePtr, filename: "/home/markedone/build/Nim/lib/js/dom.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module dom", prev: framePtr, filename: "/home/markedone/build/Nim/lib/js/dom.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module dom", prev: framePtr, filename: "/home/markedone/build/Nim/lib/js/dom.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module dom", prev: framePtr, filename: "/home/markedone/build/Nim/lib/js/dom.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module dom", prev: framePtr, filename: "/home/markedone/build/Nim/lib/js/dom.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module dom", prev: framePtr, filename: "/home/markedone/build/Nim/lib/js/dom.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module dom", prev: framePtr, filename: "/home/markedone/build/Nim/lib/js/dom.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module dom", prev: framePtr, filename: "/home/markedone/build/Nim/lib/js/dom.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module dom", prev: framePtr, filename: "/home/markedone/build/Nim/lib/js/dom.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module dom", prev: framePtr, filename: "/home/markedone/build/Nim/lib/js/dom.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module dom", prev: framePtr, filename: "/home/markedone/build/Nim/lib/js/dom.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module dom", prev: framePtr, filename: "/home/markedone/build/Nim/lib/js/dom.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module dom", prev: framePtr, filename: "/home/markedone/build/Nim/lib/js/dom.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module dom", prev: framePtr, filename: "/home/markedone/build/Nim/lib/js/dom.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module dom", prev: framePtr, filename: "/home/markedone/build/Nim/lib/js/dom.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module dom", prev: framePtr, filename: "/home/markedone/build/Nim/lib/js/dom.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module dom", prev: framePtr, filename: "/home/markedone/build/Nim/lib/js/dom.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module dom", prev: framePtr, filename: "/home/markedone/build/Nim/lib/js/dom.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module dom", prev: framePtr, filename: "/home/markedone/build/Nim/lib/js/dom.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module dom", prev: framePtr, filename: "/home/markedone/build/Nim/lib/js/dom.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module dom", prev: framePtr, filename: "/home/markedone/build/Nim/lib/js/dom.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module dom", prev: framePtr, filename: "/home/markedone/build/Nim/lib/js/dom.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module dom", prev: framePtr, filename: "/home/markedone/build/Nim/lib/js/dom.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module dom", prev: framePtr, filename: "/home/markedone/build/Nim/lib/js/dom.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module dom", prev: framePtr, filename: "/home/markedone/build/Nim/lib/js/dom.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module dom", prev: framePtr, filename: "/home/markedone/build/Nim/lib/js/dom.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module dom", prev: framePtr, filename: "/home/markedone/build/Nim/lib/js/dom.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module dom", prev: framePtr, filename: "/home/markedone/build/Nim/lib/js/dom.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module dom", prev: framePtr, filename: "/home/markedone/build/Nim/lib/js/dom.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module dom", prev: framePtr, filename: "/home/markedone/build/Nim/lib/js/dom.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module dom", prev: framePtr, filename: "/home/markedone/build/Nim/lib/js/dom.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module dom", prev: framePtr, filename: "/home/markedone/build/Nim/lib/js/dom.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module dom", prev: framePtr, filename: "/home/markedone/build/Nim/lib/js/dom.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module dom", prev: framePtr, filename: "/home/markedone/build/Nim/lib/js/dom.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module dom", prev: framePtr, filename: "/home/markedone/build/Nim/lib/js/dom.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module dom", prev: framePtr, filename: "/home/markedone/build/Nim/lib/js/dom.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module dom", prev: framePtr, filename: "/home/markedone/build/Nim/lib/js/dom.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module dom", prev: framePtr, filename: "/home/markedone/build/Nim/lib/js/dom.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module dom", prev: framePtr, filename: "/home/markedone/build/Nim/lib/js/dom.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module dom", prev: framePtr, filename: "/home/markedone/build/Nim/lib/js/dom.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module dom", prev: framePtr, filename: "/home/markedone/build/Nim/lib/js/dom.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module dom", prev: framePtr, filename: "/home/markedone/build/Nim/lib/js/dom.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module dom", prev: framePtr, filename: "/home/markedone/build/Nim/lib/js/dom.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module dom", prev: framePtr, filename: "/home/markedone/build/Nim/lib/js/dom.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module dom", prev: framePtr, filename: "/home/markedone/build/Nim/lib/js/dom.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module dom", prev: framePtr, filename: "/home/markedone/build/Nim/lib/js/dom.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module dom", prev: framePtr, filename: "/home/markedone/build/Nim/lib/js/dom.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module dom", prev: framePtr, filename: "/home/markedone/build/Nim/lib/js/dom.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module dom", prev: framePtr, filename: "/home/markedone/build/Nim/lib/js/dom.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module dom", prev: framePtr, filename: "/home/markedone/build/Nim/lib/js/dom.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module dom", prev: framePtr, filename: "/home/markedone/build/Nim/lib/js/dom.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module dom", prev: framePtr, filename: "/home/markedone/build/Nim/lib/js/dom.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module dom", prev: framePtr, filename: "/home/markedone/build/Nim/lib/js/dom.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module dom", prev: framePtr, filename: "/home/markedone/build/Nim/lib/js/dom.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module dom", prev: framePtr, filename: "/home/markedone/build/Nim/lib/js/dom.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module dom", prev: framePtr, filename: "/home/markedone/build/Nim/lib/js/dom.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module dom", prev: framePtr, filename: "/home/markedone/build/Nim/lib/js/dom.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module dom", prev: framePtr, filename: "/home/markedone/build/Nim/lib/js/dom.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module dom", prev: framePtr, filename: "/home/markedone/build/Nim/lib/js/dom.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module dom", prev: framePtr, filename: "/home/markedone/build/Nim/lib/js/dom.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module dom", prev: framePtr, filename: "/home/markedone/build/Nim/lib/js/dom.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module dom", prev: framePtr, filename: "/home/markedone/build/Nim/lib/js/dom.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module dom", prev: framePtr, filename: "/home/markedone/build/Nim/lib/js/dom.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module dom", prev: framePtr, filename: "/home/markedone/build/Nim/lib/js/dom.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module dom", prev: framePtr, filename: "/home/markedone/build/Nim/lib/js/dom.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module dom", prev: framePtr, filename: "/home/markedone/build/Nim/lib/js/dom.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module dom", prev: framePtr, filename: "/home/markedone/build/Nim/lib/js/dom.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module dom", prev: framePtr, filename: "/home/markedone/build/Nim/lib/js/dom.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module dom", prev: framePtr, filename: "/home/markedone/build/Nim/lib/js/dom.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module dom", prev: framePtr, filename: "/home/markedone/build/Nim/lib/js/dom.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module dom", prev: framePtr, filename: "/home/markedone/build/Nim/lib/js/dom.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module dom", prev: framePtr, filename: "/home/markedone/build/Nim/lib/js/dom.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module dom", prev: framePtr, filename: "/home/markedone/build/Nim/lib/js/dom.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module dom", prev: framePtr, filename: "/home/markedone/build/Nim/lib/js/dom.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module dom", prev: framePtr, filename: "/home/markedone/build/Nim/lib/js/dom.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module dom", prev: framePtr, filename: "/home/markedone/build/Nim/lib/js/dom.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module dom", prev: framePtr, filename: "/home/markedone/build/Nim/lib/js/dom.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module dom", prev: framePtr, filename: "/home/markedone/build/Nim/lib/js/dom.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module dom", prev: framePtr, filename: "/home/markedone/build/Nim/lib/js/dom.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module dom", prev: framePtr, filename: "/home/markedone/build/Nim/lib/js/dom.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module dom", prev: framePtr, filename: "/home/markedone/build/Nim/lib/js/dom.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module dom", prev: framePtr, filename: "/home/markedone/build/Nim/lib/js/dom.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module dom", prev: framePtr, filename: "/home/markedone/build/Nim/lib/js/dom.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module dom", prev: framePtr, filename: "/home/markedone/build/Nim/lib/js/dom.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module dom", prev: framePtr, filename: "/home/markedone/build/Nim/lib/js/dom.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module dom", prev: framePtr, filename: "/home/markedone/build/Nim/lib/js/dom.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module dom", prev: framePtr, filename: "/home/markedone/build/Nim/lib/js/dom.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module dom", prev: framePtr, filename: "/home/markedone/build/Nim/lib/js/dom.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module dom", prev: framePtr, filename: "/home/markedone/build/Nim/lib/js/dom.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module dom", prev: framePtr, filename: "/home/markedone/build/Nim/lib/js/dom.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module dom", prev: framePtr, filename: "/home/markedone/build/Nim/lib/js/dom.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module dom", prev: framePtr, filename: "/home/markedone/build/Nim/lib/js/dom.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module dom", prev: framePtr, filename: "/home/markedone/build/Nim/lib/js/dom.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module dom", prev: framePtr, filename: "/home/markedone/build/Nim/lib/js/dom.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module dom", prev: framePtr, filename: "/home/markedone/build/Nim/lib/js/dom.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module dom", prev: framePtr, filename: "/home/markedone/build/Nim/lib/js/dom.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module dom", prev: framePtr, filename: "/home/markedone/build/Nim/lib/js/dom.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module dom", prev: framePtr, filename: "/home/markedone/build/Nim/lib/js/dom.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module dom", prev: framePtr, filename: "/home/markedone/build/Nim/lib/js/dom.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module dom", prev: framePtr, filename: "/home/markedone/build/Nim/lib/js/dom.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module dom", prev: framePtr, filename: "/home/markedone/build/Nim/lib/js/dom.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module dom", prev: framePtr, filename: "/home/markedone/build/Nim/lib/js/dom.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module dom", prev: framePtr, filename: "/home/markedone/build/Nim/lib/js/dom.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module dom", prev: framePtr, filename: "/home/markedone/build/Nim/lib/js/dom.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module dom", prev: framePtr, filename: "/home/markedone/build/Nim/lib/js/dom.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module dom", prev: framePtr, filename: "/home/markedone/build/Nim/lib/js/dom.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module dom", prev: framePtr, filename: "/home/markedone/build/Nim/lib/js/dom.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module dom", prev: framePtr, filename: "/home/markedone/build/Nim/lib/js/dom.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module dom", prev: framePtr, filename: "/home/markedone/build/Nim/lib/js/dom.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module dom", prev: framePtr, filename: "/home/markedone/build/Nim/lib/js/dom.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module dom", prev: framePtr, filename: "/home/markedone/build/Nim/lib/js/dom.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module dom", prev: framePtr, filename: "/home/markedone/build/Nim/lib/js/dom.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module dom", prev: framePtr, filename: "/home/markedone/build/Nim/lib/js/dom.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module dom", prev: framePtr, filename: "/home/markedone/build/Nim/lib/js/dom.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module dom", prev: framePtr, filename: "/home/markedone/build/Nim/lib/js/dom.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module dom", prev: framePtr, filename: "/home/markedone/build/Nim/lib/js/dom.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module dom", prev: framePtr, filename: "/home/markedone/build/Nim/lib/js/dom.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module dom", prev: framePtr, filename: "/home/markedone/build/Nim/lib/js/dom.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module dom", prev: framePtr, filename: "/home/markedone/build/Nim/lib/js/dom.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module dom", prev: framePtr, filename: "/home/markedone/build/Nim/lib/js/dom.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module dom", prev: framePtr, filename: "/home/markedone/build/Nim/lib/js/dom.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module dom", prev: framePtr, filename: "/home/markedone/build/Nim/lib/js/dom.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module dom", prev: framePtr, filename: "/home/markedone/build/Nim/lib/js/dom.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module dom", prev: framePtr, filename: "/home/markedone/build/Nim/lib/js/dom.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module dom", prev: framePtr, filename: "/home/markedone/build/Nim/lib/js/dom.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module dom", prev: framePtr, filename: "/home/markedone/build/Nim/lib/js/dom.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module dom", prev: framePtr, filename: "/home/markedone/build/Nim/lib/js/dom.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module dom", prev: framePtr, filename: "/home/markedone/build/Nim/lib/js/dom.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module dom", prev: framePtr, filename: "/home/markedone/build/Nim/lib/js/dom.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module dom", prev: framePtr, filename: "/home/markedone/build/Nim/lib/js/dom.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module dom", prev: framePtr, filename: "/home/markedone/build/Nim/lib/js/dom.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module dom", prev: framePtr, filename: "/home/markedone/build/Nim/lib/js/dom.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module dom", prev: framePtr, filename: "/home/markedone/build/Nim/lib/js/dom.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module dom", prev: framePtr, filename: "/home/markedone/build/Nim/lib/js/dom.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module kdom", prev: framePtr, filename: "/home/markedone/code/repos/karax/karax/kdom.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module kdom", prev: framePtr, filename: "/home/markedone/code/repos/karax/karax/kdom.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module kdom", prev: framePtr, filename: "/home/markedone/code/repos/karax/karax/kdom.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module kdom", prev: framePtr, filename: "/home/markedone/code/repos/karax/karax/kdom.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module vdom", prev: framePtr, filename: "/home/markedone/code/repos/karax/karax/vdom.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module macros", prev: framePtr, filename: "/home/markedone/build/Nim/lib/core/macros.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module macros", prev: framePtr, filename: "/home/markedone/build/Nim/lib/core/macros.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module macros", prev: framePtr, filename: "/home/markedone/build/Nim/lib/core/macros.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module macros", prev: framePtr, filename: "/home/markedone/build/Nim/lib/core/macros.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module macros", prev: framePtr, filename: "/home/markedone/build/Nim/lib/core/macros.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module macros", prev: framePtr, filename: "/home/markedone/build/Nim/lib/core/macros.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module macros", prev: framePtr, filename: "/home/markedone/build/Nim/lib/core/macros.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module macros", prev: framePtr, filename: "/home/markedone/build/Nim/lib/core/macros.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module macros", prev: framePtr, filename: "/home/markedone/build/Nim/lib/core/macros.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module macros", prev: framePtr, filename: "/home/markedone/build/Nim/lib/core/macros.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module macros", prev: framePtr, filename: "/home/markedone/build/Nim/lib/core/macros.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module macros", prev: framePtr, filename: "/home/markedone/build/Nim/lib/core/macros.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module macros", prev: framePtr, filename: "/home/markedone/build/Nim/lib/core/macros.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module macros", prev: framePtr, filename: "/home/markedone/build/Nim/lib/core/macros.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module macros", prev: framePtr, filename: "/home/markedone/build/Nim/lib/core/macros.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module macros", prev: framePtr, filename: "/home/markedone/build/Nim/lib/core/macros.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module macros", prev: framePtr, filename: "/home/markedone/build/Nim/lib/core/macros.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module macros", prev: framePtr, filename: "/home/markedone/build/Nim/lib/core/macros.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module macros", prev: framePtr, filename: "/home/markedone/build/Nim/lib/core/macros.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module macros", prev: framePtr, filename: "/home/markedone/build/Nim/lib/core/macros.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module macros", prev: framePtr, filename: "/home/markedone/build/Nim/lib/core/macros.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module macros", prev: framePtr, filename: "/home/markedone/build/Nim/lib/core/macros.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module macros", prev: framePtr, filename: "/home/markedone/build/Nim/lib/core/macros.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module macros", prev: framePtr, filename: "/home/markedone/build/Nim/lib/core/macros.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module macros", prev: framePtr, filename: "/home/markedone/build/Nim/lib/core/macros.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module macros", prev: framePtr, filename: "/home/markedone/build/Nim/lib/core/macros.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module macros", prev: framePtr, filename: "/home/markedone/build/Nim/lib/core/macros.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module macros", prev: framePtr, filename: "/home/markedone/build/Nim/lib/core/macros.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module macros", prev: framePtr, filename: "/home/markedone/build/Nim/lib/core/macros.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module macros", prev: framePtr, filename: "/home/markedone/build/Nim/lib/core/macros.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module macros", prev: framePtr, filename: "/home/markedone/build/Nim/lib/core/macros.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module macros", prev: framePtr, filename: "/home/markedone/build/Nim/lib/core/macros.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module macros", prev: framePtr, filename: "/home/markedone/build/Nim/lib/core/macros.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module macros", prev: framePtr, filename: "/home/markedone/build/Nim/lib/core/macros.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module macros", prev: framePtr, filename: "/home/markedone/build/Nim/lib/core/macros.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module macros", prev: framePtr, filename: "/home/markedone/build/Nim/lib/core/macros.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module macros", prev: framePtr, filename: "/home/markedone/build/Nim/lib/core/macros.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module macros", prev: framePtr, filename: "/home/markedone/build/Nim/lib/core/macros.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module macros", prev: framePtr, filename: "/home/markedone/build/Nim/lib/core/macros.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module macros", prev: framePtr, filename: "/home/markedone/build/Nim/lib/core/macros.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module macros", prev: framePtr, filename: "/home/markedone/build/Nim/lib/core/macros.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module macros", prev: framePtr, filename: "/home/markedone/build/Nim/lib/core/macros.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module macros", prev: framePtr, filename: "/home/markedone/build/Nim/lib/core/macros.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module macros", prev: framePtr, filename: "/home/markedone/build/Nim/lib/core/macros.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module macros", prev: framePtr, filename: "/home/markedone/build/Nim/lib/core/macros.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module macros", prev: framePtr, filename: "/home/markedone/build/Nim/lib/core/macros.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module macros", prev: framePtr, filename: "/home/markedone/build/Nim/lib/core/macros.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module macros", prev: framePtr, filename: "/home/markedone/build/Nim/lib/core/macros.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module macros", prev: framePtr, filename: "/home/markedone/build/Nim/lib/core/macros.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module macros", prev: framePtr, filename: "/home/markedone/build/Nim/lib/core/macros.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module macros", prev: framePtr, filename: "/home/markedone/build/Nim/lib/core/macros.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module macros", prev: framePtr, filename: "/home/markedone/build/Nim/lib/core/macros.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module macros", prev: framePtr, filename: "/home/markedone/build/Nim/lib/core/macros.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module macros", prev: framePtr, filename: "/home/markedone/build/Nim/lib/core/macros.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module macros", prev: framePtr, filename: "/home/markedone/build/Nim/lib/core/macros.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module macros", prev: framePtr, filename: "/home/markedone/build/Nim/lib/core/macros.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module macros", prev: framePtr, filename: "/home/markedone/build/Nim/lib/core/macros.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module macros", prev: framePtr, filename: "/home/markedone/build/Nim/lib/core/macros.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module macros", prev: framePtr, filename: "/home/markedone/build/Nim/lib/core/macros.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module macros", prev: framePtr, filename: "/home/markedone/build/Nim/lib/core/macros.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module macros", prev: framePtr, filename: "/home/markedone/build/Nim/lib/core/macros.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module macros", prev: framePtr, filename: "/home/markedone/build/Nim/lib/core/macros.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module macros", prev: framePtr, filename: "/home/markedone/build/Nim/lib/core/macros.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module macros", prev: framePtr, filename: "/home/markedone/build/Nim/lib/core/macros.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module macros", prev: framePtr, filename: "/home/markedone/build/Nim/lib/core/macros.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module macros", prev: framePtr, filename: "/home/markedone/build/Nim/lib/core/macros.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module macros", prev: framePtr, filename: "/home/markedone/build/Nim/lib/core/macros.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module macros", prev: framePtr, filename: "/home/markedone/build/Nim/lib/core/macros.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module macros", prev: framePtr, filename: "/home/markedone/build/Nim/lib/core/macros.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module macros", prev: framePtr, filename: "/home/markedone/build/Nim/lib/core/macros.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module macros", prev: framePtr, filename: "/home/markedone/build/Nim/lib/core/macros.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module macros", prev: framePtr, filename: "/home/markedone/build/Nim/lib/core/macros.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module macros", prev: framePtr, filename: "/home/markedone/build/Nim/lib/core/macros.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module macros", prev: framePtr, filename: "/home/markedone/build/Nim/lib/core/macros.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module macros", prev: framePtr, filename: "/home/markedone/build/Nim/lib/core/macros.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module macros", prev: framePtr, filename: "/home/markedone/build/Nim/lib/core/macros.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module macros", prev: framePtr, filename: "/home/markedone/build/Nim/lib/core/macros.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module macros", prev: framePtr, filename: "/home/markedone/build/Nim/lib/core/macros.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module macros", prev: framePtr, filename: "/home/markedone/build/Nim/lib/core/macros.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module macros", prev: framePtr, filename: "/home/markedone/build/Nim/lib/core/macros.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module macros", prev: framePtr, filename: "/home/markedone/build/Nim/lib/core/macros.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module macros", prev: framePtr, filename: "/home/markedone/build/Nim/lib/core/macros.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module macros", prev: framePtr, filename: "/home/markedone/build/Nim/lib/core/macros.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module macros", prev: framePtr, filename: "/home/markedone/build/Nim/lib/core/macros.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module macros", prev: framePtr, filename: "/home/markedone/build/Nim/lib/core/macros.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module macros", prev: framePtr, filename: "/home/markedone/build/Nim/lib/core/macros.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module macros", prev: framePtr, filename: "/home/markedone/build/Nim/lib/core/macros.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module macros", prev: framePtr, filename: "/home/markedone/build/Nim/lib/core/macros.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module macros", prev: framePtr, filename: "/home/markedone/build/Nim/lib/core/macros.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module macros", prev: framePtr, filename: "/home/markedone/build/Nim/lib/core/macros.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module macros", prev: framePtr, filename: "/home/markedone/build/Nim/lib/core/macros.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module macros", prev: framePtr, filename: "/home/markedone/build/Nim/lib/core/macros.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module macros", prev: framePtr, filename: "/home/markedone/build/Nim/lib/core/macros.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module macros", prev: framePtr, filename: "/home/markedone/build/Nim/lib/core/macros.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module macros", prev: framePtr, filename: "/home/markedone/build/Nim/lib/core/macros.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module macros", prev: framePtr, filename: "/home/markedone/build/Nim/lib/core/macros.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module macros", prev: framePtr, filename: "/home/markedone/build/Nim/lib/core/macros.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module macros", prev: framePtr, filename: "/home/markedone/build/Nim/lib/core/macros.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module macros", prev: framePtr, filename: "/home/markedone/build/Nim/lib/core/macros.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module macros", prev: framePtr, filename: "/home/markedone/build/Nim/lib/core/macros.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module macros", prev: framePtr, filename: "/home/markedone/build/Nim/lib/core/macros.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module macros", prev: framePtr, filename: "/home/markedone/build/Nim/lib/core/macros.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module macros", prev: framePtr, filename: "/home/markedone/build/Nim/lib/core/macros.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module macros", prev: framePtr, filename: "/home/markedone/build/Nim/lib/core/macros.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module macros", prev: framePtr, filename: "/home/markedone/build/Nim/lib/core/macros.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module macros", prev: framePtr, filename: "/home/markedone/build/Nim/lib/core/macros.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module macros", prev: framePtr, filename: "/home/markedone/build/Nim/lib/core/macros.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module macros", prev: framePtr, filename: "/home/markedone/build/Nim/lib/core/macros.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module macros", prev: framePtr, filename: "/home/markedone/build/Nim/lib/core/macros.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module macros", prev: framePtr, filename: "/home/markedone/build/Nim/lib/core/macros.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module macros", prev: framePtr, filename: "/home/markedone/build/Nim/lib/core/macros.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module macros", prev: framePtr, filename: "/home/markedone/build/Nim/lib/core/macros.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module macros", prev: framePtr, filename: "/home/markedone/build/Nim/lib/core/macros.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module macros", prev: framePtr, filename: "/home/markedone/build/Nim/lib/core/macros.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module macros", prev: framePtr, filename: "/home/markedone/build/Nim/lib/core/macros.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module macros", prev: framePtr, filename: "/home/markedone/build/Nim/lib/core/macros.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module macros", prev: framePtr, filename: "/home/markedone/build/Nim/lib/core/macros.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module macros", prev: framePtr, filename: "/home/markedone/build/Nim/lib/core/macros.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module macros", prev: framePtr, filename: "/home/markedone/build/Nim/lib/core/macros.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module macros", prev: framePtr, filename: "/home/markedone/build/Nim/lib/core/macros.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module macros", prev: framePtr, filename: "/home/markedone/build/Nim/lib/core/macros.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module macros", prev: framePtr, filename: "/home/markedone/build/Nim/lib/core/macros.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module macros", prev: framePtr, filename: "/home/markedone/build/Nim/lib/core/macros.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module macros", prev: framePtr, filename: "/home/markedone/build/Nim/lib/core/macros.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module macros", prev: framePtr, filename: "/home/markedone/build/Nim/lib/core/macros.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module macros", prev: framePtr, filename: "/home/markedone/build/Nim/lib/core/macros.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module macros", prev: framePtr, filename: "/home/markedone/build/Nim/lib/core/macros.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module macros", prev: framePtr, filename: "/home/markedone/build/Nim/lib/core/macros.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module macros", prev: framePtr, filename: "/home/markedone/build/Nim/lib/core/macros.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module macros", prev: framePtr, filename: "/home/markedone/build/Nim/lib/core/macros.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module macros", prev: framePtr, filename: "/home/markedone/build/Nim/lib/core/macros.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module macros", prev: framePtr, filename: "/home/markedone/build/Nim/lib/core/macros.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module macros", prev: framePtr, filename: "/home/markedone/build/Nim/lib/core/macros.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module macros", prev: framePtr, filename: "/home/markedone/build/Nim/lib/core/macros.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module macros", prev: framePtr, filename: "/home/markedone/build/Nim/lib/core/macros.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module macros", prev: framePtr, filename: "/home/markedone/build/Nim/lib/core/macros.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module macros", prev: framePtr, filename: "/home/markedone/build/Nim/lib/core/macros.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module macros", prev: framePtr, filename: "/home/markedone/build/Nim/lib/core/macros.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module macros", prev: framePtr, filename: "/home/markedone/build/Nim/lib/core/macros.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module macros", prev: framePtr, filename: "/home/markedone/build/Nim/lib/core/macros.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module macros", prev: framePtr, filename: "/home/markedone/build/Nim/lib/core/macros.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module macros", prev: framePtr, filename: "/home/markedone/build/Nim/lib/core/macros.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module macros", prev: framePtr, filename: "/home/markedone/build/Nim/lib/core/macros.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module macros", prev: framePtr, filename: "/home/markedone/build/Nim/lib/core/macros.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module macros", prev: framePtr, filename: "/home/markedone/build/Nim/lib/core/macros.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module macros", prev: framePtr, filename: "/home/markedone/build/Nim/lib/core/macros.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module macros", prev: framePtr, filename: "/home/markedone/build/Nim/lib/core/macros.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module macros", prev: framePtr, filename: "/home/markedone/build/Nim/lib/core/macros.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module macros", prev: framePtr, filename: "/home/markedone/build/Nim/lib/core/macros.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module macros", prev: framePtr, filename: "/home/markedone/build/Nim/lib/core/macros.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module macros", prev: framePtr, filename: "/home/markedone/build/Nim/lib/core/macros.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module macros", prev: framePtr, filename: "/home/markedone/build/Nim/lib/core/macros.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module macros", prev: framePtr, filename: "/home/markedone/build/Nim/lib/core/macros.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module macros", prev: framePtr, filename: "/home/markedone/build/Nim/lib/core/macros.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module macros", prev: framePtr, filename: "/home/markedone/build/Nim/lib/core/macros.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module macros", prev: framePtr, filename: "/home/markedone/build/Nim/lib/core/macros.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module macros", prev: framePtr, filename: "/home/markedone/build/Nim/lib/core/macros.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module macros", prev: framePtr, filename: "/home/markedone/build/Nim/lib/core/macros.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module macros", prev: framePtr, filename: "/home/markedone/build/Nim/lib/core/macros.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module macros", prev: framePtr, filename: "/home/markedone/build/Nim/lib/core/macros.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module macros", prev: framePtr, filename: "/home/markedone/build/Nim/lib/core/macros.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module macros", prev: framePtr, filename: "/home/markedone/build/Nim/lib/core/macros.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module macros", prev: framePtr, filename: "/home/markedone/build/Nim/lib/core/macros.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module macros", prev: framePtr, filename: "/home/markedone/build/Nim/lib/core/macros.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module macros", prev: framePtr, filename: "/home/markedone/build/Nim/lib/core/macros.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module macros", prev: framePtr, filename: "/home/markedone/build/Nim/lib/core/macros.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module macros", prev: framePtr, filename: "/home/markedone/build/Nim/lib/core/macros.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module macros", prev: framePtr, filename: "/home/markedone/build/Nim/lib/core/macros.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module macros", prev: framePtr, filename: "/home/markedone/build/Nim/lib/core/macros.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module macros", prev: framePtr, filename: "/home/markedone/build/Nim/lib/core/macros.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module macros", prev: framePtr, filename: "/home/markedone/build/Nim/lib/core/macros.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module macros", prev: framePtr, filename: "/home/markedone/build/Nim/lib/core/macros.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module macros", prev: framePtr, filename: "/home/markedone/build/Nim/lib/core/macros.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module macros", prev: framePtr, filename: "/home/markedone/build/Nim/lib/core/macros.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module macros", prev: framePtr, filename: "/home/markedone/build/Nim/lib/core/macros.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module macros", prev: framePtr, filename: "/home/markedone/build/Nim/lib/core/macros.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module macros", prev: framePtr, filename: "/home/markedone/build/Nim/lib/core/macros.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module macros", prev: framePtr, filename: "/home/markedone/build/Nim/lib/core/macros.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module macros", prev: framePtr, filename: "/home/markedone/build/Nim/lib/core/macros.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module macros", prev: framePtr, filename: "/home/markedone/build/Nim/lib/core/macros.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module macros", prev: framePtr, filename: "/home/markedone/build/Nim/lib/core/macros.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module macros", prev: framePtr, filename: "/home/markedone/build/Nim/lib/core/macros.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module macros", prev: framePtr, filename: "/home/markedone/build/Nim/lib/core/macros.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module macros", prev: framePtr, filename: "/home/markedone/build/Nim/lib/core/macros.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module macros", prev: framePtr, filename: "/home/markedone/build/Nim/lib/core/macros.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module macros", prev: framePtr, filename: "/home/markedone/build/Nim/lib/core/macros.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module macros", prev: framePtr, filename: "/home/markedone/build/Nim/lib/core/macros.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module macros", prev: framePtr, filename: "/home/markedone/build/Nim/lib/core/macros.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module macros", prev: framePtr, filename: "/home/markedone/build/Nim/lib/core/macros.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module macros", prev: framePtr, filename: "/home/markedone/build/Nim/lib/core/macros.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module macros", prev: framePtr, filename: "/home/markedone/build/Nim/lib/core/macros.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module macros", prev: framePtr, filename: "/home/markedone/build/Nim/lib/core/macros.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module macros", prev: framePtr, filename: "/home/markedone/build/Nim/lib/core/macros.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module macros", prev: framePtr, filename: "/home/markedone/build/Nim/lib/core/macros.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module macros", prev: framePtr, filename: "/home/markedone/build/Nim/lib/core/macros.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module macros", prev: framePtr, filename: "/home/markedone/build/Nim/lib/core/macros.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module macros", prev: framePtr, filename: "/home/markedone/build/Nim/lib/core/macros.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module macros", prev: framePtr, filename: "/home/markedone/build/Nim/lib/core/macros.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module macros", prev: framePtr, filename: "/home/markedone/build/Nim/lib/core/macros.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module macros", prev: framePtr, filename: "/home/markedone/build/Nim/lib/core/macros.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module macros", prev: framePtr, filename: "/home/markedone/build/Nim/lib/core/macros.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module macros", prev: framePtr, filename: "/home/markedone/build/Nim/lib/core/macros.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module macros", prev: framePtr, filename: "/home/markedone/build/Nim/lib/core/macros.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module macros", prev: framePtr, filename: "/home/markedone/build/Nim/lib/core/macros.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module macros", prev: framePtr, filename: "/home/markedone/build/Nim/lib/core/macros.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module macros", prev: framePtr, filename: "/home/markedone/build/Nim/lib/core/macros.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module macros", prev: framePtr, filename: "/home/markedone/build/Nim/lib/core/macros.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module macros", prev: framePtr, filename: "/home/markedone/build/Nim/lib/core/macros.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module macros", prev: framePtr, filename: "/home/markedone/build/Nim/lib/core/macros.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module macros", prev: framePtr, filename: "/home/markedone/build/Nim/lib/core/macros.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module macros", prev: framePtr, filename: "/home/markedone/build/Nim/lib/core/macros.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module macros", prev: framePtr, filename: "/home/markedone/build/Nim/lib/core/macros.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module macros", prev: framePtr, filename: "/home/markedone/build/Nim/lib/core/macros.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module macros", prev: framePtr, filename: "/home/markedone/build/Nim/lib/core/macros.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module macros", prev: framePtr, filename: "/home/markedone/build/Nim/lib/core/macros.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module vstyles", prev: framePtr, filename: "/home/markedone/code/repos/karax/karax/vstyles.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module strutils", prev: framePtr, filename: "/home/markedone/build/Nim/lib/pure/strutils.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module parseutils", prev: framePtr, filename: "/home/markedone/build/Nim/lib/pure/parseutils.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module parseutils", prev: framePtr, filename: "/home/markedone/build/Nim/lib/pure/parseutils.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module parseutils", prev: framePtr, filename: "/home/markedone/build/Nim/lib/pure/parseutils.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module parseutils", prev: framePtr, filename: "/home/markedone/build/Nim/lib/pure/parseutils.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module parseutils", prev: framePtr, filename: "/home/markedone/build/Nim/lib/pure/parseutils.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module parseutils", prev: framePtr, filename: "/home/markedone/build/Nim/lib/pure/parseutils.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module parseutils", prev: framePtr, filename: "/home/markedone/build/Nim/lib/pure/parseutils.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module parseutils", prev: framePtr, filename: "/home/markedone/build/Nim/lib/pure/parseutils.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module parseutils", prev: framePtr, filename: "/home/markedone/build/Nim/lib/pure/parseutils.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module parseutils", prev: framePtr, filename: "/home/markedone/build/Nim/lib/pure/parseutils.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module parseutils", prev: framePtr, filename: "/home/markedone/build/Nim/lib/pure/parseutils.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module parseutils", prev: framePtr, filename: "/home/markedone/build/Nim/lib/pure/parseutils.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module parseutils", prev: framePtr, filename: "/home/markedone/build/Nim/lib/pure/parseutils.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module parseutils", prev: framePtr, filename: "/home/markedone/build/Nim/lib/pure/parseutils.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module parseutils", prev: framePtr, filename: "/home/markedone/build/Nim/lib/pure/parseutils.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module parseutils", prev: framePtr, filename: "/home/markedone/build/Nim/lib/pure/parseutils.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module parseutils", prev: framePtr, filename: "/home/markedone/build/Nim/lib/pure/parseutils.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module parseutils", prev: framePtr, filename: "/home/markedone/build/Nim/lib/pure/parseutils.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module parseutils", prev: framePtr, filename: "/home/markedone/build/Nim/lib/pure/parseutils.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module parseutils", prev: framePtr, filename: "/home/markedone/build/Nim/lib/pure/parseutils.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module parseutils", prev: framePtr, filename: "/home/markedone/build/Nim/lib/pure/parseutils.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module parseutils", prev: framePtr, filename: "/home/markedone/build/Nim/lib/pure/parseutils.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module parseutils", prev: framePtr, filename: "/home/markedone/build/Nim/lib/pure/parseutils.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module parseutils", prev: framePtr, filename: "/home/markedone/build/Nim/lib/pure/parseutils.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module parseutils", prev: framePtr, filename: "/home/markedone/build/Nim/lib/pure/parseutils.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module parseutils", prev: framePtr, filename: "/home/markedone/build/Nim/lib/pure/parseutils.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module parseutils", prev: framePtr, filename: "/home/markedone/build/Nim/lib/pure/parseutils.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module parseutils", prev: framePtr, filename: "/home/markedone/build/Nim/lib/pure/parseutils.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module parseutils", prev: framePtr, filename: "/home/markedone/build/Nim/lib/pure/parseutils.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module parseutils", prev: framePtr, filename: "/home/markedone/build/Nim/lib/pure/parseutils.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module parseutils", prev: framePtr, filename: "/home/markedone/build/Nim/lib/pure/parseutils.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module parseutils", prev: framePtr, filename: "/home/markedone/build/Nim/lib/pure/parseutils.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module parseutils", prev: framePtr, filename: "/home/markedone/build/Nim/lib/pure/parseutils.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module parseutils", prev: framePtr, filename: "/home/markedone/build/Nim/lib/pure/parseutils.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module parseutils", prev: framePtr, filename: "/home/markedone/build/Nim/lib/pure/parseutils.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module parseutils", prev: framePtr, filename: "/home/markedone/build/Nim/lib/pure/parseutils.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module parseutils", prev: framePtr, filename: "/home/markedone/build/Nim/lib/pure/parseutils.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module parseutils", prev: framePtr, filename: "/home/markedone/build/Nim/lib/pure/parseutils.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module strutils", prev: framePtr, filename: "/home/markedone/build/Nim/lib/pure/strutils.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module math", prev: framePtr, filename: "/home/markedone/build/Nim/lib/pure/math.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module math", prev: framePtr, filename: "/home/markedone/build/Nim/lib/pure/math.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module math", prev: framePtr, filename: "/home/markedone/build/Nim/lib/pure/math.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module bitops", prev: framePtr, filename: "/home/markedone/build/Nim/lib/pure/bitops.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module bitops", prev: framePtr, filename: "/home/markedone/build/Nim/lib/pure/bitops.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module bitops", prev: framePtr, filename: "/home/markedone/build/Nim/lib/pure/bitops.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module vmutils", prev: framePtr, filename: "/home/markedone/build/Nim/lib/std/private/vmutils.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module vmutils", prev: framePtr, filename: "/home/markedone/build/Nim/lib/std/private/vmutils.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module vmutils", prev: framePtr, filename: "/home/markedone/build/Nim/lib/std/private/vmutils.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module vmutils", prev: framePtr, filename: "/home/markedone/build/Nim/lib/std/private/vmutils.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module vmutils", prev: framePtr, filename: "/home/markedone/build/Nim/lib/std/private/vmutils.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module vmutils", prev: framePtr, filename: "/home/markedone/build/Nim/lib/std/private/vmutils.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module vmutils", prev: framePtr, filename: "/home/markedone/build/Nim/lib/std/private/vmutils.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module bitops", prev: framePtr, filename: "/home/markedone/build/Nim/lib/pure/bitops.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module bitops", prev: framePtr, filename: "/home/markedone/build/Nim/lib/pure/bitops.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module bitops", prev: framePtr, filename: "/home/markedone/build/Nim/lib/pure/bitops.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module bitops", prev: framePtr, filename: "/home/markedone/build/Nim/lib/pure/bitops.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module bitops", prev: framePtr, filename: "/home/markedone/build/Nim/lib/pure/bitops.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module bitops", prev: framePtr, filename: "/home/markedone/build/Nim/lib/pure/bitops.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module bitops", prev: framePtr, filename: "/home/markedone/build/Nim/lib/pure/bitops.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module bitops", prev: framePtr, filename: "/home/markedone/build/Nim/lib/pure/bitops.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module bitops", prev: framePtr, filename: "/home/markedone/build/Nim/lib/pure/bitops.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module bitops", prev: framePtr, filename: "/home/markedone/build/Nim/lib/pure/bitops.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module bitops", prev: framePtr, filename: "/home/markedone/build/Nim/lib/pure/bitops.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module bitops", prev: framePtr, filename: "/home/markedone/build/Nim/lib/pure/bitops.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module bitops", prev: framePtr, filename: "/home/markedone/build/Nim/lib/pure/bitops.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module bitops", prev: framePtr, filename: "/home/markedone/build/Nim/lib/pure/bitops.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module bitops", prev: framePtr, filename: "/home/markedone/build/Nim/lib/pure/bitops.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module bitops", prev: framePtr, filename: "/home/markedone/build/Nim/lib/pure/bitops.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module bitops", prev: framePtr, filename: "/home/markedone/build/Nim/lib/pure/bitops.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module bitops", prev: framePtr, filename: "/home/markedone/build/Nim/lib/pure/bitops.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module bitops", prev: framePtr, filename: "/home/markedone/build/Nim/lib/pure/bitops.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module bitops", prev: framePtr, filename: "/home/markedone/build/Nim/lib/pure/bitops.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module bitops", prev: framePtr, filename: "/home/markedone/build/Nim/lib/pure/bitops.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module bitops", prev: framePtr, filename: "/home/markedone/build/Nim/lib/pure/bitops.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module bitops", prev: framePtr, filename: "/home/markedone/build/Nim/lib/pure/bitops.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module bitops", prev: framePtr, filename: "/home/markedone/build/Nim/lib/pure/bitops.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module bitops", prev: framePtr, filename: "/home/markedone/build/Nim/lib/pure/bitops.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module bitops", prev: framePtr, filename: "/home/markedone/build/Nim/lib/pure/bitops.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module bitops", prev: framePtr, filename: "/home/markedone/build/Nim/lib/pure/bitops.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module bitops", prev: framePtr, filename: "/home/markedone/build/Nim/lib/pure/bitops.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module bitops", prev: framePtr, filename: "/home/markedone/build/Nim/lib/pure/bitops.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module bitops", prev: framePtr, filename: "/home/markedone/build/Nim/lib/pure/bitops.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module bitops", prev: framePtr, filename: "/home/markedone/build/Nim/lib/pure/bitops.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module bitops", prev: framePtr, filename: "/home/markedone/build/Nim/lib/pure/bitops.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module bitops", prev: framePtr, filename: "/home/markedone/build/Nim/lib/pure/bitops.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module bitops", prev: framePtr, filename: "/home/markedone/build/Nim/lib/pure/bitops.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module bitops", prev: framePtr, filename: "/home/markedone/build/Nim/lib/pure/bitops.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module bitops", prev: framePtr, filename: "/home/markedone/build/Nim/lib/pure/bitops.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module bitops", prev: framePtr, filename: "/home/markedone/build/Nim/lib/pure/bitops.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module bitops", prev: framePtr, filename: "/home/markedone/build/Nim/lib/pure/bitops.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module bitops", prev: framePtr, filename: "/home/markedone/build/Nim/lib/pure/bitops.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module countbits_impl", prev: framePtr, filename: "/home/markedone/build/Nim/lib/system/countbits_impl.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module countbits_impl", prev: framePtr, filename: "/home/markedone/build/Nim/lib/system/countbits_impl.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module countbits_impl", prev: framePtr, filename: "/home/markedone/build/Nim/lib/system/countbits_impl.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module countbits_impl", prev: framePtr, filename: "/home/markedone/build/Nim/lib/system/countbits_impl.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module countbits_impl", prev: framePtr, filename: "/home/markedone/build/Nim/lib/system/countbits_impl.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module countbits_impl", prev: framePtr, filename: "/home/markedone/build/Nim/lib/system/countbits_impl.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module countbits_impl", prev: framePtr, filename: "/home/markedone/build/Nim/lib/system/countbits_impl.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module countbits_impl", prev: framePtr, filename: "/home/markedone/build/Nim/lib/system/countbits_impl.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module countbits_impl", prev: framePtr, filename: "/home/markedone/build/Nim/lib/system/countbits_impl.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module countbits_impl", prev: framePtr, filename: "/home/markedone/build/Nim/lib/system/countbits_impl.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module bitops", prev: framePtr, filename: "/home/markedone/build/Nim/lib/pure/bitops.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module bitops", prev: framePtr, filename: "/home/markedone/build/Nim/lib/pure/bitops.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module bitops", prev: framePtr, filename: "/home/markedone/build/Nim/lib/pure/bitops.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module bitops", prev: framePtr, filename: "/home/markedone/build/Nim/lib/pure/bitops.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module bitops", prev: framePtr, filename: "/home/markedone/build/Nim/lib/pure/bitops.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module bitops", prev: framePtr, filename: "/home/markedone/build/Nim/lib/pure/bitops.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module bitops", prev: framePtr, filename: "/home/markedone/build/Nim/lib/pure/bitops.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module bitops", prev: framePtr, filename: "/home/markedone/build/Nim/lib/pure/bitops.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module bitops", prev: framePtr, filename: "/home/markedone/build/Nim/lib/pure/bitops.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module bitops", prev: framePtr, filename: "/home/markedone/build/Nim/lib/pure/bitops.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module bitops", prev: framePtr, filename: "/home/markedone/build/Nim/lib/pure/bitops.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module bitops", prev: framePtr, filename: "/home/markedone/build/Nim/lib/pure/bitops.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module bitops", prev: framePtr, filename: "/home/markedone/build/Nim/lib/pure/bitops.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module bitops", prev: framePtr, filename: "/home/markedone/build/Nim/lib/pure/bitops.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module bitops", prev: framePtr, filename: "/home/markedone/build/Nim/lib/pure/bitops.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module bitops", prev: framePtr, filename: "/home/markedone/build/Nim/lib/pure/bitops.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module bitops", prev: framePtr, filename: "/home/markedone/build/Nim/lib/pure/bitops.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module bitops", prev: framePtr, filename: "/home/markedone/build/Nim/lib/pure/bitops.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module bitops", prev: framePtr, filename: "/home/markedone/build/Nim/lib/pure/bitops.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module bitops", prev: framePtr, filename: "/home/markedone/build/Nim/lib/pure/bitops.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module fenv", prev: framePtr, filename: "/home/markedone/build/Nim/lib/pure/fenv.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module fenv", prev: framePtr, filename: "/home/markedone/build/Nim/lib/pure/fenv.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module fenv", prev: framePtr, filename: "/home/markedone/build/Nim/lib/pure/fenv.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module fenv", prev: framePtr, filename: "/home/markedone/build/Nim/lib/pure/fenv.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module fenv", prev: framePtr, filename: "/home/markedone/build/Nim/lib/pure/fenv.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module fenv", prev: framePtr, filename: "/home/markedone/build/Nim/lib/pure/fenv.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module fenv", prev: framePtr, filename: "/home/markedone/build/Nim/lib/pure/fenv.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module fenv", prev: framePtr, filename: "/home/markedone/build/Nim/lib/pure/fenv.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module fenv", prev: framePtr, filename: "/home/markedone/build/Nim/lib/pure/fenv.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module fenv", prev: framePtr, filename: "/home/markedone/build/Nim/lib/pure/fenv.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module fenv", prev: framePtr, filename: "/home/markedone/build/Nim/lib/pure/fenv.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module fenv", prev: framePtr, filename: "/home/markedone/build/Nim/lib/pure/fenv.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module fenv", prev: framePtr, filename: "/home/markedone/build/Nim/lib/pure/fenv.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module fenv", prev: framePtr, filename: "/home/markedone/build/Nim/lib/pure/fenv.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module fenv", prev: framePtr, filename: "/home/markedone/build/Nim/lib/pure/fenv.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module fenv", prev: framePtr, filename: "/home/markedone/build/Nim/lib/pure/fenv.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module fenv", prev: framePtr, filename: "/home/markedone/build/Nim/lib/pure/fenv.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module fenv", prev: framePtr, filename: "/home/markedone/build/Nim/lib/pure/fenv.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module fenv", prev: framePtr, filename: "/home/markedone/build/Nim/lib/pure/fenv.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module fenv", prev: framePtr, filename: "/home/markedone/build/Nim/lib/pure/fenv.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module fenv", prev: framePtr, filename: "/home/markedone/build/Nim/lib/pure/fenv.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module fenv", prev: framePtr, filename: "/home/markedone/build/Nim/lib/pure/fenv.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module fenv", prev: framePtr, filename: "/home/markedone/build/Nim/lib/pure/fenv.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module fenv", prev: framePtr, filename: "/home/markedone/build/Nim/lib/pure/fenv.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module fenv", prev: framePtr, filename: "/home/markedone/build/Nim/lib/pure/fenv.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module fenv", prev: framePtr, filename: "/home/markedone/build/Nim/lib/pure/fenv.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module fenv", prev: framePtr, filename: "/home/markedone/build/Nim/lib/pure/fenv.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module fenv", prev: framePtr, filename: "/home/markedone/build/Nim/lib/pure/fenv.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module fenv", prev: framePtr, filename: "/home/markedone/build/Nim/lib/pure/fenv.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module fenv", prev: framePtr, filename: "/home/markedone/build/Nim/lib/pure/fenv.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module fenv", prev: framePtr, filename: "/home/markedone/build/Nim/lib/pure/fenv.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module fenv", prev: framePtr, filename: "/home/markedone/build/Nim/lib/pure/fenv.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module fenv", prev: framePtr, filename: "/home/markedone/build/Nim/lib/pure/fenv.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module math", prev: framePtr, filename: "/home/markedone/build/Nim/lib/pure/math.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module math", prev: framePtr, filename: "/home/markedone/build/Nim/lib/pure/math.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module math", prev: framePtr, filename: "/home/markedone/build/Nim/lib/pure/math.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module math", prev: framePtr, filename: "/home/markedone/build/Nim/lib/pure/math.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module math", prev: framePtr, filename: "/home/markedone/build/Nim/lib/pure/math.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module math", prev: framePtr, filename: "/home/markedone/build/Nim/lib/pure/math.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module math", prev: framePtr, filename: "/home/markedone/build/Nim/lib/pure/math.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module math", prev: framePtr, filename: "/home/markedone/build/Nim/lib/pure/math.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module math", prev: framePtr, filename: "/home/markedone/build/Nim/lib/pure/math.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module math", prev: framePtr, filename: "/home/markedone/build/Nim/lib/pure/math.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module math", prev: framePtr, filename: "/home/markedone/build/Nim/lib/pure/math.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module math", prev: framePtr, filename: "/home/markedone/build/Nim/lib/pure/math.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module math", prev: framePtr, filename: "/home/markedone/build/Nim/lib/pure/math.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module math", prev: framePtr, filename: "/home/markedone/build/Nim/lib/pure/math.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module math", prev: framePtr, filename: "/home/markedone/build/Nim/lib/pure/math.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module strutils", prev: framePtr, filename: "/home/markedone/build/Nim/lib/pure/strutils.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module algorithm", prev: framePtr, filename: "/home/markedone/build/Nim/lib/pure/algorithm.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module algorithm", prev: framePtr, filename: "/home/markedone/build/Nim/lib/pure/algorithm.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module algorithm", prev: framePtr, filename: "/home/markedone/build/Nim/lib/pure/algorithm.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module algorithm", prev: framePtr, filename: "/home/markedone/build/Nim/lib/pure/algorithm.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module algorithm", prev: framePtr, filename: "/home/markedone/build/Nim/lib/pure/algorithm.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module algorithm", prev: framePtr, filename: "/home/markedone/build/Nim/lib/pure/algorithm.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module algorithm", prev: framePtr, filename: "/home/markedone/build/Nim/lib/pure/algorithm.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module algorithm", prev: framePtr, filename: "/home/markedone/build/Nim/lib/pure/algorithm.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module algorithm", prev: framePtr, filename: "/home/markedone/build/Nim/lib/pure/algorithm.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module algorithm", prev: framePtr, filename: "/home/markedone/build/Nim/lib/pure/algorithm.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module algorithm", prev: framePtr, filename: "/home/markedone/build/Nim/lib/pure/algorithm.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module algorithm", prev: framePtr, filename: "/home/markedone/build/Nim/lib/pure/algorithm.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module algorithm", prev: framePtr, filename: "/home/markedone/build/Nim/lib/pure/algorithm.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module algorithm", prev: framePtr, filename: "/home/markedone/build/Nim/lib/pure/algorithm.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module algorithm", prev: framePtr, filename: "/home/markedone/build/Nim/lib/pure/algorithm.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module algorithm", prev: framePtr, filename: "/home/markedone/build/Nim/lib/pure/algorithm.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module algorithm", prev: framePtr, filename: "/home/markedone/build/Nim/lib/pure/algorithm.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module algorithm", prev: framePtr, filename: "/home/markedone/build/Nim/lib/pure/algorithm.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module algorithm", prev: framePtr, filename: "/home/markedone/build/Nim/lib/pure/algorithm.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module algorithm", prev: framePtr, filename: "/home/markedone/build/Nim/lib/pure/algorithm.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module algorithm", prev: framePtr, filename: "/home/markedone/build/Nim/lib/pure/algorithm.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module algorithm", prev: framePtr, filename: "/home/markedone/build/Nim/lib/pure/algorithm.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module algorithm", prev: framePtr, filename: "/home/markedone/build/Nim/lib/pure/algorithm.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module algorithm", prev: framePtr, filename: "/home/markedone/build/Nim/lib/pure/algorithm.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module algorithm", prev: framePtr, filename: "/home/markedone/build/Nim/lib/pure/algorithm.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module algorithm", prev: framePtr, filename: "/home/markedone/build/Nim/lib/pure/algorithm.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module algorithm", prev: framePtr, filename: "/home/markedone/build/Nim/lib/pure/algorithm.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module algorithm", prev: framePtr, filename: "/home/markedone/build/Nim/lib/pure/algorithm.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module algorithm", prev: framePtr, filename: "/home/markedone/build/Nim/lib/pure/algorithm.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module algorithm", prev: framePtr, filename: "/home/markedone/build/Nim/lib/pure/algorithm.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module algorithm", prev: framePtr, filename: "/home/markedone/build/Nim/lib/pure/algorithm.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module algorithm", prev: framePtr, filename: "/home/markedone/build/Nim/lib/pure/algorithm.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module algorithm", prev: framePtr, filename: "/home/markedone/build/Nim/lib/pure/algorithm.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module algorithm", prev: framePtr, filename: "/home/markedone/build/Nim/lib/pure/algorithm.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module algorithm", prev: framePtr, filename: "/home/markedone/build/Nim/lib/pure/algorithm.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module algorithm", prev: framePtr, filename: "/home/markedone/build/Nim/lib/pure/algorithm.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module algorithm", prev: framePtr, filename: "/home/markedone/build/Nim/lib/pure/algorithm.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module algorithm", prev: framePtr, filename: "/home/markedone/build/Nim/lib/pure/algorithm.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module algorithm", prev: framePtr, filename: "/home/markedone/build/Nim/lib/pure/algorithm.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module strutils", prev: framePtr, filename: "/home/markedone/build/Nim/lib/pure/strutils.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module enumutils", prev: framePtr, filename: "/home/markedone/build/Nim/lib/std/enumutils.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module typetraits", prev: framePtr, filename: "/home/markedone/build/Nim/lib/pure/typetraits.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module typetraits", prev: framePtr, filename: "/home/markedone/build/Nim/lib/pure/typetraits.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module typetraits", prev: framePtr, filename: "/home/markedone/build/Nim/lib/pure/typetraits.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module typetraits", prev: framePtr, filename: "/home/markedone/build/Nim/lib/pure/typetraits.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module typetraits", prev: framePtr, filename: "/home/markedone/build/Nim/lib/pure/typetraits.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module typetraits", prev: framePtr, filename: "/home/markedone/build/Nim/lib/pure/typetraits.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module typetraits", prev: framePtr, filename: "/home/markedone/build/Nim/lib/pure/typetraits.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module typetraits", prev: framePtr, filename: "/home/markedone/build/Nim/lib/pure/typetraits.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module typetraits", prev: framePtr, filename: "/home/markedone/build/Nim/lib/pure/typetraits.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module typetraits", prev: framePtr, filename: "/home/markedone/build/Nim/lib/pure/typetraits.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module typetraits", prev: framePtr, filename: "/home/markedone/build/Nim/lib/pure/typetraits.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module typetraits", prev: framePtr, filename: "/home/markedone/build/Nim/lib/pure/typetraits.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module typetraits", prev: framePtr, filename: "/home/markedone/build/Nim/lib/pure/typetraits.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module typetraits", prev: framePtr, filename: "/home/markedone/build/Nim/lib/pure/typetraits.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module typetraits", prev: framePtr, filename: "/home/markedone/build/Nim/lib/pure/typetraits.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module typetraits", prev: framePtr, filename: "/home/markedone/build/Nim/lib/pure/typetraits.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module typetraits", prev: framePtr, filename: "/home/markedone/build/Nim/lib/pure/typetraits.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module typetraits", prev: framePtr, filename: "/home/markedone/build/Nim/lib/pure/typetraits.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module typetraits", prev: framePtr, filename: "/home/markedone/build/Nim/lib/pure/typetraits.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module typetraits", prev: framePtr, filename: "/home/markedone/build/Nim/lib/pure/typetraits.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module enumutils", prev: framePtr, filename: "/home/markedone/build/Nim/lib/std/enumutils.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module enumutils", prev: framePtr, filename: "/home/markedone/build/Nim/lib/std/enumutils.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module enumutils", prev: framePtr, filename: "/home/markedone/build/Nim/lib/std/enumutils.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module enumutils", prev: framePtr, filename: "/home/markedone/build/Nim/lib/std/enumutils.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module enumutils", prev: framePtr, filename: "/home/markedone/build/Nim/lib/std/enumutils.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module enumutils", prev: framePtr, filename: "/home/markedone/build/Nim/lib/std/enumutils.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module enumutils", prev: framePtr, filename: "/home/markedone/build/Nim/lib/std/enumutils.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module enumutils", prev: framePtr, filename: "/home/markedone/build/Nim/lib/std/enumutils.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module enumutils", prev: framePtr, filename: "/home/markedone/build/Nim/lib/std/enumutils.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module enumutils", prev: framePtr, filename: "/home/markedone/build/Nim/lib/std/enumutils.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module enumutils", prev: framePtr, filename: "/home/markedone/build/Nim/lib/std/enumutils.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module enumutils", prev: framePtr, filename: "/home/markedone/build/Nim/lib/std/enumutils.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module strutils", prev: framePtr, filename: "/home/markedone/build/Nim/lib/pure/strutils.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module unicode", prev: framePtr, filename: "/home/markedone/build/Nim/lib/pure/unicode.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module unicode", prev: framePtr, filename: "/home/markedone/build/Nim/lib/pure/unicode.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module unicode", prev: framePtr, filename: "/home/markedone/build/Nim/lib/pure/unicode.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module unicode", prev: framePtr, filename: "/home/markedone/build/Nim/lib/pure/unicode.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module unicode", prev: framePtr, filename: "/home/markedone/build/Nim/lib/pure/unicode.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module unicode", prev: framePtr, filename: "/home/markedone/build/Nim/lib/pure/unicode.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module unicode", prev: framePtr, filename: "/home/markedone/build/Nim/lib/pure/unicode.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module unicode", prev: framePtr, filename: "/home/markedone/build/Nim/lib/pure/unicode.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module unicode", prev: framePtr, filename: "/home/markedone/build/Nim/lib/pure/unicode.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module unicode", prev: framePtr, filename: "/home/markedone/build/Nim/lib/pure/unicode.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module unicode", prev: framePtr, filename: "/home/markedone/build/Nim/lib/pure/unicode.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module unicode", prev: framePtr, filename: "/home/markedone/build/Nim/lib/pure/unicode.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module unicode", prev: framePtr, filename: "/home/markedone/build/Nim/lib/pure/unicode.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module unicode", prev: framePtr, filename: "/home/markedone/build/Nim/lib/pure/unicode.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module unicode", prev: framePtr, filename: "/home/markedone/build/Nim/lib/pure/unicode.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module unicode", prev: framePtr, filename: "/home/markedone/build/Nim/lib/pure/unicode.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module unicode", prev: framePtr, filename: "/home/markedone/build/Nim/lib/pure/unicode.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module unicode", prev: framePtr, filename: "/home/markedone/build/Nim/lib/pure/unicode.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module unicode", prev: framePtr, filename: "/home/markedone/build/Nim/lib/pure/unicode.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module unicode", prev: framePtr, filename: "/home/markedone/build/Nim/lib/pure/unicode.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module unicode", prev: framePtr, filename: "/home/markedone/build/Nim/lib/pure/unicode.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module unicode", prev: framePtr, filename: "/home/markedone/build/Nim/lib/pure/unicode.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module unicode", prev: framePtr, filename: "/home/markedone/build/Nim/lib/pure/unicode.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module unicode", prev: framePtr, filename: "/home/markedone/build/Nim/lib/pure/unicode.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module unicode", prev: framePtr, filename: "/home/markedone/build/Nim/lib/pure/unicode.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module unicode", prev: framePtr, filename: "/home/markedone/build/Nim/lib/pure/unicode.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module unicode", prev: framePtr, filename: "/home/markedone/build/Nim/lib/pure/unicode.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module unicode", prev: framePtr, filename: "/home/markedone/build/Nim/lib/pure/unicode.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module unicode", prev: framePtr, filename: "/home/markedone/build/Nim/lib/pure/unicode.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module unicode", prev: framePtr, filename: "/home/markedone/build/Nim/lib/pure/unicode.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module unicode", prev: framePtr, filename: "/home/markedone/build/Nim/lib/pure/unicode.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module unicode", prev: framePtr, filename: "/home/markedone/build/Nim/lib/pure/unicode.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module unicode", prev: framePtr, filename: "/home/markedone/build/Nim/lib/pure/unicode.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module unicode", prev: framePtr, filename: "/home/markedone/build/Nim/lib/pure/unicode.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module unicode", prev: framePtr, filename: "/home/markedone/build/Nim/lib/pure/unicode.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module unicode", prev: framePtr, filename: "/home/markedone/build/Nim/lib/pure/unicode.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module unicode", prev: framePtr, filename: "/home/markedone/build/Nim/lib/pure/unicode.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module unicode", prev: framePtr, filename: "/home/markedone/build/Nim/lib/pure/unicode.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module unicode", prev: framePtr, filename: "/home/markedone/build/Nim/lib/pure/unicode.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module unicode", prev: framePtr, filename: "/home/markedone/build/Nim/lib/pure/unicode.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module unicode", prev: framePtr, filename: "/home/markedone/build/Nim/lib/pure/unicode.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module unicode", prev: framePtr, filename: "/home/markedone/build/Nim/lib/pure/unicode.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module unicode", prev: framePtr, filename: "/home/markedone/build/Nim/lib/pure/unicode.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module unicode", prev: framePtr, filename: "/home/markedone/build/Nim/lib/pure/unicode.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module unicode", prev: framePtr, filename: "/home/markedone/build/Nim/lib/pure/unicode.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module unicode", prev: framePtr, filename: "/home/markedone/build/Nim/lib/pure/unicode.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module unicode", prev: framePtr, filename: "/home/markedone/build/Nim/lib/pure/unicode.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module unicode", prev: framePtr, filename: "/home/markedone/build/Nim/lib/pure/unicode.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module unicode", prev: framePtr, filename: "/home/markedone/build/Nim/lib/pure/unicode.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module unicode", prev: framePtr, filename: "/home/markedone/build/Nim/lib/pure/unicode.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module unicode", prev: framePtr, filename: "/home/markedone/build/Nim/lib/pure/unicode.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module unicode", prev: framePtr, filename: "/home/markedone/build/Nim/lib/pure/unicode.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module unicode", prev: framePtr, filename: "/home/markedone/build/Nim/lib/pure/unicode.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module unicode", prev: framePtr, filename: "/home/markedone/build/Nim/lib/pure/unicode.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module unicode", prev: framePtr, filename: "/home/markedone/build/Nim/lib/pure/unicode.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module unicode", prev: framePtr, filename: "/home/markedone/build/Nim/lib/pure/unicode.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module unicode", prev: framePtr, filename: "/home/markedone/build/Nim/lib/pure/unicode.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module unicode", prev: framePtr, filename: "/home/markedone/build/Nim/lib/pure/unicode.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module unicode", prev: framePtr, filename: "/home/markedone/build/Nim/lib/pure/unicode.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module unicode", prev: framePtr, filename: "/home/markedone/build/Nim/lib/pure/unicode.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module unicode", prev: framePtr, filename: "/home/markedone/build/Nim/lib/pure/unicode.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module unicode", prev: framePtr, filename: "/home/markedone/build/Nim/lib/pure/unicode.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module unicode", prev: framePtr, filename: "/home/markedone/build/Nim/lib/pure/unicode.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module unicode", prev: framePtr, filename: "/home/markedone/build/Nim/lib/pure/unicode.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module unicode", prev: framePtr, filename: "/home/markedone/build/Nim/lib/pure/unicode.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module strutils", prev: framePtr, filename: "/home/markedone/build/Nim/lib/pure/strutils.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module strutils", prev: framePtr, filename: "/home/markedone/build/Nim/lib/pure/strutils.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module strutils", prev: framePtr, filename: "/home/markedone/build/Nim/lib/pure/strutils.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module strutils", prev: framePtr, filename: "/home/markedone/build/Nim/lib/pure/strutils.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module strimpl", prev: framePtr, filename: "/home/markedone/build/Nim/lib/std/private/strimpl.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module strimpl", prev: framePtr, filename: "/home/markedone/build/Nim/lib/std/private/strimpl.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module strimpl", prev: framePtr, filename: "/home/markedone/build/Nim/lib/std/private/strimpl.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module strimpl", prev: framePtr, filename: "/home/markedone/build/Nim/lib/std/private/strimpl.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module strimpl", prev: framePtr, filename: "/home/markedone/build/Nim/lib/std/private/strimpl.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module strimpl", prev: framePtr, filename: "/home/markedone/build/Nim/lib/std/private/strimpl.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module strimpl", prev: framePtr, filename: "/home/markedone/build/Nim/lib/std/private/strimpl.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module strimpl", prev: framePtr, filename: "/home/markedone/build/Nim/lib/std/private/strimpl.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module strutils", prev: framePtr, filename: "/home/markedone/build/Nim/lib/pure/strutils.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module strutils", prev: framePtr, filename: "/home/markedone/build/Nim/lib/pure/strutils.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module strutils", prev: framePtr, filename: "/home/markedone/build/Nim/lib/pure/strutils.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module strutils", prev: framePtr, filename: "/home/markedone/build/Nim/lib/pure/strutils.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module strutils", prev: framePtr, filename: "/home/markedone/build/Nim/lib/pure/strutils.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module strutils", prev: framePtr, filename: "/home/markedone/build/Nim/lib/pure/strutils.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module strutils", prev: framePtr, filename: "/home/markedone/build/Nim/lib/pure/strutils.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module strutils", prev: framePtr, filename: "/home/markedone/build/Nim/lib/pure/strutils.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module strutils", prev: framePtr, filename: "/home/markedone/build/Nim/lib/pure/strutils.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module strutils", prev: framePtr, filename: "/home/markedone/build/Nim/lib/pure/strutils.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module strutils", prev: framePtr, filename: "/home/markedone/build/Nim/lib/pure/strutils.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module strutils", prev: framePtr, filename: "/home/markedone/build/Nim/lib/pure/strutils.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module strutils", prev: framePtr, filename: "/home/markedone/build/Nim/lib/pure/strutils.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module strutils", prev: framePtr, filename: "/home/markedone/build/Nim/lib/pure/strutils.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module strutils", prev: framePtr, filename: "/home/markedone/build/Nim/lib/pure/strutils.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module strutils", prev: framePtr, filename: "/home/markedone/build/Nim/lib/pure/strutils.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module strutils", prev: framePtr, filename: "/home/markedone/build/Nim/lib/pure/strutils.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module strutils", prev: framePtr, filename: "/home/markedone/build/Nim/lib/pure/strutils.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module strutils", prev: framePtr, filename: "/home/markedone/build/Nim/lib/pure/strutils.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module strutils", prev: framePtr, filename: "/home/markedone/build/Nim/lib/pure/strutils.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module strutils", prev: framePtr, filename: "/home/markedone/build/Nim/lib/pure/strutils.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module strutils", prev: framePtr, filename: "/home/markedone/build/Nim/lib/pure/strutils.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module strutils", prev: framePtr, filename: "/home/markedone/build/Nim/lib/pure/strutils.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module strutils", prev: framePtr, filename: "/home/markedone/build/Nim/lib/pure/strutils.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module strutils", prev: framePtr, filename: "/home/markedone/build/Nim/lib/pure/strutils.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module strutils", prev: framePtr, filename: "/home/markedone/build/Nim/lib/pure/strutils.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module strutils", prev: framePtr, filename: "/home/markedone/build/Nim/lib/pure/strutils.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module strutils", prev: framePtr, filename: "/home/markedone/build/Nim/lib/pure/strutils.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module strutils", prev: framePtr, filename: "/home/markedone/build/Nim/lib/pure/strutils.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module strutils", prev: framePtr, filename: "/home/markedone/build/Nim/lib/pure/strutils.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module strutils", prev: framePtr, filename: "/home/markedone/build/Nim/lib/pure/strutils.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module strutils", prev: framePtr, filename: "/home/markedone/build/Nim/lib/pure/strutils.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module strutils", prev: framePtr, filename: "/home/markedone/build/Nim/lib/pure/strutils.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module strutils", prev: framePtr, filename: "/home/markedone/build/Nim/lib/pure/strutils.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module strutils", prev: framePtr, filename: "/home/markedone/build/Nim/lib/pure/strutils.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module strutils", prev: framePtr, filename: "/home/markedone/build/Nim/lib/pure/strutils.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module strutils", prev: framePtr, filename: "/home/markedone/build/Nim/lib/pure/strutils.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module strutils", prev: framePtr, filename: "/home/markedone/build/Nim/lib/pure/strutils.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module strutils", prev: framePtr, filename: "/home/markedone/build/Nim/lib/pure/strutils.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module strutils", prev: framePtr, filename: "/home/markedone/build/Nim/lib/pure/strutils.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module strutils", prev: framePtr, filename: "/home/markedone/build/Nim/lib/pure/strutils.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module strutils", prev: framePtr, filename: "/home/markedone/build/Nim/lib/pure/strutils.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module strutils", prev: framePtr, filename: "/home/markedone/build/Nim/lib/pure/strutils.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module strutils", prev: framePtr, filename: "/home/markedone/build/Nim/lib/pure/strutils.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module strutils", prev: framePtr, filename: "/home/markedone/build/Nim/lib/pure/strutils.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module strutils", prev: framePtr, filename: "/home/markedone/build/Nim/lib/pure/strutils.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module strutils", prev: framePtr, filename: "/home/markedone/build/Nim/lib/pure/strutils.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module strutils", prev: framePtr, filename: "/home/markedone/build/Nim/lib/pure/strutils.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module strutils", prev: framePtr, filename: "/home/markedone/build/Nim/lib/pure/strutils.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module strutils", prev: framePtr, filename: "/home/markedone/build/Nim/lib/pure/strutils.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module strutils", prev: framePtr, filename: "/home/markedone/build/Nim/lib/pure/strutils.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module strutils", prev: framePtr, filename: "/home/markedone/build/Nim/lib/pure/strutils.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module strutils", prev: framePtr, filename: "/home/markedone/build/Nim/lib/pure/strutils.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module strutils", prev: framePtr, filename: "/home/markedone/build/Nim/lib/pure/strutils.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module strutils", prev: framePtr, filename: "/home/markedone/build/Nim/lib/pure/strutils.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module strutils", prev: framePtr, filename: "/home/markedone/build/Nim/lib/pure/strutils.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module strutils", prev: framePtr, filename: "/home/markedone/build/Nim/lib/pure/strutils.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module strutils", prev: framePtr, filename: "/home/markedone/build/Nim/lib/pure/strutils.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module strutils", prev: framePtr, filename: "/home/markedone/build/Nim/lib/pure/strutils.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module strutils", prev: framePtr, filename: "/home/markedone/build/Nim/lib/pure/strutils.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module strutils", prev: framePtr, filename: "/home/markedone/build/Nim/lib/pure/strutils.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module strutils", prev: framePtr, filename: "/home/markedone/build/Nim/lib/pure/strutils.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module strutils", prev: framePtr, filename: "/home/markedone/build/Nim/lib/pure/strutils.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module strutils", prev: framePtr, filename: "/home/markedone/build/Nim/lib/pure/strutils.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module strutils", prev: framePtr, filename: "/home/markedone/build/Nim/lib/pure/strutils.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module strutils", prev: framePtr, filename: "/home/markedone/build/Nim/lib/pure/strutils.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module strutils", prev: framePtr, filename: "/home/markedone/build/Nim/lib/pure/strutils.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module strutils", prev: framePtr, filename: "/home/markedone/build/Nim/lib/pure/strutils.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module strutils", prev: framePtr, filename: "/home/markedone/build/Nim/lib/pure/strutils.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module strutils", prev: framePtr, filename: "/home/markedone/build/Nim/lib/pure/strutils.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module strutils", prev: framePtr, filename: "/home/markedone/build/Nim/lib/pure/strutils.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module strutils", prev: framePtr, filename: "/home/markedone/build/Nim/lib/pure/strutils.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module strutils", prev: framePtr, filename: "/home/markedone/build/Nim/lib/pure/strutils.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module strutils", prev: framePtr, filename: "/home/markedone/build/Nim/lib/pure/strutils.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module strutils", prev: framePtr, filename: "/home/markedone/build/Nim/lib/pure/strutils.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module strutils", prev: framePtr, filename: "/home/markedone/build/Nim/lib/pure/strutils.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module strutils", prev: framePtr, filename: "/home/markedone/build/Nim/lib/pure/strutils.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module strutils", prev: framePtr, filename: "/home/markedone/build/Nim/lib/pure/strutils.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module strutils", prev: framePtr, filename: "/home/markedone/build/Nim/lib/pure/strutils.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module strutils", prev: framePtr, filename: "/home/markedone/build/Nim/lib/pure/strutils.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module strutils", prev: framePtr, filename: "/home/markedone/build/Nim/lib/pure/strutils.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module strutils", prev: framePtr, filename: "/home/markedone/build/Nim/lib/pure/strutils.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module strutils", prev: framePtr, filename: "/home/markedone/build/Nim/lib/pure/strutils.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module strutils", prev: framePtr, filename: "/home/markedone/build/Nim/lib/pure/strutils.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module strutils", prev: framePtr, filename: "/home/markedone/build/Nim/lib/pure/strutils.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module strutils", prev: framePtr, filename: "/home/markedone/build/Nim/lib/pure/strutils.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module strutils", prev: framePtr, filename: "/home/markedone/build/Nim/lib/pure/strutils.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module strutils", prev: framePtr, filename: "/home/markedone/build/Nim/lib/pure/strutils.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module strutils", prev: framePtr, filename: "/home/markedone/build/Nim/lib/pure/strutils.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module strutils", prev: framePtr, filename: "/home/markedone/build/Nim/lib/pure/strutils.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module strutils", prev: framePtr, filename: "/home/markedone/build/Nim/lib/pure/strutils.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module strutils", prev: framePtr, filename: "/home/markedone/build/Nim/lib/pure/strutils.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module strutils", prev: framePtr, filename: "/home/markedone/build/Nim/lib/pure/strutils.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module strutils", prev: framePtr, filename: "/home/markedone/build/Nim/lib/pure/strutils.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module strutils", prev: framePtr, filename: "/home/markedone/build/Nim/lib/pure/strutils.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module strutils", prev: framePtr, filename: "/home/markedone/build/Nim/lib/pure/strutils.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module strutils", prev: framePtr, filename: "/home/markedone/build/Nim/lib/pure/strutils.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module strutils", prev: framePtr, filename: "/home/markedone/build/Nim/lib/pure/strutils.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module strutils", prev: framePtr, filename: "/home/markedone/build/Nim/lib/pure/strutils.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module strutils", prev: framePtr, filename: "/home/markedone/build/Nim/lib/pure/strutils.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module strutils", prev: framePtr, filename: "/home/markedone/build/Nim/lib/pure/strutils.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module strutils", prev: framePtr, filename: "/home/markedone/build/Nim/lib/pure/strutils.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module strutils", prev: framePtr, filename: "/home/markedone/build/Nim/lib/pure/strutils.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module strutils", prev: framePtr, filename: "/home/markedone/build/Nim/lib/pure/strutils.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module strutils", prev: framePtr, filename: "/home/markedone/build/Nim/lib/pure/strutils.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module strutils", prev: framePtr, filename: "/home/markedone/build/Nim/lib/pure/strutils.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module strutils", prev: framePtr, filename: "/home/markedone/build/Nim/lib/pure/strutils.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module strutils", prev: framePtr, filename: "/home/markedone/build/Nim/lib/pure/strutils.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module strutils", prev: framePtr, filename: "/home/markedone/build/Nim/lib/pure/strutils.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module strutils", prev: framePtr, filename: "/home/markedone/build/Nim/lib/pure/strutils.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module strutils", prev: framePtr, filename: "/home/markedone/build/Nim/lib/pure/strutils.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module strutils", prev: framePtr, filename: "/home/markedone/build/Nim/lib/pure/strutils.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module strutils", prev: framePtr, filename: "/home/markedone/build/Nim/lib/pure/strutils.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module strutils", prev: framePtr, filename: "/home/markedone/build/Nim/lib/pure/strutils.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module strutils", prev: framePtr, filename: "/home/markedone/build/Nim/lib/pure/strutils.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module strutils", prev: framePtr, filename: "/home/markedone/build/Nim/lib/pure/strutils.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module strutils", prev: framePtr, filename: "/home/markedone/build/Nim/lib/pure/strutils.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module strutils", prev: framePtr, filename: "/home/markedone/build/Nim/lib/pure/strutils.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module strutils", prev: framePtr, filename: "/home/markedone/build/Nim/lib/pure/strutils.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module strutils", prev: framePtr, filename: "/home/markedone/build/Nim/lib/pure/strutils.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module strutils", prev: framePtr, filename: "/home/markedone/build/Nim/lib/pure/strutils.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module strutils", prev: framePtr, filename: "/home/markedone/build/Nim/lib/pure/strutils.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module strutils", prev: framePtr, filename: "/home/markedone/build/Nim/lib/pure/strutils.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module strutils", prev: framePtr, filename: "/home/markedone/build/Nim/lib/pure/strutils.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module strutils", prev: framePtr, filename: "/home/markedone/build/Nim/lib/pure/strutils.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module strutils", prev: framePtr, filename: "/home/markedone/build/Nim/lib/pure/strutils.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module strutils", prev: framePtr, filename: "/home/markedone/build/Nim/lib/pure/strutils.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module strutils", prev: framePtr, filename: "/home/markedone/build/Nim/lib/pure/strutils.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module strutils", prev: framePtr, filename: "/home/markedone/build/Nim/lib/pure/strutils.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module strutils", prev: framePtr, filename: "/home/markedone/build/Nim/lib/pure/strutils.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module strutils", prev: framePtr, filename: "/home/markedone/build/Nim/lib/pure/strutils.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module strutils", prev: framePtr, filename: "/home/markedone/build/Nim/lib/pure/strutils.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module strutils", prev: framePtr, filename: "/home/markedone/build/Nim/lib/pure/strutils.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module strutils", prev: framePtr, filename: "/home/markedone/build/Nim/lib/pure/strutils.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module strutils", prev: framePtr, filename: "/home/markedone/build/Nim/lib/pure/strutils.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module strutils", prev: framePtr, filename: "/home/markedone/build/Nim/lib/pure/strutils.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module strutils", prev: framePtr, filename: "/home/markedone/build/Nim/lib/pure/strutils.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module strutils", prev: framePtr, filename: "/home/markedone/build/Nim/lib/pure/strutils.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module vstyles", prev: framePtr, filename: "/home/markedone/code/repos/karax/karax/vstyles.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module vstyles", prev: framePtr, filename: "/home/markedone/code/repos/karax/karax/vstyles.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module jdict", prev: framePtr, filename: "/home/markedone/code/repos/karax/karax/jdict.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module jdict", prev: framePtr, filename: "/home/markedone/code/repos/karax/karax/jdict.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module jdict", prev: framePtr, filename: "/home/markedone/code/repos/karax/karax/jdict.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module jdict", prev: framePtr, filename: "/home/markedone/code/repos/karax/karax/jdict.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module jdict", prev: framePtr, filename: "/home/markedone/code/repos/karax/karax/jdict.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module jdict", prev: framePtr, filename: "/home/markedone/code/repos/karax/karax/jdict.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module jdict", prev: framePtr, filename: "/home/markedone/code/repos/karax/karax/jdict.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module jdict", prev: framePtr, filename: "/home/markedone/code/repos/karax/karax/jdict.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module jdict", prev: framePtr, filename: "/home/markedone/code/repos/karax/karax/jdict.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module jdict", prev: framePtr, filename: "/home/markedone/code/repos/karax/karax/jdict.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module jdict", prev: framePtr, filename: "/home/markedone/code/repos/karax/karax/jdict.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module jdict", prev: framePtr, filename: "/home/markedone/code/repos/karax/karax/jdict.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module jdict", prev: framePtr, filename: "/home/markedone/code/repos/karax/karax/jdict.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module jdict", prev: framePtr, filename: "/home/markedone/code/repos/karax/karax/jdict.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module jdict", prev: framePtr, filename: "/home/markedone/code/repos/karax/karax/jdict.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module vstyles", prev: framePtr, filename: "/home/markedone/code/repos/karax/karax/vstyles.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module vstyles", prev: framePtr, filename: "/home/markedone/code/repos/karax/karax/vstyles.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module vstyles", prev: framePtr, filename: "/home/markedone/code/repos/karax/karax/vstyles.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module vstyles", prev: framePtr, filename: "/home/markedone/code/repos/karax/karax/vstyles.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module vstyles", prev: framePtr, filename: "/home/markedone/code/repos/karax/karax/vstyles.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module vstyles", prev: framePtr, filename: "/home/markedone/code/repos/karax/karax/vstyles.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module vstyles", prev: framePtr, filename: "/home/markedone/code/repos/karax/karax/vstyles.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module vstyles", prev: framePtr, filename: "/home/markedone/code/repos/karax/karax/vstyles.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module vstyles", prev: framePtr, filename: "/home/markedone/code/repos/karax/karax/vstyles.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module vstyles", prev: framePtr, filename: "/home/markedone/code/repos/karax/karax/vstyles.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module vstyles", prev: framePtr, filename: "/home/markedone/code/repos/karax/karax/vstyles.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module vstyles", prev: framePtr, filename: "/home/markedone/code/repos/karax/karax/vstyles.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module vstyles", prev: framePtr, filename: "/home/markedone/code/repos/karax/karax/vstyles.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module jstrutils", prev: framePtr, filename: "/home/markedone/code/repos/karax/karax/jstrutils.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module jstrutils", prev: framePtr, filename: "/home/markedone/code/repos/karax/karax/jstrutils.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module jstrutils", prev: framePtr, filename: "/home/markedone/code/repos/karax/karax/jstrutils.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module jstrutils", prev: framePtr, filename: "/home/markedone/code/repos/karax/karax/jstrutils.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module jstrutils", prev: framePtr, filename: "/home/markedone/code/repos/karax/karax/jstrutils.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module jstrutils", prev: framePtr, filename: "/home/markedone/code/repos/karax/karax/jstrutils.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module jstrutils", prev: framePtr, filename: "/home/markedone/code/repos/karax/karax/jstrutils.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module jstrutils", prev: framePtr, filename: "/home/markedone/code/repos/karax/karax/jstrutils.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module jstrutils", prev: framePtr, filename: "/home/markedone/code/repos/karax/karax/jstrutils.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module jstrutils", prev: framePtr, filename: "/home/markedone/code/repos/karax/karax/jstrutils.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module jstrutils", prev: framePtr, filename: "/home/markedone/code/repos/karax/karax/jstrutils.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module jstrutils", prev: framePtr, filename: "/home/markedone/code/repos/karax/karax/jstrutils.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module jstrutils", prev: framePtr, filename: "/home/markedone/code/repos/karax/karax/jstrutils.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module jstrutils", prev: framePtr, filename: "/home/markedone/code/repos/karax/karax/jstrutils.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module jstrutils", prev: framePtr, filename: "/home/markedone/code/repos/karax/karax/jstrutils.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module jstrutils", prev: framePtr, filename: "/home/markedone/code/repos/karax/karax/jstrutils.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module jstrutils", prev: framePtr, filename: "/home/markedone/code/repos/karax/karax/jstrutils.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module jstrutils", prev: framePtr, filename: "/home/markedone/code/repos/karax/karax/jstrutils.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module vstyles", prev: framePtr, filename: "/home/markedone/code/repos/karax/karax/vstyles.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module vstyles", prev: framePtr, filename: "/home/markedone/code/repos/karax/karax/vstyles.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module vstyles", prev: framePtr, filename: "/home/markedone/code/repos/karax/karax/vstyles.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module vstyles", prev: framePtr, filename: "/home/markedone/code/repos/karax/karax/vstyles.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module vdom", prev: framePtr, filename: "/home/markedone/code/repos/karax/karax/vdom.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module vdom", prev: framePtr, filename: "/home/markedone/code/repos/karax/karax/vdom.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module vdom", prev: framePtr, filename: "/home/markedone/code/repos/karax/karax/vdom.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module vdom", prev: framePtr, filename: "/home/markedone/code/repos/karax/karax/vdom.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module vdom", prev: framePtr, filename: "/home/markedone/code/repos/karax/karax/vdom.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module vdom", prev: framePtr, filename: "/home/markedone/code/repos/karax/karax/vdom.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module vdom", prev: framePtr, filename: "/home/markedone/code/repos/karax/karax/vdom.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module vdom", prev: framePtr, filename: "/home/markedone/code/repos/karax/karax/vdom.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module vdom", prev: framePtr, filename: "/home/markedone/code/repos/karax/karax/vdom.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module vdom", prev: framePtr, filename: "/home/markedone/code/repos/karax/karax/vdom.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module vdom", prev: framePtr, filename: "/home/markedone/code/repos/karax/karax/vdom.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module vdom", prev: framePtr, filename: "/home/markedone/code/repos/karax/karax/vdom.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module vdom", prev: framePtr, filename: "/home/markedone/code/repos/karax/karax/vdom.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module vdom", prev: framePtr, filename: "/home/markedone/code/repos/karax/karax/vdom.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module vdom", prev: framePtr, filename: "/home/markedone/code/repos/karax/karax/vdom.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module vdom", prev: framePtr, filename: "/home/markedone/code/repos/karax/karax/vdom.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module vdom", prev: framePtr, filename: "/home/markedone/code/repos/karax/karax/vdom.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module vdom", prev: framePtr, filename: "/home/markedone/code/repos/karax/karax/vdom.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module vdom", prev: framePtr, filename: "/home/markedone/code/repos/karax/karax/vdom.nim", line: 0};
-framePtr = F;
-F.line = 220;
 var gid_603980386 = [0];
-framePtr = F.prev;
-var F = {procname: "module vdom", prev: framePtr, filename: "/home/markedone/code/repos/karax/karax/vdom.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module vdom", prev: framePtr, filename: "/home/markedone/code/repos/karax/karax/vdom.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module vdom", prev: framePtr, filename: "/home/markedone/code/repos/karax/karax/vdom.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module vdom", prev: framePtr, filename: "/home/markedone/code/repos/karax/karax/vdom.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module vdom", prev: framePtr, filename: "/home/markedone/code/repos/karax/karax/vdom.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module vdom", prev: framePtr, filename: "/home/markedone/code/repos/karax/karax/vdom.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module vdom", prev: framePtr, filename: "/home/markedone/code/repos/karax/karax/vdom.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module vdom", prev: framePtr, filename: "/home/markedone/code/repos/karax/karax/vdom.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module vdom", prev: framePtr, filename: "/home/markedone/code/repos/karax/karax/vdom.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module vdom", prev: framePtr, filename: "/home/markedone/code/repos/karax/karax/vdom.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module vdom", prev: framePtr, filename: "/home/markedone/code/repos/karax/karax/vdom.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module vdom", prev: framePtr, filename: "/home/markedone/code/repos/karax/karax/vdom.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module vdom", prev: framePtr, filename: "/home/markedone/code/repos/karax/karax/vdom.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module vdom", prev: framePtr, filename: "/home/markedone/code/repos/karax/karax/vdom.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module vdom", prev: framePtr, filename: "/home/markedone/code/repos/karax/karax/vdom.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module vdom", prev: framePtr, filename: "/home/markedone/code/repos/karax/karax/vdom.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module vdom", prev: framePtr, filename: "/home/markedone/code/repos/karax/karax/vdom.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module vdom", prev: framePtr, filename: "/home/markedone/code/repos/karax/karax/vdom.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module vdom", prev: framePtr, filename: "/home/markedone/code/repos/karax/karax/vdom.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module vdom", prev: framePtr, filename: "/home/markedone/code/repos/karax/karax/vdom.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module vdom", prev: framePtr, filename: "/home/markedone/code/repos/karax/karax/vdom.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module vdom", prev: framePtr, filename: "/home/markedone/code/repos/karax/karax/vdom.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module vdom", prev: framePtr, filename: "/home/markedone/code/repos/karax/karax/vdom.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module vdom", prev: framePtr, filename: "/home/markedone/code/repos/karax/karax/vdom.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module vdom", prev: framePtr, filename: "/home/markedone/code/repos/karax/karax/vdom.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module vdom", prev: framePtr, filename: "/home/markedone/code/repos/karax/karax/vdom.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module vdom", prev: framePtr, filename: "/home/markedone/code/repos/karax/karax/vdom.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module vdom", prev: framePtr, filename: "/home/markedone/code/repos/karax/karax/vdom.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module vdom", prev: framePtr, filename: "/home/markedone/code/repos/karax/karax/vdom.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module vdom", prev: framePtr, filename: "/home/markedone/code/repos/karax/karax/vdom.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module vdom", prev: framePtr, filename: "/home/markedone/code/repos/karax/karax/vdom.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module vdom", prev: framePtr, filename: "/home/markedone/code/repos/karax/karax/vdom.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module compact", prev: framePtr, filename: "/home/markedone/code/repos/karax/karax/compact.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module tables", prev: framePtr, filename: "/home/markedone/build/Nim/lib/pure/collections/tables.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module tables", prev: framePtr, filename: "/home/markedone/build/Nim/lib/pure/collections/tables.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module hashes", prev: framePtr, filename: "/home/markedone/build/Nim/lib/pure/hashes.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module hashes", prev: framePtr, filename: "/home/markedone/build/Nim/lib/pure/hashes.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module hashes", prev: framePtr, filename: "/home/markedone/build/Nim/lib/pure/hashes.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module hashes", prev: framePtr, filename: "/home/markedone/build/Nim/lib/pure/hashes.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module hashes", prev: framePtr, filename: "/home/markedone/build/Nim/lib/pure/hashes.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module hashes", prev: framePtr, filename: "/home/markedone/build/Nim/lib/pure/hashes.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module hashes", prev: framePtr, filename: "/home/markedone/build/Nim/lib/pure/hashes.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module hashes", prev: framePtr, filename: "/home/markedone/build/Nim/lib/pure/hashes.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module hashes", prev: framePtr, filename: "/home/markedone/build/Nim/lib/pure/hashes.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module hashes", prev: framePtr, filename: "/home/markedone/build/Nim/lib/pure/hashes.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module hashes", prev: framePtr, filename: "/home/markedone/build/Nim/lib/pure/hashes.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module hashes", prev: framePtr, filename: "/home/markedone/build/Nim/lib/pure/hashes.nim", line: 0};
-framePtr = F;
-F.line = 210;
-var objectID_989855906 = [0];
-framePtr = F.prev;
-var F = {procname: "module hashes", prev: framePtr, filename: "/home/markedone/build/Nim/lib/pure/hashes.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module hashes", prev: framePtr, filename: "/home/markedone/build/Nim/lib/pure/hashes.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module hashes", prev: framePtr, filename: "/home/markedone/build/Nim/lib/pure/hashes.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module hashes", prev: framePtr, filename: "/home/markedone/build/Nim/lib/pure/hashes.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module hashes", prev: framePtr, filename: "/home/markedone/build/Nim/lib/pure/hashes.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module hashes", prev: framePtr, filename: "/home/markedone/build/Nim/lib/pure/hashes.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module hashes", prev: framePtr, filename: "/home/markedone/build/Nim/lib/pure/hashes.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module hashes", prev: framePtr, filename: "/home/markedone/build/Nim/lib/pure/hashes.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module hashes", prev: framePtr, filename: "/home/markedone/build/Nim/lib/pure/hashes.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module hashes", prev: framePtr, filename: "/home/markedone/build/Nim/lib/pure/hashes.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module hashes", prev: framePtr, filename: "/home/markedone/build/Nim/lib/pure/hashes.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module hashes", prev: framePtr, filename: "/home/markedone/build/Nim/lib/pure/hashes.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module hashes", prev: framePtr, filename: "/home/markedone/build/Nim/lib/pure/hashes.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module hashes", prev: framePtr, filename: "/home/markedone/build/Nim/lib/pure/hashes.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module hashes", prev: framePtr, filename: "/home/markedone/build/Nim/lib/pure/hashes.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module hashes", prev: framePtr, filename: "/home/markedone/build/Nim/lib/pure/hashes.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module hashes", prev: framePtr, filename: "/home/markedone/build/Nim/lib/pure/hashes.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module hashes", prev: framePtr, filename: "/home/markedone/build/Nim/lib/pure/hashes.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module hashes", prev: framePtr, filename: "/home/markedone/build/Nim/lib/pure/hashes.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module hashes", prev: framePtr, filename: "/home/markedone/build/Nim/lib/pure/hashes.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module hashes", prev: framePtr, filename: "/home/markedone/build/Nim/lib/pure/hashes.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module hashes", prev: framePtr, filename: "/home/markedone/build/Nim/lib/pure/hashes.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module hashes", prev: framePtr, filename: "/home/markedone/build/Nim/lib/pure/hashes.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module hashes", prev: framePtr, filename: "/home/markedone/build/Nim/lib/pure/hashes.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module hashes", prev: framePtr, filename: "/home/markedone/build/Nim/lib/pure/hashes.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module tables", prev: framePtr, filename: "/home/markedone/build/Nim/lib/pure/collections/tables.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module tables", prev: framePtr, filename: "/home/markedone/build/Nim/lib/pure/collections/tables.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module tables", prev: framePtr, filename: "/home/markedone/build/Nim/lib/pure/collections/tables.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module tables", prev: framePtr, filename: "/home/markedone/build/Nim/lib/pure/collections/tables.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module tables", prev: framePtr, filename: "/home/markedone/build/Nim/lib/pure/collections/tables.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module tables", prev: framePtr, filename: "/home/markedone/build/Nim/lib/pure/collections/tables.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module tables", prev: framePtr, filename: "/home/markedone/build/Nim/lib/pure/collections/tables.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module tables", prev: framePtr, filename: "/home/markedone/build/Nim/lib/pure/collections/tables.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module tables", prev: framePtr, filename: "/home/markedone/build/Nim/lib/pure/collections/tables.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module tables", prev: framePtr, filename: "/home/markedone/build/Nim/lib/pure/collections/tables.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module tables", prev: framePtr, filename: "/home/markedone/build/Nim/lib/pure/collections/tables.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module tables", prev: framePtr, filename: "/home/markedone/build/Nim/lib/pure/collections/tables.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module tables", prev: framePtr, filename: "/home/markedone/build/Nim/lib/pure/collections/tables.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module tables", prev: framePtr, filename: "/home/markedone/build/Nim/lib/pure/collections/tables.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module tables", prev: framePtr, filename: "/home/markedone/build/Nim/lib/pure/collections/tables.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module tables", prev: framePtr, filename: "/home/markedone/build/Nim/lib/pure/collections/tables.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module tables", prev: framePtr, filename: "/home/markedone/build/Nim/lib/pure/collections/tables.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module tables", prev: framePtr, filename: "/home/markedone/build/Nim/lib/pure/collections/tables.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module tables", prev: framePtr, filename: "/home/markedone/build/Nim/lib/pure/collections/tables.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module tables", prev: framePtr, filename: "/home/markedone/build/Nim/lib/pure/collections/tables.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module tables", prev: framePtr, filename: "/home/markedone/build/Nim/lib/pure/collections/tables.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module tables", prev: framePtr, filename: "/home/markedone/build/Nim/lib/pure/collections/tables.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module tables", prev: framePtr, filename: "/home/markedone/build/Nim/lib/pure/collections/tables.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module tables", prev: framePtr, filename: "/home/markedone/build/Nim/lib/pure/collections/tables.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module tables", prev: framePtr, filename: "/home/markedone/build/Nim/lib/pure/collections/tables.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module tables", prev: framePtr, filename: "/home/markedone/build/Nim/lib/pure/collections/tables.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module tables", prev: framePtr, filename: "/home/markedone/build/Nim/lib/pure/collections/tables.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module tables", prev: framePtr, filename: "/home/markedone/build/Nim/lib/pure/collections/tables.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module tables", prev: framePtr, filename: "/home/markedone/build/Nim/lib/pure/collections/tables.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module tables", prev: framePtr, filename: "/home/markedone/build/Nim/lib/pure/collections/tables.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module tables", prev: framePtr, filename: "/home/markedone/build/Nim/lib/pure/collections/tables.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module tables", prev: framePtr, filename: "/home/markedone/build/Nim/lib/pure/collections/tables.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module tables", prev: framePtr, filename: "/home/markedone/build/Nim/lib/pure/collections/tables.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module tables", prev: framePtr, filename: "/home/markedone/build/Nim/lib/pure/collections/tables.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module tables", prev: framePtr, filename: "/home/markedone/build/Nim/lib/pure/collections/tables.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module tables", prev: framePtr, filename: "/home/markedone/build/Nim/lib/pure/collections/tables.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module tables", prev: framePtr, filename: "/home/markedone/build/Nim/lib/pure/collections/tables.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module tables", prev: framePtr, filename: "/home/markedone/build/Nim/lib/pure/collections/tables.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module tables", prev: framePtr, filename: "/home/markedone/build/Nim/lib/pure/collections/tables.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module tables", prev: framePtr, filename: "/home/markedone/build/Nim/lib/pure/collections/tables.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module tables", prev: framePtr, filename: "/home/markedone/build/Nim/lib/pure/collections/tables.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module tables", prev: framePtr, filename: "/home/markedone/build/Nim/lib/pure/collections/tables.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module tables", prev: framePtr, filename: "/home/markedone/build/Nim/lib/pure/collections/tables.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module tables", prev: framePtr, filename: "/home/markedone/build/Nim/lib/pure/collections/tables.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module tables", prev: framePtr, filename: "/home/markedone/build/Nim/lib/pure/collections/tables.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module tables", prev: framePtr, filename: "/home/markedone/build/Nim/lib/pure/collections/tables.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module tables", prev: framePtr, filename: "/home/markedone/build/Nim/lib/pure/collections/tables.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module tables", prev: framePtr, filename: "/home/markedone/build/Nim/lib/pure/collections/tables.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module tables", prev: framePtr, filename: "/home/markedone/build/Nim/lib/pure/collections/tables.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module tables", prev: framePtr, filename: "/home/markedone/build/Nim/lib/pure/collections/tables.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module tables", prev: framePtr, filename: "/home/markedone/build/Nim/lib/pure/collections/tables.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module tables", prev: framePtr, filename: "/home/markedone/build/Nim/lib/pure/collections/tables.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module tables", prev: framePtr, filename: "/home/markedone/build/Nim/lib/pure/collections/tables.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module tables", prev: framePtr, filename: "/home/markedone/build/Nim/lib/pure/collections/tables.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module tables", prev: framePtr, filename: "/home/markedone/build/Nim/lib/pure/collections/tables.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module tables", prev: framePtr, filename: "/home/markedone/build/Nim/lib/pure/collections/tables.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module tables", prev: framePtr, filename: "/home/markedone/build/Nim/lib/pure/collections/tables.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module tables", prev: framePtr, filename: "/home/markedone/build/Nim/lib/pure/collections/tables.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module tables", prev: framePtr, filename: "/home/markedone/build/Nim/lib/pure/collections/tables.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module tables", prev: framePtr, filename: "/home/markedone/build/Nim/lib/pure/collections/tables.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module tables", prev: framePtr, filename: "/home/markedone/build/Nim/lib/pure/collections/tables.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module tables", prev: framePtr, filename: "/home/markedone/build/Nim/lib/pure/collections/tables.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module tables", prev: framePtr, filename: "/home/markedone/build/Nim/lib/pure/collections/tables.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module tables", prev: framePtr, filename: "/home/markedone/build/Nim/lib/pure/collections/tables.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module tables", prev: framePtr, filename: "/home/markedone/build/Nim/lib/pure/collections/tables.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module tables", prev: framePtr, filename: "/home/markedone/build/Nim/lib/pure/collections/tables.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module tables", prev: framePtr, filename: "/home/markedone/build/Nim/lib/pure/collections/tables.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module tables", prev: framePtr, filename: "/home/markedone/build/Nim/lib/pure/collections/tables.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module tables", prev: framePtr, filename: "/home/markedone/build/Nim/lib/pure/collections/tables.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module tables", prev: framePtr, filename: "/home/markedone/build/Nim/lib/pure/collections/tables.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module tables", prev: framePtr, filename: "/home/markedone/build/Nim/lib/pure/collections/tables.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module tables", prev: framePtr, filename: "/home/markedone/build/Nim/lib/pure/collections/tables.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module tables", prev: framePtr, filename: "/home/markedone/build/Nim/lib/pure/collections/tables.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module tables", prev: framePtr, filename: "/home/markedone/build/Nim/lib/pure/collections/tables.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module tables", prev: framePtr, filename: "/home/markedone/build/Nim/lib/pure/collections/tables.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module tables", prev: framePtr, filename: "/home/markedone/build/Nim/lib/pure/collections/tables.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module tables", prev: framePtr, filename: "/home/markedone/build/Nim/lib/pure/collections/tables.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module tables", prev: framePtr, filename: "/home/markedone/build/Nim/lib/pure/collections/tables.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module tables", prev: framePtr, filename: "/home/markedone/build/Nim/lib/pure/collections/tables.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module tables", prev: framePtr, filename: "/home/markedone/build/Nim/lib/pure/collections/tables.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module tables", prev: framePtr, filename: "/home/markedone/build/Nim/lib/pure/collections/tables.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module tables", prev: framePtr, filename: "/home/markedone/build/Nim/lib/pure/collections/tables.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module tables", prev: framePtr, filename: "/home/markedone/build/Nim/lib/pure/collections/tables.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module tables", prev: framePtr, filename: "/home/markedone/build/Nim/lib/pure/collections/tables.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module tables", prev: framePtr, filename: "/home/markedone/build/Nim/lib/pure/collections/tables.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module tables", prev: framePtr, filename: "/home/markedone/build/Nim/lib/pure/collections/tables.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module tables", prev: framePtr, filename: "/home/markedone/build/Nim/lib/pure/collections/tables.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module tables", prev: framePtr, filename: "/home/markedone/build/Nim/lib/pure/collections/tables.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module tables", prev: framePtr, filename: "/home/markedone/build/Nim/lib/pure/collections/tables.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module tables", prev: framePtr, filename: "/home/markedone/build/Nim/lib/pure/collections/tables.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module tables", prev: framePtr, filename: "/home/markedone/build/Nim/lib/pure/collections/tables.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module tables", prev: framePtr, filename: "/home/markedone/build/Nim/lib/pure/collections/tables.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module tables", prev: framePtr, filename: "/home/markedone/build/Nim/lib/pure/collections/tables.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module tables", prev: framePtr, filename: "/home/markedone/build/Nim/lib/pure/collections/tables.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module tables", prev: framePtr, filename: "/home/markedone/build/Nim/lib/pure/collections/tables.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module tables", prev: framePtr, filename: "/home/markedone/build/Nim/lib/pure/collections/tables.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module tables", prev: framePtr, filename: "/home/markedone/build/Nim/lib/pure/collections/tables.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module tables", prev: framePtr, filename: "/home/markedone/build/Nim/lib/pure/collections/tables.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module tables", prev: framePtr, filename: "/home/markedone/build/Nim/lib/pure/collections/tables.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module tables", prev: framePtr, filename: "/home/markedone/build/Nim/lib/pure/collections/tables.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module tables", prev: framePtr, filename: "/home/markedone/build/Nim/lib/pure/collections/tables.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module tables", prev: framePtr, filename: "/home/markedone/build/Nim/lib/pure/collections/tables.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module tables", prev: framePtr, filename: "/home/markedone/build/Nim/lib/pure/collections/tables.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module tables", prev: framePtr, filename: "/home/markedone/build/Nim/lib/pure/collections/tables.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module tables", prev: framePtr, filename: "/home/markedone/build/Nim/lib/pure/collections/tables.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module tables", prev: framePtr, filename: "/home/markedone/build/Nim/lib/pure/collections/tables.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module tables", prev: framePtr, filename: "/home/markedone/build/Nim/lib/pure/collections/tables.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module tables", prev: framePtr, filename: "/home/markedone/build/Nim/lib/pure/collections/tables.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module tables", prev: framePtr, filename: "/home/markedone/build/Nim/lib/pure/collections/tables.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module tables", prev: framePtr, filename: "/home/markedone/build/Nim/lib/pure/collections/tables.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module tables", prev: framePtr, filename: "/home/markedone/build/Nim/lib/pure/collections/tables.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module tables", prev: framePtr, filename: "/home/markedone/build/Nim/lib/pure/collections/tables.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module tables", prev: framePtr, filename: "/home/markedone/build/Nim/lib/pure/collections/tables.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module tables", prev: framePtr, filename: "/home/markedone/build/Nim/lib/pure/collections/tables.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module tables", prev: framePtr, filename: "/home/markedone/build/Nim/lib/pure/collections/tables.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module tables", prev: framePtr, filename: "/home/markedone/build/Nim/lib/pure/collections/tables.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module tables", prev: framePtr, filename: "/home/markedone/build/Nim/lib/pure/collections/tables.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module tables", prev: framePtr, filename: "/home/markedone/build/Nim/lib/pure/collections/tables.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module tables", prev: framePtr, filename: "/home/markedone/build/Nim/lib/pure/collections/tables.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module tables", prev: framePtr, filename: "/home/markedone/build/Nim/lib/pure/collections/tables.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module tables", prev: framePtr, filename: "/home/markedone/build/Nim/lib/pure/collections/tables.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module tables", prev: framePtr, filename: "/home/markedone/build/Nim/lib/pure/collections/tables.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module tables", prev: framePtr, filename: "/home/markedone/build/Nim/lib/pure/collections/tables.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module tables", prev: framePtr, filename: "/home/markedone/build/Nim/lib/pure/collections/tables.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module tables", prev: framePtr, filename: "/home/markedone/build/Nim/lib/pure/collections/tables.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module tables", prev: framePtr, filename: "/home/markedone/build/Nim/lib/pure/collections/tables.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module tables", prev: framePtr, filename: "/home/markedone/build/Nim/lib/pure/collections/tables.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module tables", prev: framePtr, filename: "/home/markedone/build/Nim/lib/pure/collections/tables.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module tables", prev: framePtr, filename: "/home/markedone/build/Nim/lib/pure/collections/tables.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module tables", prev: framePtr, filename: "/home/markedone/build/Nim/lib/pure/collections/tables.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module tables", prev: framePtr, filename: "/home/markedone/build/Nim/lib/pure/collections/tables.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module tables", prev: framePtr, filename: "/home/markedone/build/Nim/lib/pure/collections/tables.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module tables", prev: framePtr, filename: "/home/markedone/build/Nim/lib/pure/collections/tables.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module tables", prev: framePtr, filename: "/home/markedone/build/Nim/lib/pure/collections/tables.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module tables", prev: framePtr, filename: "/home/markedone/build/Nim/lib/pure/collections/tables.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module tables", prev: framePtr, filename: "/home/markedone/build/Nim/lib/pure/collections/tables.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module tables", prev: framePtr, filename: "/home/markedone/build/Nim/lib/pure/collections/tables.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module tables", prev: framePtr, filename: "/home/markedone/build/Nim/lib/pure/collections/tables.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module tables", prev: framePtr, filename: "/home/markedone/build/Nim/lib/pure/collections/tables.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module tables", prev: framePtr, filename: "/home/markedone/build/Nim/lib/pure/collections/tables.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module tables", prev: framePtr, filename: "/home/markedone/build/Nim/lib/pure/collections/tables.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module tables", prev: framePtr, filename: "/home/markedone/build/Nim/lib/pure/collections/tables.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module tables", prev: framePtr, filename: "/home/markedone/build/Nim/lib/pure/collections/tables.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module tables", prev: framePtr, filename: "/home/markedone/build/Nim/lib/pure/collections/tables.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module tables", prev: framePtr, filename: "/home/markedone/build/Nim/lib/pure/collections/tables.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module tables", prev: framePtr, filename: "/home/markedone/build/Nim/lib/pure/collections/tables.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module tables", prev: framePtr, filename: "/home/markedone/build/Nim/lib/pure/collections/tables.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module tables", prev: framePtr, filename: "/home/markedone/build/Nim/lib/pure/collections/tables.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module tables", prev: framePtr, filename: "/home/markedone/build/Nim/lib/pure/collections/tables.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module tables", prev: framePtr, filename: "/home/markedone/build/Nim/lib/pure/collections/tables.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module tables", prev: framePtr, filename: "/home/markedone/build/Nim/lib/pure/collections/tables.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module tables", prev: framePtr, filename: "/home/markedone/build/Nim/lib/pure/collections/tables.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module tables", prev: framePtr, filename: "/home/markedone/build/Nim/lib/pure/collections/tables.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module tables", prev: framePtr, filename: "/home/markedone/build/Nim/lib/pure/collections/tables.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module tables", prev: framePtr, filename: "/home/markedone/build/Nim/lib/pure/collections/tables.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module tables", prev: framePtr, filename: "/home/markedone/build/Nim/lib/pure/collections/tables.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module tables", prev: framePtr, filename: "/home/markedone/build/Nim/lib/pure/collections/tables.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module tables", prev: framePtr, filename: "/home/markedone/build/Nim/lib/pure/collections/tables.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module tables", prev: framePtr, filename: "/home/markedone/build/Nim/lib/pure/collections/tables.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module tables", prev: framePtr, filename: "/home/markedone/build/Nim/lib/pure/collections/tables.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module tables", prev: framePtr, filename: "/home/markedone/build/Nim/lib/pure/collections/tables.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module tables", prev: framePtr, filename: "/home/markedone/build/Nim/lib/pure/collections/tables.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module tables", prev: framePtr, filename: "/home/markedone/build/Nim/lib/pure/collections/tables.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module tables", prev: framePtr, filename: "/home/markedone/build/Nim/lib/pure/collections/tables.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module tables", prev: framePtr, filename: "/home/markedone/build/Nim/lib/pure/collections/tables.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module tables", prev: framePtr, filename: "/home/markedone/build/Nim/lib/pure/collections/tables.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module tables", prev: framePtr, filename: "/home/markedone/build/Nim/lib/pure/collections/tables.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module tables", prev: framePtr, filename: "/home/markedone/build/Nim/lib/pure/collections/tables.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module tables", prev: framePtr, filename: "/home/markedone/build/Nim/lib/pure/collections/tables.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module tables", prev: framePtr, filename: "/home/markedone/build/Nim/lib/pure/collections/tables.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module tables", prev: framePtr, filename: "/home/markedone/build/Nim/lib/pure/collections/tables.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module tables", prev: framePtr, filename: "/home/markedone/build/Nim/lib/pure/collections/tables.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module tables", prev: framePtr, filename: "/home/markedone/build/Nim/lib/pure/collections/tables.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module tables", prev: framePtr, filename: "/home/markedone/build/Nim/lib/pure/collections/tables.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module tables", prev: framePtr, filename: "/home/markedone/build/Nim/lib/pure/collections/tables.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module compact", prev: framePtr, filename: "/home/markedone/code/repos/karax/karax/compact.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module compact", prev: framePtr, filename: "/home/markedone/code/repos/karax/karax/compact.nim", line: 0};
-framePtr = F;
-F.line = 10;
+var objectID_1124073634 = [0];
 var vcomponents_637534221 = [{}];
-F.line = 22;
-framePtr = F.prev;
-var F = {procname: "module compact", prev: framePtr, filename: "/home/markedone/code/repos/karax/karax/compact.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module compact", prev: framePtr, filename: "/home/markedone/code/repos/karax/karax/compact.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module compact", prev: framePtr, filename: "/home/markedone/code/repos/karax/karax/compact.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module compact", prev: framePtr, filename: "/home/markedone/code/repos/karax/karax/compact.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module compact", prev: framePtr, filename: "/home/markedone/code/repos/karax/karax/compact.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module compact", prev: framePtr, filename: "/home/markedone/code/repos/karax/karax/compact.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module compact", prev: framePtr, filename: "/home/markedone/code/repos/karax/karax/compact.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module compact", prev: framePtr, filename: "/home/markedone/code/repos/karax/karax/compact.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module karax", prev: framePtr, filename: "/home/markedone/code/repos/karax/karax/karax.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module karax", prev: framePtr, filename: "/home/markedone/code/repos/karax/karax/karax.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module karax", prev: framePtr, filename: "/home/markedone/code/repos/karax/karax/karax.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module karax", prev: framePtr, filename: "/home/markedone/code/repos/karax/karax/karax.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module karax", prev: framePtr, filename: "/home/markedone/code/repos/karax/karax/karax.nim", line: 0};
-framePtr = F;
-F.line = 55;
 var kxi_570425409 = [null];
-framePtr = F.prev;
-var F = {procname: "module karax", prev: framePtr, filename: "/home/markedone/code/repos/karax/karax/karax.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module karax", prev: framePtr, filename: "/home/markedone/code/repos/karax/karax/karax.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module karax", prev: framePtr, filename: "/home/markedone/code/repos/karax/karax/karax.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module karax", prev: framePtr, filename: "/home/markedone/code/repos/karax/karax/karax.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module karax", prev: framePtr, filename: "/home/markedone/code/repos/karax/karax/karax.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module karax", prev: framePtr, filename: "/home/markedone/code/repos/karax/karax/karax.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module karax", prev: framePtr, filename: "/home/markedone/code/repos/karax/karax/karax.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module karax", prev: framePtr, filename: "/home/markedone/code/repos/karax/karax/karax.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module karax", prev: framePtr, filename: "/home/markedone/code/repos/karax/karax/karax.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module karax", prev: framePtr, filename: "/home/markedone/code/repos/karax/karax/karax.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module karax", prev: framePtr, filename: "/home/markedone/code/repos/karax/karax/karax.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module karax", prev: framePtr, filename: "/home/markedone/code/repos/karax/karax/karax.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module karax", prev: framePtr, filename: "/home/markedone/code/repos/karax/karax/karax.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module karax", prev: framePtr, filename: "/home/markedone/code/repos/karax/karax/karax.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module karax", prev: framePtr, filename: "/home/markedone/code/repos/karax/karax/karax.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module karax", prev: framePtr, filename: "/home/markedone/code/repos/karax/karax/karax.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module karax", prev: framePtr, filename: "/home/markedone/code/repos/karax/karax/karax.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module karax", prev: framePtr, filename: "/home/markedone/code/repos/karax/karax/karax.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module karax", prev: framePtr, filename: "/home/markedone/code/repos/karax/karax/karax.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module karax", prev: framePtr, filename: "/home/markedone/code/repos/karax/karax/karax.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module karax", prev: framePtr, filename: "/home/markedone/code/repos/karax/karax/karax.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module karax", prev: framePtr, filename: "/home/markedone/code/repos/karax/karax/karax.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module karax", prev: framePtr, filename: "/home/markedone/code/repos/karax/karax/karax.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module karax", prev: framePtr, filename: "/home/markedone/code/repos/karax/karax/karax.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module karax", prev: framePtr, filename: "/home/markedone/code/repos/karax/karax/karax.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module karax", prev: framePtr, filename: "/home/markedone/code/repos/karax/karax/karax.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module karax", prev: framePtr, filename: "/home/markedone/code/repos/karax/karax/karax.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module karax", prev: framePtr, filename: "/home/markedone/code/repos/karax/karax/karax.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module karax", prev: framePtr, filename: "/home/markedone/code/repos/karax/karax/karax.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module karax", prev: framePtr, filename: "/home/markedone/code/repos/karax/karax/karax.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module karax", prev: framePtr, filename: "/home/markedone/code/repos/karax/karax/karax.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module karax", prev: framePtr, filename: "/home/markedone/code/repos/karax/karax/karax.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module karax", prev: framePtr, filename: "/home/markedone/code/repos/karax/karax/karax.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module karax", prev: framePtr, filename: "/home/markedone/code/repos/karax/karax/karax.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module karax", prev: framePtr, filename: "/home/markedone/code/repos/karax/karax/karax.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module karax", prev: framePtr, filename: "/home/markedone/code/repos/karax/karax/karax.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module karax", prev: framePtr, filename: "/home/markedone/code/repos/karax/karax/karax.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module karax", prev: framePtr, filename: "/home/markedone/code/repos/karax/karax/karax.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module karax", prev: framePtr, filename: "/home/markedone/code/repos/karax/karax/karax.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module karax", prev: framePtr, filename: "/home/markedone/code/repos/karax/karax/karax.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module karax", prev: framePtr, filename: "/home/markedone/code/repos/karax/karax/karax.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module karax", prev: framePtr, filename: "/home/markedone/code/repos/karax/karax/karax.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module karax", prev: framePtr, filename: "/home/markedone/code/repos/karax/karax/karax.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module karax", prev: framePtr, filename: "/home/markedone/code/repos/karax/karax/karax.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module karax", prev: framePtr, filename: "/home/markedone/code/repos/karax/karax/karax.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module karax", prev: framePtr, filename: "/home/markedone/code/repos/karax/karax/karax.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module karax", prev: framePtr, filename: "/home/markedone/code/repos/karax/karax/karax.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module karax", prev: framePtr, filename: "/home/markedone/code/repos/karax/karax/karax.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module karax", prev: framePtr, filename: "/home/markedone/code/repos/karax/karax/karax.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module karax", prev: framePtr, filename: "/home/markedone/code/repos/karax/karax/karax.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module karax", prev: framePtr, filename: "/home/markedone/code/repos/karax/karax/karax.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module karax", prev: framePtr, filename: "/home/markedone/code/repos/karax/karax/karax.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module karax", prev: framePtr, filename: "/home/markedone/code/repos/karax/karax/karax.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module karax", prev: framePtr, filename: "/home/markedone/code/repos/karax/karax/karax.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module karax", prev: framePtr, filename: "/home/markedone/code/repos/karax/karax/karax.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module karax", prev: framePtr, filename: "/home/markedone/code/repos/karax/karax/karax.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module karax", prev: framePtr, filename: "/home/markedone/code/repos/karax/karax/karax.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module karax", prev: framePtr, filename: "/home/markedone/code/repos/karax/karax/karax.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module karax", prev: framePtr, filename: "/home/markedone/code/repos/karax/karax/karax.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module karaxdsl", prev: framePtr, filename: "/home/markedone/code/repos/karax/karax/karaxdsl.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module karaxdsl", prev: framePtr, filename: "/home/markedone/code/repos/karax/karax/karaxdsl.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module karaxdsl", prev: framePtr, filename: "/home/markedone/code/repos/karax/karax/karaxdsl.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module karaxdsl", prev: framePtr, filename: "/home/markedone/code/repos/karax/karax/karaxdsl.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module karaxdsl", prev: framePtr, filename: "/home/markedone/code/repos/karax/karax/karaxdsl.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module karaxdsl", prev: framePtr, filename: "/home/markedone/code/repos/karax/karax/karaxdsl.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module karaxdsl", prev: framePtr, filename: "/home/markedone/code/repos/karax/karax/karaxdsl.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module karaxdsl", prev: framePtr, filename: "/home/markedone/code/repos/karax/karax/karaxdsl.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module karaxdsl", prev: framePtr, filename: "/home/markedone/code/repos/karax/karax/karaxdsl.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module karaxdsl", prev: framePtr, filename: "/home/markedone/code/repos/karax/karax/karaxdsl.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module karaxdsl", prev: framePtr, filename: "/home/markedone/code/repos/karax/karax/karaxdsl.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module frontend", prev: framePtr, filename: "/home/markedone/code/repos/webapps/frontend.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module jjson", prev: framePtr, filename: "/home/markedone/code/repos/karax/karax/jjson.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module jjson", prev: framePtr, filename: "/home/markedone/code/repos/karax/karax/jjson.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module jjson", prev: framePtr, filename: "/home/markedone/code/repos/karax/karax/jjson.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module jjson", prev: framePtr, filename: "/home/markedone/code/repos/karax/karax/jjson.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module jjson", prev: framePtr, filename: "/home/markedone/code/repos/karax/karax/jjson.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module jjson", prev: framePtr, filename: "/home/markedone/code/repos/karax/karax/jjson.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module jjson", prev: framePtr, filename: "/home/markedone/code/repos/karax/karax/jjson.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module jjson", prev: framePtr, filename: "/home/markedone/code/repos/karax/karax/jjson.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module jjson", prev: framePtr, filename: "/home/markedone/code/repos/karax/karax/jjson.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module jjson", prev: framePtr, filename: "/home/markedone/code/repos/karax/karax/jjson.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module jjson", prev: framePtr, filename: "/home/markedone/code/repos/karax/karax/jjson.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module jjson", prev: framePtr, filename: "/home/markedone/code/repos/karax/karax/jjson.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module jjson", prev: framePtr, filename: "/home/markedone/code/repos/karax/karax/jjson.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module jjson", prev: framePtr, filename: "/home/markedone/code/repos/karax/karax/jjson.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module jjson", prev: framePtr, filename: "/home/markedone/code/repos/karax/karax/jjson.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module jjson", prev: framePtr, filename: "/home/markedone/code/repos/karax/karax/jjson.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module jjson", prev: framePtr, filename: "/home/markedone/code/repos/karax/karax/jjson.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module jjson", prev: framePtr, filename: "/home/markedone/code/repos/karax/karax/jjson.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module jjson", prev: framePtr, filename: "/home/markedone/code/repos/karax/karax/jjson.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module jjson", prev: framePtr, filename: "/home/markedone/code/repos/karax/karax/jjson.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module jjson", prev: framePtr, filename: "/home/markedone/code/repos/karax/karax/jjson.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module jjson", prev: framePtr, filename: "/home/markedone/code/repos/karax/karax/jjson.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module kajax", prev: framePtr, filename: "/home/markedone/code/repos/karax/karax/kajax.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module kajax", prev: framePtr, filename: "/home/markedone/code/repos/karax/karax/kajax.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module jsffi", prev: framePtr, filename: "/home/markedone/build/Nim/lib/js/jsffi.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module jsffi", prev: framePtr, filename: "/home/markedone/build/Nim/lib/js/jsffi.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module jsffi", prev: framePtr, filename: "/home/markedone/build/Nim/lib/js/jsffi.nim", line: 0};
-framePtr = F;
-F.line = 45;
-F.line = 46;
-framePtr = F.prev;
-var F = {procname: "module jsffi", prev: framePtr, filename: "/home/markedone/build/Nim/lib/js/jsffi.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module jsffi", prev: framePtr, filename: "/home/markedone/build/Nim/lib/js/jsffi.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module jsffi", prev: framePtr, filename: "/home/markedone/build/Nim/lib/js/jsffi.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module jsffi", prev: framePtr, filename: "/home/markedone/build/Nim/lib/js/jsffi.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module jsffi", prev: framePtr, filename: "/home/markedone/build/Nim/lib/js/jsffi.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module jsffi", prev: framePtr, filename: "/home/markedone/build/Nim/lib/js/jsffi.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module jsffi", prev: framePtr, filename: "/home/markedone/build/Nim/lib/js/jsffi.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module jsffi", prev: framePtr, filename: "/home/markedone/build/Nim/lib/js/jsffi.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module jsffi", prev: framePtr, filename: "/home/markedone/build/Nim/lib/js/jsffi.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module jsffi", prev: framePtr, filename: "/home/markedone/build/Nim/lib/js/jsffi.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module jsffi", prev: framePtr, filename: "/home/markedone/build/Nim/lib/js/jsffi.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module jsffi", prev: framePtr, filename: "/home/markedone/build/Nim/lib/js/jsffi.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module jsffi", prev: framePtr, filename: "/home/markedone/build/Nim/lib/js/jsffi.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module jsffi", prev: framePtr, filename: "/home/markedone/build/Nim/lib/js/jsffi.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module jsffi", prev: framePtr, filename: "/home/markedone/build/Nim/lib/js/jsffi.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module jsffi", prev: framePtr, filename: "/home/markedone/build/Nim/lib/js/jsffi.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module jsffi", prev: framePtr, filename: "/home/markedone/build/Nim/lib/js/jsffi.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module jsffi", prev: framePtr, filename: "/home/markedone/build/Nim/lib/js/jsffi.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module jsffi", prev: framePtr, filename: "/home/markedone/build/Nim/lib/js/jsffi.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module jsffi", prev: framePtr, filename: "/home/markedone/build/Nim/lib/js/jsffi.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module jsffi", prev: framePtr, filename: "/home/markedone/build/Nim/lib/js/jsffi.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module jsffi", prev: framePtr, filename: "/home/markedone/build/Nim/lib/js/jsffi.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module jsffi", prev: framePtr, filename: "/home/markedone/build/Nim/lib/js/jsffi.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module jsffi", prev: framePtr, filename: "/home/markedone/build/Nim/lib/js/jsffi.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module jsffi", prev: framePtr, filename: "/home/markedone/build/Nim/lib/js/jsffi.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module jsffi", prev: framePtr, filename: "/home/markedone/build/Nim/lib/js/jsffi.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module jsffi", prev: framePtr, filename: "/home/markedone/build/Nim/lib/js/jsffi.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module jsffi", prev: framePtr, filename: "/home/markedone/build/Nim/lib/js/jsffi.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module jsffi", prev: framePtr, filename: "/home/markedone/build/Nim/lib/js/jsffi.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module jsffi", prev: framePtr, filename: "/home/markedone/build/Nim/lib/js/jsffi.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module jsffi", prev: framePtr, filename: "/home/markedone/build/Nim/lib/js/jsffi.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module jsffi", prev: framePtr, filename: "/home/markedone/build/Nim/lib/js/jsffi.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module jsffi", prev: framePtr, filename: "/home/markedone/build/Nim/lib/js/jsffi.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module jsffi", prev: framePtr, filename: "/home/markedone/build/Nim/lib/js/jsffi.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module jsffi", prev: framePtr, filename: "/home/markedone/build/Nim/lib/js/jsffi.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module jsffi", prev: framePtr, filename: "/home/markedone/build/Nim/lib/js/jsffi.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module jsffi", prev: framePtr, filename: "/home/markedone/build/Nim/lib/js/jsffi.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module jsffi", prev: framePtr, filename: "/home/markedone/build/Nim/lib/js/jsffi.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module jsffi", prev: framePtr, filename: "/home/markedone/build/Nim/lib/js/jsffi.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module jsffi", prev: framePtr, filename: "/home/markedone/build/Nim/lib/js/jsffi.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module jsffi", prev: framePtr, filename: "/home/markedone/build/Nim/lib/js/jsffi.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module jsffi", prev: framePtr, filename: "/home/markedone/build/Nim/lib/js/jsffi.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module jsffi", prev: framePtr, filename: "/home/markedone/build/Nim/lib/js/jsffi.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module jsffi", prev: framePtr, filename: "/home/markedone/build/Nim/lib/js/jsffi.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module jsffi", prev: framePtr, filename: "/home/markedone/build/Nim/lib/js/jsffi.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module jsffi", prev: framePtr, filename: "/home/markedone/build/Nim/lib/js/jsffi.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module jsffi", prev: framePtr, filename: "/home/markedone/build/Nim/lib/js/jsffi.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module jsffi", prev: framePtr, filename: "/home/markedone/build/Nim/lib/js/jsffi.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module jsffi", prev: framePtr, filename: "/home/markedone/build/Nim/lib/js/jsffi.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module jsffi", prev: framePtr, filename: "/home/markedone/build/Nim/lib/js/jsffi.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module jsffi", prev: framePtr, filename: "/home/markedone/build/Nim/lib/js/jsffi.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module jsffi", prev: framePtr, filename: "/home/markedone/build/Nim/lib/js/jsffi.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module jsffi", prev: framePtr, filename: "/home/markedone/build/Nim/lib/js/jsffi.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module jsffi", prev: framePtr, filename: "/home/markedone/build/Nim/lib/js/jsffi.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module jsffi", prev: framePtr, filename: "/home/markedone/build/Nim/lib/js/jsffi.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module jsffi", prev: framePtr, filename: "/home/markedone/build/Nim/lib/js/jsffi.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module jsffi", prev: framePtr, filename: "/home/markedone/build/Nim/lib/js/jsffi.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module jsffi", prev: framePtr, filename: "/home/markedone/build/Nim/lib/js/jsffi.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module jsffi", prev: framePtr, filename: "/home/markedone/build/Nim/lib/js/jsffi.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module jsffi", prev: framePtr, filename: "/home/markedone/build/Nim/lib/js/jsffi.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module jsffi", prev: framePtr, filename: "/home/markedone/build/Nim/lib/js/jsffi.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module jsffi", prev: framePtr, filename: "/home/markedone/build/Nim/lib/js/jsffi.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module jsffi", prev: framePtr, filename: "/home/markedone/build/Nim/lib/js/jsffi.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module jsffi", prev: framePtr, filename: "/home/markedone/build/Nim/lib/js/jsffi.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module jsffi", prev: framePtr, filename: "/home/markedone/build/Nim/lib/js/jsffi.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module jsffi", prev: framePtr, filename: "/home/markedone/build/Nim/lib/js/jsffi.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module jsffi", prev: framePtr, filename: "/home/markedone/build/Nim/lib/js/jsffi.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module jsffi", prev: framePtr, filename: "/home/markedone/build/Nim/lib/js/jsffi.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module jsffi", prev: framePtr, filename: "/home/markedone/build/Nim/lib/js/jsffi.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module kajax", prev: framePtr, filename: "/home/markedone/code/repos/karax/karax/kajax.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module jscore", prev: framePtr, filename: "/home/markedone/build/Nim/lib/js/jscore.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module jscore", prev: framePtr, filename: "/home/markedone/build/Nim/lib/js/jscore.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module jscore", prev: framePtr, filename: "/home/markedone/build/Nim/lib/js/jscore.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module jscore", prev: framePtr, filename: "/home/markedone/build/Nim/lib/js/jscore.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module jscore", prev: framePtr, filename: "/home/markedone/build/Nim/lib/js/jscore.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module jscore", prev: framePtr, filename: "/home/markedone/build/Nim/lib/js/jscore.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module jscore", prev: framePtr, filename: "/home/markedone/build/Nim/lib/js/jscore.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module jscore", prev: framePtr, filename: "/home/markedone/build/Nim/lib/js/jscore.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module jscore", prev: framePtr, filename: "/home/markedone/build/Nim/lib/js/jscore.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module jscore", prev: framePtr, filename: "/home/markedone/build/Nim/lib/js/jscore.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module jscore", prev: framePtr, filename: "/home/markedone/build/Nim/lib/js/jscore.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module jscore", prev: framePtr, filename: "/home/markedone/build/Nim/lib/js/jscore.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module jscore", prev: framePtr, filename: "/home/markedone/build/Nim/lib/js/jscore.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module jscore", prev: framePtr, filename: "/home/markedone/build/Nim/lib/js/jscore.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module jscore", prev: framePtr, filename: "/home/markedone/build/Nim/lib/js/jscore.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module jscore", prev: framePtr, filename: "/home/markedone/build/Nim/lib/js/jscore.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module jscore", prev: framePtr, filename: "/home/markedone/build/Nim/lib/js/jscore.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module jscore", prev: framePtr, filename: "/home/markedone/build/Nim/lib/js/jscore.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module jscore", prev: framePtr, filename: "/home/markedone/build/Nim/lib/js/jscore.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module jscore", prev: framePtr, filename: "/home/markedone/build/Nim/lib/js/jscore.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module jscore", prev: framePtr, filename: "/home/markedone/build/Nim/lib/js/jscore.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module jscore", prev: framePtr, filename: "/home/markedone/build/Nim/lib/js/jscore.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module jscore", prev: framePtr, filename: "/home/markedone/build/Nim/lib/js/jscore.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module jscore", prev: framePtr, filename: "/home/markedone/build/Nim/lib/js/jscore.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module jscore", prev: framePtr, filename: "/home/markedone/build/Nim/lib/js/jscore.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module jscore", prev: framePtr, filename: "/home/markedone/build/Nim/lib/js/jscore.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module jscore", prev: framePtr, filename: "/home/markedone/build/Nim/lib/js/jscore.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module jscore", prev: framePtr, filename: "/home/markedone/build/Nim/lib/js/jscore.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module jscore", prev: framePtr, filename: "/home/markedone/build/Nim/lib/js/jscore.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module jscore", prev: framePtr, filename: "/home/markedone/build/Nim/lib/js/jscore.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module jscore", prev: framePtr, filename: "/home/markedone/build/Nim/lib/js/jscore.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module jscore", prev: framePtr, filename: "/home/markedone/build/Nim/lib/js/jscore.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module jscore", prev: framePtr, filename: "/home/markedone/build/Nim/lib/js/jscore.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module jscore", prev: framePtr, filename: "/home/markedone/build/Nim/lib/js/jscore.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module jscore", prev: framePtr, filename: "/home/markedone/build/Nim/lib/js/jscore.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module jscore", prev: framePtr, filename: "/home/markedone/build/Nim/lib/js/jscore.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module jscore", prev: framePtr, filename: "/home/markedone/build/Nim/lib/js/jscore.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module jscore", prev: framePtr, filename: "/home/markedone/build/Nim/lib/js/jscore.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module jscore", prev: framePtr, filename: "/home/markedone/build/Nim/lib/js/jscore.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module jscore", prev: framePtr, filename: "/home/markedone/build/Nim/lib/js/jscore.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module jscore", prev: framePtr, filename: "/home/markedone/build/Nim/lib/js/jscore.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module jscore", prev: framePtr, filename: "/home/markedone/build/Nim/lib/js/jscore.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module jscore", prev: framePtr, filename: "/home/markedone/build/Nim/lib/js/jscore.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module jscore", prev: framePtr, filename: "/home/markedone/build/Nim/lib/js/jscore.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module jscore", prev: framePtr, filename: "/home/markedone/build/Nim/lib/js/jscore.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module jscore", prev: framePtr, filename: "/home/markedone/build/Nim/lib/js/jscore.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module jscore", prev: framePtr, filename: "/home/markedone/build/Nim/lib/js/jscore.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module jscore", prev: framePtr, filename: "/home/markedone/build/Nim/lib/js/jscore.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module jscore", prev: framePtr, filename: "/home/markedone/build/Nim/lib/js/jscore.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module jscore", prev: framePtr, filename: "/home/markedone/build/Nim/lib/js/jscore.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module jscore", prev: framePtr, filename: "/home/markedone/build/Nim/lib/js/jscore.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module jscore", prev: framePtr, filename: "/home/markedone/build/Nim/lib/js/jscore.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module jscore", prev: framePtr, filename: "/home/markedone/build/Nim/lib/js/jscore.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module jscore", prev: framePtr, filename: "/home/markedone/build/Nim/lib/js/jscore.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module jscore", prev: framePtr, filename: "/home/markedone/build/Nim/lib/js/jscore.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module jscore", prev: framePtr, filename: "/home/markedone/build/Nim/lib/js/jscore.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module jscore", prev: framePtr, filename: "/home/markedone/build/Nim/lib/js/jscore.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module jscore", prev: framePtr, filename: "/home/markedone/build/Nim/lib/js/jscore.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module jscore", prev: framePtr, filename: "/home/markedone/build/Nim/lib/js/jscore.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module jscore", prev: framePtr, filename: "/home/markedone/build/Nim/lib/js/jscore.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module jscore", prev: framePtr, filename: "/home/markedone/build/Nim/lib/js/jscore.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module jscore", prev: framePtr, filename: "/home/markedone/build/Nim/lib/js/jscore.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module jscore", prev: framePtr, filename: "/home/markedone/build/Nim/lib/js/jscore.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module jscore", prev: framePtr, filename: "/home/markedone/build/Nim/lib/js/jscore.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module jscore", prev: framePtr, filename: "/home/markedone/build/Nim/lib/js/jscore.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module jscore", prev: framePtr, filename: "/home/markedone/build/Nim/lib/js/jscore.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module jscore", prev: framePtr, filename: "/home/markedone/build/Nim/lib/js/jscore.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module jscore", prev: framePtr, filename: "/home/markedone/build/Nim/lib/js/jscore.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module jscore", prev: framePtr, filename: "/home/markedone/build/Nim/lib/js/jscore.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module kajax", prev: framePtr, filename: "/home/markedone/code/repos/karax/karax/kajax.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module kajax", prev: framePtr, filename: "/home/markedone/code/repos/karax/karax/kajax.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module kajax", prev: framePtr, filename: "/home/markedone/code/repos/karax/karax/kajax.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module kajax", prev: framePtr, filename: "/home/markedone/code/repos/karax/karax/kajax.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module kajax", prev: framePtr, filename: "/home/markedone/code/repos/karax/karax/kajax.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module kajax", prev: framePtr, filename: "/home/markedone/code/repos/karax/karax/kajax.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module kajax", prev: framePtr, filename: "/home/markedone/code/repos/karax/karax/kajax.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module kajax", prev: framePtr, filename: "/home/markedone/code/repos/karax/karax/kajax.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module kajax", prev: framePtr, filename: "/home/markedone/code/repos/karax/karax/kajax.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module kajax", prev: framePtr, filename: "/home/markedone/code/repos/karax/karax/kajax.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module kajax", prev: framePtr, filename: "/home/markedone/code/repos/karax/karax/kajax.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module kajax", prev: framePtr, filename: "/home/markedone/code/repos/karax/karax/kajax.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module kajax", prev: framePtr, filename: "/home/markedone/code/repos/karax/karax/kajax.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module kajax", prev: framePtr, filename: "/home/markedone/code/repos/karax/karax/kajax.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module kajax", prev: framePtr, filename: "/home/markedone/code/repos/karax/karax/kajax.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module kajax", prev: framePtr, filename: "/home/markedone/code/repos/karax/karax/kajax.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module kajax", prev: framePtr, filename: "/home/markedone/code/repos/karax/karax/kajax.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module kajax", prev: framePtr, filename: "/home/markedone/code/repos/karax/karax/kajax.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module kajax", prev: framePtr, filename: "/home/markedone/code/repos/karax/karax/kajax.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module kajax", prev: framePtr, filename: "/home/markedone/code/repos/karax/karax/kajax.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module kajax", prev: framePtr, filename: "/home/markedone/code/repos/karax/karax/kajax.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module kajax", prev: framePtr, filename: "/home/markedone/code/repos/karax/karax/kajax.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module kajax", prev: framePtr, filename: "/home/markedone/code/repos/karax/karax/kajax.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module frontend", prev: framePtr, filename: "/home/markedone/code/repos/webapps/frontend.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module frontend", prev: framePtr, filename: "/home/markedone/code/repos/webapps/frontend.nim", line: 0};
-framePtr = F;
-F.line = 9;
-var current_419430413 = [{text: "", author: ""}];
-F.line = 10;
-var status_419430414 = [0];
-F.line = 11;
-var loading_419430415 = [false];
-framePtr = F.prev;
-var F = {procname: "module frontend", prev: framePtr, filename: "/home/markedone/code/repos/webapps/frontend.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module frontend", prev: framePtr, filename: "/home/markedone/code/repos/webapps/frontend.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
+var current_419430414 = [{text: "", author: ""}];
+var status_419430415 = [0];
+var loading_419430416 = [false];
+var queue_419430446 = [[]];
+var timeOutRef_419430447 = [null];
+var wasEmptied_419430448 = [true];
 
 function add_33556412(x_33556413, x_33556413_Idx, y_33556414) {
           if (x_33556413[x_33556413_Idx] === null) { x_33556413[x_33556413_Idx] = []; }
@@ -5691,6 +1318,69 @@ function add_33556412(x_33556413, x_33556413_Idx, y_33556414) {
         x_33556413[x_33556413_Idx][off+i] = y_33556414.charCodeAt(i);
       }
     
+
+  
+}
+
+function newSeq_33556828(len_33556830) {
+  var result_33556831 = [];
+
+    result_33556831 = new Array(len_33556830); for (var i = 0 ; i < len_33556830 ; ++i) { result_33556831[i] = null; }
+  return result_33556831;
+
+}
+
+function unhandledException(e_33556667) {
+    var buf_33556668 = [[]];
+    if (!(((e_33556667.message).length == 0))) {
+    buf_33556668[0].push.apply(buf_33556668[0], makeNimstrLit("Error: unhandled exception: "));;
+    buf_33556668[0].push.apply(buf_33556668[0], e_33556667.message);;
+    }
+    else {
+    buf_33556668[0].push.apply(buf_33556668[0], makeNimstrLit("Error: unhandled exception"));;
+    }
+    
+    buf_33556668[0].push.apply(buf_33556668[0], makeNimstrLit(" ["));;
+    add_33556412(buf_33556668, 0, e_33556667.name);
+    buf_33556668[0].push.apply(buf_33556668[0], makeNimstrLit("]\x0A"));;
+    var cbuf_33556669 = toJSStr(buf_33556668[0]);
+    framePtr = null;
+      if (typeof(Error) !== "undefined") {
+    throw new Error(cbuf_33556669);
+  }
+  else {
+    throw cbuf_33556669;
+  }
+  
+
+  
+}
+
+function newSeq_570426366(len_570426368) {
+  var result_570426369 = [];
+
+    result_570426369 = new Array(len_570426368); for (var i = 0 ; i < len_570426368 ; ++i) { result_570426369[i] = ({k: 0, parent: null, current: null, newNode: null, oldNode: null}); }
+  return result_570426369;
+
+}
+
+function newSeq_570426387(len_570426389) {
+  var result_570426390 = [];
+
+    result_570426390 = new Array(len_570426389); for (var i = 0 ; i < len_570426389 ; ++i) { result_570426390[i] = ({parent: null, newChild: null, pos: 0}); }
+  return result_570426390;
+
+}
+
+function raiseOverflow() {
+    raiseException({message: makeNimstrLit("over- or underflow"), parent: null, m_type: NTI33555105, name: null, trace: [], up: null}, "OverflowDefect");
+
+  
+}
+
+function checkOverflowInt(a_33556941) {
+        if (a_33556941 > 2147483647 || a_33556941 < -2147483648) raiseOverflow();
+  
 
   
 }
@@ -5733,190 +1423,20 @@ function nimCopyAux(dest_33557150, src_33557151, n_33557152) {
   
 }
 
-function auxWriteStackTrace_33556547(f_33556548) {
-          var Temporary3;
-
-  var result_33556549 = [[]];
-
-    var it_33556557 = f_33556548;
-    var i_33556558 = 0;
-    var total_33556559 = 0;
-    var tempFrames_33556560 = arrayConstr(64, {Field0: null, Field1: 0, Field2: null}, NTI33555897);
-    Label1: do {
-        Label2: while (true) {
-          if (!!((it_33556557 == null))) Temporary3 = false; else {            Temporary3 = (i_33556558 <= 63);          }        if (!Temporary3) break Label2;
-          tempFrames_33556560[i_33556558].Field0 = it_33556557.procname;
-          tempFrames_33556560[i_33556558].Field1 = it_33556557.line;
-          tempFrames_33556560[i_33556558].Field2 = it_33556557.filename;
-          i_33556558 += 1;
-          total_33556559 += 1;
-          it_33556557 = it_33556557.prev;
-        }
-    } while (false);
-    Label4: do {
-        Label5: while (true) {
-        if (!!((it_33556557 == null))) break Label5;
-          total_33556559 += 1;
-          it_33556557 = it_33556557.prev;
-        }
-    } while (false);
-    result_33556549[0] = nimCopy(null, [], NTI33554439);
-    if (!((total_33556559 == i_33556558))) {
-    result_33556549[0].push.apply(result_33556549[0], makeNimstrLit("("));;
-    result_33556549[0].push.apply(result_33556549[0], cstrToNimstr(((total_33556559 - i_33556558)) + ""));;
-    result_33556549[0].push.apply(result_33556549[0], makeNimstrLit(" calls omitted) ...\x0A"));;
-    }
-    
-    Label6: do {
-      var j_33556606 = 0;
-      var colontmp__419430555 = 0;
-      colontmp__419430555 = (i_33556558 - 1);
-      var res_419430557 = colontmp__419430555;
-      Label7: do {
-          Label8: while (true) {
-          if (!(0 <= res_419430557)) break Label8;
-            j_33556606 = res_419430557;
-            result_33556549[0].push.apply(result_33556549[0], cstrToNimstr(tempFrames_33556560[j_33556606].Field2));;
-            if ((0 < tempFrames_33556560[j_33556606].Field1)) {
-            result_33556549[0].push.apply(result_33556549[0], makeNimstrLit("("));;
-            result_33556549[0].push.apply(result_33556549[0], cstrToNimstr((tempFrames_33556560[j_33556606].Field1) + ""));;
-            if (false) {
-            result_33556549[0].push.apply(result_33556549[0], makeNimstrLit(", "));;
-            result_33556549[0].push.apply(result_33556549[0], makeNimstrLit("0"));;
-            }
-            
-            result_33556549[0].push.apply(result_33556549[0], makeNimstrLit(")"));;
-            }
-            
-            result_33556549[0].push.apply(result_33556549[0], makeNimstrLit(" at "));;
-            add_33556412(result_33556549, 0, tempFrames_33556560[j_33556606].Field0);
-            result_33556549[0].push.apply(result_33556549[0], makeNimstrLit("\x0A"));;
-            res_419430557 -= 1;
-          }
-      } while (false);
-    } while (false);
-
-  return result_33556549[0];
-
-}
-
-function rawWriteStackTrace_33556635() {
-  var result_33556636 = [];
-
-    if (!((framePtr == null))) {
-    result_33556636 = nimCopy(null, (makeNimstrLit("Traceback (most recent call last)\x0A") || []).concat(auxWriteStackTrace_33556547(framePtr) || []), NTI33554439);
-    }
-    else {
-      result_33556636 = nimCopy(null, makeNimstrLit("No stack traceback available\x0A"), NTI33554439);
-    }
-    
-
-  return result_33556636;
-
-}
-
-function newSeq_33556828(len_33556830) {
-  var result_33556831 = [];
-
-  var F = {procname: "newSeq.newSeq", prev: framePtr, filename: "/home/markedone/build/Nim/lib/system.nim", line: 0};
-  framePtr = F;
-    F.line = 676;
-    result_33556831 = new Array(len_33556830); for (var i = 0 ; i < len_33556830 ; ++i) { result_33556831[i] = null; }  framePtr = F.prev;
-
-  return result_33556831;
-
-}
-
-function unhandledException(e_33556667) {
-    var buf_33556668 = [[]];
-    if (!(((e_33556667.message).length == 0))) {
-    buf_33556668[0].push.apply(buf_33556668[0], makeNimstrLit("Error: unhandled exception: "));;
-    buf_33556668[0].push.apply(buf_33556668[0], e_33556667.message);;
-    }
-    else {
-    buf_33556668[0].push.apply(buf_33556668[0], makeNimstrLit("Error: unhandled exception"));;
-    }
-    
-    buf_33556668[0].push.apply(buf_33556668[0], makeNimstrLit(" ["));;
-    add_33556412(buf_33556668, 0, e_33556667.name);
-    buf_33556668[0].push.apply(buf_33556668[0], makeNimstrLit("]\x0A"));;
-    buf_33556668[0].push.apply(buf_33556668[0], rawWriteStackTrace_33556635());;
-    var cbuf_33556669 = toJSStr(buf_33556668[0]);
-    framePtr = null;
-      if (typeof(Error) !== "undefined") {
-    throw new Error(cbuf_33556669);
-  }
-  else {
-    throw cbuf_33556669;
-  }
-  
-
-  
-}
-
-function newSeq_570426366(len_570426368) {
-  var result_570426369 = [];
-
-  var F = {procname: "newSeq.newSeq", prev: framePtr, filename: "/home/markedone/build/Nim/lib/system.nim", line: 0};
-  framePtr = F;
-    F.line = 676;
-    result_570426369 = new Array(len_570426368); for (var i = 0 ; i < len_570426368 ; ++i) { result_570426369[i] = ({k: 0, parent: null, current: null, newNode: null, oldNode: null}); }  framePtr = F.prev;
-
-  return result_570426369;
-
-}
-
-function newSeq_570426387(len_570426389) {
-  var result_570426390 = [];
-
-  var F = {procname: "newSeq.newSeq", prev: framePtr, filename: "/home/markedone/build/Nim/lib/system.nim", line: 0};
-  framePtr = F;
-    F.line = 676;
-    result_570426390 = new Array(len_570426389); for (var i = 0 ; i < len_570426389 ; ++i) { result_570426390[i] = ({parent: null, newChild: null, pos: 0}); }  framePtr = F.prev;
-
-  return result_570426390;
-
-}
-
-function raiseOverflow() {
-    raiseException({message: makeNimstrLit("over- or underflow"), parent: null, m_type: NTI33555105, name: null, trace: [], up: null}, "OverflowDefect");
-
-  
-}
-
-function checkOverflowInt(a_33556941) {
-        if (a_33556941 > 2147483647 || a_33556941 < -2147483648) raiseOverflow();
-  
-
-  
-}
-
 function sysFatal_218103844(message_218103847) {
-  var F = {procname: "sysFatal.sysFatal", prev: framePtr, filename: "/home/markedone/build/Nim/lib/system/fatal.nim", line: 0};
-  framePtr = F;
-    F.line = 53;
     raiseException({message: nimCopy(null, message_218103847, NTI33554439), m_type: NTI33555107, parent: null, name: null, trace: [], up: null}, "AssertionDefect");
-  framePtr = F.prev;
 
   
 }
 
 function raiseAssert_218103842(msg_218103843) {
-  var F = {procname: "assertions.raiseAssert", prev: framePtr, filename: "/home/markedone/build/Nim/lib/system/assertions.nim", line: 0};
-  framePtr = F;
-    F.line = 29;
     sysFatal_218103844(msg_218103843);
-  framePtr = F.prev;
 
   
 }
 
 function failedAssertImpl_218103866(msg_218103867) {
-  var F = {procname: "assertions.failedAssertImpl", prev: framePtr, filename: "/home/markedone/build/Nim/lib/system/assertions.nim", line: 0};
-  framePtr = F;
-    F.line = 39;
     raiseAssert_218103842(msg_218103867);
-  framePtr = F.prev;
 
   
 }
@@ -5937,11 +1457,7 @@ function raiseIndexError(i_33556758, a_33556759, b_33556760) {
 }
 
 function valueHEX3D_603980194(n_603980195, v_603980196) {
-  var F = {procname: "vdom.value=", prev: framePtr, filename: "/home/markedone/code/repos/karax/karax/vdom.nim", line: 0};
-  framePtr = F;
-    F.line = 184;
     n_603980195.text = v_603980196;
-  framePtr = F.prev;
 
   
 }
@@ -5949,29 +1465,19 @@ function valueHEX3D_603980194(n_603980195, v_603980196) {
 function value_603980191(n_603980192) {
   var result_603980193 = null;
 
-  var F = {procname: "vdom.value", prev: framePtr, filename: "/home/markedone/code/repos/karax/karax/vdom.nim", line: 0};
-  framePtr = F;
-    F.line = 183;
     result_603980193 = n_603980192.text;
-  framePtr = F.prev;
 
   return result_603980193;
 
 }
 
 function addEventShell_570425437(d_570425438, name_570425439, h_570425440) {
-  var F = {procname: "karax.addEventShell", prev: framePtr, filename: "/home/markedone/code/repos/karax/karax/karax.nim", line: 0};
-  framePtr = F;
-    F.line = 89;
     d_570425438.addEventListener(name_570425439, h_570425440, false);
     if ((d_570425438.karaxEvents == null)) {
-    F.line = 91;
     d_570425438.karaxEvents = new Array(0);
     }
     
-    F.line = 92;
     d_570425438.karaxEvents.push({Field0: name_570425439, Field1: h_570425440});
-  framePtr = F.prev;
 
   
 }
@@ -5983,56 +1489,36 @@ function laterWrapper_570425567() {
 function HEX3Aanonymous_570425572(ev_570425573) {
               
 function wrapper_570425574() {
-                var F = {procname: ":anonymous.wrapper", prev: framePtr, filename: "/home/markedone/code/repos/karax/karax/karax.nim", line: 0};
-                framePtr = F;
-                  F.line = 72;
                   var vHEX60gensym15_570425576 = ev_570425573.target.value;
-                  F.line = 73;
                   valueHEX3D_603980194(n_570425570, vHEX60gensym15_570425576);
                   if (!(!((action_570425569 == null)))) {
-                  F.line = 74;
-                  failedAssertImpl_218103866(makeNimstrLit("/home/markedone/code/repos/karax/karax/karax.nim(74, 10) `action != nil` "));
+                  failedAssertImpl_218103866(makeNimstrLit("karax.nim(74, 10) `action != nil` "));
                   }
                   
-                  F.line = 75;
                   action_570425569(ev_570425573, n_570425570);
                   if (!((value_603980191(n_570425570) == vHEX60gensym15_570425576))) {
-                  F.line = 77;
                   ev_570425573.target.value = value_603980191(n_570425570);
                   }
                   
-                framePtr = F.prev;
 
                 
               }
 
-            var F = {procname: "laterWrapper.:anonymous", prev: framePtr, filename: "/home/markedone/code/repos/karax/karax/karax.nim", line: 0};
-            framePtr = F;
               if (!((timer_570425571 == null))) {
-              F.line = 121;
               clearTimeout(timer_570425571);
               }
               
-              F.line = 122;
               timer_570425571 = setTimeout(wrapper_570425574, 400);
-            framePtr = F.prev;
 
             
           }
 
         var result_570425568 = null;
 
-        var F = {procname: "wrapEvent.laterWrapper", prev: framePtr, filename: "/home/markedone/code/repos/karax/karax/karax.nim", line: 0};
-        framePtr = F;
-          F.line = 116;
           var action_570425569 = action_570425501;
-          F.line = 117;
           var n_570425570 = n_570425499;
-          F.line = 118;
           var timer_570425571 = null;
-          F.line = 119;
           result_570425568 = HEX3Aanonymous_570425572;
-        framePtr = F.prev;
 
         return result_570425568;
 
@@ -6041,43 +1527,29 @@ function wrapper_570425574() {
 function enterWrapper_570425541() {
           
 function HEX3Aanonymous_570425545(ev_570425546) {
-            var F = {procname: "enterWrapper.:anonymous", prev: framePtr, filename: "/home/markedone/code/repos/karax/karax/karax.nim", line: 0};
-            framePtr = F;
               if ((ev_570425546.keyCode == 13)) {
-              F.line = 72;
               var vHEX60gensym8_570425548 = ev_570425546.target.value;
-              F.line = 73;
               valueHEX3D_603980194(n_570425544, vHEX60gensym8_570425548);
               if (!(!((action_570425543 == null)))) {
-              F.line = 74;
-              failedAssertImpl_218103866(makeNimstrLit("/home/markedone/code/repos/karax/karax/karax.nim(74, 10) `action != nil` "));
+              failedAssertImpl_218103866(makeNimstrLit("karax.nim(74, 10) `action != nil` "));
               }
               
-              F.line = 75;
               action_570425543(ev_570425546, n_570425544);
               if (!((value_603980191(n_570425544) == vHEX60gensym8_570425548))) {
-              F.line = 77;
               ev_570425546.target.value = value_603980191(n_570425544);
               }
               
               }
               
-            framePtr = F.prev;
 
             
           }
 
         var result_570425542 = null;
 
-        var F = {procname: "wrapEvent.enterWrapper", prev: framePtr, filename: "/home/markedone/code/repos/karax/karax/karax.nim", line: 0};
-        framePtr = F;
-          F.line = 110;
           var action_570425543 = action_570425501;
-          F.line = 111;
           var n_570425544 = n_570425499;
-          F.line = 112;
           result_570425542 = HEX3Aanonymous_570425545;
-        framePtr = F.prev;
 
         return result_570425542;
 
@@ -6089,47 +1561,32 @@ function HEX3Aanonymous_570425507(ev_570425508) {
                 var Temporary1;
                 var Temporary2;
 
-            var F = {procname: "stdWrapper.:anonymous", prev: framePtr, filename: "/home/markedone/code/repos/karax/karax/karax.nim", line: 0};
-            framePtr = F;
                 if ((n_570425506.kind == 199)) Temporary2 = true; else {                  Temporary2 = (n_570425506.kind == 193);                }                if (Temporary2) Temporary1 = true; else {                  Temporary1 = (n_570425506.kind == 195);                }              if (Temporary1) {
-              F.line = 72;
               var vHEX60gensym1_570425522 = ev_570425508.target.value;
-              F.line = 73;
               valueHEX3D_603980194(n_570425506, vHEX60gensym1_570425522);
               if (!(!((action_570425505 == null)))) {
-              F.line = 74;
-              failedAssertImpl_218103866(makeNimstrLit("/home/markedone/code/repos/karax/karax/karax.nim(74, 10) `action != nil` "));
+              failedAssertImpl_218103866(makeNimstrLit("karax.nim(74, 10) `action != nil` "));
               }
               
-              F.line = 75;
               action_570425505(ev_570425508, n_570425506);
               if (!((value_603980191(n_570425506) == vHEX60gensym1_570425522))) {
-              F.line = 77;
               ev_570425508.target.value = value_603980191(n_570425506);
               }
               
               }
               else {
-                F.line = 107;
               action_570425505(ev_570425508, n_570425506);
               }
               
-            framePtr = F.prev;
 
             
           }
 
         var result_570425504 = null;
 
-        var F = {procname: "wrapEvent.stdWrapper", prev: framePtr, filename: "/home/markedone/code/repos/karax/karax/karax.nim", line: 0};
-        framePtr = F;
-          F.line = 102;
           var action_570425505 = action_570425501;
-          F.line = 103;
           var n_570425506 = n_570425499;
-          F.line = 104;
           result_570425504 = HEX3Aanonymous_570425507;
-        framePtr = F.prev;
 
         return result_570425504;
 
@@ -6137,95 +1594,61 @@ function HEX3Aanonymous_570425507(ev_570425508) {
 
   var result_570425502 = null;
 
-  var F = {procname: "karax.wrapEvent", prev: framePtr, filename: "/home/markedone/code/repos/karax/karax/karax.nim", line: 0};
-  framePtr = F;
-    F.line = 124;
     switch (k_570425500) {
     case 30:
-      F.line = 126;
       result_570425502 = laterWrapper_570425567();
-      F.line = 127;
       addEventShell_570425437(d_570425498, "keyup", result_570425502);
       break;
     case 29:
-      F.line = 129;
       result_570425502 = enterWrapper_570425541();
-      F.line = 130;
       addEventShell_570425437(d_570425498, "keyup", result_570425502);
       break;
     default: 
-      F.line = 132;
       result_570425502 = stdWrapper_570425503();
-      F.line = 133;
       addEventShell_570425437(d_570425498, toEventName_603980125[chckIndx(k_570425500, 0, (toEventName_603980125).length - 1)], result_570425502);
       break;
     }
-  framePtr = F.prev;
 
   return result_570425502;
 
 }
 
 function applyEvents_570425603(n_570425604) {
-  var F = {procname: "karax.applyEvents", prev: framePtr, filename: "/home/markedone/code/repos/karax/karax/karax.nim", line: 0};
-  framePtr = F;
-    F.line = 145;
     var dest_570425605 = n_570425604.dom;
     Label1: do {
-      F.line = 146;
       var i_570425613 = 0;
-      F.line = 117;
-      var colontmp__419430582 = 0;
-      F.line = 146;
-      colontmp__419430582 = (n_570425604.events).length;
-      F.line = 119;
-      var i_419430583 = 0;
+      var colontmp__419430631 = 0;
+      colontmp__419430631 = (n_570425604.events).length;
+      var i_419430632 = 0;
       Label2: do {
-        F.line = 120;
           Label3: while (true) {
-          if (!(i_419430583 < colontmp__419430582)) break Label3;
-            F.line = 146;
-            i_570425613 = i_419430583;
-            F.line = 147;
+          if (!(i_419430632 < colontmp__419430631)) break Label3;
+            i_570425613 = i_419430632;
             n_570425604.events[chckIndx(i_570425613, 0, (n_570425604.events).length - 1)]["Field2"] = wrapEvent_570425497(dest_570425605, n_570425604, n_570425604.events[chckIndx(i_570425613, 0, (n_570425604.events).length - 1)]["Field0"], n_570425604.events[chckIndx(i_570425613, 0, (n_570425604.events).length - 1)]["Field1"]);
-            F.line = 122;
-            i_419430583 = addInt(i_419430583, 1);
+            i_419430632 = addInt(i_419430632, 1);
           }
       } while (false);
     } while (false);
-  framePtr = F.prev;
 
   
 }
 
 function applyStyle_671089122(n_671089123, s_671089124) {
-  var F = {procname: "vstyles.applyStyle", prev: framePtr, filename: "/home/markedone/code/repos/karax/karax/vstyles.nim", line: 0};
-  framePtr = F;
-    F.line = 324;
     n_671089123.style = {};
     Label1: do {
-      F.line = 325;
       var i_671089137 = 0;
-      F.line = 43;
-      var colontmp__419430586 = 0;
-      F.line = 325;
-      colontmp__419430586 = subInt(s_671089124.length, 1);
-      F.line = 65;
-      var res_419430587 = 0;
+      var colontmp__419430635 = 0;
+      colontmp__419430635 = subInt(s_671089124.length, 1);
+      var res_419430636 = 0;
       Label2: do {
-        F.line = 66;
           Label3: while (true) {
-          if (!(res_419430587 <= colontmp__419430586)) break Label3;
-            F.line = 325;
-            i_671089137 = res_419430587;
-            F.line = 326;
+          if (!(res_419430636 <= colontmp__419430635)) break Label3;
+            i_671089137 = res_419430636;
             n_671089123.style[s_671089124[i_671089137]] = s_671089124[addInt(i_671089137, 1)];
-            F.line = 68;
-            res_419430587 = addInt(res_419430587, 2);
+            res_419430636 = addInt(res_419430636, 2);
           }
       } while (false);
     } while (false);
-  framePtr = F.prev;
 
   
 }
@@ -6236,17 +1659,13 @@ function toDom_570425631(n_570425632, useAttachedNode_570425633, kxi_570425634) 
 
   var result_570425635 = null;
 
-  var F = {procname: "karax.toDom", prev: framePtr, filename: "/home/markedone/code/repos/karax/karax/karax.nim", line: 0};
-  framePtr = F;
   BeforeRet: do {
     if (useAttachedNode_570425633) {
     if (!((n_570425632.dom == null))) {
     if (!((n_570425632.id == null))) {
-    F.line = 158;
     kxi_570425634.byId[n_570425632.id] = n_570425632;
     }
     
-    F.line = 159;
     result_570425635 = n_570425632.dom;
     break BeforeRet;
     }
@@ -6254,222 +1673,157 @@ function toDom_570425631(n_570425632, useAttachedNode_570425633, kxi_570425634) 
     }
     
     if ((n_570425632.kind == 0)) {
-    F.line = 161;
     result_570425635 = document.createTextNode(n_570425632.text);
-    F.line = 141;
     n_570425632.dom = result_570425635;
     if (!((n_570425632.id == null))) {
-    F.line = 142;
     kxi_570425409[0].byId[n_570425632.id] = n_570425632;
     }
     
     }
     else {
     if ((n_570425632.kind == 6)) {
-    F.line = 164;
     result_570425635 = document.createElement("div");
-    F.line = 165;
     result_570425635.innerHTML = n_570425632.text;
-    F.line = 141;
     n_570425632.dom = result_570425635;
     if (!((n_570425632.id == null))) {
-    F.line = 142;
     kxi_570425409[0].byId[n_570425632.id] = n_570425632;
     }
     
-    F.line = 167;
     break BeforeRet;
     }
     else {
     if ((n_570425632.kind == 3)) {
-    F.line = 169;
     var x_570425675 = vcomponents_637534221[0][n_570425632.text](n_570425632.kids);
-    F.line = 170;
     result_570425635 = toDom_570425631(x_570425675, useAttachedNode_570425633, kxi_570425634);
-    F.line = 141;
     n_570425632.dom = result_570425635;
     if (!((n_570425632.id == null))) {
-    F.line = 142;
     kxi_570425409[0].byId[n_570425632.id] = n_570425632;
     }
     
-    F.line = 173;
     break BeforeRet;
     }
     else {
     if ((n_570425632.kind == 4)) {
-    F.line = 175;
     result_570425635 = n_570425632.dom;
     if (!(!((result_570425635 == null)))) {
-    F.line = 176;
-    failedAssertImpl_218103866(makeNimstrLit("/home/markedone/code/repos/karax/karax/karax.nim(176, 12) `result != nil` "));
+    failedAssertImpl_218103866(makeNimstrLit("karax.nim(176, 12) `result != nil` "));
     }
     
-    F.line = 141;
     n_570425632.dom = result_570425635;
     if (!((n_570425632.id == null))) {
-    F.line = 142;
     kxi_570425409[0].byId[n_570425632.id] = n_570425632;
     }
     
-    F.line = 179;
     break BeforeRet;
     }
     else {
     if ((n_570425632.kind == 5)) {
-    F.line = 181;
     var x_570425705 = n_570425632;
     if (!((x_570425705.onAttachImpl == null))) {
-    F.line = 182;
     x_570425705.onAttachImpl(x_570425705);
     }
     
     if (!(!((x_570425705.renderImpl == null)))) {
-    F.line = 183;
-    failedAssertImpl_218103866(makeNimstrLit("/home/markedone/code/repos/karax/karax/karax.nim(183, 12) `x.renderImpl != nil` "));
+    failedAssertImpl_218103866(makeNimstrLit("karax.nim(183, 12) `x.renderImpl != nil` "));
     }
     
     if ((x_570425705.expanded == null)) {
-    F.line = 185;
     x_570425705.expanded = x_570425705.renderImpl(x_570425705);
     }
     
     if (!(!((x_570425705.expanded == null)))) {
-    F.line = 187;
-    failedAssertImpl_218103866(makeNimstrLit("/home/markedone/code/repos/karax/karax/karax.nim(187, 12) `x.expanded != nil` "));
+    failedAssertImpl_218103866(makeNimstrLit("karax.nim(187, 12) `x.expanded != nil` "));
     }
     
-    F.line = 188;
     result_570425635 = toDom_570425631(x_570425705.expanded, useAttachedNode_570425633, kxi_570425634);
-    F.line = 141;
     n_570425632.dom = result_570425635;
     if (!((n_570425632.id == null))) {
-    F.line = 142;
     kxi_570425409[0].byId[n_570425632.id] = n_570425632;
     }
     
-    F.line = 190;
     break BeforeRet;
     }
     else {
-      F.line = 192;
       result_570425635 = document.createElement(toTag_603980124[chckIndx(n_570425632.kind, 0, (toTag_603980124).length - 1)]);
-      F.line = 141;
       n_570425632.dom = result_570425635;
       if (!((n_570425632.id == null))) {
-      F.line = 142;
       kxi_570425409[0].byId[n_570425632.id] = n_570425632;
       }
       
       Label1: do {
-        F.line = 194;
         var k_570425744 = null;
         Label2: do {
-          F.line = 310;
-          var i_419430567 = 0;
-          F.line = 117;
-          var colontmp__419430568 = 0;
-          F.line = 310;
-          colontmp__419430568 = (n_570425632.kids).length;
-          F.line = 119;
-          var i_419430569 = 0;
+          var i_419430616 = 0;
+          var colontmp__419430617 = 0;
+          colontmp__419430617 = (n_570425632.kids).length;
+          var i_419430618 = 0;
           Label3: do {
-            F.line = 120;
               Label4: while (true) {
-              if (!(i_419430569 < colontmp__419430568)) break Label4;
-                F.line = 310;
-                i_419430567 = i_419430569;
-                F.line = 194;
-                k_570425744 = n_570425632.kids[chckIndx(i_419430567, 0, (n_570425632.kids).length - 1)];
-                F.line = 195;
+              if (!(i_419430618 < colontmp__419430617)) break Label4;
+                i_419430616 = i_419430618;
+                k_570425744 = n_570425632.kids[chckIndx(i_419430616, 0, (n_570425632.kids).length - 1)];
                 result_570425635.appendChild(toDom_570425631(k_570425744, useAttachedNode_570425633, kxi_570425634));
-                F.line = 122;
-                i_419430569 = addInt(i_419430569, 1);
+                i_419430618 = addInt(i_419430618, 1);
               }
           } while (false);
         } while (false);
       } while (false);
       if (!((n_570425632.text == null))) {
-      F.line = 198;
       result_570425635.value = n_570425632.text;
       }
       
     }
     }}}}
     if (!((n_570425632.id == null))) {
-    F.line = 200;
     result_570425635.id = n_570425632.id;
     }
     
     if (!((n_570425632.class == null))) {
-    F.line = 202;
     result_570425635.className = n_570425632.class;
     }
     
     Label5: do {
-      F.line = 205;
       var k_570425745 = null;
-      F.line = 205;
       var v_570425746 = null;
       Label6: do {
-        F.line = 313;
-        var i_419430577 = 0;
-        F.line = 43;
-        var colontmp__419430578 = 0;
-        F.line = 313;
-        colontmp__419430578 = subInt((n_570425632.attrs).length, 2);
-        F.line = 65;
-        var res_419430579 = 0;
+        var i_419430626 = 0;
+        var colontmp__419430627 = 0;
+        colontmp__419430627 = subInt((n_570425632.attrs).length, 2);
+        var res_419430628 = 0;
         Label7: do {
-          F.line = 66;
             Label8: while (true) {
-            if (!(res_419430579 <= colontmp__419430578)) break Label8;
-              F.line = 313;
-              i_419430577 = res_419430579;
-              F.line = 205;
-              k_570425745 = n_570425632.attrs[chckIndx(i_419430577, 0, (n_570425632.attrs).length - 1)];
-              F.line = 314;
-              v_570425746 = n_570425632.attrs[chckIndx(addInt(i_419430577, 1), 0, (n_570425632.attrs).length - 1)];
+            if (!(res_419430628 <= colontmp__419430627)) break Label8;
+              i_419430626 = res_419430628;
+              k_570425745 = n_570425632.attrs[chckIndx(i_419430626, 0, (n_570425632.attrs).length - 1)];
+              v_570425746 = n_570425632.attrs[chckIndx(addInt(i_419430626, 1), 0, (n_570425632.attrs).length - 1)];
               if (!((v_570425746 == null))) {
-              F.line = 207;
               result_570425635.setAttribute(k_570425745, v_570425746);
               }
               
-              F.line = 68;
-              res_419430579 = addInt(res_419430579, 2);
+              res_419430628 = addInt(res_419430628, 2);
             }
         } while (false);
       } while (false);
     } while (false);
-    F.line = 208;
     applyEvents_570425603(n_570425632);
       if (!!((kxi_570425634 == null))) Temporary10 = false; else {        Temporary10 = (n_570425632 == kxi_570425634.toFocusV);      }      if (!Temporary10) Temporary9 = false; else {        Temporary9 = (kxi_570425634.toFocus == null);      }    if (Temporary9) {
-    F.line = 210;
     kxi_570425634.toFocus = result_570425635;
     }
     
     if (!((n_570425632.style == null))) {
-    F.line = 211;
     applyStyle_671089122(result_570425635, n_570425632.style);
     }
     
   } while (false);
-  framePtr = F.prev;
 
   return result_570425635;
 
 }
 
 function replaceById_570425823(id_570425824, newTree_570425825) {
-  var F = {procname: "karax.replaceById", prev: framePtr, filename: "/home/markedone/code/repos/karax/karax/karax.nim", line: 0};
-  framePtr = F;
-    F.line = 237;
     var x_570425826 = document.getElementById(id_570425824);
-    F.line = 238;
     x_570425826.parentNode.replaceChild(newTree_570425825, x_570425826);
-    F.line = 239;
     newTree_570425825.id = id_570425824;
-  framePtr = F.prev;
 
   
 }
@@ -6477,11 +1831,7 @@ function replaceById_570425823(id_570425824, newTree_570425825) {
 function len_603980475(x_603980476) {
   var result_603980477 = 0;
 
-  var F = {procname: "vdom.len", prev: framePtr, filename: "/home/markedone/code/repos/karax/karax/vdom.nim", line: 0};
-  framePtr = F;
-    F.line = 274;
     result_603980477 = (x_603980476.kids).length;
-  framePtr = F.prev;
 
   return result_603980477;
 
@@ -6490,11 +1840,7 @@ function len_603980475(x_603980476) {
 function HEX5BHEX5D_603980482(x_603980483, idx_603980484) {
   var result_603980485 = null;
 
-  var F = {procname: "vdom.[]", prev: framePtr, filename: "/home/markedone/code/repos/karax/karax/vdom.nim", line: 0};
-  framePtr = F;
-    F.line = 275;
     result_603980485 = x_603980483.kids[chckIndx(idx_603980484, 0, (x_603980483.kids).length - 1)];
-  framePtr = F.prev;
 
   return result_603980485;
 
@@ -6506,63 +1852,47 @@ function same_570425782(n_570425783, e_570425784, nesting_570425785) {
 
   var result_570425786 = false;
 
-  var F = {procname: "karax.same", prev: framePtr, filename: "/home/markedone/code/repos/karax/karax/karax.nim", line: 0};
-  framePtr = F;
   BeforeRet: do {
     if (kxi_570425409[0].orphans.hasOwnProperty(n_570425783.id)) {
-    F.line = 214;
     result_570425786 = true;
     break BeforeRet;
     }
     
     if ((n_570425783.kind == 5)) {
-    F.line = 216;
     result_570425786 = same_570425782(n_570425783.expanded, e_570425784, addInt(nesting_570425785, 1));
     }
     else {
     if ((n_570425783.kind == 6)) {
-    F.line = 218;
     result_570425786 = true;
     }
     else {
       if ((n_570425783.kind == 3)) Temporary1 = true; else {        Temporary1 = (n_570425783.kind == 4);      }    if (Temporary1) {
-    F.line = 221;
     result_570425786 = true;
     }
     else {
     if ((toTag_603980124[chckIndx(n_570425783.kind, 0, (toTag_603980124).length - 1)] == e_570425784.nodeName)) {
-    F.line = 223;
     result_570425786 = true;
     if (!((n_570425783.kind == 0))) {
       if (!!((e_570425784.childNodes.length == len_603980475(n_570425783)))) Temporary2 = false; else {        Temporary2 = !((n_570425783.kind == 199));      }    if (Temporary2) {
-    F.line = 229;
     result_570425786 = false;
     break BeforeRet;
     }
     
     Label3: do {
-      F.line = 230;
       var i_570425822 = 0;
-      F.line = 117;
-      var colontmp__419430590 = 0;
-      F.line = 230;
-      colontmp__419430590 = len_603980475(n_570425783);
-      F.line = 119;
-      var i_419430591 = 0;
+      var colontmp__419430639 = 0;
+      colontmp__419430639 = len_603980475(n_570425783);
+      var i_419430640 = 0;
       Label4: do {
-        F.line = 120;
           Label5: while (true) {
-          if (!(i_419430591 < colontmp__419430590)) break Label5;
-            F.line = 230;
-            i_570425822 = i_419430591;
+          if (!(i_419430640 < colontmp__419430639)) break Label5;
+            i_570425822 = i_419430640;
             if (!(same_570425782(HEX5BHEX5D_603980482(n_570425783, i_570425822), e_570425784.childNodes[i_570425822], addInt(nesting_570425785, 1)))) {
-            F.line = 231;
             result_570425786 = false;
             break BeforeRet;
             }
             
-            F.line = 122;
-            i_419430591 = addInt(i_419430591, 1);
+            i_419430640 = addInt(i_419430640, 1);
           }
       } while (false);
     } while (false);
@@ -6573,7 +1903,6 @@ function same_570425782(n_570425783, e_570425784, nesting_570425785) {
     }
     }}}
   } while (false);
-  framePtr = F.prev;
 
   return result_570425786;
 
@@ -6582,17 +1911,13 @@ function same_570425782(n_570425783, e_570425784, nesting_570425785) {
 function eq_671088894(a_671088895, b_671088896) {
   var result_671088897 = false;
 
-  var F = {procname: "vstyles.eq", prev: framePtr, filename: "/home/markedone/code/repos/karax/karax/vstyles.nim", line: 0};
-  framePtr = F;
   BeforeRet: do {
     if ((a_671088895 == null)) {
     if ((b_671088896 == null)) {
-    F.line = 233;
     result_671088897 = true;
     break BeforeRet;
     }
     else {
-      F.line = 234;
       result_671088897 = false;
       break BeforeRet;
     }
@@ -6600,48 +1925,36 @@ function eq_671088894(a_671088895, b_671088896) {
     }
     else {
     if ((b_671088896 == null)) {
-    F.line = 235;
     result_671088897 = false;
     break BeforeRet;
     }
     }
     if (!((a_671088895.length == b_671088896.length))) {
-    F.line = 236;
     result_671088897 = false;
     break BeforeRet;
     }
     
     Label1: do {
-      F.line = 237;
       var i_671088932 = 0;
-      F.line = 117;
-      var colontmp__419430617 = 0;
-      F.line = 237;
-      colontmp__419430617 = a_671088895.length;
-      F.line = 119;
-      var i_419430618 = 0;
+      var colontmp__419430666 = 0;
+      colontmp__419430666 = a_671088895.length;
+      var i_419430667 = 0;
       Label2: do {
-        F.line = 120;
           Label3: while (true) {
-          if (!(i_419430618 < colontmp__419430617)) break Label3;
-            F.line = 237;
-            i_671088932 = i_419430618;
+          if (!(i_419430667 < colontmp__419430666)) break Label3;
+            i_671088932 = i_419430667;
             if (!((a_671088895[i_671088932] == b_671088896[i_671088932]))) {
-            F.line = 238;
             result_671088897 = false;
             break BeforeRet;
             }
             
-            F.line = 122;
-            i_419430618 = addInt(i_419430618, 1);
+            i_419430667 = addInt(i_419430667, 1);
           }
       } while (false);
     } while (false);
-    F.line = 239;
     result_671088897 = true;
     break BeforeRet;
   } while (false);
-  framePtr = F.prev;
 
   return result_671088897;
 
@@ -6650,42 +1963,30 @@ function eq_671088894(a_671088895, b_671088896) {
 function sameAttrs_603980653(a_603980654, b_603980655) {
   var result_603980656 = false;
 
-  var F = {procname: "vdom.sameAttrs", prev: framePtr, filename: "/home/markedone/code/repos/karax/karax/vdom.nim", line: 0};
-  framePtr = F;
   BeforeRet: do {
     if (((a_603980654.attrs).length == (b_603980655.attrs).length)) {
-    F.line = 318;
     result_603980656 = true;
     Label1: do {
-      F.line = 319;
       var i_603980670 = 0;
-      F.line = 117;
-      var colontmp__419430621 = 0;
-      F.line = 319;
-      colontmp__419430621 = (a_603980654.attrs).length;
-      F.line = 119;
-      var i_419430622 = 0;
+      var colontmp__419430670 = 0;
+      colontmp__419430670 = (a_603980654.attrs).length;
+      var i_419430671 = 0;
       Label2: do {
-        F.line = 120;
           Label3: while (true) {
-          if (!(i_419430622 < colontmp__419430621)) break Label3;
-            F.line = 319;
-            i_603980670 = i_419430622;
+          if (!(i_419430671 < colontmp__419430670)) break Label3;
+            i_603980670 = i_419430671;
             if (!((a_603980654.attrs[chckIndx(i_603980670, 0, (a_603980654.attrs).length - 1)] == b_603980655.attrs[chckIndx(i_603980670, 0, (b_603980655.attrs).length - 1)]))) {
-            F.line = 320;
             result_603980656 = false;
             break BeforeRet;
             }
             
-            F.line = 122;
-            i_419430622 = addInt(i_419430622, 1);
+            i_419430671 = addInt(i_419430671, 1);
           }
       } while (false);
     } while (false);
     }
     
   } while (false);
-  framePtr = F.prev;
 
   return result_603980656;
 
@@ -6697,32 +1998,25 @@ function eq_570425836(a_570425837, b_570425838, recursive_570425839) {
 
   var result_570425840 = 0;
 
-  var F = {procname: "karax.eq", prev: framePtr, filename: "/home/markedone/code/repos/karax/karax/karax.nim", line: 0};
-  framePtr = F;
   BeforeRet: do {
     if (!((a_570425837.kind == b_570425838.kind))) {
-    F.line = 261;
     result_570425840 = 1;
     break BeforeRet;
     }
     
     if (!((a_570425837.id == b_570425838.id))) {
-    F.line = 264;
     result_570425840 = 1;
     break BeforeRet;
     }
     
-    F.line = 265;
     result_570425840 = 3;
     if (!((a_570425837.index == b_570425838.index))) {
-    F.line = 268;
     result_570425840 = 1;
     break BeforeRet;
     }
     
     if ((a_570425837.kind == 0)) {
     if (!((a_570425837.text == b_570425838.text))) {
-    F.line = 272;
     result_570425840 = 1;
     break BeforeRet;
     }
@@ -6731,40 +2025,30 @@ function eq_570425836(a_570425837, b_570425838, recursive_570425839) {
     else {
     if ((a_570425837.kind == 3)) {
     if (!((a_570425837.text == b_570425838.text))) {
-    F.line = 274;
     result_570425840 = 1;
     break BeforeRet;
     }
     
     if (!((len_603980475(a_570425837) == len_603980475(b_570425838)))) {
-    F.line = 275;
     result_570425840 = 1;
     break BeforeRet;
     }
     
     Label1: do {
-      F.line = 276;
       var i_570425857 = 0;
-      F.line = 117;
-      var colontmp__419430609 = 0;
-      F.line = 276;
-      colontmp__419430609 = len_603980475(a_570425837);
-      F.line = 119;
-      var i_419430610 = 0;
+      var colontmp__419430658 = 0;
+      colontmp__419430658 = len_603980475(a_570425837);
+      var i_419430659 = 0;
       Label2: do {
-        F.line = 120;
           Label3: while (true) {
-          if (!(i_419430610 < colontmp__419430609)) break Label3;
-            F.line = 276;
-            i_570425857 = i_419430610;
+          if (!(i_419430659 < colontmp__419430658)) break Label3;
+            i_570425857 = i_419430659;
             if ((eq_570425836(HEX5BHEX5D_603980482(a_570425837, i_570425857), HEX5BHEX5D_603980482(b_570425838, i_570425857), recursive_570425839) == 1)) {
-            F.line = 277;
             result_570425840 = 1;
             break BeforeRet;
             }
             
-            F.line = 122;
-            i_419430610 = addInt(i_419430610, 1);
+            i_419430659 = addInt(i_419430659, 1);
           }
       } while (false);
     } while (false);
@@ -6772,12 +2056,10 @@ function eq_570425836(a_570425837, b_570425838, recursive_570425839) {
     else {
     if ((a_570425837.kind == 4)) {
     if ((a_570425837.dom == b_570425838.dom)) {
-    F.line = 280;
     result_570425840 = 3;
     break BeforeRet;
     }
     else {
-      F.line = 282;
       result_570425840 = 1;
       break BeforeRet;
     }
@@ -6786,7 +2068,6 @@ function eq_570425836(a_570425837, b_570425838, recursive_570425839) {
     else {
     if ((a_570425837.kind == 6)) {
     if (!((a_570425837.text == b_570425838.text))) {
-    F.line = 285;
     result_570425840 = 1;
     break BeforeRet;
     }
@@ -6795,184 +2076,129 @@ function eq_570425836(a_570425837, b_570425838, recursive_570425839) {
     else {
     if ((b_570425838.kind == 5)) {
     if (!((a_570425837.text == b_570425838.text))) {
-    F.line = 290;
     result_570425840 = 1;
     break BeforeRet;
     }
     
     if (!((a_570425837.key == b_570425838.key))) {
-    F.line = 296;
     result_570425840 = 1;
     break BeforeRet;
     }
     
-    F.line = 297;
     result_570425840 = 0;
     break BeforeRet;
     }
     }}}}
       if (!((a_570425837.class == b_570425838.class))) Temporary5 = true; else {        Temporary5 = !(eq_671088894(a_570425837.style, b_570425838.style));      }      if (Temporary5) Temporary4 = true; else {        Temporary4 = !(sameAttrs_603980653(a_570425837, b_570425838));      }    if (Temporary4) {
-    F.line = 303;
     result_570425840 = 2;
     break BeforeRet;
     }
     
     if (recursive_570425839) {
     if (!((len_603980475(a_570425837) == len_603980475(b_570425838)))) {
-    F.line = 307;
     result_570425840 = 1;
     break BeforeRet;
     }
     
     Label6: do {
-      F.line = 308;
       var i_570425883 = 0;
-      F.line = 117;
-      var colontmp__419430613 = 0;
-      F.line = 308;
-      colontmp__419430613 = len_603980475(a_570425837);
-      F.line = 119;
-      var i_419430614 = 0;
+      var colontmp__419430662 = 0;
+      colontmp__419430662 = len_603980475(a_570425837);
+      var i_419430663 = 0;
       Label7: do {
-        F.line = 120;
           Label8: while (true) {
-          if (!(i_419430614 < colontmp__419430613)) break Label8;
-            F.line = 308;
-            i_570425883 = i_419430614;
+          if (!(i_419430663 < colontmp__419430662)) break Label8;
+            i_570425883 = i_419430663;
             if (!((eq_570425836(HEX5BHEX5D_603980482(a_570425837, i_570425883), HEX5BHEX5D_603980482(b_570425838, i_570425883), true) == 3))) {
-            F.line = 310;
             result_570425840 = 1;
             break BeforeRet;
             }
             
-            F.line = 122;
-            i_419430614 = addInt(i_419430614, 1);
+            i_419430663 = addInt(i_419430663, 1);
           }
       } while (false);
     } while (false);
     }
     
-    F.line = 313;
     break BeforeRet;
   } while (false);
-  framePtr = F.prev;
 
   return result_570425840;
 
 }
 
 function updateStyles_570425897(newNode_570425898, oldNode_570425899) {
-  var F = {procname: "karax.updateStyles", prev: framePtr, filename: "/home/markedone/code/repos/karax/karax/karax.nim", line: 0};
-  framePtr = F;
     if (!((oldNode_570425899.dom == null))) {
     if (!((newNode_570425898.style == null))) {
-    F.line = 318;
     applyStyle_671089122(oldNode_570425899.dom, newNode_570425898.style);
     }
     else {
-      F.line = 319;
       oldNode_570425899.dom.style = {m_type: NTI687865905, alignContent: null, alignItems: null, alignSelf: null, all: null, animation: null, animationDelay: null, animationDirection: null, animationDuration: null, animationFillMode: null, animationIterationCount: null, animationName: null, animationPlayState: null, animationTimingFunction: null, backdropFilter: null, backfaceVisibility: null, background: null, backgroundAttachment: null, backgroundBlendMode: null, backgroundClip: null, backgroundColor: null, backgroundImage: null, backgroundOrigin: null, backgroundPosition: null, backgroundRepeat: null, backgroundSize: null, blockSize: null, border: null, borderBlock: null, borderBlockColor: null, borderBlockEnd: null, borderBlockEndColor: null, borderBlockEndStyle: null, borderBlockEndWidth: null, borderBlockStart: null, borderBlockStartColor: null, borderBlockStartStyle: null, borderBlockStartWidth: null, borderBlockStyle: null, borderBlockWidth: null, borderBottom: null, borderBottomColor: null, borderBottomLeftRadius: null, borderBottomRightRadius: null, borderBottomStyle: null, borderBottomWidth: null, borderCollapse: null, borderColor: null, borderEndEndRadius: null, borderEndStartRadius: null, borderImage: null, borderImageOutset: null, borderImageRepeat: null, borderImageSlice: null, borderImageSource: null, borderImageWidth: null, borderInline: null, borderInlineColor: null, borderInlineEnd: null, borderInlineEndColor: null, borderInlineEndStyle: null, borderInlineEndWidth: null, borderInlineStart: null, borderInlineStartColor: null, borderInlineStartStyle: null, borderInlineStartWidth: null, borderInlineStyle: null, borderInlineWidth: null, borderLeft: null, borderLeftColor: null, borderLeftStyle: null, borderLeftWidth: null, borderRadius: null, borderRight: null, borderRightColor: null, borderRightStyle: null, borderRightWidth: null, borderSpacing: null, borderStartEndRadius: null, borderStartStartRadius: null, borderStyle: null, borderTop: null, borderTopColor: null, borderTopLeftRadius: null, borderTopRightRadius: null, borderTopStyle: null, borderTopWidth: null, borderWidth: null, bottom: null, boxDecorationBreak: null, boxShadow: null, boxSizing: null, breakAfter: null, breakBefore: null, breakInside: null, captionSide: null, caretColor: null, clear: null, clip: null, clipPath: null, color: null, colorAdjust: null, columnCount: null, columnFill: null, columnGap: null, columnRule: null, columnRuleColor: null, columnRuleStyle: null, columnRuleWidth: null, columnSpan: null, columnWidth: null, columns: null, contain: null, content: null, counterIncrement: null, counterReset: null, counterSet: null, cursor: null, direction: null, display: null, emptyCells: null, filter: null, flex: null, flexBasis: null, flexDirection: null, flexFlow: null, flexGrow: null, flexShrink: null, flexWrap: null, cssFloat: null, font: null, fontFamily: null, fontFeatureSettings: null, fontKerning: null, fontLanguageOverride: null, fontOpticalSizing: null, fontSize: null, fontSizeAdjust: null, fontStretch: null, fontStyle: null, fontSynthesis: null, fontVariant: null, fontVariantAlternates: null, fontVariantCaps: null, fontVariantEastAsian: null, fontVariantLigatures: null, fontVariantNumeric: null, fontVariantPosition: null, fontVariationSettings: null, fontWeight: null, gap: null, grid: null, gridArea: null, gridAutoColumns: null, gridAutoFlow: null, gridAutoRows: null, gridColumn: null, gridColumnEnd: null, gridColumnStart: null, gridRow: null, gridRowEnd: null, gridRowStart: null, gridTemplate: null, gridTemplateAreas: null, gridTemplateColumns: null, gridTemplateRows: null, hangingPunctuation: null, height: null, hyphens: null, imageOrientation: null, imageRendering: null, inlineSize: null, inset: null, insetBlock: null, insetBlockEnd: null, insetBlockStart: null, insetInline: null, insetInlineEnd: null, insetInlineStart: null, isolation: null, justifyContent: null, justifyItems: null, justifySelf: null, left: null, letterSpacing: null, lineBreak: null, lineHeight: null, listStyle: null, listStyleImage: null, listStylePosition: null, listStyleType: null, margin: null, marginBlock: null, marginBlockEnd: null, marginBlockStart: null, marginBottom: null, marginInline: null, marginInlineEnd: null, marginInlineStart: null, marginLeft: null, marginRight: null, marginTop: null, mask: null, maskBorder: null, maskBorderMode: null, maskBorderOutset: null, maskBorderRepeat: null, maskBorderSlice: null, maskBorderSource: null, maskBorderWidth: null, maskClip: null, maskComposite: null, maskImage: null, maskMode: null, maskOrigin: null, maskPosition: null, maskRepeat: null, maskSize: null, maskType: null, maxBlockSize: null, maxHeight: null, maxInlineSize: null, maxWidth: null, minBlockSize: null, minHeight: null, minInlineSize: null, minWidth: null, mixBlendMode: null, objectFit: null, objectPosition: null, offset: null, offsetAnchor: null, offsetDistance: null, offsetPath: null, offsetRotate: null, opacity: null, order: null, orphans: null, outline: null, outlineColor: null, outlineOffset: null, outlineStyle: null, outlineWidth: null, overflow: null, overflowAnchor: null, overflowBlock: null, overflowInline: null, overflowWrap: null, overflowX: null, overflowY: null, overscrollBehavior: null, overscrollBehaviorBlock: null, overscrollBehaviorInline: null, overscrollBehaviorX: null, overscrollBehaviorY: null, padding: null, paddingBlock: null, paddingBlockEnd: null, paddingBlockStart: null, paddingBottom: null, paddingInline: null, paddingInlineEnd: null, paddingInlineStart: null, paddingLeft: null, paddingRight: null, paddingTop: null, pageBreakAfter: null, pageBreakBefore: null, pageBreakInside: null, paintOrder: null, perspective: null, perspectiveOrigin: null, placeContent: null, placeItems: null, placeSelf: null, pointerEvents: null, position: null, quotes: null, resize: null, right: null, rotate: null, rowGap: null, scale: null, scrollBehavior: null, scrollMargin: null, scrollMarginBlock: null, scrollMarginBlockEnd: null, scrollMarginBlockStart: null, scrollMarginBottom: null, scrollMarginInline: null, scrollMarginInlineEnd: null, scrollMarginInlineStart: null, scrollMarginLeft: null, scrollMarginRight: null, scrollMarginTop: null, scrollPadding: null, scrollPaddingBlock: null, scrollPaddingBlockEnd: null, scrollPaddingBlockStart: null, scrollPaddingBottom: null, scrollPaddingInline: null, scrollPaddingInlineEnd: null, scrollPaddingInlineStart: null, scrollPaddingLeft: null, scrollPaddingRight: null, scrollPaddingTop: null, scrollSnapAlign: null, scrollSnapStop: null, scrollSnapType: null, scrollbar3dLightColor: null, scrollbarArrowColor: null, scrollbarBaseColor: null, scrollbarColor: null, scrollbarDarkshadowColor: null, scrollbarFaceColor: null, scrollbarHighlightColor: null, scrollbarShadowColor: null, scrollbarTrackColor: null, scrollbarWidth: null, shapeImageThreshold: null, shapeMargin: null, shapeOutside: null, tabSize: null, tableLayout: null, textAlign: null, textAlignLast: null, textCombineUpright: null, textDecoration: null, textDecorationColor: null, textDecorationLine: null, textDecorationSkipInk: null, textDecorationStyle: null, textDecorationThickness: null, textEmphasis: null, textEmphasisColor: null, textEmphasisPosition: null, textEmphasisStyle: null, textIndent: null, textJustify: null, textOrientation: null, textOverflow: null, textRendering: null, textShadow: null, textTransform: null, textUnderlineOffset: null, textUnderlinePosition: null, top: null, touchAction: null, transform: null, transformBox: null, transformOrigin: null, transformStyle: null, transition: null, transitionDelay: null, transitionDuration: null, transitionProperty: null, transitionTimingFunction: null, translate: null, unicodeBidi: null, verticalAlign: null, visibility: null, whiteSpace: null, widows: null, width: null, willChange: null, wordBreak: null, wordSpacing: null, writingMode: null, zIndex: null};
     }
     
-    F.line = 320;
     oldNode_570425899.dom.className = newNode_570425898.class;
     }
     
-    F.line = 321;
     oldNode_570425899.style = newNode_570425898.style;
-    F.line = 322;
     oldNode_570425899.class = newNode_570425898.class;
-  framePtr = F.prev;
 
   
 }
 
 function takeOverAttr_603980467(newNode_603980468, oldNode_603980469) {
-  var F = {procname: "vdom.takeOverAttr", prev: framePtr, filename: "/home/markedone/code/repos/karax/karax/vdom.nim", line: 0};
-  framePtr = F;
-    F.line = 258;
     oldNode_603980469.attrs = newNode_603980468.attrs;
-  framePtr = F.prev;
 
   
 }
 
 function updateAttributes_570425926(newNode_570425927, oldNode_570425928) {
-  var F = {procname: "karax.updateAttributes", prev: framePtr, filename: "/home/markedone/code/repos/karax/karax/karax.nim", line: 0};
-  framePtr = F;
     if (!((oldNode_570425928.dom == null))) {
     Label1: do {
-      F.line = 327;
       var k_570425933 = null;
-      F.line = 327;
       var __570425934 = null;
       Label2: do {
-        F.line = 313;
-        var i_419430626 = 0;
-        F.line = 43;
-        var colontmp__419430627 = 0;
-        F.line = 313;
-        colontmp__419430627 = subInt((oldNode_570425928.attrs).length, 2);
-        F.line = 65;
-        var res_419430628 = 0;
+        var i_419430675 = 0;
+        var colontmp__419430676 = 0;
+        colontmp__419430676 = subInt((oldNode_570425928.attrs).length, 2);
+        var res_419430677 = 0;
         Label3: do {
-          F.line = 66;
             Label4: while (true) {
-            if (!(res_419430628 <= colontmp__419430627)) break Label4;
-              F.line = 313;
-              i_419430626 = res_419430628;
-              F.line = 327;
-              k_570425933 = oldNode_570425928.attrs[chckIndx(i_419430626, 0, (oldNode_570425928.attrs).length - 1)];
-              F.line = 314;
-              __570425934 = oldNode_570425928.attrs[chckIndx(addInt(i_419430626, 1), 0, (oldNode_570425928.attrs).length - 1)];
-              F.line = 328;
+            if (!(res_419430677 <= colontmp__419430676)) break Label4;
+              i_419430675 = res_419430677;
+              k_570425933 = oldNode_570425928.attrs[chckIndx(i_419430675, 0, (oldNode_570425928.attrs).length - 1)];
+              __570425934 = oldNode_570425928.attrs[chckIndx(addInt(i_419430675, 1), 0, (oldNode_570425928.attrs).length - 1)];
               oldNode_570425928.dom.removeAttribute(k_570425933);
-              F.line = 68;
-              res_419430628 = addInt(res_419430628, 2);
+              res_419430677 = addInt(res_419430677, 2);
             }
         } while (false);
       } while (false);
     } while (false);
     Label5: do {
-      F.line = 329;
       var k_570425935 = null;
-      F.line = 329;
       var v_570425936 = null;
       Label6: do {
-        F.line = 313;
-        var i_419430632 = 0;
-        F.line = 43;
-        var colontmp__419430633 = 0;
-        F.line = 313;
-        colontmp__419430633 = subInt((newNode_570425927.attrs).length, 2);
-        F.line = 65;
-        var res_419430634 = 0;
+        var i_419430681 = 0;
+        var colontmp__419430682 = 0;
+        colontmp__419430682 = subInt((newNode_570425927.attrs).length, 2);
+        var res_419430683 = 0;
         Label7: do {
-          F.line = 66;
             Label8: while (true) {
-            if (!(res_419430634 <= colontmp__419430633)) break Label8;
-              F.line = 313;
-              i_419430632 = res_419430634;
-              F.line = 329;
-              k_570425935 = newNode_570425927.attrs[chckIndx(i_419430632, 0, (newNode_570425927.attrs).length - 1)];
-              F.line = 314;
-              v_570425936 = newNode_570425927.attrs[chckIndx(addInt(i_419430632, 1), 0, (newNode_570425927.attrs).length - 1)];
+            if (!(res_419430683 <= colontmp__419430682)) break Label8;
+              i_419430681 = res_419430683;
+              k_570425935 = newNode_570425927.attrs[chckIndx(i_419430681, 0, (newNode_570425927.attrs).length - 1)];
+              v_570425936 = newNode_570425927.attrs[chckIndx(addInt(i_419430681, 1), 0, (newNode_570425927.attrs).length - 1)];
               if (!((v_570425936 == null))) {
-              F.line = 331;
               oldNode_570425928.dom.setAttribute(k_570425935, v_570425936);
               }
               
-              F.line = 68;
-              res_419430634 = addInt(res_419430634, 2);
+              res_419430683 = addInt(res_419430683, 2);
             }
         } while (false);
       } while (false);
     } while (false);
     }
     
-    F.line = 332;
     takeOverAttr_603980467(newNode_570425927, oldNode_570425928);
-  framePtr = F.prev;
 
   
 }
@@ -6980,119 +2206,79 @@ function updateAttributes_570425926(newNode_570425927, oldNode_570425928) {
 function getAttr_603980454(n_603980455, key_603980456) {
   var result_603980457 = null;
 
-  var F = {procname: "vdom.getAttr", prev: framePtr, filename: "/home/markedone/code/repos/karax/karax/vdom.nim", line: 0};
-  framePtr = F;
   BeforeRet: do {
     Label1: do {
-      F.line = 254;
       var i_603980466 = 0;
-      F.line = 43;
-      var colontmp__419430637 = 0;
-      F.line = 254;
-      colontmp__419430637 = subInt((n_603980455.attrs).length, 2);
-      F.line = 65;
-      var res_419430638 = 0;
+      var colontmp__419430686 = 0;
+      colontmp__419430686 = subInt((n_603980455.attrs).length, 2);
+      var res_419430687 = 0;
       Label2: do {
-        F.line = 66;
           Label3: while (true) {
-          if (!(res_419430638 <= colontmp__419430637)) break Label3;
-            F.line = 254;
-            i_603980466 = res_419430638;
+          if (!(res_419430687 <= colontmp__419430686)) break Label3;
+            i_603980466 = res_419430687;
             if ((n_603980455.attrs[chckIndx(i_603980466, 0, (n_603980455.attrs).length - 1)] == key_603980456)) {
-            F.line = 255;
             result_603980457 = n_603980455.attrs[chckIndx(addInt(i_603980466, 1), 0, (n_603980455.attrs).length - 1)];
             break BeforeRet;
             }
             
-            F.line = 68;
-            res_419430638 = addInt(res_419430638, 2);
+            res_419430687 = addInt(res_419430687, 2);
           }
       } while (false);
     } while (false);
   } while (false);
-  framePtr = F.prev;
 
   return result_603980457;
 
 }
 
 function removeAllEventHandlers_570425461(d_570425462) {
-  var F = {procname: "karax.removeAllEventHandlers", prev: framePtr, filename: "/home/markedone/code/repos/karax/karax/karax.nim", line: 0};
-  framePtr = F;
     if (!((d_570425462.karaxEvents == null))) {
     Label1: do {
-      F.line = 96;
       var i_570425478 = 0;
-      F.line = 117;
-      var colontmp__419430641 = 0;
-      F.line = 96;
-      colontmp__419430641 = d_570425462.karaxEvents.length;
-      F.line = 119;
-      var i_419430642 = 0;
+      var colontmp__419430690 = 0;
+      colontmp__419430690 = d_570425462.karaxEvents.length;
+      var i_419430691 = 0;
       Label2: do {
-        F.line = 120;
           Label3: while (true) {
-          if (!(i_419430642 < colontmp__419430641)) break Label3;
-            F.line = 96;
-            i_570425478 = i_419430642;
-            F.line = 97;
+          if (!(i_419430691 < colontmp__419430690)) break Label3;
+            i_570425478 = i_419430691;
             d_570425462.removeEventListener(d_570425462.karaxEvents[i_570425478]["Field0"], d_570425462.karaxEvents[i_570425478]["Field1"]);
-            F.line = 122;
-            i_419430642 = addInt(i_419430642, 1);
+            i_419430691 = addInt(i_419430691, 1);
           }
       } while (false);
     } while (false);
     }
     
-  framePtr = F.prev;
 
   
 }
 
 function mergeEvents_570425937(newNode_570425938, oldNode_570425939, kxi_570425940) {
-  var F = {procname: "karax.mergeEvents", prev: framePtr, filename: "/home/markedone/code/repos/karax/karax/karax.nim", line: 0};
-  framePtr = F;
-    F.line = 335;
     var d_570425941 = oldNode_570425939.dom;
     if (!((d_570425941 == null))) {
-    F.line = 337;
     removeAllEventHandlers_570425461(d_570425941);
     }
     
-    F.line = 345;
     oldNode_570425939.events = newNode_570425938.events;
-    F.line = 346;
     applyEvents_570425603(oldNode_570425939);
-  framePtr = F.prev;
 
   
 }
 
 function addPatch_570425946(kxi_570425947, ka_570425948, parenta_570425949, currenta_570425950, na_570425951, oldNode_570425952) {
-  var F = {procname: "karax.addPatch", prev: framePtr, filename: "/home/markedone/code/repos/karax/karax/karax.nim", line: 0};
-  framePtr = F;
-    F.line = 363;
     var L_570425953 = kxi_570425947.patchLen;
     if (((kxi_570425947.patches).length <= L_570425953)) {
-    F.line = 366;
     kxi_570425947.patches.push({k: ka_570425948, parent: parenta_570425949, current: currenta_570425950, newNode: na_570425951, oldNode: oldNode_570425952});;
     }
     else {
-      F.line = 369;
       kxi_570425947.patches[chckIndx(L_570425953, 0, (kxi_570425947.patches).length - 1)].k = ka_570425948;
-      F.line = 370;
       kxi_570425947.patches[chckIndx(L_570425953, 0, (kxi_570425947.patches).length - 1)].parent = parenta_570425949;
-      F.line = 371;
       kxi_570425947.patches[chckIndx(L_570425953, 0, (kxi_570425947.patches).length - 1)].current = currenta_570425950;
-      F.line = 372;
       kxi_570425947.patches[chckIndx(L_570425953, 0, (kxi_570425947.patches).length - 1)].newNode = na_570425951;
-      F.line = 373;
       kxi_570425947.patches[chckIndx(L_570425953, 0, (kxi_570425947.patches).length - 1)].oldNode = oldNode_570425952;
     }
     
-    F.line = 374;
     kxi_570425947.patchLen = addInt(kxi_570425947.patchLen, 1);
-  framePtr = F.prev;
 
   
 }
@@ -7102,39 +2288,26 @@ function diff_570426080(newNode_570426081, oldNode_570426082, parent_570426083, 
         var Temporary2;
             var Temporary7;
 
-  var F = {procname: "karax.diff", prev: framePtr, filename: "/home/markedone/code/repos/karax/karax/karax.nim", line: 0};
-  framePtr = F;
   BeforeRet: do {
-    F.line = 465;
     var result_570426086 = eq_570425836(newNode_570426081, oldNode_570426082, false);
-    F.line = 466;
     switch (result_570426086) {
     case 0:
-      F.line = 468;
       kxi_570426085.components.push({oldNode: oldNode_570426082, newNode: newNode_570426081, parent: parent_570426083, current: current_570426084});;
       break;
     case 3:
     case 2:
-      F.line = 473;
       newNode_570426081.dom = oldNode_570426082.dom;
       if ((result_570426086 == 2)) {
-      F.line = 475;
       updateStyles_570425897(newNode_570426081, oldNode_570426082);
-      F.line = 476;
       updateAttributes_570425926(newNode_570426081, oldNode_570426082);
       if ((oldNode_570426082.kind == 0)) {
-      F.line = 479;
       oldNode_570426082.text = newNode_570426081.text;
-      F.line = 480;
       oldNode_570426082.dom.nodeValue = newNode_570426081.text;
       }
       
       if ((oldNode_570426082.kind == 193)) {
-      F.line = 484;
       oldNode_570426082.dom.value = newNode_570426081.text;
-      F.line = 486;
       var checked_570426103 = getAttr_603980454(newNode_570426081, "checked");
-      F.line = 487;
       if ((checked_570426103 == null)) {
       Temporary1 = false;
       }
@@ -7148,172 +2321,121 @@ function diff_570426080(newNode_570426081, oldNode_570426082, parent_570426083, 
       }
       
         if (!(((newNode_570426081.events).length == 0))) Temporary2 = true; else {          Temporary2 = !(((oldNode_570426082.events).length == 0));        }      if (Temporary2) {
-      F.line = 490;
       mergeEvents_570425937(newNode_570426081, oldNode_570426082, kxi_570426085);
       }
       
-      F.line = 492;
       var newLength_570426110 = len_603980475(newNode_570426081);
-      F.line = 493;
       var oldLength_570426111 = len_603980475(oldNode_570426082);
       if (((newLength_570426110 == 0) && (oldLength_570426111 == 0))) {
-      F.line = 494;
       break BeforeRet;
       }
       
-      F.line = 495;
       var minLength_570426112 = nimMin(newLength_570426110, oldLength_570426111);
       if (!((oldNode_570426082.kind == newNode_570426081.kind))) {
-      F.line = 497;
-      failedAssertImpl_218103866(makeNimstrLit("/home/markedone/code/repos/karax/karax/karax.nim(497, 12) `oldNode.kind == newNode.kind` "));
+      failedAssertImpl_218103866(makeNimstrLit("karax.nim(497, 12) `oldNode.kind == newNode.kind` "));
       }
       
-      F.line = 498;
       var commonPrefix_570426122 = 0;
       Label3: do {
-        F.line = 501;
           Label4: while (true) {
           if (!(commonPrefix_570426122 < minLength_570426112)) break Label4;
             if ((eq_570425836(HEX5BHEX5D_603980482(newNode_570426081, commonPrefix_570426122), HEX5BHEX5D_603980482(oldNode_570426082, commonPrefix_570426122), true) == 3)) {
-            F.line = 503;
             addPatch_570425946(kxi_570426085, 5, null, null, HEX5BHEX5D_603980482(newNode_570426081, commonPrefix_570426122), HEX5BHEX5D_603980482(oldNode_570426082, commonPrefix_570426122));
-            F.line = 504;
             commonPrefix_570426122 = addInt(commonPrefix_570426122, 1);
             }
             else {
-              F.line = 506;
               break Label3;
             }
             
           }
       } while (false);
-      F.line = 509;
       var oldPos_570426131 = subInt(oldLength_570426111, 1);
-      F.line = 510;
       var newPos_570426132 = subInt(newLength_570426110, 1);
       Label5: do {
-        F.line = 511;
           Label6: while (true) {
             if (!(commonPrefix_570426122 <= oldPos_570426131)) Temporary7 = false; else {              Temporary7 = (commonPrefix_570426122 <= newPos_570426132);            }          if (!Temporary7) break Label6;
             if ((eq_570425836(HEX5BHEX5D_603980482(newNode_570426081, newPos_570426132), HEX5BHEX5D_603980482(oldNode_570426082, oldPos_570426131), true) == 3)) {
-            F.line = 513;
             addPatch_570425946(kxi_570426085, 5, null, null, HEX5BHEX5D_603980482(newNode_570426081, newPos_570426132), HEX5BHEX5D_603980482(oldNode_570426082, oldPos_570426131));
-            F.line = 514;
             oldPos_570426131 = subInt(oldPos_570426131, 1);
-            F.line = 515;
             newPos_570426132 = subInt(newPos_570426132, 1);
             }
             else {
-              F.line = 517;
               break Label5;
             }
             
           }
       } while (false);
-      F.line = 519;
       var pos_570426145 = addInt(nimMin(oldPos_570426131, newPos_570426132), 1);
       Label8: do {
-        F.line = 521;
         var i_570426150 = 0;
-        F.line = 75;
-        var colontmp__419430596 = 0;
-        F.line = 521;
-        colontmp__419430596 = subInt(pos_570426145, 1);
-        F.line = 90;
-        var res_419430597 = commonPrefix_570426122;
+        var colontmp__419430645 = 0;
+        colontmp__419430645 = subInt(pos_570426145, 1);
+        var res_419430646 = commonPrefix_570426122;
         Label9: do {
-          F.line = 91;
             Label10: while (true) {
-            if (!(res_419430597 <= colontmp__419430596)) break Label10;
-              F.line = 521;
-              i_570426150 = res_419430597;
-              F.line = 522;
+            if (!(res_419430646 <= colontmp__419430645)) break Label10;
+              i_570426150 = res_419430646;
               diff_570426080(HEX5BHEX5D_603980482(newNode_570426081, i_570426150), HEX5BHEX5D_603980482(oldNode_570426082, i_570426150), current_570426084, current_570426084.childNodes[chckIndx(i_570426150, 0, (current_570426084.childNodes).length - 1)], kxi_570426085);
-              F.line = 93;
-              res_419430597 = addInt(res_419430597, 1);
+              res_419430646 = addInt(res_419430646, 1);
             }
         } while (false);
       } while (false);
       if ((addInt(oldPos_570426131, 1) == oldLength_570426111)) {
       Label11: do {
-        F.line = 525;
         var i_570426155 = 0;
-        F.line = 90;
-        var res_419430600 = pos_570426145;
+        var res_419430649 = pos_570426145;
         Label12: do {
-          F.line = 91;
             Label13: while (true) {
-            if (!(res_419430600 <= newPos_570426132)) break Label13;
-              F.line = 525;
-              i_570426155 = res_419430600;
-              F.line = 526;
+            if (!(res_419430649 <= newPos_570426132)) break Label13;
+              i_570426155 = res_419430649;
               addPatch_570425946(kxi_570426085, 2, current_570426084, null, HEX5BHEX5D_603980482(newNode_570426081, i_570426155), null);
-              F.line = 93;
-              res_419430600 = addInt(res_419430600, 1);
+              res_419430649 = addInt(res_419430649, 1);
             }
         } while (false);
       } while (false);
       }
       else {
-        F.line = 528;
         var before_570426156 = current_570426084.childNodes[chckIndx(addInt(oldPos_570426131, 1), 0, (current_570426084.childNodes).length - 1)];
         Label14: do {
-          F.line = 529;
           var i_570426161 = 0;
-          F.line = 90;
-          var res_419430603 = pos_570426145;
+          var res_419430652 = pos_570426145;
           Label15: do {
-            F.line = 91;
               Label16: while (true) {
-              if (!(res_419430603 <= newPos_570426132)) break Label16;
-                F.line = 529;
-                i_570426161 = res_419430603;
-                F.line = 530;
+              if (!(res_419430652 <= newPos_570426132)) break Label16;
+                i_570426161 = res_419430652;
                 addPatch_570425946(kxi_570426085, 3, current_570426084, before_570426156, HEX5BHEX5D_603980482(newNode_570426081, i_570426161), null);
-                F.line = 93;
-                res_419430603 = addInt(res_419430603, 1);
+                res_419430652 = addInt(res_419430652, 1);
               }
           } while (false);
         } while (false);
       }
       
       Label17: do {
-        F.line = 532;
         var i_570426166 = 0;
-        F.line = 90;
-        var res_419430606 = pos_570426145;
+        var res_419430655 = pos_570426145;
         Label18: do {
-          F.line = 91;
             Label19: while (true) {
-            if (!(res_419430606 <= oldPos_570426131)) break Label19;
-              F.line = 532;
-              i_570426166 = res_419430606;
-              F.line = 533;
+            if (!(res_419430655 <= oldPos_570426131)) break Label19;
+              i_570426166 = res_419430655;
               addPatch_570425946(kxi_570425409[0], 4, null, null, null, HEX5BHEX5D_603980482(oldNode_570426082, i_570426166));
-              F.line = 535;
               addPatch_570425946(kxi_570426085, 1, current_570426084, current_570426084.childNodes[chckIndx(i_570426166, 0, (current_570426084.childNodes).length - 1)], null, null);
-              F.line = 93;
-              res_419430606 = addInt(res_419430606, 1);
+              res_419430655 = addInt(res_419430655, 1);
             }
         } while (false);
       } while (false);
       break;
     case 1:
-      F.line = 537;
       addPatch_570425946(kxi_570425409[0], 4, null, null, null, oldNode_570426082);
-      F.line = 538;
       addPatch_570425946(kxi_570426085, 0, parent_570426083, current_570426084, newNode_570426081, null);
       break;
     case 4:
       if (true) {
-      F.line = 539;
-      failedAssertImpl_218103866(makeNimstrLit("/home/markedone/code/repos/karax/karax/karax.nim(539, 26) `false` eq returned usenewNode"));
+      failedAssertImpl_218103866(makeNimstrLit("karax.nim(539, 26) `false` eq returned usenewNode"));
       }
       
       break;
     }
   } while (false);
-  framePtr = F.prev;
 
   
 }
@@ -7321,142 +2443,93 @@ function diff_570426080(newNode_570426081, oldNode_570426082, parent_570426083, 
 function applyComponents_570426181(kxi_570426182) {
             var Temporary3;
 
-  var F = {procname: "karax.applyComponents", prev: framePtr, filename: "/home/markedone/code/repos/karax/karax/karax.nim", line: 0};
-  framePtr = F;
-    F.line = 547;
     var i_570426183 = 0;
     Label1: do {
-      F.line = 550;
         Label2: while (true) {
         if (!(i_570426183 < (kxi_570426182.components).length)) break Label2;
-          F.line = 551;
           var x_570426188 = kxi_570426182.components[chckIndx(i_570426183, 0, (kxi_570426182.components).length - 1)].oldNode;
-          F.line = 552;
           var newNode_570426189 = kxi_570426182.components[chckIndx(i_570426183, 0, (kxi_570426182.components).length - 1)].newNode;
             if (!!((x_570426188.changedImpl == null))) Temporary3 = false; else {              Temporary3 = x_570426188.changedImpl(x_570426188, newNode_570426189);            }          if (Temporary3) {
-          F.line = 558;
           var current_570426194 = kxi_570426182.components[chckIndx(i_570426183, 0, (kxi_570426182.components).length - 1)].current;
-          F.line = 559;
           var parent_570426195 = kxi_570426182.components[chckIndx(i_570426183, 0, (kxi_570426182.components).length - 1)].parent;
-          F.line = 560;
           x_570426188.updatedImpl(x_570426188, newNode_570426189);
-          F.line = 561;
           var oldExpanded_570426196 = x_570426188.expanded;
-          F.line = 562;
           x_570426188.expanded = x_570426188.renderImpl(x_570426188);
-          F.line = 565;
           x_570426188.renderedVersion = x_570426188.version;
           if ((oldExpanded_570426196 == null)) {
-          F.line = 567;
           addPatch_570425946(kxi_570425409[0], 4, null, null, null, x_570426188);
-          F.line = 568;
           addPatch_570425946(kxi_570426182, 0, parent_570426195, current_570426194, x_570426188.expanded, null);
           }
           else {
-            F.line = 572;
             diff_570426080(x_570426188.expanded, oldExpanded_570426196, parent_570426195, current_570426194, kxi_570426182);
           }
           
           }
           
-          F.line = 587;
           i_570426183 = addInt(i_570426183, 1);
         }
     } while (false);
-    F.line = 588;
     if (kxi_570426182.components.length < 0) { for (var i = kxi_570426182.components.length ; i < 0 ; ++i) kxi_570426182.components.push(({oldNode: null, newNode: null, parent: null, current: null})); }
                else { kxi_570426182.components.length = 0; };
-  framePtr = F.prev;
 
   
 }
 
 function moveDom_570426011(dest_570426012, src_570426013) {
-  var F = {procname: "karax.moveDom", prev: framePtr, filename: "/home/markedone/code/repos/karax/karax/karax.nim", line: 0};
-  framePtr = F;
-    F.line = 388;
     dest_570426012.dom = src_570426013.dom;
-    F.line = 389;
     src_570426013.dom = null;
     if (!((dest_570426012.id == null))) {
-    F.line = 391;
     kxi_570425409[0].byId[dest_570426012.id] = dest_570426012;
     }
     
     if (!((len_603980475(dest_570426012) == len_603980475(src_570426013)))) {
-    F.line = 392;
-    failedAssertImpl_218103866(makeNimstrLit("/home/markedone/code/repos/karax/karax/karax.nim(392, 10) `dest.len == src.len` "));
+    failedAssertImpl_218103866(makeNimstrLit("karax.nim(392, 10) `dest.len == src.len` "));
     }
     
     Label1: do {
-      F.line = 393;
       var i_570426029 = 0;
-      F.line = 117;
-      var colontmp__419430652 = 0;
-      F.line = 393;
-      colontmp__419430652 = len_603980475(dest_570426012);
-      F.line = 119;
-      var i_419430653 = 0;
+      var colontmp__419430701 = 0;
+      colontmp__419430701 = len_603980475(dest_570426012);
+      var i_419430702 = 0;
       Label2: do {
-        F.line = 120;
           Label3: while (true) {
-          if (!(i_419430653 < colontmp__419430652)) break Label3;
-            F.line = 393;
-            i_570426029 = i_419430653;
-            F.line = 394;
+          if (!(i_419430702 < colontmp__419430701)) break Label3;
+            i_570426029 = i_419430702;
             moveDom_570426011(HEX5BHEX5D_603980482(dest_570426012, i_570426029), HEX5BHEX5D_603980482(src_570426013, i_570426029));
-            F.line = 122;
-            i_419430653 = addInt(i_419430653, 1);
+            i_419430702 = addInt(i_419430702, 1);
           }
       } while (false);
     } while (false);
-  framePtr = F.prev;
 
   
 }
 
 function HEX5BHEX5DHEX3D_603980486(x_603980487, idx_603980488, y_603980489) {
-  var F = {procname: "vdom.[]=", prev: framePtr, filename: "/home/markedone/code/repos/karax/karax/vdom.nim", line: 0};
-  framePtr = F;
-    F.line = 276;
     x_603980487.kids[chckIndx(idx_603980488, 0, (x_603980487.kids).length - 1)] = y_603980489;
-  framePtr = F.prev;
 
   
 }
 
 function applyPatch_570426030(kxi_570426031) {
-  var F = {procname: "karax.applyPatch", prev: framePtr, filename: "/home/markedone/code/repos/karax/karax/karax.nim", line: 0};
-  framePtr = F;
     Label1: do {
-      F.line = 397;
       var i_570426036 = 0;
-      F.line = 119;
-      var i_419430646 = 0;
+      var i_419430695 = 0;
       Label2: do {
-        F.line = 120;
           Label3: while (true) {
-          if (!(i_419430646 < kxi_570426031.patchLen)) break Label3;
-            F.line = 397;
-            i_570426036 = i_419430646;
-            F.line = 398;
+          if (!(i_419430695 < kxi_570426031.patchLen)) break Label3;
+            i_570426036 = i_419430695;
             var p_570426037 = nimCopy(null, kxi_570426031.patches[chckIndx(i_570426036, 0, (kxi_570426031.patches).length - 1)], NTI570425350);
-            F.line = 399;
             switch (p_570426037.k) {
             case 0:
-              F.line = 401;
               var nn_570426038 = toDom_570425631(p_570426037.newNode, true, kxi_570426031);
               if ((p_570426037.parent == null)) {
-              F.line = 403;
               replaceById_570425823(kxi_570426031.rootId, nn_570426038);
               }
               else {
                 if ((p_570426037.current.parentNode == p_570426037.parent)) {
-                F.line = 406;
                 p_570426037.parent.replaceChild(nn_570426038, p_570426037.current);
                 }
                 else {
-                  F.line = 408;
                 p_570426037.parent.appendChild(nn_570426038);
                 }
                 
@@ -7464,85 +2537,62 @@ function applyPatch_570426030(kxi_570426031) {
               
               break;
             case 5:
-              F.line = 410;
               moveDom_570426011(p_570426037.newNode, p_570426037.oldNode);
               break;
             case 1:
-              F.line = 412;
               p_570426037.parent.removeChild(p_570426037.current);
               break;
             case 2:
-              F.line = 414;
               var nn_570426047 = toDom_570425631(p_570426037.newNode, true, kxi_570426031);
-              F.line = 415;
               p_570426037.parent.appendChild(nn_570426047);
               break;
             case 3:
-              F.line = 417;
               var nn_570426048 = toDom_570425631(p_570426037.newNode, true, kxi_570426031);
-              F.line = 418;
               p_570426037.parent.insertBefore(nn_570426048, p_570426037.current);
               break;
             case 4:
-              F.line = 420;
               var n_570426049 = p_570426037.oldNode;
               if (!((n_570426049.id == null))) {
-              F.line = 421;
               delete kxi_570426031.byId[n_570426049.id];
               }
               
               if ((n_570426049.kind == 5)) {
-              F.line = 423;
               var x_570426059 = n_570426049;
               if (!((x_570426059.onDetachImpl == null))) {
-              F.line = 424;
               x_570426059.onDetachImpl(x_570426059);
               }
               
               }
               
               if (!(kxi_570426031.surpressRedraws)) {
-              F.line = 426;
               n_570426049.dom = null;
               }
               
               break;
             }
-            F.line = 122;
-            i_419430646 = addInt(i_419430646, 1);
+            i_419430695 = addInt(i_419430695, 1);
           }
       } while (false);
     } while (false);
-    F.line = 427;
     kxi_570426031.patchLen = 0;
     Label4: do {
-      F.line = 428;
       var i_570426068 = 0;
-      F.line = 119;
-      var i_419430649 = 0;
+      var i_419430698 = 0;
       Label5: do {
-        F.line = 120;
           Label6: while (true) {
-          if (!(i_419430649 < kxi_570426031.patchLenV)) break Label6;
-            F.line = 428;
-            i_570426068 = i_419430649;
-            F.line = 429;
+          if (!(i_419430698 < kxi_570426031.patchLenV)) break Label6;
+            i_570426068 = i_419430698;
             var p_570426069 = nimCopy(null, kxi_570426031.patchesV[chckIndx(i_570426068, 0, (kxi_570426031.patchesV).length - 1)], NTI570425351);
-            F.line = 430;
             HEX5BHEX5DHEX3D_603980486(p_570426069.parent, p_570426069.pos, p_570426069.newChild);
             if (!(!((p_570426069.newChild.dom == null)))) {
-            F.line = 431;
-            failedAssertImpl_218103866(makeNimstrLit("/home/markedone/code/repos/karax/karax/karax.nim(431, 12) `p.newChild.dom != nil` "));
+            failedAssertImpl_218103866(makeNimstrLit("karax.nim(431, 12) `p.newChild.dom != nil` "));
             }
             
-            F.line = 122;
-            i_419430649 = addInt(i_419430649, 1);
+            i_419430698 = addInt(i_419430698, 1);
           }
       } while (false);
     } while (false);
-    F.line = 432;
     kxi_570426031.patchLenV = 0;
-  framePtr = F.prev;
 
   
 }
@@ -7550,87 +2600,58 @@ function applyPatch_570426030(kxi_570426031) {
 function dodraw_570426274(kxi_570426275) {
     
 function HEX3Aanonymous_570426279() {
-      var F = {procname: "dodraw.:anonymous", prev: framePtr, filename: "/home/markedone/code/repos/karax/karax/karax.nim", line: 0};
-      framePtr = F;
-        F.line = 653;
         dodraw_570426274(kxi_570426275);
-      framePtr = F.prev;
 
       
     }
 
-  var F = {procname: "karax.dodraw", prev: framePtr, filename: "/home/markedone/code/repos/karax/karax/karax.nim", line: 0};
-  framePtr = F;
   BeforeRet: do {
     if ((kxi_570426275.renderer == null)) {
-    F.line = 648;
     break BeforeRet;
     }
     
-    F.line = 649;
     kxi_570426275.renderId = 0;
     if (kxi_570426275.rendering) {
-    F.line = 653;
     kxi_570426275.renderId = window.requestAnimationFrame(HEX3Aanonymous_570426279);
-    F.line = 654;
     break BeforeRet;
     }
     
-    F.line = 656;
     kxi_570426275.rendering = true;
-    F.line = 658;
     var rdata_570426280 = {hashPart: window.location.hash};
-    F.line = 659;
     var newtree_570426281 = kxi_570426275.renderer(rdata_570426280);
-    F.line = 660;
     kxi_570426275.runCount = addInt(kxi_570426275.runCount, 1);
-    F.line = 661;
     newtree_570426281.id = kxi_570426275.rootId;
-    F.line = 662;
     kxi_570426275.toFocus = null;
     if ((kxi_570426275.currentTree == null)) {
-    F.line = 664;
     var asdom_570426290 = toDom_570425631(newtree_570426281, true, kxi_570426275);
-    F.line = 665;
     replaceById_570425823(kxi_570426275.rootId, asdom_570426290);
     }
     else {
       if (!(same_570425782(kxi_570426275.currentTree, document.getElementById(kxi_570426275.rootId), 0))) {
-      F.line = 667;
-      failedAssertImpl_218103866(makeNimstrLit("/home/markedone/code/repos/karax/karax/karax.nim(667, 14) `same(kxi.currentTree, document.getElementById(kxi.rootId))` "));
+      failedAssertImpl_218103866(makeNimstrLit("karax.nim(667, 14) `same(kxi.currentTree, document.getElementById(kxi.rootId))` "));
       }
       
-      F.line = 668;
       var olddom_570426296 = document.getElementById(kxi_570426275.rootId);
-      F.line = 669;
       diff_570426080(newtree_570426281, kxi_570426275.currentTree, null, olddom_570426296, kxi_570426275);
     }
     
-    F.line = 673;
     applyComponents_570426181(kxi_570426275);
-    F.line = 678;
     applyPatch_570426030(kxi_570426275);
-    F.line = 679;
     kxi_570426275.currentTree = newtree_570426281;
     if (!(same_570425782(kxi_570426275.currentTree, document.getElementById(kxi_570426275.rootId), 0))) {
-    F.line = 680;
-    failedAssertImpl_218103866(makeNimstrLit("/home/markedone/code/repos/karax/karax/karax.nim(680, 12) `same(kxi.currentTree, document.getElementById(kxi.rootId))` "));
+    failedAssertImpl_218103866(makeNimstrLit("karax.nim(680, 12) `same(kxi.currentTree, document.getElementById(kxi.rootId))` "));
     }
     
     if (!((kxi_570426275.postRenderCallback == null))) {
-    F.line = 683;
     kxi_570426275.postRenderCallback(rdata_570426280);
     }
     
     if (!((kxi_570426275.toFocus == null))) {
-    F.line = 687;
     kxi_570426275.toFocus.focus();
     }
     
-    F.line = 688;
     kxi_570426275.rendering = false;
   } while (false);
-  framePtr = F.prev;
 
   
 }
@@ -7638,20 +2659,12 @@ function HEX3Aanonymous_570426279() {
 function init_570426335(ev_570426336) {
     
 function HEX3Aanonymous_570426337() {
-      var F = {procname: "init.:anonymous", prev: framePtr, filename: "/home/markedone/code/repos/karax/karax/karax.nim", line: 0};
-      framePtr = F;
-        F.line = 709;
         dodraw_570426274(kxi_570425409[0]);
-      framePtr = F.prev;
 
       
     }
 
-  var F = {procname: "karax.init", prev: framePtr, filename: "/home/markedone/code/repos/karax/karax/karax.nim", line: 0};
-  framePtr = F;
-    F.line = 709;
     kxi_570425409[0].renderId = window.requestAnimationFrame(HEX3Aanonymous_570426337);
-  framePtr = F.prev;
 
   
 }
@@ -7659,23 +2672,15 @@ function HEX3Aanonymous_570426337() {
 function redraw_570426329(kxi_570426330) {
     
 function HEX3Aanonymous_570426331() {
-      var F = {procname: "redraw.:anonymous", prev: framePtr, filename: "/home/markedone/code/repos/karax/karax/karax.nim", line: 0};
-      framePtr = F;
-        F.line = 702;
         dodraw_570426274(kxi_570426330);
-      framePtr = F.prev;
 
       
     }
 
-  var F = {procname: "karax.redraw", prev: framePtr, filename: "/home/markedone/code/repos/karax/karax/karax.nim", line: 0};
-  framePtr = F;
     if ((kxi_570426330.renderId == 0)) {
-    F.line = 702;
     kxi_570426330.renderId = window.requestAnimationFrame(HEX3Aanonymous_570426331);
     }
     
-  framePtr = F.prev;
 
   
 }
@@ -7683,35 +2688,22 @@ function HEX3Aanonymous_570426331() {
 function setRenderer_570426348(renderer_570426351, root_570426352, clientPostRenderCallback_570426355) {
     
 function HEX3Aanonymous_570426414() {
-      var F = {procname: "setRenderer.:anonymous", prev: framePtr, filename: "/home/markedone/code/repos/karax/karax/karax.nim", line: 0};
-      framePtr = F;
-        F.line = 732;
         redraw_570426329(kxi_570425409[0]);
-      framePtr = F.prev;
 
       
     }
 
   var result_570426356 = null;
 
-  var F = {procname: "karax.setRenderer", prev: framePtr, filename: "/home/markedone/code/repos/karax/karax/karax.nim", line: 0};
-  framePtr = F;
     if ((document.getElementById(root_570426352) == null)) {
-    F.line = 718;
     var msg_570426360 = (("Could not find a <div> with id=" + root_570426352) + ". Karax needs it as its rendering target.");
-    F.line = 720;
     raiseException({message: cstrToNimstr(msg_570426360), parent: null, m_type: NTI33555095, name: null, trace: [], up: null}, "Exception");
     }
     
-    F.line = 722;
     result_570426356 = {rootId: root_570426352, renderer: renderer_570426351, postRenderCallback: clientPostRenderCallback_570426355, patches: newSeq_570426366(60), patchesV: newSeq_570426387(30), components: [], surpressRedraws: false, byId: {}, orphans: {}, currentTree: null, toFocus: null, toFocusV: null, renderId: 0, rendering: false, patchLen: 0, patchLenV: 0, runCount: 0};
-    F.line = 730;
     kxi_570425409[0] = result_570426356;
-    F.line = 731;
     window.onload = init_570426335;
-    F.line = 732;
     window.onhashchange = HEX3Aanonymous_570426414;
-  framePtr = F.prev;
 
   return result_570426356;
 
@@ -7722,36 +2714,24 @@ function setRenderer_570426460(renderer_570426462, root_570426463, clientPostRen
 function wrapRenderer_570426467(data_570426468) {
       var result_570426469 = null;
 
-      var F = {procname: "setRenderer.wrapRenderer", prev: framePtr, filename: "/home/markedone/code/repos/karax/karax/karax.nim", line: 0};
-      framePtr = F;
-        F.line = 737;
         result_570426469 = renderer_570426462();
-      framePtr = F.prev;
 
       return result_570426469;
 
     }
     
 function wrapPostRender_570426470(data_570426471) {
-      var F = {procname: "setRenderer.wrapPostRender", prev: framePtr, filename: "/home/markedone/code/repos/karax/karax/karax.nim", line: 0};
-      framePtr = F;
         if (!((clientPostRenderCallback_570426465 == null))) {
-        F.line = 739;
         clientPostRenderCallback_570426465();
         }
         
-      framePtr = F.prev;
 
       
     }
 
   var result_570426466 = null;
 
-  var F = {procname: "karax.setRenderer", prev: framePtr, filename: "/home/markedone/code/repos/karax/karax/karax.nim", line: 0};
-  framePtr = F;
-    F.line = 736;
     result_570426466 = setRenderer_570426348(wrapRenderer_570426467, root_570426463, wrapPostRender_570426470);
-  framePtr = F.prev;
 
   return result_570426466;
 
@@ -7760,22 +2740,14 @@ function wrapPostRender_570426470(data_570426471) {
 function newVNode_603980565(kind_603980566) {
   var result_603980567 = null;
 
-  var F = {procname: "vdom.newVNode", prev: framePtr, filename: "/home/markedone/code/repos/karax/karax/vdom.nim", line: 0};
-  framePtr = F;
-    F.line = 287;
     result_603980567 = {kind: kind_603980566, index: -1, m_type: NTI603979878, id: null, class: null, text: null, kids: [], attrs: [], events: [], style: null, dom: null};
-  framePtr = F.prev;
 
   return result_603980567;
 
 }
 
 function add_603980490(parent_603980491, kid_603980492) {
-  var F = {procname: "vdom.add", prev: framePtr, filename: "/home/markedone/code/repos/karax/karax/vdom.nim", line: 0};
-  framePtr = F;
-    F.line = 281;
     parent_603980491.kids.push(kid_603980492);;
-  framePtr = F.prev;
 
   
 }
@@ -7783,30 +2755,20 @@ function add_603980490(parent_603980491, kid_603980492) {
 function tree_603980568(kind_603980569, kids_603980570) {
   var result_603980571 = null;
 
-  var F = {procname: "vdom.tree", prev: framePtr, filename: "/home/markedone/code/repos/karax/karax/vdom.nim", line: 0};
-  framePtr = F;
-    F.line = 290;
     result_603980571 = newVNode_603980565(kind_603980569);
     Label1: do {
-      F.line = 291;
       var k_603980583 = null;
       var k_603980583_Idx = 0;
-      F.line = 8;
-      var i_419430657 = 0;
+      var i_419430706 = 0;
       Label2: do {
-        F.line = 9;
           Label3: while (true) {
-          if (!(i_419430657 < (kids_603980570).length)) break Label3;
-            F.line = 291;
-            k_603980583 = kids_603980570; k_603980583_Idx = chckIndx(i_419430657, 0, (kids_603980570).length - 1);
-            F.line = 291;
+          if (!(i_419430706 < (kids_603980570).length)) break Label3;
+            k_603980583 = kids_603980570; k_603980583_Idx = chckIndx(i_419430706, 0, (kids_603980570).length - 1);
             add_603980490(result_603980571, k_603980583[k_603980583_Idx]);
-            F.line = 11;
-            i_419430657 = addInt(i_419430657, 1);
+            i_419430706 = addInt(i_419430706, 1);
           }
       } while (false);
     } while (false);
-  framePtr = F.prev;
 
   return result_603980571;
 
@@ -7815,11 +2777,7 @@ function tree_603980568(kind_603980569, kids_603980570) {
 function text_603980620(s_603980621) {
   var result_603980622 = null;
 
-  var F = {procname: "vdom.text", prev: framePtr, filename: "/home/markedone/code/repos/karax/karax/vdom.nim", line: 0};
-  framePtr = F;
-    F.line = 299;
     result_603980622 = {kind: 0, text: toJSStr(s_603980621), index: -1, m_type: NTI603979878, id: null, class: null, kids: [], attrs: [], events: [], style: null, dom: null};
-  framePtr = F.prev;
 
   return result_603980622;
 
@@ -7828,22 +2786,14 @@ function text_603980620(s_603980621) {
 function text_603980623(s_603980624) {
   var result_603980625 = null;
 
-  var F = {procname: "vdom.text", prev: framePtr, filename: "/home/markedone/code/repos/karax/karax/vdom.nim", line: 0};
-  framePtr = F;
-    F.line = 300;
     result_603980625 = {kind: 0, text: s_603980624, index: -1, m_type: NTI603979878, id: null, class: null, kids: [], attrs: [], events: [], style: null, dom: null};
-  framePtr = F.prev;
 
   return result_603980625;
 
 }
 
 function addEventListener_603980671(n_603980672, event_603980673, handler_603980674) {
-  var F = {procname: "vdom.addEventListener", prev: framePtr, filename: "/home/markedone/code/repos/karax/karax/vdom.nim", line: 0};
-  framePtr = F;
-    F.line = 323;
     n_603980672.events.push({Field0: event_603980673, Field1: handler_603980674, Field2: null});;
-  framePtr = F.prev;
 
   
 }
@@ -7851,255 +2801,206 @@ function addEventListener_603980671(n_603980672, event_603980673, handler_603980
 function addEventHandler_570426517(n_570426518, k_570426519, action_570426521, kxi_570426522) {
     
 function wrapper_570426523(ev_570426524, n_570426525) {
-      var F = {procname: "addEventHandler.wrapper", prev: framePtr, filename: "/home/markedone/code/repos/karax/karax/karax.nim", line: 0};
-      framePtr = F;
-        F.line = 790;
         action_570426521();
         if (!(kxi_570426522.surpressRedraws)) {
-        F.line = 791;
         redraw_570426329(kxi_570426522);
         }
         
-      framePtr = F.prev;
 
       
     }
 
-  var F = {procname: "karax.addEventHandler", prev: framePtr, filename: "/home/markedone/code/repos/karax/karax/karax.nim", line: 0};
-  framePtr = F;
-    F.line = 792;
     addEventListener_603980671(n_570426518, k_570426519, wrapper_570426523);
-  framePtr = F.prev;
 
   
 }
 
-function ajax_1073741963(meth_1073741964, url_1073741965, headers_1073741966, data_1073741967, cont_1073741971, doRedraw_1073741972, kxi_1073741973, useBinary_1073741974, blob_1073741975) {
-
-function contWrapper_1073741976(httpStatus_1073741977, response_1073741978) {
-  var F = {procname: "ajax.contWrapper", prev: framePtr, filename: "/home/markedone/code/repos/karax/karax/kajax.nim", line: 0};
-  framePtr = F;
-    F.line = 76;
-    cont_1073741971(httpStatus_1073741977, response_1073741978);
-    if (doRedraw_1073741972) {
-    F.line = 77;
-    redraw_570426329(kxi_1073741973);
-    }
-    
-  framePtr = F.prev;
+function raiseRangeError() {
+    raiseException({message: makeNimstrLit("value out of range"), parent: null, m_type: NTI33555113, name: null, trace: [], up: null}, "RangeDefect");
 
   
 }
+
+function pop_419430476(s_419430478, s_419430478_Idx) {
+  var result_419430479 = null;
+
+    var L_419430483 = subInt((s_419430478[s_419430478_Idx]).length, 1);
+    result_419430479 = s_419430478[s_419430478_Idx][chckIndx(L_419430483, 0, (s_419430478[s_419430478_Idx]).length - 1)];
+    if (s_419430478[s_419430478_Idx].length < chckRange(L_419430483, 0, 2147483647)) { for (var i = s_419430478[s_419430478_Idx].length ; i < chckRange(L_419430483, 0, 2147483647) ; ++i) s_419430478[s_419430478_Idx].push(null); }
+               else { s_419430478[s_419430478_Idx].length = chckRange(L_419430483, 0, 2147483647); };
+
+  return result_419430479;
+
+}
+
+function rateLimit_419430467(action_419430469, rate_419430470) {
     
-function HEX3Aanonymous_1073741986() {
-      var F = {procname: "ajax.:anonymous", prev: framePtr, filename: "/home/markedone/code/repos/karax/karax/kajax.nim", line: 0};
-      framePtr = F;
-        if ((this.readyState == 4)) {
-        if ((this.status == 200)) {
-        F.line = 88;
-        contWrapper_1073741976(this.status, this.responseText);
+function HEX3Aanonymous_419430471() {
+        rawEcho(makeNimstrLit("running"));
+        if ((0 < (queue_419430446[0]).length)) {
+        var call_419430488 = pop_419430476(queue_419430446, 0);
+        rawEcho(makeNimstrLit("called"));
+        call_419430488();
         }
         else {
-          F.line = 90;
-        contWrapper_1073741976(this.status, this.responseText);
+          wasEmptied_419430448[0] = true;
+          clearInterval(timeOutRef_419430447[0]);
         }
         
-        }
-        
-      framePtr = F.prev;
 
       
     }
 
-  var F = {procname: "kajax.ajax", prev: framePtr, filename: "/home/markedone/code/repos/karax/karax/kajax.nim", line: 0};
-  framePtr = F;
-    F.line = 81;
-    var ajax_1073741980 = new XMLHttpRequest();
-    F.line = 82;
-    ajax_1073741980.open(meth_1073741964, url_1073741965, true);
+    if (wasEmptied_419430448[0]) {
+    wasEmptied_419430448[0] = false;
+    timeOutRef_419430447[0] = setInterval(HEX3Aanonymous_419430471, rate_419430470);
+    }
+    
+    rawEcho(makeNimstrLit("adding more"));
+    queue_419430446[0].push(action_419430469);;
+
+  
+}
+
+function ajax_1275068555(meth_1275068556, url_1275068557, headers_1275068558, data_1275068559, cont_1275068563, doRedraw_1275068564, kxi_1275068565, useBinary_1275068566, blob_1275068567) {
+
+function contWrapper_1275068568(httpStatus_1275068569, response_1275068570) {
+    cont_1275068563(httpStatus_1275068569, response_1275068570);
+    if (doRedraw_1275068564) {
+    redraw_570426329(kxi_1275068565);
+    }
+    
+
+  
+}
+    
+function HEX3Aanonymous_1275068578() {
+        if ((this.readyState == 4)) {
+        if ((this.status == 200)) {
+        contWrapper_1275068568(this.status, this.responseText);
+        }
+        else {
+        contWrapper_1275068568(this.status, this.responseText);
+        }
+        
+        }
+        
+
+      
+    }
+
+    var ajax_1275068572 = new XMLHttpRequest();
+    ajax_1275068572.open(meth_1275068556, url_1275068557, true);
     Label1: do {
-      F.line = 83;
-      var a_1073741984 = null;
-      var a_1073741984_Idx = 0;
-      F.line = 83;
-      var b_1073741985 = null;
-      var b_1073741985_Idx = 0;
-      F.line = 8;
-      var i_419430661 = 0;
+      var a_1275068576 = null;
+      var a_1275068576_Idx = 0;
+      var b_1275068577 = null;
+      var b_1275068577_Idx = 0;
+      var i_419430710 = 0;
       Label2: do {
-        F.line = 9;
           Label3: while (true) {
-          if (!(i_419430661 < (headers_1073741966).length)) break Label3;
-            F.line = 83;
-            a_1073741984 = headers_1073741966[chckIndx(i_419430661, 0, (headers_1073741966).length - 1)]; a_1073741984_Idx = "Field0";
-            F.line = 10;
-            b_1073741985 = headers_1073741966[chckIndx(i_419430661, 0, (headers_1073741966).length - 1)]; b_1073741985_Idx = "Field1";
-            F.line = 84;
-            ajax_1073741980.setRequestHeader(a_1073741984[a_1073741984_Idx], b_1073741985[b_1073741985_Idx]);
-            F.line = 11;
-            i_419430661 = addInt(i_419430661, 1);
+          if (!(i_419430710 < (headers_1275068558).length)) break Label3;
+            a_1275068576 = headers_1275068558[chckIndx(i_419430710, 0, (headers_1275068558).length - 1)]; a_1275068576_Idx = "Field0";
+            b_1275068577 = headers_1275068558[chckIndx(i_419430710, 0, (headers_1275068558).length - 1)]; b_1275068577_Idx = "Field1";
+            ajax_1275068572.setRequestHeader(a_1275068576[a_1275068576_Idx], b_1275068577[b_1275068577_Idx]);
+            i_419430710 = addInt(i_419430710, 1);
           }
       } while (false);
     } while (false);
-    F.line = 85;
-    ajax_1073741980.onreadystatechange = HEX3Aanonymous_1073741986;
-    if (useBinary_1073741974) {
-    F.line = 92;
-    ajax_1073741980.send(blob_1073741975);
+    ajax_1275068572.onreadystatechange = HEX3Aanonymous_1275068578;
+    if (useBinary_1275068566) {
+    ajax_1275068572.send(blob_1275068567);
     }
     else {
-      F.line = 94;
-    ajax_1073741980.send(data_1073741967);
+    ajax_1275068572.send(data_1275068559);
     }
     
-  framePtr = F.prev;
 
   
 }
 
-function ajaxGet_1073742008(url_1073742009, headers_1073742010, cont_1073742014, doRedraw_1073742015, kxi_1073742016) {
-  var F = {procname: "kajax.ajaxGet", prev: framePtr, filename: "/home/markedone/code/repos/karax/karax/kajax.nim", line: 0};
-  framePtr = F;
-    F.line = 114;
-    ajax_1073741963("GET", url_1073742009, headers_1073742010, null, cont_1073742014, doRedraw_1073742015, kxi_1073742016, false, null);
-  framePtr = F.prev;
+function ajaxGet_1275068600(url_1275068601, headers_1275068602, cont_1275068606, doRedraw_1275068607, kxi_1275068608) {
+    ajax_1275068555("GET", url_1275068601, headers_1275068602, null, cont_1275068606, doRedraw_1275068607, kxi_1275068608, false, null);
 
   
 }
 
-function onQuote_419430434(httpStatus_419430435, response_419430436) {
-  var F = {procname: "frontend.onQuote", prev: framePtr, filename: "/home/markedone/code/repos/webapps/frontend.nim", line: 0};
-  framePtr = F;
-    F.line = 14;
-    loading_419430415[0] = false;
-    F.line = 15;
-    status_419430414[0] = httpStatus_419430435;
-    if ((httpStatus_419430435 == 200)) {
-    F.line = 17;
-    current_419430413[0] = JSON.parse(response_419430436);
+function onQuote_419430435(httpStatus_419430436, response_419430437) {
+    loading_419430416[0] = false;
+    status_419430415[0] = httpStatus_419430436;
+    if ((httpStatus_419430436 == 200)) {
+    current_419430414[0] = JSON.parse(response_419430437);
     }
     
-  framePtr = F.prev;
 
   
 }
 
-function main_419430440() {
+function main_419430494() {
     
-function HEX3Aanonymous_419430487() {
-      var F = {procname: "main.:anonymous", prev: framePtr, filename: "/home/markedone/code/repos/webapps/frontend.nim", line: 0};
-      framePtr = F;
-        if (!(loading_419430415[0])) {
-        F.line = 41;
-        loading_419430415[0] = true;
-        F.line = 42;
-        ajaxGet_1073742008("/quote", [{Field0: "Accept", Field1: "application/json"}], onQuote_419430434, true, kxi_570425409[0]);
-        }
+function HEX3Aanonymous_419430541() {
         
-      framePtr = F.prev;
+function HEX3Aanonymous_419430542() {
+            ajaxGet_1275068600("/quote", [{Field0: "Accept", Field1: "application/json"}], onQuote_419430435, true, kxi_570425409[0]);
+
+          
+        }
+
+        rateLimit_419430467(HEX3Aanonymous_419430542, 1000);
 
       
     }
 
-  var result_419430441 = null;
+  var result_419430495 = null;
 
-  var F = {procname: "frontend.main", prev: framePtr, filename: "/home/markedone/code/repos/webapps/frontend.nim", line: 0};
-  framePtr = F;
-    F.line = 20;
-    F.line = 20;
-    var tmp_419430472 = tree_603980568(43, []);
-    F.line = 21;
-    var tmp_419430473 = tree_603980568(43, []);
-    F.line = 21;
-    tmp_419430473.class = "content-box";
-    F.line = 22;
-    var tmp_419430479 = tree_603980568(43, []);
-    F.line = 22;
-    tmp_419430479.class = "logo";
-    F.line = 23;
-    add_603980490(tmp_419430479, text_603980620(makeNimstrLit("nim")));
-    F.line = 23;
-    add_603980490(tmp_419430473, tmp_419430479);
-    F.line = 24;
-    var tmp_419430480 = tree_603980568(43, []);
-    F.line = 24;
-    tmp_419430480.class = "quote-box";
-    F.line = 25;
-    var tmp_419430481 = tree_603980568(21, []);
-    F.line = 25;
-    tmp_419430481.class = "quote";
-    F.line = 26;
-    add_603980490(tmp_419430481, text_603980620(makeNimstrLit("Random Quote Generator")));
-    F.line = 26;
-    add_603980490(tmp_419430480, tmp_419430481);
-    if (loading_419430415[0]) {
-    F.line = 28;
-    var tmp_419430482 = tree_603980568(31, []);
-    F.line = 28;
-    tmp_419430482.class = "quoteLoading";
-    F.line = 29;
-    add_603980490(tmp_419430482, text_603980620(makeNimstrLit("loading")));
-    F.line = 29;
-    add_603980490(tmp_419430480, tmp_419430482);
+    var tmp_419430526 = tree_603980568(43, []);
+    var tmp_419430527 = tree_603980568(43, []);
+    tmp_419430527.class = "content-box";
+    var tmp_419430533 = tree_603980568(43, []);
+    tmp_419430533.class = "logo";
+    add_603980490(tmp_419430533, text_603980620(makeNimstrLit("nim")));
+    add_603980490(tmp_419430527, tmp_419430533);
+    var tmp_419430534 = tree_603980568(43, []);
+    tmp_419430534.class = "quote-box";
+    var tmp_419430535 = tree_603980568(21, []);
+    tmp_419430535.class = "quote";
+    add_603980490(tmp_419430535, text_603980620(makeNimstrLit("Random Quote Generator")));
+    add_603980490(tmp_419430534, tmp_419430535);
+    if (loading_419430416[0]) {
+    var tmp_419430536 = tree_603980568(31, []);
+    tmp_419430536.class = "quoteLoading";
+    add_603980490(tmp_419430536, text_603980620(makeNimstrLit("loading")));
+    add_603980490(tmp_419430534, tmp_419430536);
     }
     else {
-    if ((status_419430414[0] == 200)) {
-    F.line = 31;
-    var tmp_419430483 = tree_603980568(24, []);
-    F.line = 31;
-    tmp_419430483.class = "quoteDisplay";
-    F.line = 32;
-    add_603980490(tmp_419430483, text_603980623(current_419430413[0].text));
-    F.line = 32;
-    add_603980490(tmp_419430480, tmp_419430483);
-    F.line = 33;
-    var tmp_419430484 = tree_603980568(31, []);
-    F.line = 33;
-    tmp_419430484.id = "author";
-    F.line = 34;
-    add_603980490(tmp_419430484, text_603980623(current_419430413[0].author));
-    F.line = 34;
-    add_603980490(tmp_419430480, tmp_419430484);
+    if ((status_419430415[0] == 404)) {
+    var tmp_419430537 = tree_603980568(31, []);
+    tmp_419430537.class = "error404";
+    add_603980490(tmp_419430537, text_603980620(makeNimstrLit("404 Not Found")));
+    add_603980490(tmp_419430534, tmp_419430537);
     }
     else {
-    if ((status_419430414[0] == 404)) {
-    F.line = 36;
-    var tmp_419430485 = tree_603980568(31, []);
-    F.line = 36;
-    tmp_419430485.class = "error404";
-    F.line = 37;
-    add_603980490(tmp_419430485, text_603980620(makeNimstrLit("404 Not Found")));
-    F.line = 37;
-    add_603980490(tmp_419430480, tmp_419430485);
+    if ((status_419430415[0] == 200)) {
+    var tmp_419430538 = tree_603980568(24, []);
+    tmp_419430538.class = "quoteDisplay";
+    add_603980490(tmp_419430538, text_603980623(current_419430414[0].text));
+    add_603980490(tmp_419430534, tmp_419430538);
+    var tmp_419430539 = tree_603980568(31, []);
+    tmp_419430539.id = "author";
+    add_603980490(tmp_419430539, text_603980623(current_419430414[0].author));
+    add_603980490(tmp_419430534, tmp_419430539);
     }
     }}
-    F.line = 38;
-    var tmp_419430486 = tree_603980568(194, []);
-    F.line = 38;
-    tmp_419430486.id = "btn";
-    F.line = 39;
-    addEventHandler_570426517(tmp_419430486, 0, HEX3Aanonymous_419430487, kxi_570425409[0]);
-    F.line = 43;
-    add_603980490(tmp_419430486, text_603980620(makeNimstrLit("New quote")));
-    F.line = 43;
-    add_603980490(tmp_419430480, tmp_419430486);
-    F.line = 43;
-    add_603980490(tmp_419430473, tmp_419430480);
-    F.line = 43;
-    add_603980490(tmp_419430472, tmp_419430473);
-    result_419430441 = tmp_419430472;
-  framePtr = F.prev;
+    var tmp_419430540 = tree_603980568(194, []);
+    tmp_419430540.id = "btn";
+    addEventHandler_570426517(tmp_419430540, 0, HEX3Aanonymous_419430541, kxi_570425409[0]);
+    add_603980490(tmp_419430540, text_603980620(makeNimstrLit("New quote")));
+    add_603980490(tmp_419430534, tmp_419430540);
+    add_603980490(tmp_419430527, tmp_419430534);
+    add_603980490(tmp_419430526, tmp_419430527);
+    result_419430495 = tmp_419430526;
 
-  return result_419430441;
+  return result_419430495;
 
 }
-var F = {procname: "module frontend", prev: framePtr, filename: "/home/markedone/code/repos/webapps/frontend.nim", line: 0};
-framePtr = F;
-setRenderer_570426460(main_419430440, "ROOT", null);
-framePtr = F.prev;
-var F = {procname: "module frontend", prev: framePtr, filename: "/home/markedone/code/repos/webapps/frontend.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module frontend", prev: framePtr, filename: "/home/markedone/code/repos/webapps/frontend.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
+setRenderer_570426460(main_419430494, "ROOT", null);
