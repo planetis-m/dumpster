@@ -16,9 +16,11 @@ proc onQuote(httpStatus: int, response: cstring) =
   if httpStatus == 200:
     current = fromJson[Quote](response)
 
+proc shift[T](x: var seq[T]): T {.importcpp, nodecl.}
+
 # RateLimiter
 var
-  stack: seq[proc ()] = @[]
+  queue: seq[proc ()] = @[]
   timeOutRef: Interval = nil
   wasEmptied = true
 
@@ -26,14 +28,14 @@ proc rateLimit(action: proc (), rate: int) =
   if wasEmptied:
     wasEmptied = false
     timeOutRef = setInterval(proc () =
-      if stack.len > 0:
-        let call = stack.pop()
+      if queue.len > 0:
+        let call = queue.shift()
         call()
       else:
         wasEmptied = true
         clearInterval(timeOutRef)
     , rate)
-  stack.add(action)
+  queue.add(action)
 
 proc main(): VNode =
   result = buildHtml(tdiv):
