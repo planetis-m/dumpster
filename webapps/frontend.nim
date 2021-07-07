@@ -16,24 +16,24 @@ proc onQuote(httpStatus: int, response: cstring) =
   if httpStatus == 200:
     current = fromJson[Quote](response)
 
-proc shift[T](x: var seq[T]): T {.importcpp, nodecl.}
+proc shift[T](x: var seq[T]): T {.importcpp.}
 
 # RateLimiter
 var
   queue: seq[proc ()] = @[]
-  timeOutRef: Interval = nil
+  interval: Interval = nil
   wasEmptied = true
 
 proc rateLimit(action: proc (), rate: int) =
   if wasEmptied:
     wasEmptied = false
-    timeOutRef = setInterval(proc () =
+    interval = setInterval(proc () =
       if queue.len > 0:
         let call = queue.shift()
         call()
       else:
         wasEmptied = true
-        clearInterval(timeOutRef)
+        clearInterval(interval)
     , rate)
   queue.add(action)
 
