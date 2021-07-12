@@ -1,5 +1,5 @@
 # --threads:on --panics:on --gc:arc -d:useMalloc -t:"-O3 -fsanitize=thread" -l:"-fsanitize=thread" -d:danger -g
-import queue, std/atomics
+import queue
 
 const
   seed = 99

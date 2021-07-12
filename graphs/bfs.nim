@@ -4,11 +4,12 @@ import std / [deques, with]
 
 type
   Edge = object
-    neighbor: Node
+    neighbor {.cursor.}: Node
 
   Node = ref object
     neighbors: seq[Edge]
     label: string
+    visited: bool
 
   Graph = object
     nodes: seq[Node]
@@ -18,7 +19,8 @@ proc addNode(self: var Graph; label: string): Node =
   result = self.nodes[^1]
 
 proc addEdge(self: Graph; source, neighbor: Node) =
-  source.neighbors.add(Edge(neighbor: neighbor))
+  let e = Edge(neighbor: neighbor)
+  source.neighbors.add(e)
 
 proc breadthFirstSearch(graph: Graph; source: Node): seq[string] =
   var queue: Deque[Node]

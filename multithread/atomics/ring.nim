@@ -1,5 +1,5 @@
 # Nim port of https://github.com/rigtorp/SPSCQueue
-import std/[atomics, isolation]
+import std/isolation, sync/atomics2
 from std/typetraits import supportsCopyMem
 
 const
@@ -18,8 +18,8 @@ template Pad: untyped = (cacheLineSize - 1) div sizeof(T) + 1
 proc `=destroy`*[T](this: var SpscQueue[T]) =
   if this.data != nil:
     when not supportsCopyMem(T):
-      let head = this.head.load(moAcquire)
-      var tail = this.tail.load(moRelaxed)
+      let head = this.head.load(Acquire)
+      var tail = this.tail.load(Relaxed)
       while tail != head:
         `=destroy`(this.data[tail + Pad])
         inc tail
@@ -37,21 +37,21 @@ proc init*[T](this: var SpscQueue[T]; capacity: Natural) =
 proc cap*[T](this: SpscQueue[T]): int = this.cap - 1
 
 proc len*[T](this: SpscQueue[T]): int =
-  result = this.head.load(moAcquire) - this.tail.load(moAcquire)
+  result = this.head.load(Acquire) - this.tail.load(Acquire)
   if result < 0:
     result += this.cap
 
 proc tryPush*[T](this: var SpscQueue[T]; value: var Isolated[T]): bool {.
     nodestroy.} =
-  let head = this.head.load(moRelaxed)
+  let head = this.head.load(Relaxed)
   var nextHead = head + 1
   if nextHead == this.cap:
     nextHead = 0
-  if nextHead == this.tail.load(moAcquire):
+  if nextHead == this.tail.load(Acquire):
     result = false
   else:
     this.data[head + Pad] = extract value
-    this.head.store(nextHead, moRelease)
+    this.head.store(nextHead, Release)
     result = true
 
 template tryPush*[T](this: SpscQueue[T]; value: T): bool =
@@ -60,15 +60,15 @@ template tryPush*[T](this: SpscQueue[T]; value: T): bool =
   tryPush(this, p)
 
 proc tryPop*[T](this: var SpscQueue[T]; value: var T): bool =
-  let tail = this.tail.load(moRelaxed)
-  if tail == this.head.load(moAcquire):
+  let tail = this.tail.load(Relaxed)
+  if tail == this.head.load(Acquire):
     result = false
   else:
     value = move this.data[tail + Pad]
     var nextTail = tail + 1
     if nextTail == this.cap:
       nextTail = 0
-    this.tail.store(nextTail, moRelease)
+    this.tail.store(nextTail, Release)
     result = true
 
 when isMainModule:

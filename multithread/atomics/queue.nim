@@ -1,4 +1,4 @@
-import std/[atomics, isolation]
+import std/isolation, sync/atomics2
 
 type
   MpscQueue*[T] = object
@@ -11,17 +11,17 @@ type
 proc push*[T](this: var MpscQueue[T]; value: sink Isolated[T]) {.nodestroy.} =
   var n = createSharedU(Node[T])
   n.value = extract value
-  var staleHead = this.head.load(moRelaxed)
+  var staleHead = this.head.load(Relaxed)
   while true:
     n.next = staleHead
-    if this.head.compareExchangeWeak(staleHead, n, moRelease):
+    if this.head.compareExchangeWeak(staleHead, n, Release):
       break
 
 template push*[T](this: var MpscQueue[T]; value: T) =
   push(this, isolate(value))
 
 proc popAllReverse[T](this: var MpscQueue[T]): ptr Node[T] {.inline.} =
-  result = this.head.exchange(nil, moConsume)
+  result = this.head.exchange(nil, Consume)
 
 proc popAll[T](this: var MpscQueue[T]): ptr Node[T] =
   var

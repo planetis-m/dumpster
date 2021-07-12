@@ -1,13 +1,13 @@
 import hashes
 
-# type
-#    Hashable = concept
-#       proc hash(x: self): int
-#       proc `==`(x, y: self): bool
-#
-#    Comparable = concept
-#       proc `<`(x, y: self): bool
-#       proc `<=`(x, y: self): bool
+#type
+  #Hashable = concept
+    #proc hash(x: Self): int
+    #proc `==`(x, y: Self): bool
+
+  #Comparable = concept
+    #proc `<`(x, y: Self): bool
+    #proc `<=`(x, y: Self): bool
 
 type
   Vertex*[T] = object
@@ -28,7 +28,7 @@ type
 
 proc hash*[T](self: Edge[T]): Hash =
   result = hash(self.fr) !& hash(self.to)
-  if self.weight > 0.0:
+  if self.weight > 0:
     result = result !& hash(self.weight)
   result = !$result
 
