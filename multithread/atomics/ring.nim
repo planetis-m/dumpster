@@ -27,12 +27,14 @@ proc `=destroy`*[T](this: var SpscQueue[T]) =
           tail = 0
     deallocShared(this.data)
 
-proc `=sink`*[T](dest: var SpscQueue[T]; source: SpscQueue[T]) {.error.}
 proc `=copy`*[T](dest: var SpscQueue[T]; source: SpscQueue[T]) {.error.}
 
 proc init*[T](this: var SpscQueue[T]; capacity: Natural) =
   this.cap = capacity + 1
   this.data = cast[ptr UncheckedArray[T]](allocShared((this.cap + 2 * Pad) * sizeof(T)))
+
+proc newSpscQueue*[T](cap: int): SpscQueue[T] =
+  init(result, cap)
 
 proc cap*[T](this: SpscQueue[T]): int = this.cap - 1
 

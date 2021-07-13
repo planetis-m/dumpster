@@ -1,5 +1,5 @@
 # --threads:on --panics:on --gc:arc -d:useMalloc -t:"-O3 -fsanitize=thread" -l:"-fsanitize=thread" -d:danger -g
-import ring, std/isolation
+import spsc, ring, std/isolation
 
 const
   seed = 99
@@ -11,46 +11,44 @@ type
     id: string
 
 type
-  ThreadArgs = object
-    id: WorkerKind
-    queue: ptr SpscQueue[Foo]
-
   WorkerKind = enum
     Producer
     Consumer
 
-template work(expectedId: typed, body: untyped): untyped {.dirty.} =
-  if args.id == expectedId:
+  ThreadArgs = object
+    case id: WorkerKind
+    of Producer:
+      tx: SpscSender[Foo]
+    of Consumer:
+      rx: SpscReceiver[Foo]
+
+template sendLoop(tx, data: typed, body: untyped): untyped =
+  while not tx.trySend(data):
     body
 
-template pushLoop(queue, data: typed, body: untyped): untyped =
-  while not queue.tryPush(data):
-    body
-
-template popLoop(queue, data: typed, body: untyped): untyped =
-  while not queue.tryPop(data):
+template recvLoop(rx, data: typed, body: untyped): untyped =
+  while not rx.tryRecv(data):
     body
 
 proc threadFn(args: ThreadArgs) =
-  work(Consumer):
+  case args.id
+  of Consumer:
     for i in 0 ..< numIters:
       var res: Foo
-      args.queue[].popLoop(res): cpuRelax()
-      #echo " >> popped ", res.id
+      recvLoop(args.rx, res): cpuRelax()
+      echo " >> received ", res.id
       assert res.id == $(seed + i)
-  work(Producer):
+  of Producer:
     for i in 0 ..< numIters:
       var p = isolate(Foo(id: $(i + seed)))
-      args.queue[].pushLoop(p): cpuRelax()
-      #echo " >> pushed ", $(i + seed)
+      sendLoop(args.tx, p): cpuRelax()
+      echo " >> sent ", $(i + seed)
 
 proc testSpScRing =
-  var
-    queue: SpscQueue[Foo]
-    thr1, thr2: Thread[ThreadArgs]
-  init(queue, bufCap)
-  createThread(thr1, threadFn, ThreadArgs(id: Producer, queue: addr queue))
-  createThread(thr2, threadFn, ThreadArgs(id: Consumer, queue: addr queue))
+  let (tx, rx) = newSpscChannel[Foo](bufCap) # tx for transmission, rx for receiving
+  var thr1, thr2: Thread[ThreadArgs]
+  createThread(thr1, threadFn, ThreadArgs(id: Producer, tx: tx))
+  createThread(thr2, threadFn, ThreadArgs(id: Consumer, rx: rx))
   joinThread(thr1)
   joinThread(thr2)
 
