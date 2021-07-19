@@ -74,7 +74,7 @@ proc add(dest: var String; src: String) {.inline.} =
   if src.len > 0:
     prepareAdd(dest, src.len)
     # also copy the \0 terminator:
-    moveMem(unsafeAddr dest.p.data[dest.len], unsafeAddr src.p.data[0], src.len+1)
+    copyMem(unsafeAddr dest.p.data[dest.len], unsafeAddr src.p.data[0], src.len+1)
     inc dest.len, src.len
 
 proc cstrToStr(str: cstring, len: int): String =
@@ -145,11 +145,6 @@ proc main =
     b.add 'w'
     echo a.toCStr # prevent sink
     echo b.toCStr
-  block: # memory ranges overlap!
-    var a = initStringOfCap(10)
-    a.add 'h'
-    a.add a
-    echo a.toCStr
   block:
     var a: String
     a.add 'h'
