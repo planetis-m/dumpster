@@ -38,8 +38,8 @@ proc resize(old: int): int {.inline.} =
   elif old < 65536: result = old * 2
   else: result = old * 3 div 2 # for large arrays * 3/2 is better
 
-proc prepareAdd(s: var String; addlen: int) =
-  let newLen = s.len + addlen
+proc prepareAdd(s: var String; addLen: int) =
+  let newLen = s.len + addLen
   # copy the data iff there is more than a reference or its a literal
   if s.p == nil or s.p.counter != 0:
     let oldP = s.p # can be nil
@@ -53,7 +53,7 @@ proc prepareAdd(s: var String; addlen: int) =
     s.p.counter = 0
     if s.len > 0:
       # we are about to append, so there is no need to copy the \0 terminator:
-      moveMem(unsafeAddr s.p.data[0], unsafeAddr oldP.data[0], min(s.len, newLen))
+      copyMem(unsafeAddr s.p.data[0], unsafeAddr oldP.data[0], min(s.len, newLen))
   else:
     let oldCap = s.p.cap
     if newLen > oldCap:
@@ -74,7 +74,7 @@ proc add(dest: var String; src: String) {.inline.} =
   if src.len > 0:
     prepareAdd(dest, src.len)
     # also copy the \0 terminator:
-    copyMem(unsafeAddr dest.p.data[dest.len], unsafeAddr src.p.data[0], src.len+1)
+    moveMem(unsafeAddr dest.p.data[dest.len], unsafeAddr src.p.data[0], src.len+1)
     inc dest.len, src.len
 
 proc cstrToStr(str: cstring, len: int): String =
@@ -145,10 +145,15 @@ proc main =
     b.add 'w'
     echo a.toCStr # prevent sink
     echo b.toCStr
-  #block: # memory ranges overlap!
-    #var a = initStringOfCap(10)
-    #a.add 'h'
-    #a.add a
-    #echo a.toCStr
+  block: # memory ranges overlap!
+    var a = initStringOfCap(10)
+    a.add 'h'
+    a.add a
+    echo a.toCStr
+  block:
+    var a: String
+    a.add 'h'
+    a.add 'e'
+    echo a.toCStr
 
 main()
