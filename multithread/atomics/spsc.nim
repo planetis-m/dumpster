@@ -1,5 +1,5 @@
 import sync/smartptrs, std/isolation, ring
-export `[]`, isNil
+export smartptrs.`[]`, smartptrs.isNil
 
 type
   SpscSender*[T] = object

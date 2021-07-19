@@ -57,6 +57,7 @@ proc main(): VNode =
           p(id = "author"):
             text current.author
         button(id = "btn"):
+          # DONT run all at once!
           # Ditches calls until the previous completed
           proc onClick() =
             if not loading:
