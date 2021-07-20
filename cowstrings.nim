@@ -35,20 +35,18 @@ proc `=copy`*(a: var String, b: String) =
   a.p = b.p
   a.len = b.len
 
-#[proc `=deepCopy`*(a: var String, b: String) =
-  if a.p != nil:
-    `=destroy`(a)
-  a.len = b.len
-  if b.p != nil:
+proc deepCopy*(y: String): String =
+  result.len = y.len
+  if y.p != nil:
     when compileOption("threads"):
-      a.p = cast[ptr StrPayload](allocShared0(contentSize(a.len)))
+      result.p = cast[ptr StrPayload](allocShared0(contentSize(result.len)))
     else:
-      a.p = cast[ptr StrPayload](alloc0(contentSize(a.len)))
-    a.p.cap = a.len
-    a.p.counter = 0
-    if a.len > 0:
+      result.p = cast[ptr StrPayload](alloc0(contentSize(result.len)))
+    result.p.cap = result.len
+    result.p.counter = 0
+    if result.len > 0:
       # also copy the \0 terminator:
-      copyMem(unsafeAddr a.p.data[0], unsafeAddr b.p.data[0], a.len+1)]#
+      copyMem(unsafeAddr result.p.data[0], unsafeAddr y.p.data[0], result.len+1)
 
 proc resize(old: int): int {.inline.} =
   if old <= 0: result = 4
@@ -87,7 +85,7 @@ proc add*(s: var String; c: char) {.inline.} =
   s.p.data[s.len+1] = '\0'
   inc s.len
 
-proc add(dest: var String; src: String) {.inline.} =
+proc add*(dest: var String; src: String) {.inline.} =
   if src.len > 0:
     prepareAdd(dest, src.len)
     # also copy the \0 terminator:
@@ -153,20 +151,12 @@ proc setLen*(s: var String, newLen: int) =
 
 proc len*(s: String): int {.inline.} = s.len
 
-func isolate*(value: String): Isolated[String] =
-  var temp: String
-  temp.len = value.len
-  if value.p != nil:
-    when compileOption("threads"):
-      temp.p = cast[ptr StrPayload](allocShared0(contentSize(temp.len)))
-    else:
-      temp.p = cast[ptr StrPayload](alloc0(contentSize(temp.len)))
-    temp.p.cap = temp.len
-    temp.p.counter = 0
-    if temp.len > 0:
-      # also copy the \0 terminator:
-      copyMem(unsafeAddr temp.p.data[0], unsafeAddr value.p.data[0], temp.len+1)
-  result = unsafeIsolate temp
+proc isolate*(value: sink String): Isolated[String] {.nodestroy.} =
+  # Ensure unique, also a literal?
+  if value.p == nil or value.p.counter <= 0:
+    result = unsafeIsolate value
+  else:
+    result = unsafeIsolate deepCopy(value)
 
 when isMainModule:
   proc main =
