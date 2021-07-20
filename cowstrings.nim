@@ -33,6 +33,21 @@ proc `=copy`*(a: var String, b: String) =
   a.p = b.p
   a.len = b.len
 
+#[proc `=deepCopy`*(a: var String, b: String) =
+  if a.p != nil:
+    `=destroy`(a)
+  a.len = b.len
+  if b.p != nil:
+    when compileOption("threads"):
+      a.p = cast[ptr StrPayload](allocShared0(contentSize(a.len)))
+    else:
+      a.p = cast[ptr StrPayload](alloc0(contentSize(a.len)))
+    a.p.cap = a.len
+    a.p.counter = 0
+    if a.len > 0:
+      # also copy the \0 terminator:
+      copyMem(unsafeAddr a.p.data[0], unsafeAddr b.p.data[0], a.len+1)]#
+
 proc resize(old: int): int {.inline.} =
   if old <= 0: result = 4
   elif old < 65536: result = old * 2
@@ -43,7 +58,7 @@ proc prepareAdd(s: var String; addLen: int) =
   # copy the data iff there is more than a reference or its a literal
   if s.p == nil or s.p.counter != 0:
     let oldP = s.p # can be nil
-    if s.p != nil: dec s.p.counter
+    if s.p != nil and s.p.counter > 0: dec s.p.counter
     # can't mutate a literal, so we need a fresh copy here:
     when compileOption("threads"):
       s.p = cast[ptr StrPayload](allocShared0(contentSize(newLen)))
@@ -136,19 +151,32 @@ proc setLen*(s: var String, newLen: int) =
 
 proc len*(s: String): int {.inline.} = s.len
 
-proc main =
-  block:
-    var a = initStringOfCap(10)
-    a.add 'h'
-    var b = a
-    b.add a
-    b.add 'w'
-    echo a.toCStr # prevent sink
-    echo b.toCStr
-  block:
-    var a: String
-    a.add 'h'
-    a.add 'e'
-    echo a.toCStr
+when isMainModule:
+  import std/isolation
 
-main()
+  proc main =
+    block:
+      var a = initStringOfCap(10)
+      a.add 'h'
+      var b = a
+      b.add a
+      b.add 'w'
+      echo a.toCStr # prevent sink
+      echo b.toCStr
+    block:
+      var a: String
+      a.add 'h'
+      a.add 'e'
+      echo a.toCStr
+    block:
+      var a: Isolated[String]
+      var b: String
+      b.add 'w'
+      b.add 'o'
+      a = isolate b # wrong! needs to perform a deepcopy
+      #b.add 'r'
+      let c = extract a
+      echo cast[ByteAddress](c.p)
+      echo cast[ByteAddress](b.p)
+
+  main()
