@@ -1,3 +1,5 @@
+import std/isolation
+
 type
   StrPayloadBase = object
     cap, counter: int
@@ -151,9 +153,22 @@ proc setLen*(s: var String, newLen: int) =
 
 proc len*(s: String): int {.inline.} = s.len
 
-when isMainModule:
-  import std/isolation
+func isolate*(value: String): Isolated[String] =
+  var temp: String
+  temp.len = value.len
+  if value.p != nil:
+    when compileOption("threads"):
+      temp.p = cast[ptr StrPayload](allocShared0(contentSize(temp.len)))
+    else:
+      temp.p = cast[ptr StrPayload](alloc0(contentSize(temp.len)))
+    temp.p.cap = temp.len
+    temp.p.counter = 0
+    if temp.len > 0:
+      # also copy the \0 terminator:
+      copyMem(unsafeAddr temp.p.data[0], unsafeAddr value.p.data[0], temp.len+1)
+  result = unsafeIsolate temp
 
+when isMainModule:
   proc main =
     block:
       var a = initStringOfCap(10)
@@ -173,10 +188,10 @@ when isMainModule:
       var b: String
       b.add 'w'
       b.add 'o'
-      a = isolate b # wrong! needs to perform a deepcopy
+      a = isolate b
       #b.add 'r'
       let c = extract a
-      echo cast[ByteAddress](c.p)
-      echo cast[ByteAddress](b.p)
+      assert cast[ByteAddress](c.p) != cast[ByteAddress](b.p)
+      echo c.toCStr
 
   main()
