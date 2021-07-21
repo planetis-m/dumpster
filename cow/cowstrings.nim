@@ -179,3 +179,6 @@ proc cmpStrings*(a, b: String): int =
 
 proc `<=`*(a, b: String): bool {.inline.} = cmpStrings(a, b) <= 0
 proc `<`*(a, b: String): bool {.inline.} = cmpStrings(a, b) < 0
+
+proc `[]`*(x: String; i: int): char {.inline.} = x.p.data[i]
+proc `[]=`*(x: String; i: int; val: char) {.inline.} = x.p.data[i] = val
