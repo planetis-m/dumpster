@@ -103,13 +103,15 @@ proc cstrToStr(str: cstring, len: int): String =
     p.cap = len
     p.counter = 0
     if len > 0:
-      # we are about to append, so there is no need to copy the \0 terminator:
-      copyMem(unsafeAddr p.data[0], str, len)
+      copyMem(unsafeAddr p.data[0], str, len+1)
     result = String(len: len, p: p)
 
-proc toStr*(str: cstring): String =
+proc toStr*(str: cstring): String {.inline.} =
   if str == nil: cstrToStr(str, 0)
   else: cstrToStr(str, str.len)
+
+proc toStr*(str: string): String {.inline.} =
+  cstrToStr(str.cstring, str.len)
 
 proc toCStr*(s: String): cstring {.inline.} =
   if s.len == 0: result = cstring""
@@ -152,36 +154,28 @@ proc setLen*(s: var String, newLen: int) =
 proc len*(s: String): int {.inline.} = s.len
 
 proc isolate*(value: sink String): Isolated[String] {.nodestroy.} =
-  # Ensure unique, also a literal?
+  # Ensure unique
   if value.p == nil or value.p.counter <= 0:
     result = unsafeIsolate value
   else:
     result = unsafeIsolate deepCopy(value)
 
-when isMainModule:
-  proc main =
-    block:
-      var a = initStringOfCap(10)
-      a.add 'h'
-      var b = a
-      b.add a
-      b.add 'w'
-      echo a.toCStr # prevent sink
-      echo b.toCStr
-    block:
-      var a: String
-      a.add 'h'
-      a.add 'e'
-      echo a.toCStr
-    block:
-      var a: Isolated[String]
-      var b: String
-      b.add 'w'
-      b.add 'o'
-      a = isolate b
-      #b.add 'r'
-      let c = extract a
-      assert cast[ByteAddress](c.p) != cast[ByteAddress](b.p)
-      echo c.toCStr
+# Comparisons
+proc eqStrings*(a, b: String): bool =
+  if a.len == b.len:
+    if a.len == 0: return true
+    return equalMem(unsafeAddr a.p.data[0], unsafeAddr b.p.data[0], a.len)
 
-  main()
+proc `==`*(a, b: String): bool {.inline.} = eqStrings(a, b)
+
+proc cmpStrings*(a, b: String): int =
+  let minLen = min(a.len, b.len)
+  if minLen > 0:
+    result = cmpMem(unsafeAddr a.p.data[0], unsafeAddr b.p.data[0], minLen)
+    if result == 0:
+      result = a.len - b.len
+  else:
+    result = a.len - b.len
+
+proc `<=`*(a, b: String): bool {.inline.} = cmpStrings(a, b) <= 0
+proc `<`*(a, b: String): bool {.inline.} = cmpStrings(a, b) < 0
