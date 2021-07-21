@@ -20,8 +20,8 @@ proc pongFn {.thread.} =
   while true:
     var n: String
     popLoop(q1, n): cpuRelax()
-    #var p = isolate(n)
-    pushLoop(q2, n): cpuRelax() # data race, here specifically
+    var p = isolate(n)
+    pushLoop(q2, p): cpuRelax()
     #sleep 20
     if n == toStr("0"): break
     assert n == toStr("1")
