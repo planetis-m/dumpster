@@ -20,7 +20,8 @@ proc pongFn {.thread.} =
   while true:
     var n: String
     popLoop(q1, n): cpuRelax()
-    pushLoop(q2, n): cpuRelax()
+    #var p = isolate(n)
+    pushLoop(q2, n): cpuRelax() # data race, here specifically
     #sleep 20
     if n == toStr("0"): break
     assert n == toStr("1")
@@ -30,12 +31,14 @@ proc pingPong =
   q2 = newSpscQueue[String](50)
   createThread(pong, pongFn)
   for i in 1..numIters:
-    pushLoop(q1, toStr("1")): cpuRelax()
+    var p = isolate(toStr("1"))
+    pushLoop(q1, p): cpuRelax()
     var n: String
     #sleep 10
     popLoop(q2, n): cpuRelax()
     assert n == toStr("1")
-  pushLoop(q1, toStr("0")): cpuRelax()
+  var p = isolate(toStr("0"))
+  pushLoop(q1, p): cpuRelax()
   var n: String
   popLoop(q2, n): cpuRelax()
   assert n == toStr("0")
