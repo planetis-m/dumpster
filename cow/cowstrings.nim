@@ -162,9 +162,10 @@ proc isolate*(value: sink String): Isolated[String] {.nodestroy.} =
 
 # Comparisons
 proc eqStrings*(a, b: String): bool =
+  result = false
   if a.len == b.len:
-    if a.len == 0: return true
-    return equalMem(unsafeAddr a.p.data[0], unsafeAddr b.p.data[0], a.len)
+    if a.len == 0: result = true
+    else: result = equalMem(unsafeAddr a.p.data[0], unsafeAddr b.p.data[0], a.len)
 
 proc `==`*(a, b: String): bool {.inline.} = eqStrings(a, b)
 

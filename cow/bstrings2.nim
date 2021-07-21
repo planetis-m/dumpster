@@ -1,7 +1,7 @@
 import sync/spsc_queue
 
 const
-  numIters = 1000000
+  numIters = 200
 
 var
   pong: Thread[void]
@@ -19,29 +19,29 @@ template popLoop(rx, data: typed, body: untyped): untyped =
 proc pongFn {.thread.} =
   while true:
     var n: string
-    popLoop(q1, n): cpuRelax()
-    pushLoop(q2, n): cpuRelax()
+    popLoop(q1, n): discard
+    pushLoop(q2, n): discard
     #sleep 20
     if n == "0": break
     assert n == "1"
 
 proc pingPong =
-  q1 = newSpscQueue[string](50)
-  q2 = newSpscQueue[string](50)
+  q1 = newSpscQueue[string](2000)
+  q2 = newSpscQueue[string](2000)
   createThread(pong, pongFn)
   for i in 1..numIters:
     var m = "1"
     prepareMutation m
-    pushLoop(q1, m): cpuRelax()
+    pushLoop(q1, m): discard
     var n: string
     #sleep 10
-    popLoop(q2, n): cpuRelax()
+    popLoop(q2, n): discard
     assert n == "1"
   var m = "0"
   prepareMutation m
-  pushLoop(q1, m): cpuRelax()
+  pushLoop(q1, m): discard
   var n: string
-  popLoop(q2, n): cpuRelax()
+  popLoop(q2, n): discard
   assert n == "0"
   pong.joinThread()
 
