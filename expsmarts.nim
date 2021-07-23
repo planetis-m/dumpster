@@ -11,9 +11,9 @@ template checkNotNil(p: typed) =
         raiseNilAccess()
 
 type
-  Deleter*[T] = proc (val: var Payload[T])
+  Deleter*[T] = proc (val: ptr Payload[T])
   Payload*[T] = object
-    value: T
+    value*: T
     counter: Atomic[int]
   SharedPtr*[T] = object
     ## Shared ownership reference counting pointer.
@@ -25,12 +25,12 @@ proc `=destroy`*[T](p: var SharedPtr[T]) =
     if p.val.counter.load(Consume) == 0:
       `=destroy`(p.val.value)
       if p.deleter != nil:
-        p.deleter(p.val[])
+        p.deleter(p.val)
     else:
       atomicDec(p.val.counter)
 
-proc defaultDel[T](p: var Payload[T]) =
-  deallocShared(p.val)
+proc defaultDel[T](val: ptr Payload[T]) =
+  deallocShared(val)
 
 proc `=copy`*[T](dest: var SharedPtr[T], src: SharedPtr[T]) =
   if src.val != nil:
@@ -53,3 +53,21 @@ proc isNil*[T](p: SharedPtr[T]): bool {.inline.} =
 proc `[]`*[T](p: SharedPtr[T]): var T {.inline.} =
   checkNotNil(p)
   p.val.value
+
+when isMainModule:
+  type
+    Foo = object
+      s: string
+
+  proc `=destroy`(x: var Foo) =
+    echo "destroying ", x.s
+    `=destroy`(x.s)
+
+  proc test =
+    let x = newSharedPtr(isolate(Foo(s: "Hello World")))
+
+  proc main =
+    test()
+    echo "exit"
+
+  main()
