@@ -30,7 +30,8 @@ proc newSharedPtr*[T](p: var Pool[T]; val: sink Isolated[T]): SharedPtr[T] {.nod
     n.next = p.last
     p.last = n
     p.len = 0
-  result = SharedPtr[T](val: addr(p.last.elems[p.len]), deleter: nil)
+  result.val = addr(p.last.elems[p.len])
+  int(result.val.counter) = 0
   result.val.value = extract val
   inc p.len
   inc p.last.len

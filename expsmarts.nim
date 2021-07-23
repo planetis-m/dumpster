@@ -14,7 +14,7 @@ type
   Deleter*[T] = proc (val: ptr Payload[T])
   Payload*[T] = object
     value*: T
-    counter: Atomic[int]
+    counter*: Atomic[int]
   SharedPtr*[T] = object
     ## Shared ownership reference counting pointer.
     deleter*: Deleter[T]
