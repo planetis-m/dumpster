@@ -1,5 +1,5 @@
 from typetraits import supportsCopyMem
-import expsmarts, std/isolation
+import expsmarts, std/isolation, threading/atomics
 
 type
   Chunk[T] = object

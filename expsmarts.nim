@@ -1,4 +1,4 @@
-import std/isolation, sync/atomics2
+import std/isolation, threading/atomics
 from typetraits import supportsCopyMem
 
 proc raiseNilAccess() {.noinline.} =
