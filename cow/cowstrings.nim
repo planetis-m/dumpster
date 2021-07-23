@@ -181,5 +181,19 @@ proc cmpStrings*(a, b: String): int =
 proc `<=`*(a, b: String): bool {.inline.} = cmpStrings(a, b) <= 0
 proc `<`*(a, b: String): bool {.inline.} = cmpStrings(a, b) < 0
 
-proc `[]`*(x: String; i: int): char {.inline.} = x.p.data[i]
-proc `[]=`*(x: String; i: int; val: char) {.inline.} = x.p.data[i] = val
+proc raiseIndexDefect() {.noinline.} =
+  raise newException(IndexDefect, "index out of bounds")
+
+template checkBounds(cond: untyped) =
+  when compileOption("boundChecks"):
+    {.line.}:
+      if not cond:
+        raiseIndexDefect()
+
+proc `[]`*(x: String; i: int): char {.inline.} =
+  checkBounds(i >= 0 and i <= x.len)
+  x.p.data[i]
+
+proc `[]=`*(x: String; i: int; val: char) {.inline.} =
+  checkBounds(i >= 0 and i <= x.len)
+  x.p.data[i] = val
