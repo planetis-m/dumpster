@@ -1,4 +1,3 @@
-from typetraits import supportsCopyMem
 import expsmarts, std/isolation, threading/atomics
 
 type
@@ -26,13 +25,13 @@ proc newSharedPtr*[T](p: var Pool[T]; val: sink Isolated[T]): SharedPtr[T] {.nod
     if p.lastCap == 0: p.lastCap = 4
     elif p.lastCap < 65_000: p.lastCap *= 2
     let n = cast[ptr Chunk[T]](allocShared(sizeof(Chunk[T]) + p.lastCap * sizeof(Payload[T])))
-    n.next = nil
     n.next = p.last
     p.last = n
     p.len = 0
   result.val = addr(p.last.elems[p.len])
   int(result.val.counter) = 0
   result.val.value = extract val
+  result.val.deleter = nil
   inc p.len
   inc p.last.len
 

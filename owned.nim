@@ -1,72 +1,78 @@
-import std/typetraits
+import std/isolation, threading/atomics
 
-when not compileOption("threads"):
-  {.error: "This module requires --threads:on compilation flag".}
+proc raiseNilAccess() {.noinline.} =
+  raise newException(NilAccessDefect, "dereferencing nil smart pointer")
+
+template checkNotNil(p: typed) =
+  when compileOption("boundChecks"):
+    {.line.}:
+      if p.isNil:
+        raiseNilAccess()
 
 type
-  Owned*[T] = object # make them distinct SharedPtr?
-    val: ptr tuple[value: T, atomicCounter: int]
+  OwnedPtr*[T] = object
+    val: ptr tuple[value: T, counter: Atomic[int]]
 
-  Unowned*[T] = distinct Owned[T]
+  UnownedPtr*[T] = distinct OwnedPtr[T]
 
-proc `=destroy`*[T](p: var Owned[T]) =
+proc `=destroy`*[T](p: var OwnedPtr[T]) =
   mixin `=destroy`
   if p.val != nil:
-    assert atomicLoadN(addr p.val[].atomicCounter, AtomicConsume) == 0,
+    assert p.val.counter.load(Consume) == 0,
       "dangling unowned pointers exist!"
     `=destroy`(p.val[])
     deallocShared(p.val)
 
-proc `=copy`*[T](dest: var Owned[T]; src: Owned[T]) {.
+proc `=copy`*[T](dest: var OwnedPtr[T]; src: OwnedPtr[T]) {.
     error: "owned refs can only be moved".}
 
-proc `=destroy`*[T](p: var Unowned[T]) =
-  if distinctBase(p).val != nil: atomicDec(distinctBase(p).val[].atomicCounter)
+proc `=destroy`*[T](p: var UnownedPtr[T]) =
+  if OwnedPtr[T](p).val != nil: atomicDec(OwnedPtr[T](p).val.counter)
 
-proc `=copy`*[T](dest: var Unowned[T]; src: Unowned[T]) =
+proc `=copy`*[T](dest: var UnownedPtr[T]; src: UnownedPtr[T]) =
   # No need to check for self-assignments here.
-  if distinctBase(src).val != nil: atomicInc(distinctBase(src).val[].atomicCounter)
-  if distinctBase(dest).val != nil: atomicDec(distinctBase(dest).val[].atomicCounter)
-  distinctBase(dest).val = distinctBase(src).val # raw pointer copy
+  if OwnedPtr[T](src).val != nil: atomicInc(OwnedPtr[T](src).val.counter)
+  if OwnedPtr[T](dest).val != nil: atomicDec(OwnedPtr[T](dest).val.counter)
+  OwnedPtr[T](dest).val = OwnedPtr[T](src).val # raw pointer copy
 
-proc `=sink`*[T](dest: var Unowned[T], src: Unowned[T]) {.
+proc `=sink`*[T](dest: var UnownedPtr[T], src: UnownedPtr[T]) {.
     error: "moves are not available for unowned refs".}
 
-proc newOwned*[T](val: sink T): Owned[T] {.nodestroy.} =
+proc newOwnedPtr*[T](val: sink Isolated[T]): OwnedPtr[T] {.nodestroy.} =
   result.val = cast[typeof(result.val)](allocShared(sizeof(result.val[])))
-  result.val.atomicCounter = 0
-  result.val.value = val
+  int(result.val.counter) = 0
+  result.val.value = extract val
 
-proc unown*[T](p: Owned[T]): Unowned[T] =
-  result = Unowned[T](p)
+template newOwnedPtr*[T](val: T): OwnedPtr[T] =
+  newOwnedPtr(isolate(val))
 
-proc dispose*[T](p: var Unowned[T]) {.inline.} =
+proc unown*[T](p: OwnedPtr[T]): UnownedPtr[T] =
+  result = UnownedPtr[T](p)
+
+proc dispose*[T](p: var UnownedPtr[T]) {.inline.} =
   `=destroy`(p)
   wasMoved(p)
 
-proc isNil*[T](p: Owned[T]): bool {.inline.} =
+proc isNil*[T](p: OwnedPtr[T]): bool {.inline.} =
   p.val == nil
 
-proc isNil*[T](p: Unowned[T]): bool {.inline.} =
-  distinctBase(p).val == nil
+proc isNil*[T](p: UnownedPtr[T]): bool {.inline.} =
+  OwnedPtr[T](p).val == nil
 
-proc `[]`*[T](p: Owned[T]): var T {.inline.} =
-  when compileOption("boundChecks"):
-    doAssert(p.val != nil, "deferencing nil shared pointer")
+proc `[]`*[T](p: OwnedPtr[T]): var T {.inline.} =
+  checkNotNil(p)
   p.val.value
 
-proc `[]`*[T](p: Unowned[T]): var T {.inline.} =
-  when compileOption("boundChecks"):
-    doAssert(distinctBase(p).val != nil, "deferencing nil shared pointer")
-  distinctBase(p).val.value
+proc `[]`*[T](p: UnownedPtr[T]): var T {.inline.} =
+  checkNotNil(p)
+  OwnedPtr[T](p).val.value
 
-proc `$`*[T](p: Owned[T]): string {.inline.} =
-  if p.val == nil: "Owned[" & $T & "](nil)"
-  else: "Owned[" & $T & "](" & $p.val.value & ")"
+proc `$`*[T](p: OwnedPtr[T]): string {.inline.} =
+  if p.val == nil: "nil"
+  else: "(val: " & $p.val.value & ")"
 
-proc `$`*[T](p: Unowned[T]): string {.inline.} =
-  if distinctBase(p).val == nil: "Unowned[" & $T & "](nil)"
-  else: "Unowned[" & $T & "](" & $distinctBase(p).val.value & ")"
+proc `$`*[T](p: UnownedPtr[T]): string {.inline.} =
+  $OwnedPtr[T](p)
 
 when isMainModule:
   # https://nim-lang.org/araq/ownedrefs.html
@@ -74,12 +80,12 @@ when isMainModule:
     Node = object
       data: int
 
-  var x = newOwned(Node(data: 3))
+  var x = newOwnedPtr(Node(data: 3))
   var dangling = unown x
   assert dangling[].data == 3
   dispose dangling
-  # reassignment causes the memory of what ``x`` points to to be freed:
-  x = newOwned(Node(data: 4))
+  # reassignment causes the memory of what `x` points to to be freed:
+  x = newOwnedPtr(Node(data: 4))
   # accessing 'dangling' here is invalid as it is nil.
-  # at scope exit the memory of what ``x`` points to is freed
+  # at scope exit the memory of what `x` points to is freed
   #assert dangling[].data == 3
