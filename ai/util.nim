@@ -80,7 +80,7 @@ proc main =
         echo "Player 1 wins!"
         break
     of Heal:
-      players[0].healingPotions.dec
+      dec players[0].healingPotions
       players[0].health += rand(0.2'f32..0.3'f32)
     of RunAway:
       echo "Player 1 ran away."
@@ -96,7 +96,7 @@ proc main =
         echo "Player 2 wins!"
         break
     of Heal:
-      players[1].healingPotions.dec
+      dec players[1].healingPotions
       players[1].health += rand(0.2'f32..0.3'f32)
     of RunAway:
       echo "Player 2 ran away."

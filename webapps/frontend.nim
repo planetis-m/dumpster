@@ -22,19 +22,19 @@ proc shift[T](x: var seq[T]): T {.importcpp.}
 var
   queue: seq[proc ()] = @[]
   interval: Interval = nil
-  wasEmptied = true
+  isEmptied = true
 
 proc rateLimit(action: proc (), rate: int) =
-  if wasEmptied:
-    wasEmptied = false
-    interval = setInterval(proc () =
-      if queue.len > 0:
-        let call = queue.shift()
-        call()
-      else:
-        wasEmptied = true
-        clearInterval(interval)
-    , rate)
+  if isEmptied:
+    isEmptied = false
+    interval = setInterval(
+      proc () =
+        if queue.len > 0:
+          let call = queue.shift()
+          call()
+        else:
+          isEmptied = true
+          clearInterval(interval), rate)
   queue.add(action)
 
 proc main(): VNode =
