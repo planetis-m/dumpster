@@ -1,12 +1,10 @@
 import std / [deques, with]
 
-{.experimental: "strictFuncs".}
-
 type
   Edge = object
     neighbor {.cursor.}: Node
 
-  Node = ref object
+  Node {.acyclic.} = ref object
     neighbors: seq[Edge]
     label: string
     visited: bool

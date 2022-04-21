@@ -1,10 +1,13 @@
 import vmath
 
+const
+  MaxControlPoints = 4
+
 type
   PiecewiseLinearCurve* = object
-    controlPoints: seq[Point2]
+    controlPoints: array[MaxControlPoints, Point2]
 
-proc initPlc*(controlPoints: seq[Point2]): PiecewiseLinearCurve =
+proc initPiecewise*(controlPoints: array[MaxControlPoints, Point2]): PiecewiseLinearCurve =
   assert controlPoints[0].x == 0, "first data point should be at zero"
   result = PiecewiseLinearCurve(controlPoints: controlPoints)
 
@@ -24,5 +27,5 @@ proc eval(self: PiecewiseLinearCurve; t: float32): float32 =
   # linear interpolation
   result = (last.y * (cp.x - t) + cp.y * (t - last.x)) / (cp.x - last.x)
 
-let x = initPlc(@[point2(0, 0), point2(1, 1), point2(3, 1), point2(4, 2)])
+let x = initPiecewise([point2(0, 0), point2(1, 1), point2(3, 1), point2(4, 2)])
 echo eval(x, 2)
