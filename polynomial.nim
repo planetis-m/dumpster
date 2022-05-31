@@ -12,11 +12,9 @@ proc poly*(degree: int): Polynomial =
 
 proc parseNum(x: string, number: var int, start = 0): int =
   var i = start
-  if i < x.len and x[i] in {'0'..'9'}:
-    while true:
-      number = number * 10 + x[i].int - '0'.int
-      inc i
-      if i >= x.len or x[i] notin {'0'..'9'}: break
+  while i < x.len and x[i] in {'0'..'9'}:
+    number = number * 10 + x[i].int - '0'.int
+    inc i
   result = i - start
 
 proc poly*(x: string): Polynomial =

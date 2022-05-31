@@ -1,10 +1,7 @@
-import std/macros, fusion/astdsl
+import std/macros, fusion/astdsl, std/genasts
 
 macro toEnumImpl(x, res: typed): untyped =
   result = buildAst(stmtList):
-    template raiseInvalidConv(t: untyped) =
-      raise newException(ValueError, $x & " can't be converted to " & t)
-
     let typeSym = getTypeInst(res)
     let typeNode = getTypeImpl(typeSym)
     caseStmt(x):
@@ -13,7 +10,8 @@ macro toEnumImpl(x, res: typed): untyped =
         ofBranch(call(getTypeInst(x), field)):
           asgn(res, field)
       `else`:
-        getAst(raiseInvalidConv($typeSym))
+        genAst(t = $typeSym):
+          raise newException(ValueError, $x & " can't be converted to " & t)
 
 proc toEnum*[E: enum](x: SomeInteger, t: typedesc[E]): E {.inline.} =
   toEnumImpl(x, result)
