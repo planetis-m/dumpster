@@ -1,5 +1,4 @@
-import std / [asynchttpserver, asyncdispatch, random]
-import jsonbuilder
+import std/[asynchttpserver, asyncdispatch, random], packedjson
 
 type
   Quote = object
