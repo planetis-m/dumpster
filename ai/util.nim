@@ -1,5 +1,5 @@
 # https://www.youtube.com/watch?v=M0Sx_M61ILU
-import random, strformat
+import macros, random, strformat, fusion/astdsl
 
 const
   maxHealingPotions = 3
@@ -52,19 +52,31 @@ proc runAwayWeight(p: Player): float32 =
   result = healthWeight * healingPotionsWeight
   echo &"Health weight {healthWeight:.3} Healing Potions weight {healingPotionsWeight:.3} Run Away weight {result:.3}"
 
+# Chooser
+macro maxScore(body: untyped): untyped =
+  template action(x: NimNode): untyped =
+    if x.kind == nnkHiddenSubConv: x[1][0] else: x[0]
+  template score(x: NimNode): untyped =
+    if x.kind == nnkHiddenSubConv: x[1][1] else: x[1]
+  result = buildAst(stmtListExpr):
+    let actionSym = genSym(nskVar, "action")
+    let maxScoreSym = genSym(nskVar, "maxScore")
+    expectMinLen(body, 1)
+    newVarStmt(actionSym, body[0].action)
+    newVarStmt(maxScoreSym, body[0].score)
+    for i in 1..<body.len:
+      ifStmt:
+        elifBranch(infix(ident">", body[i].score, maxScoreSym)):
+          stmtList:
+            asgn(actionSym, body[i].action)
+            asgn(maxScoreSym, body[i].score)
+    actionSym
+
 proc chooseAction(p, enemy: Player): Action =
-  let actions = [
-    (Attack, attackWeight(enemy)),
-    (Heal, healWeight(p)),
+  result = maxScore:
+    (Attack, attackWeight(enemy))
+    (Heal, healWeight(p))
     (RunAway, runAwayWeight(p))
-  ]
-  result = actions[0][0]
-  var maxScore = actions[0][1]
-  for i in 1 ..< actions.len:
-    template a: untyped = actions[i]
-    if a[1] > maxScore:
-      result = a[0]
-      maxScore = a[1]
 
 proc main =
   randomize()

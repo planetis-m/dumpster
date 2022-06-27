@@ -17,8 +17,7 @@ proc addNode(self: var Graph; label: string): Node =
   result = self.nodes[^1]
 
 proc addEdge(self: Graph; source, neighbor: Node) =
-  let e = Edge(neighbor: neighbor)
-  source.neighbors.add(e)
+  source.neighbors.add(Edge(neighbor: neighbor))
 
 proc breadthFirstSearch(graph: Graph; source: Node): seq[string] =
   var queue: Deque[Node]
