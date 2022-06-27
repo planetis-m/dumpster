@@ -64,11 +64,15 @@ macro maxScore(args: varargs[untyped]): untyped =
     newVarStmt(actionSym, args[0].action)
     newVarStmt(maxScoreSym, args[0].score)
     for i in 1..<args.len:
+      let tempSym = genSym(nskLet, "temp")
       ifStmt:
-        elifBranch(infix(ident">", args[i].score, maxScoreSym)):
+        elifBranch:
+          stmtListExpr:
+            newLetStmt(tempSym, args[i].score)
+            infix(ident">", tempSym, maxScoreSym)
           stmtList:
             asgn(actionSym, args[i].action)
-            asgn(maxScoreSym, args[i].score)
+            asgn(maxScoreSym, tempSym)
     actionSym
 
 proc chooseAction(p, enemy: Player): Action =
