@@ -53,30 +53,29 @@ proc runAwayWeight(p: Player): float32 =
   echo &"Health weight {healthWeight:.3} Healing Potions weight {healingPotionsWeight:.3} Run Away weight {result:.3}"
 
 # Chooser
-macro maxScore(body: untyped): untyped =
-  template action(x: NimNode): untyped =
-    if x.kind == nnkHiddenSubConv: x[1][0] else: x[0]
-  template score(x: NimNode): untyped =
-    if x.kind == nnkHiddenSubConv: x[1][1] else: x[1]
+macro maxScore(args: varargs[untyped]): untyped =
+  template action(x: NimNode): untyped = x[1][0]
+  template score(x: NimNode): untyped = x[0]
+
   result = buildAst(stmtListExpr):
     let actionSym = genSym(nskVar, "action")
     let maxScoreSym = genSym(nskVar, "maxScore")
-    expectMinLen(body, 1)
-    newVarStmt(actionSym, body[0].action)
-    newVarStmt(maxScoreSym, body[0].score)
-    for i in 1..<body.len:
+    expectMinLen(args, 1)
+    newVarStmt(actionSym, args[0].action)
+    newVarStmt(maxScoreSym, args[0].score)
+    for i in 1..<args.len:
       ifStmt:
-        elifBranch(infix(ident">", body[i].score, maxScoreSym)):
+        elifBranch(infix(ident">", args[i].score, maxScoreSym)):
           stmtList:
-            asgn(actionSym, body[i].action)
-            asgn(maxScoreSym, body[i].score)
+            asgn(actionSym, args[i].action)
+            asgn(maxScoreSym, args[i].score)
     actionSym
 
 proc chooseAction(p, enemy: Player): Action =
   result = maxScore:
-    (Attack, attackWeight(enemy))
-    (Heal, healWeight(p))
-    (RunAway, runAwayWeight(p))
+  of attackWeight(enemy): Attack
+  of healWeight(p): Heal
+  of runAwayWeight(p): RunAway
 
 proc main =
   randomize()
