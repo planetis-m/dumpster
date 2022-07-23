@@ -1,17 +1,17 @@
 # nim c --cc=clang --clang.exe=afl-clang --clang.linkerexe=afl-clang --mm:orc --panics:on
 # -d:useMalloc -d:release -g -d:noSignalHandler -d:afl tafl
-# afl-fuzz -i - -o results -- ./tafl
-import posix, std/syncio
+# afl-fuzz -i - -o results/ -- ./tafl
+import posix
 
 template suicide() =
   discard kill(getpid(), SIGSEGV)
 
-template readStdIn(): untyped =
+template readStdin(): untyped =
   cast[seq[byte]](stdin.readAll)
 
 proc fuzzMe(s: string; a, b, c: int32) =
   if a == 0xdeadbeef'i32 and b == 0x11111111'i32 and c == 0x22222222'i32:
-    if s.len == 100: echo "PANIC!"; suicide()
+    if s.len == 100: suicide()
 
 proc main =
   let payload = readStdin()

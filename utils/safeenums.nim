@@ -13,7 +13,7 @@ macro toEnumImpl(x, res: typed): untyped =
         genAst(t = $typeSym):
           raise newException(ValueError, $x & " can't be converted to " & t)
 
-proc toEnum*[E: enum](x: SomeInteger, t: typedesc[E] = E): E {.inline.} =
+proc toEnum*[E: enum](x: SomeInteger, t: typedesc[E]): E {.inline.} =
   toEnumImpl(x, result)
 
 when isMainModule:
@@ -21,4 +21,4 @@ when isMainModule:
     Foo = enum
       bar, baz
 
-  let x = toEnum[Foo](2)
+  let x = toEnum(2, Foo)
