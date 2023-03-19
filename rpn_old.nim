@@ -13,7 +13,7 @@ macro runCommand(cmdName: untyped,
           empty()
           for n in definitions:
             if n.kind == nnkOfBranch:
-              expectKind(n[0], nnkPar)
+              expectKind(n[0], nnkTupleConstr)
               enumFieldDef(genSym(nskEnumField, "ck"), n[0][0])
     docstrings = buildAst(constSection):
       constDef:

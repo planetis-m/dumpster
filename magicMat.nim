@@ -1,3 +1,4 @@
+import std/[assertions, formatfloat]
 
 proc magicSquare(n: int): seq[float] =
    assert n != 2, "Magic square of order 2 cannot be constructed"
@@ -40,13 +41,13 @@ proc magicSquare(n: int): seq[float] =
       swap(m[k, k], m[k + p, k])
    result = m
 
-proc display(data: seq[string]; n: int) =
+proc display(data: seq[float]; n: int) =
    for i in 0 ..< n:
       var line = ""
       let offset = i * n
       for j in 0 ..< n:
          if line.len > 0: line.add(", ")
-         line.add(data[offset + j])
+         line.addFloat(data[offset + j])
       echo line
 
 let m5 = magicSquare(5)

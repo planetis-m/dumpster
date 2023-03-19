@@ -11,7 +11,7 @@ macro runCommand(cmdName: untyped,
         bracket:
           for n in items(definitions):
             if n.kind == nnkOfBranch:
-              expectKind(n[0], nnkPar)
+              expectKind(n[0], nnkTupleConstr)
               expectLen(n[0], 2)
               tupleConstr(n[0][0], n[0][1])
     caseSwitch = buildAst(caseStmt(cmdName)):

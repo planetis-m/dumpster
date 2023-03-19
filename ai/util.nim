@@ -1,5 +1,5 @@
 # https://www.youtube.com/watch?v=M0Sx_M61ILU
-import macros, random, strformat, fusion/astdsl, std/genasts
+import std/[genasts, macros, random, strformat, formatfloat], fusion/astdsl
 
 const
   maxHealingPotions = 3
