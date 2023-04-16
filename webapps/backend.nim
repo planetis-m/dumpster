@@ -4,6 +4,9 @@ type
   Quote = object
     text, author: string
 
+proc `%`(x: Quote): string =
+  result = "{\"text\":" & escapeJson(x.text) & ",\"author\":" & escapeJson(x.author) & "}"
+
 proc main =
   let quotes = @[
     Quote(text: "One thing i know, that i know nothing. This is the source of my wisdom.", author: "Socrates"),

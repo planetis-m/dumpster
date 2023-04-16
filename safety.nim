@@ -21,7 +21,7 @@ proc print(tree: Node) =
     echo repeat(' ', 2 * depth), node.name
   )
 
-func calcTotalDepth(tree: Node): int =
+proc calcTotalDepth(tree: Node): int =
   var total = 0
   walk(tree, proc (_: Node, depth: int) =
     total += depth
