@@ -28,14 +28,14 @@ var
 proc rateLimit(action: proc (), rate: int) =
   if isEmptied:
     isEmptied = false
-    interval = setInterval(
-      proc () =
-        if queue.len > 0:
-          let call = queue.shift()
-          call()
-        else:
-          isEmptied = true
-          clearInterval(interval), rate)
+    interval = setInterval(proc () =
+      if queue.len > 0:
+        let call = queue.shift()
+        call()
+      else:
+        isEmptied = true
+        clearInterval(interval)
+    , rate)
   queue.add(action)
 
 proc main(): VNode =
