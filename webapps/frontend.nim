@@ -23,7 +23,6 @@ var
   queue: seq[proc ()] = @[]
   interval: Interval = nil
   isEmptied = true
-  timeout: Timeout = nil
 
 proc rateLimit(action: proc (), rate: int) =
   if isEmptied:
@@ -57,7 +56,7 @@ proc main(): VNode =
             text current.text
           p(id = "author"):
             text current.author
-        button(id = "btn"):
+        button(id = "btn", `type` = "submit"):
           # DONT run all at once!
           # Ditches calls until the previous completed.
           proc onClick() =
@@ -75,6 +74,7 @@ proc main(): VNode =
           proc onClick() =
             rateLimit(proc () = ajaxGet("/quote", {cstring"Accept": cstring"application/json"}, onQuote), 500)
           # Debounces a single call at the very end.
+          var timeout: Timeout = nil
           proc onClick() =
             if timeout != nil:
               clearTimeout(timeout)

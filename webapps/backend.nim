@@ -25,17 +25,17 @@ proc main =
   let httpServer = newAsyncHttpServer()
   proc handler(req: Request) {.async.} =
     if req.url.path == "/":
-      let headers = {"Content-Type": "text/html"}
+      let headers = {"Content-Type": "text/html;charset=utf-8"}
       await req.respond(Http200, readFile("app.html"), headers.newHttpHeaders())
     elif req.url.path == "/app.js":
-      let headers = {"Content-Type": "application/javascript"}
+      let headers = {"Content-Type": "application/javascript;charset=utf-8"}
       await req.respond(Http200, readFile("app.js"), headers.newHttpHeaders())
     elif req.url.path == "/quote":
-      let headers = {"Content-type": "application/json"}
+      let headers = {"Content-type": "application/json;charset=utf-8"}
       await req.respond(Http200, %quotes.sample, headers.newHttpHeaders())
     else:
       await req.respond(Http404, "")
 
-  waitFor httpServer.serve(Port(8080), handler)
+  waitFor httpServer.serve(Port(8000), handler)
 
 main()
