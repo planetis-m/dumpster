@@ -74,9 +74,10 @@ proc main(): VNode =
           # Runs on a fixed interval.
           proc onClick() =
             rateLimit(proc () = ajaxGet("/quote", {cstring"Accept": cstring"application/json"}, onQuote), 500)
-          # Debounces
+          # Debounces a single call at the very end.
           proc onClick() =
-            clearTimeout(timeout)
+            if timeout != nil:
+              clearTimeout(timeout)
             timeout = setTimeout(proc () = ajaxGet("/quote", {cstring"Accept": cstring"application/json"}, onQuote), 500)
 
           text "New quote"
