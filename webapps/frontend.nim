@@ -56,7 +56,7 @@ proc main(): VNode =
             text current.text
           p(id = "author"):
             text current.author
-        button(id = "btn", `type` = "submit"):
+        button(id = "btn", `type` = "button"):
           # DONT run all at once!
           # Ditches calls until the previous completed.
           proc onClick() =
