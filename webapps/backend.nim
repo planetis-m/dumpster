@@ -7,16 +7,19 @@ type
 proc `%`(x: Quote): string =
   result = "{\"text\":" & escapeJson(x.text) & ",\"author\":" & escapeJson(x.author) & "}"
 
+template toQ(a, b): untyped =
+  Quote(text: a, author: b)
+
 proc main =
   let quotes = @[
-    Quote(text: "One thing i know, that i know nothing. This is the source of my wisdom.", author: "Socrates"),
-    Quote(text: "Love is composed of a single soul inhabiting two bodies.", author: "Socrates"),
-    Quote(text: "There is nothing permanent except change.", author: "Socrates"),
-    Quote(text: "I am indebted to my father for living, but to my teacher for living well.", author: "Plutarch"),
-    Quote(text: "He who steals a little steals with the same wish as he who steals much, but with less power.", author: "Epicurus"),
-    Quote(text: "Let no man be called happy before his death. Till then, he is not happy, only lucky.", author: "Xenophon"),
-    Quote(text: "By all means, get married: if you find a good wife, you'll be happy; if not, you'll become a philosopher.", author: "Demosthenes"),
-    Quote(text: "Small opportunities are often the beginning of great enterprises.", author: "Pericles")
+    toQ("One thing i know, that i know nothing. This is the source of my wisdom.", "Socrates"),
+    toQ("Love is composed of a single soul inhabiting two bodies.", "Socrates"),
+    toQ("There is nothing permanent except change.", "Socrates"),
+    toQ("I am indebted to my father for living, but to my teacher for living well.", "Plutarch"),
+    toQ("He who steals a little steals with the same wish as he who steals much, but with less power.", "Epicurus"),
+    toQ("Let no man be called happy before his death. Till then, he is not happy, only lucky.", "Xenophon"),
+    toQ("By all means, get married: if you find a good wife, you'll be happy; if not, you'll become a philosopher.", "Demosthenes"),
+    toQ("Small opportunities are often the beginning of great enterprises.", "Pericles")
   ]
 
   let httpServer = newAsyncHttpServer()

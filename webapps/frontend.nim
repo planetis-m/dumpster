@@ -23,6 +23,7 @@ var
   queue: seq[proc ()] = @[]
   interval: Interval = nil
   isEmptied = true
+  timeout: Timeout = nil
 
 proc rateLimit(action: proc (), rate: int) =
   if isEmptied:
@@ -73,6 +74,11 @@ proc main(): VNode =
           # Runs on a fixed interval
           proc onClick() =
             rateLimit(proc () = ajaxGet("/quote", {cstring"Accept": cstring"application/json"}, onQuote), 500)
+          # Debounce
+          proc onClick() =
+            if timeout != nil:
+              clearTimeout(timeout)
+            timeout = setTimeout(proc () = ajaxGet("/quote", {cstring"Accept": cstring"application/json"}, onQuote), 500)
 
           text "New quote"
 
