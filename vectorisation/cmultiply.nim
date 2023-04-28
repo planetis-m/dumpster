@@ -5,14 +5,14 @@ type
 
 macro multiplyImpl(M, N, K: static[int]; a, b, res: typed): untyped =
   result = buildAst(stmtList):
-    for i in 0 ..< N:
-      for j in 0 ..< M:
+    for j in 0 ..< N:
+      for i in 0 ..< M:
         asgn:
-          bracketExpr(res, intLit(intVal = i * M + j))
+          bracketExpr(res, intLit(intVal = i * N + j))
           let args = buildAst(bracket):
             for k in 0 ..< K:
-              infix(bindSym"*", bracketExpr(a, intLit(intVal = i * M + k)),
-                  bracketExpr(b, intLit(intVal = k * K + j)))
+              infix(bindSym"*", bracketExpr(a, intLit(intVal = i * K + k)),
+                  bracketExpr(b, intLit(intVal = k * N + j)))
           nestList(bindSym"+", args)
 
 proc `*`*[M, N, K: static[int]](a: Matrix[M, K], b: Matrix[K, N]): Matrix[M, N] {.inline.} =
