@@ -1,7 +1,7 @@
 import std/macros, fusion/astdsl
 
 type
-  Matrix[M, N: static[int]] = array[M * N, float32]
+  Matrix*[M, N: static[int]] = array[M * N, float32]
 
 macro multiplyImpl(a, b, res: typed): untyped =
   result = buildAst(stmtList):
@@ -11,10 +11,13 @@ macro multiplyImpl(a, b, res: typed): untyped =
     let N = typeSym[2].intVal
     for i in 0 ..< N:
       for j in 0 ..< M:
-        for k in 0 ..< N:
-          infix(bindSym"+=", bracketExpr(res, intLit(intVal = i * M + j)),
-               infix(bindSym"*", bracketExpr(a, intLit(intVal = i * M + k)),
-                     bracketExpr(b, intLit(intVal = k * M + j))))
+        asgn:
+          bracketExpr(res, intLit(intVal = i * M + j))
+          let args = buildAst(bracket):
+            for k in 0 ..< N:
+              infix(bindSym"*", bracketExpr(a, intLit(intVal = i * M + k)),
+                  bracketExpr(b, intLit(intVal = k * M + j)))
+          nestList(bindSym"+", args)
 
 proc `*`*[M, N: static[int]](a, b: Matrix[M, N]): Matrix[N, M] {.noinline.} =
   var c: Matrix[M, N]
