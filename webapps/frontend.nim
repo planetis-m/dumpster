@@ -58,22 +58,22 @@ proc main(): VNode =
             text current.author
         button(id = "btn", `type` = "button"):
           # DONT run all at once!
-          # Ditches calls until the previous completed.
+          # 1. Ditches calls until the previous completed.
           proc onClick() =
             if not loading:
               loading = true
               ajaxGet("/quote", {cstring"Accept": cstring"application/json"}, onQuote)
-          # Throttles superfluous calls.
+          # 2. Throttles superfluous calls.
           var laziness = false
           proc onClick() =
             if not laziness:
               laziness = true
               ajaxGet("/quote", {cstring"Accept": cstring"application/json"}, onQuote)
               discard setTimeout(proc () = laziness = false, 500)
-          # Runs on a fixed interval.
+          # 3. Runs on a fixed interval.
           proc onClick() =
             rateLimit(proc () = ajaxGet("/quote", {cstring"Accept": cstring"application/json"}, onQuote), 500)
-          # Debounces a single call at the very end.
+          # 4. Debounces a single call at the very end.
           var timeout: Timeout = nil
           proc onClick() =
             if timeout != nil:
