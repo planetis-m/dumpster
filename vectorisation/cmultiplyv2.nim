@@ -5,30 +5,28 @@ type
 
 macro multiplyImpl(M, N, K: static[int]; a, b, res: typed): untyped =
   result = buildAst(stmtList):
-    var an = newNimNode(nnkBracket)
+    let an = newNimNode(nnkBracket)
     for i in 0 ..< M*K:
       an.add genSym(nskLet, "a")
       newLetStmt(an[i], newTree(nnkBracketExpr, a, newLit(i)))
-    var bn = newNimNode(nnkBracket)
+    let bn = newNimNode(nnkBracket)
     for i in 0 ..< K*N:
       bn.add genSym(nskLet, "b")
       newLetStmt(bn[i], newTree(nnkBracketExpr, b, newLit(i)))
-    var cn = newNimNode(nnkBracket)
+    let cn = newNimNode(nnkBracket)
     for i in 0 ..< M*N:
       cn.add genSym(nskLet, "c")
     for j in 0 ..< N:
       for i in 0 ..< M:
         newLetStmt(cn[i * N + j]):
-          let args = buildAst(bracket):
-            for k in 0 ..< K:
-              infix(bindSym"*", an[i * K + k], bn[k * N + j])
+          let args = newNimNode(nnkBracket)
+          for k in 0 ..< K:
+            args.add infix(an[i * K + k], "*", bn[k * N + j])
           nestList(bindSym"+", args)
     returnStmt(cn)
 
-proc `*`*[M, N, K: static[int]](a: Matrix[M, K], b: Matrix[K, N]): Matrix[M, N] {.noinline.} =
-  var c: Matrix[M, N]
-  multiplyImpl(M, N, K, a, b, c)
-  return c
+proc `*`*[M, N, K: static[int]](a: Matrix[M, K], b: Matrix[K, N]): Matrix[M, N] =
+  multiplyImpl(M, N, K, a, b, result)
 
 when isMainModule:
   var
