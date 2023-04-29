@@ -4,16 +4,16 @@ type
   Matrix*[M, N: static[int]] = array[M * N, float32]
 
 macro multiplyImpl(M, N, K: static[int]; a, b: typed): untyped =
-  proc makeSyms(len: int): NimNode =
+  proc genSymTable(len: int): NimNode =
     result = newNimNode(nnkBracket)
     for i in 1..len:
       result.add genSym(nskLet)
 
   result = buildAst(stmtList):
     let
-      an = makeSyms(M*K)
-      bn = makeSyms(K*N)
-      cn = makeSyms(M*N)
+      an = genSymTable(M*K)
+      bn = genSymTable(K*N)
+      cn = genSymTable(M*N)
     for i in 0..<an.len:
       newLetStmt(an[i], newTree(nnkBracketExpr, a, newLit(i)))
     for i in 0..<bn.len:
