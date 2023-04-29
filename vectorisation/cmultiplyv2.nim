@@ -3,7 +3,7 @@ import std/macros, fusion/astdsl
 type
   Matrix*[M, N: static[int]] = array[M * N, float32]
 
-macro multiplyImpl(M, N, K: static[int]; a, b, res: typed): untyped =
+macro multiplyImpl(M, N, K: static[int]; a, b: typed): untyped =
   proc makeSyms(len: int): NimNode =
     result = newNimNode(nnkBracket)
     for i in 1..len:
@@ -28,7 +28,7 @@ macro multiplyImpl(M, N, K: static[int]; a, b, res: typed): untyped =
     returnStmt(cn)
 
 proc `*`*[M, N, K: static[int]](a: Matrix[M, K], b: Matrix[K, N]): Matrix[M, N] {.inline.} =
-  multiplyImpl(M, N, K, a, b, result)
+  multiplyImpl(M, N, K, a, b)
 
 when isMainModule:
   var
