@@ -12,7 +12,7 @@ macro multiplyImpl(M, N, K: static[int]; a, b, res: typed): untyped =
                 infix(bindSym"*", bracketExpr(a, intLit(intVal = i * K + k)),
                       bracketExpr(b, intLit(intVal = k * N + j))))
 
-proc `*`*[M, N, K: static[int]](a: Matrix[M, K], b: Matrix[K, N]): Matrix[M, N] =
+proc `*`*[M, N, K: static[int]](a: Matrix[M, K], b: Matrix[K, N]): Matrix[M, N] {.inline.} =
   multiplyImpl(M, N, K, a, b, result)
 
 when isMainModule:

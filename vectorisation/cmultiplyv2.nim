@@ -5,27 +5,26 @@ type
 
 macro multiplyImpl(M, N, K: static[int]; a, b, res: typed): untyped =
   result = buildAst(stmtList):
-    let an = newNimNode(nnkBracket)
-    for i in 0 ..< M*K:
-      an.add genSym(nskLet, "a")
-      newLetStmt(an[i], newTree(nnkBracketExpr, a, newLit(i)))
-    let bn = newNimNode(nnkBracket)
-    for i in 0 ..< K*N:
-      bn.add genSym(nskLet, "b")
-      newLetStmt(bn[i], newTree(nnkBracketExpr, b, newLit(i)))
-    let cn = newNimNode(nnkBracket)
-    for i in 0 ..< M*N:
-      cn.add genSym(nskLet, "c")
+    for i in 0 ..< M:
+      for k in 0 ..< K:
+        newLetStmt(ident("a" & $i & $k), newTree(nnkBracketExpr, a, newLit(i * K + k)))
+    for k in 0 ..< K:
+      for j in 0 ..< N:
+        newLetStmt(ident("b" & $k & $j), newTree(nnkBracketExpr, b, newLit(k * N + j)))
     for j in 0 ..< N:
       for i in 0 ..< M:
-        newLetStmt(cn[i * N + j]):
+        newLetStmt(ident("c" & $i & $j)):
           let args = newNimNode(nnkBracket)
           for k in 0 ..< K:
-            args.add infix(an[i * K + k], "*", bn[k * N + j])
+            args.add infix(ident("a" & $i & $k), "*", ident("b" & $k & $j))
           nestList(bindSym"+", args)
-    returnStmt(cn)
+    returnStmt:
+      bracket:
+        for i in 0 ..< M:
+          for j in 0 ..< N:
+            ident("c" & $i & $j)
 
-proc `*`*[M, N, K: static[int]](a: Matrix[M, K], b: Matrix[K, N]): Matrix[M, N] =
+proc `*`*[M, N, K: static[int]](a: Matrix[M, K], b: Matrix[K, N]): Matrix[M, N] {.inline.} =
   multiplyImpl(M, N, K, a, b, result)
 
 when isMainModule:
