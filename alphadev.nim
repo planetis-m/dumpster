@@ -96,12 +96,12 @@ proc main() =
   sort3_maybe_branchless(arr1[0], arr1[1], arr1[2], compare)
   echo &"Sorted array: {arr1[0]} {arr1[1]} {arr1[2]}"
 
-  # var arr2 = [-1, 8, 3, -6]
-  # sort4_maybe_branchless(arr2[0], arr2[1], arr2[2], arr2[3], compare)
-  # echo &"Sorted array: {arr2[0]} {arr2[1]} {arr2[2]} {arr2[3]}"
-  #
-  # var arr3 = [2, -7, 10, 4, -3]
-  # sort5_maybe_branchless(arr3[0], arr3[1], arr3[2], arr3[3], arr3[4], compare)
-  # echo &"Sorted array: {arr3[0]} {arr3[1]} {arr3[2]} {arr3[3]} {arr3[4]}"
+  var arr2 = [-1, 8, 3, -6]
+  sort4_maybe_branchless(arr2[0], arr2[1], arr2[2], arr2[3], compare)
+  echo &"Sorted array: {arr2[0]} {arr2[1]} {arr2[2]} {arr2[3]}"
+
+  var arr3 = [2, -7, 10, 4, -3]
+  sort5_maybe_branchless(arr3[0], arr3[1], arr3[2], arr3[3], arr3[4], compare)
+  echo &"Sorted array: {arr3[0]} {arr3[1]} {arr3[2]} {arr3[3]} {arr3[4]}"
 
 main()
