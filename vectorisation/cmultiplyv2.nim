@@ -6,7 +6,7 @@ type
 macro multiplyImpl(M, N, K: static[int]; a, b: typed): untyped =
   proc genSymTable(len: int): NimNode =
     result = newNimNode(nnkBracket)
-    for i in 1..len:
+    for i in 1 .. len:
       result.add genSym(nskLet)
 
   result = buildAst(stmtList):
@@ -14,9 +14,9 @@ macro multiplyImpl(M, N, K: static[int]; a, b: typed): untyped =
       an = genSymTable(M*K)
       bn = genSymTable(K*N)
       cn = genSymTable(M*N)
-    for i in 0..<an.len:
+    for i in 0 ..< an.len:
       newLetStmt(an[i], newTree(nnkBracketExpr, a, newLit(i)))
-    for i in 0..<bn.len:
+    for i in 0 ..< bn.len:
       newLetStmt(bn[i], newTree(nnkBracketExpr, b, newLit(i)))
     for j in 0 ..< N:
       for i in 0 ..< M:

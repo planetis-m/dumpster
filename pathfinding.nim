@@ -10,16 +10,15 @@ proc index[A, B](t: Table[A, B]; key: A): int =
 
 proc reversePath[N](parents: Table[N, int]; parent: int -> int;
     start: int): seq[N] =
-  result = collect(newSeq):
-    block:
-      var
-        i = start
-        node: N
-        value: int
-      while i < parents.data.len:
-        (node, value) = parents.at(i)
-        i = parent(value)
-        node
+  result = collect:
+    var
+      i = start
+      node: N
+      value: int
+    while i < parents.data.len:
+      (node, value) = parents.at(i)
+      i = parent(value)
+      node
   result.reverse()
 
 proc bfs*[N](start: N; successors: N -> seq[N]; success: N -> bool;
