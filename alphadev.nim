@@ -46,7 +46,7 @@
 #     return a > b;
 # }
 
-proc cond_swap(x: var int, y: var int, c: proc (a, b: int): bool {.nimcall.}) =
+proc cond_swap(x, y: var int, c: proc (a, b: int): bool {.nimcall.}) =
   var r = c(x, y)
   # let tmp = if r: x else: y
   var tmp: int
@@ -55,7 +55,7 @@ proc cond_swap(x: var int, y: var int, c: proc (a, b: int): bool {.nimcall.}) =
   {.emit: ["*", y, " = ", r, " ? *", y, " : *", x, ";"].}
   x = tmp
 
-proc partially_sorted_swap(x: var int, y: var int, z: var int, c: proc (a, b: int): bool {.nimcall.}) =
+proc partially_sorted_swap(x, y, z: var int, c: proc (a, b: int): bool {.nimcall.}) =
   var r = c(z, x)
   # var tmp = if r: z else: x
   var tmp: int
@@ -68,18 +68,18 @@ proc partially_sorted_swap(x: var int, y: var int, z: var int, c: proc (a, b: in
   # y = if r: y else: tmp
   {.emit: ["*", y, " = ", r, " ? *", y, " : ", tmp, ";"].}
 
-proc sort3_maybe_branchless(x1: var int, x2: var int, x3: var int, c: proc (a, b: int): bool {.nimcall.}) =
+proc sort3_maybe_branchless(x1, x2, x3: var int, c: proc (a, b: int): bool {.nimcall.}) =
   cond_swap(x2, x3, c)
   partially_sorted_swap(x1, x2, x3, c)
 
-proc sort4_maybe_branchless(x1: var int, x2: var int, x3: var int, x4: var int, c: proc (a, b: int): bool {.nimcall.}) =
+proc sort4_maybe_branchless(x1, x2, x3, x4: var int, c: proc (a, b: int): bool {.nimcall.}) =
   cond_swap(x1, x3, c)
   cond_swap(x2, x4, c)
   cond_swap(x1, x2, c)
   cond_swap(x3, x4, c)
   cond_swap(x2, x3, c)
 
-proc sort5_maybe_branchless(x1: var int, x2: var int, x3: var int, x4: var int, x5: var int, c: proc (a, b: int): bool {.nimcall.}) =
+proc sort5_maybe_branchless(x1, x2, x3, x4, x5: var int, c: proc (a, b: int): bool {.nimcall.}) =
   cond_swap(x1, x2, c)
   cond_swap(x4, x5, c)
   partially_sorted_swap(x3, x4, x5, c)
