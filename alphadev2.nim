@@ -18,7 +18,8 @@ func partially_sorted_swap(x, y, z: var int) {.inline.} =
 
   let tmp = min(z, x)
   z = max(x, z)
-  x = if tmp <= y: x else: y
+  # x = if tmp <= y: x else: y
+  {.emit: ["*", x, " = ", tmp <= y, " ? *", x, " : *", y, ";"].}
   y = max(y, tmp)
 
 func sort3_maybe_branchless(x1, x2, x3: var int) =
