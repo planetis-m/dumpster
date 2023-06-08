@@ -30,8 +30,8 @@ func sort5_maybe_branchless[T](x1, x2, x3, x4, x5: var T) =
   partially_sorted_swap(x1, x3, x4)
   partially_sorted_swap(x2, x3, x4)
 
-when defined(runFuzzTests):
-  func insertionSort(s: var openarray[int]) =
+when defined(run_fuzz_tests):
+  func insertion_sort(s: var openarray[int]) =
     for i in 1..len(s):
       var
         j = i - 1
@@ -41,10 +41,9 @@ when defined(runFuzzTests):
         dec j
         dec k
 
-  proc isPermutation[N: static[int], T](x, y: array[N, T]): bool =
-    # First one is sorted, second one is not
+  proc is_permutation[N: static[int], T](x, y: array[N, T]): bool =
     var y = y
-    insertionSort(y)
+    insertion_sort(y)
     result = x == y
 
   import std/[random, algorithm]
@@ -76,13 +75,13 @@ when defined(runFuzzTests):
       sort4_maybe_branchless(arr2_copy[0], arr2_copy[1], arr2_copy[2], arr2_copy[3])
       sort5_maybe_branchless(arr3_copy[0], arr3_copy[1], arr3_copy[2], arr3_copy[3], arr3_copy[4])
 
-      doassert isSorted(arr1_copy)
-      doassert isSorted(arr2_copy)
-      doassert isSorted(arr3_copy)
+      doassert is_sorted(arr1_copy)
+      doassert is_sorted(arr2_copy)
+      doassert is_sorted(arr3_copy)
 
-      doassert isPermutation(arr1_copy, arr1)
-      doassert isPermutation(arr2_copy, arr2)
-      doassert isPermutation(arr3_copy, arr3)
+      doassert is_permutation(arr1_copy, arr1)
+      doassert is_permutation(arr2_copy, arr2)
+      doassert is_permutation(arr3_copy, arr3)
 
   main()
 else:
