@@ -1,4 +1,4 @@
-proc cond_swap(x, y: var int) =
+func cond_swap(x, y: var int) =
   # var r = x < y
   # let tmp = if r: x else: y
   # y = if r: y else: x
@@ -8,7 +8,7 @@ proc cond_swap(x, y: var int) =
   y = max(x, y)
   x = tmp
 
-proc partially_sorted_swap(x, y, z: var int) {.nosideEffect.} =
+func partially_sorted_swap(x, y, z: var int) =
   # var r = z < x
   # var tmp = if r: z else: x
   # z = if r: x else: z
@@ -18,21 +18,21 @@ proc partially_sorted_swap(x, y, z: var int) {.nosideEffect.} =
 
   let tmp = min(z, x)
   z = max(x, z)
-  x =if tmp <= y: x else: y
+  x = if tmp <= y: x else: y
   y = max(y, tmp)
 
-proc sort3_maybe_branchless(x1, x2, x3: var int) {.nosideEffect.} =
+func sort3_maybe_branchless(x1, x2, x3: var int) =
   cond_swap(x2, x3)
   partially_sorted_swap(x1, x2, x3)
 
-proc sort4_maybe_branchless(x1, x2, x3, x4: var int) {.nosideEffect.} =
+func sort4_maybe_branchless(x1, x2, x3, x4: var int) =
   cond_swap(x1, x3)
   cond_swap(x2, x4)
   cond_swap(x1, x2)
   cond_swap(x3, x4)
   cond_swap(x2, x3)
 
-proc sort5_maybe_branchless(x1, x2, x3, x4, x5: var int) {.nosideEffect.} =
+func sort5_maybe_branchless(x1, x2, x3, x4, x5: var int) =
   cond_swap(x1, x2)
   cond_swap(x4, x5)
   partially_sorted_swap(x3, x4, x5)
