@@ -18,8 +18,8 @@ func partially_sorted_swap(x, y, z: var int) {.inline.} =
 
   let tmp = min(z, x)
   z = max(x, z)
-  # x = if tmp <= y: x else: y
-  {.emit: ["*", x, " = ", tmp <= y, " ? *", x, " : *", y, ";"].}
+  x = if tmp <= y: x else: y
+  # {.emit: ["*", x, " = ", tmp <= y, " ? *", x, " : *", y, ";"].}
   y = max(y, tmp)
 
 func sort3_maybe_branchless(x1, x2, x3: var int) =
@@ -41,19 +41,20 @@ func sort5_maybe_branchless(x1, x2, x3, x4, x5: var int) =
   partially_sorted_swap(x1, x3, x4)
   partially_sorted_swap(x2, x3, x4)
 
-import std/strformat
+when isMainModule:
+  import std/strformat
 
-proc main() =
-  var arr1 = [5, -2, 9]
-  sort3_maybe_branchless(arr1[0], arr1[1], arr1[2])
-  echo &"Sorted array: {arr1[0]} {arr1[1]} {arr1[2]}"
+  proc main() =
+    var arr1 = [5, -2, 9]
+    sort3_maybe_branchless(arr1[0], arr1[1], arr1[2])
+    echo &"Sorted array: {arr1[0]} {arr1[1]} {arr1[2]}"
 
-  var arr2 = [-1, 8, 3, -6]
-  sort4_maybe_branchless(arr2[0], arr2[1], arr2[2], arr2[3])
-  echo &"Sorted array: {arr2[0]} {arr2[1]} {arr2[2]} {arr2[3]}"
+    var arr2 = [-1, 8, 3, -6]
+    sort4_maybe_branchless(arr2[0], arr2[1], arr2[2], arr2[3])
+    echo &"Sorted array: {arr2[0]} {arr2[1]} {arr2[2]} {arr2[3]}"
 
-  var arr3 = [2, -7, 10, 4, -3]
-  sort5_maybe_branchless(arr3[0], arr3[1], arr3[2], arr3[3], arr3[4])
-  echo &"Sorted array: {arr3[0]} {arr3[1]} {arr3[2]} {arr3[3]} {arr3[4]}"
+    var arr3 = [2, -7, 10, 4, -3]
+    sort5_maybe_branchless(arr3[0], arr3[1], arr3[2], arr3[3], arr3[4])
+    echo &"Sorted array: {arr3[0]} {arr3[1]} {arr3[2]} {arr3[3]} {arr3[4]}"
 
-main()
+  main()
