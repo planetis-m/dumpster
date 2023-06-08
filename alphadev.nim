@@ -1,5 +1,5 @@
 # // Ensures that __c(*__x, *__y) is true by swapping *__x and *__y if necessary.
-# void cond_swap(int* x, int* y, bool (*c)(int, int)) {
+# inline void cond_swap(int* x, int* y, bool (*c)(int, int)) {
 #   bool r = c(*x, *y);
 #   int tmp = r ? *x : *y;
 #   *y = r ? *y : *x;
@@ -8,7 +8,7 @@
 
 # // Ensures that *__x, *__y and *__z are ordered according to the comparator __c,
 # // under the assumption that *__y and *__z are already ordered.
-# void partially_sorted_swap(int* x, int* y, int* z, bool (*c)(int, int)) {
+# inline void partially_sorted_swap(int* x, int* y, int* z, bool (*c)(int, int)) {
 #   bool r = c(*z, *x);
 #   int tmp = r ? *z : *x;
 #   *z = r ? *x : *z;
@@ -43,10 +43,10 @@
 # }
 
 # bool compare(int a, int b) {
-#     return a > b;
+#     return a < b;
 # }
 
-proc cond_swap(x, y: var int, c: proc (a, b: int): bool {.nimcall.}) =
+proc cond_swap(x, y: var int, c: proc (a, b: int): bool {.nimcall.}) {.inline.} =
   var r = c(x, y)
   # let tmp = if r: x else: y
   var tmp: int
@@ -55,7 +55,7 @@ proc cond_swap(x, y: var int, c: proc (a, b: int): bool {.nimcall.}) =
   {.emit: ["*", y, " = ", r, " ? *", y, " : *", x, ";"].}
   x = tmp
 
-proc partially_sorted_swap(x, y, z: var int, c: proc (a, b: int): bool {.nimcall.}) =
+proc partially_sorted_swap(x, y, z: var int, c: proc (a, b: int): bool {.nimcall.}) {.inline.} =
   var r = c(z, x)
   # var tmp = if r: z else: x
   var tmp: int

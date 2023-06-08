@@ -1,4 +1,4 @@
-func cond_swap(x, y: var int) =
+func cond_swap(x, y: var int) {.inline.} =
   # var r = x < y
   # let tmp = if r: x else: y
   # y = if r: y else: x
@@ -8,7 +8,7 @@ func cond_swap(x, y: var int) =
   y = max(x, y)
   x = tmp
 
-func partially_sorted_swap(x, y, z: var int) =
+func partially_sorted_swap(x, y, z: var int) {.inline.} =
   # var r = z < x
   # var tmp = if r: z else: x
   # z = if r: x else: z
