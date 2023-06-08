@@ -1,10 +1,10 @@
-func cond_swap[T](x, y: var T) =
+func cond_swap[T](x, y: var T) {.inline.} =
   # if y <= x: swap(x, y)
   let tmp = min(x, y)
   y = max(x, y)
   x = tmp
 
-func partially_sorted_swap[T](x, y, z: var T) =
+func partially_sorted_swap[T](x, y, z: var T) {.inline.} =
   let tmp = min(z, x)
   z = max(x, z)
   x = if tmp <= y: x else: y
@@ -31,14 +31,15 @@ func sort5_maybe_branchless[T](x1, x2, x3, x4, x5: var T) =
   partially_sorted_swap(x2, x3, x4)
 
 when defined(runFuzzTests):
-  proc insertionSort[T](s: var openarray[T]) =
-    for i in 1 ..< len(s):
-      let x = s[i]
-      var j = i - 1
-      while j >= 0 and s[j] > x:
-        s[j + 1] = s[j]
-        dec(j)
-      s[j + 1] = x
+  func insertionSort(s: var openarray[int]) =
+    for i in 1..len(s):
+      var
+        j = i - 1
+        k = i
+      while j >= 0 and s[j] > s[k]:
+        swap(s[j + 1], s[j])
+        dec j
+        dec k
 
   proc isPermutation[N: static[int], T](x, y: array[N, T]): bool =
     # First one is sorted, second one is not
@@ -49,6 +50,8 @@ when defined(runFuzzTests):
   import std/[random, algorithm]
 
   proc main =
+    randomize()
+
     var arr1: array[3, int]
     var arr2: array[4, int]
     var arr3: array[5, int]
