@@ -1,4 +1,10 @@
-import std/[asynchttpserver, asyncdispatch, random], packedjson
+import std/[asynchttpserver, asyncdispatch, random, uri, strutils]
+from std/json import escapeJson
+
+type
+  Language = enum
+    elGR = "el-GR"
+    enUS = "en-US"
 
 type
   Quote = object
@@ -10,29 +16,55 @@ proc `%`(x: Quote): string =
 template toQ(a, b): untyped =
   Quote(text: a, author: b)
 
-proc main =
-  let quotes = @[
-    toQ("One thing i know, that i know nothing. This is the source of my wisdom.", "Socrates"),
-    toQ("Love is composed of a single soul inhabiting two bodies.", "Socrates"),
-    toQ("There is nothing permanent except change.", "Socrates"),
-    toQ("I am indebted to my father for living, but to my teacher for living well.", "Plutarch"),
-    toQ("He who steals a little steals with the same wish as he who steals much, but with less power.", "Epicurus"),
-    toQ("Let no man be called happy before his death. Till then, he is not happy, only lucky.", "Xenophon"),
-    toQ("By all means, get married: if you find a good wife, you'll be happy; if not, you'll become a philosopher.", "Demosthenes"),
-    toQ("Small opportunities are often the beginning of great enterprises.", "Pericles")
-  ]
+const
+  defaultLanguage = enUS
 
+proc getLanguage(url: Uri): Language =
+  var lang = ""
+  for key, val in decodeQuery(url.query):
+    if key == "lang":
+      lang = val
+      break
+  parseEnum[Language](lang, defaultLanguage)
+
+proc randQuote(lang: Language): Quote =
+  case lang
+  of enUS:
+    sample(@[
+      toQ("One thing I know, that I know nothing. This is the source of my wisdom.", "Socrates"),
+      toQ("Love is composed of a single soul inhabiting two bodies.", "Aristotle"),
+      toQ("There is nothing permanent except change.", "Heraclitus"),
+      toQ("I am indebted to my father for living, but to my teacher for living well.", "Alexander the Great"),
+      toQ("He who steals a little steals with the same wish as he who steals much, but with less power.", "Plato"),
+      toQ("Let no man be called happy before his death. Till then, he is not happy, only lucky.", "Solon"),
+      toQ("By all means, get married: if you find a good wife, you'll be happy; if not, you'll become a philosopher.", "Socrates"),
+      toQ("Small opportunities are often the beginning of great enterprises.", "Demosthenes")
+    ])
+  of elGR:
+    sample(@[
+      toQ("Ένα πράγμα ξέρω, ότι δεν ξέρω τίποτα. Αυτή είναι η πηγή της σοφίας μου.", "Σωκράτης"),
+      toQ("Η αγάπη αποτελείται από μια ψυχή που κατοικεί σε δύο σώματα.", "Αριστοτέλης"),
+      toQ("Δεν υπάρχει τίποτα μόνιμο εκτός από την αλλαγή.", "Ηράκλειτος"),
+      toQ("Στον πατέρα μου οφείλω το ζείν, αλλά στον δάσκαλο μου το ευ ζήν.", "Μέγας Αλέξανδρος"),
+      toQ("Αυτός που κλέβει λίγα κλέβει με την ίδια επιθυμία με αυτόν που κλέβει πολλά, αλλά με μικρότερη δύναμη.", "Πλάτων"),
+      toQ("Μη μακαρίζεις κανένα πριν δεις το τέλος του.", "Σόλων"),
+      toQ("Αν βρεις μια καλή σύζυγο, θα είσαι ευτυχής· αν όχι, θα γίνεις φιλόσοφος.", "Σωκράτης"),
+      toQ("Οι μικρές ευκαιρίες συχνά είναι η αρχή των μεγάλων επιχειρήσεων.", "Δημοσθένης")
+    ])
+
+proc main =
   let httpServer = newAsyncHttpServer()
   proc handler(req: Request) {.async.} =
-    if req.url.path == "/":
+    case req.url.path
+    of "/":
       let headers = {"Content-Type": "text/html;charset=utf-8"}
       await req.respond(Http200, readFile("app.html"), headers.newHttpHeaders())
-    elif req.url.path == "/app.js":
+    of "/app.js":
       let headers = {"Content-Type": "application/javascript;charset=utf-8"}
       await req.respond(Http200, readFile("app.js"), headers.newHttpHeaders())
-    elif req.url.path == "/quote":
+    of "/quote":
       let headers = {"Content-type": "application/json;charset=utf-8"}
-      await req.respond(Http200, %quotes.sample, headers.newHttpHeaders())
+      await req.respond(Http200, %randQuote(getLanguage(req.url)), headers.newHttpHeaders())
     else:
       await req.respond(Http404, "")
 

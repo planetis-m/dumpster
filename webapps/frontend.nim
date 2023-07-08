@@ -1,5 +1,5 @@
 include karax / prelude
-import karax / [jjson, kajax], std / dom
+import karax / [jjson, kajax, i18n, languages], std / dom
 
 type
   Quote = ref object
@@ -37,6 +37,8 @@ proc rateLimit(action: proc (), rate: int) =
     , rate)
   queue.add(action)
 
+# setCurrentLanguage(Language.elGR)
+
 proc main(): VNode =
   result = buildHtml(tdiv):
     tdiv(class = "content-box"):
@@ -62,6 +64,8 @@ proc main(): VNode =
           proc onClick() =
             if not loading:
               loading = true
+              # ajaxGet("/quote?lang=" & languageToCode[getCurrentLanguage()],
+              #     {cstring"Accept": cstring"application/json"}, onQuote)
               ajaxGet("/quote", {cstring"Accept": cstring"application/json"}, onQuote)
           # 2. Throttles superfluous calls.
           var laziness = false
