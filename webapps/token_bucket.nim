@@ -5,26 +5,22 @@ type
     capacity, refillRate: float
     buckets: Table[K, tuple[tokens, lastRefillTime: float]]
 
-proc refill(bucket: var tuple[tokens, lastRefillTime: float], capacity, refillRate: float) =
-  let now = epochTime()
-  let elapsedSeconds = now - bucket.lastRefillTime
-  let refillAmount = elapsedSeconds * refillRate
-  bucket = (min(capacity, bucket.tokens + refillAmount), now)
-
 proc refill[K](tb: var TokenBucket[K]; key: K) =
   if tb.buckets.hasKeyOrPut(key, (tb.capacity, epochTime())):
-    tb.buckets[key].refill(tb.capacity, tb.refillRate)
-
-proc consume(tokensInBucket: var float, tokens: float): bool =
-  if tokens <= tokensInBucket:
-    tokensInBucket -= tokens
-    true
-  else:
-    false
+    var bucket = addr tb.buckets[key]
+    let now = epochTime()
+    let elapsedSeconds = now - bucket.lastRefillTime
+    let refillAmount = elapsedSeconds * tb.refillRate
+    bucket[] = (min(tb.capacity, bucket.tokens + refillAmount), now)
 
 proc consume*[K](tb: var TokenBucket[K]; key: K; tokens: float): bool =
   tb.refill(key)
-  tb.buckets[key].tokens.consume(tokens)
+  var tokensInBucket = addr tb.buckets[key].tokens
+  if tokens <= tokensInBucket[]:
+    tokensInBucket[] -= tokens
+    true
+  else:
+    false
 
 proc newTokenBucket*[K](capacity, refillRate: float): TokenBucket[K] =
   TokenBucket[K](capacity: capacity, refillRate: refillRate)
