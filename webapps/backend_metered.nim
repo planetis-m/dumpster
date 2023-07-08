@@ -9,7 +9,7 @@ type
 proc refill(tb: var TokenBucket) =
   let now = getTime()
   let elapsedSeconds = now - tb.lastRefill
-  let refillAmount = elapsedSeconds.inMilliseconds.float * tb.refillRate / 1000
+  let refillAmount = (elapsedSeconds.inMilliseconds.float / 1000) * tb.refillRate
   tb.tokens = min(tb.capacity, tb.tokens + refillAmount)
   tb.lastRefill = now
 
