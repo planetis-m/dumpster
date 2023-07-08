@@ -3,18 +3,17 @@ import std/times, os
 type
   TokenBucket = object
     capacity, tokens, refillRate: float
-    lastRefillTime: float
+    lastRefill: Time
 
 proc refill(tb: var TokenBucket) =
-  let now = epochTime()
-  let elapsedSeconds = now - tb.lastRefillTime
-  let refillAmount = elapsedSeconds * tb.refillRate
+  let now = getTime()
+  let elapsedSeconds = now - tb.lastRefill
+  let refillAmount = elapsedSeconds.inSeconds.float * tb.refillRate # This is problematic...
   tb.tokens = min(tb.capacity, tb.tokens + refillAmount)
-  tb.lastRefillTime = now
+  tb.lastRefill = now
 
 proc consume(tb: var TokenBucket; tokens: float): bool =
   tb.refill()
-  echo tb.tokens
   if tokens <= tb.tokens:
     tb.tokens -= tokens
     true
@@ -22,7 +21,7 @@ proc consume(tb: var TokenBucket; tokens: float): bool =
     false
 
 proc newTokenBucket(capacity, refillRate: float): TokenBucket =
-  TokenBucket(capacity: capacity, tokens: capacity, refillRate: refillRate, lastRefillTime: epochTime())
+  TokenBucket(capacity: capacity, tokens: capacity, refillRate: refillRate, lastRefill: getTime())
 
 var
   tokenBucket = newTokenBucket(10, 1)

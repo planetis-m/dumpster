@@ -4,14 +4,14 @@ from std/json import escapeJson
 type
   TokenBucket = object
     capacity, tokens, refillRate: float
-    lastRefill: Time
+    lastRefillTime: float
 
 proc refill(tb: var TokenBucket) =
-  let now = getTime()
-  let elapsedSeconds = now - tb.lastRefill
-  let refillAmount = (elapsedSeconds.inMilliseconds.float / 1000) * tb.refillRate
+  let now = epochTime()
+  let elapsedSeconds = now - tb.lastRefillTime
+  let refillAmount = elapsedSeconds * tb.refillRate
   tb.tokens = min(tb.capacity, tb.tokens + refillAmount)
-  tb.lastRefill = now
+  tb.lastRefillTime = now
 
 proc consume(tb: var TokenBucket; tokens: float): bool =
   tb.refill()
@@ -22,7 +22,7 @@ proc consume(tb: var TokenBucket; tokens: float): bool =
     false
 
 proc newTokenBucket(capacity, refillRate: float): TokenBucket =
-  TokenBucket(capacity: capacity, tokens: capacity, refillRate: refillRate, lastRefill: getTime())
+  TokenBucket(capacity: capacity, tokens: capacity, refillRate: refillRate, lastRefillTime: epochTime())
 
 var
   tokenBucket = newTokenBucket(10, 1)
