@@ -21,7 +21,7 @@ proc consume(tb: var TokenBucket; tokens: float): bool =
   else:
     false
 
-proc newTokenBucket(capacity: float; refillRate: float = 0): TokenBucket =
+proc newTokenBucket(capacity, refillRate: float): TokenBucket =
   TokenBucket(capacity: capacity, tokens: capacity, refillRate: refillRate, lastRefillTime: epochTime())
 
 var

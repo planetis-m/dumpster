@@ -16,9 +16,10 @@ const
   defaultLanguage = Language.enUS
 
 proc parseLanguage(s: string): Language =
-  let i = binarySearch(languageToCode, s)
-  if i >= 0: result = Language(i)
-  else: result = defaultLanguage
+  case s
+  of "en-US": Language.enUS
+  of "el-GR": Language.elGR
+  else: defaultLanguage
 
 proc getLanguage(url: Uri): Language =
   var lang = ""

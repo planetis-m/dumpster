@@ -9,7 +9,7 @@ type
 proc refill(tb: var TokenBucket) =
   let now = getTime()
   let elapsedSeconds = now - tb.lastRefill
-  let refillAmount = elapsedSeconds.inSeconds.float * tb.refillRate
+  let refillAmount = elapsedSeconds.inMilliseconds.float * tb.refillRate / 1000
   tb.tokens = min(tb.capacity, tb.tokens + refillAmount)
   tb.lastRefill = now
 
@@ -21,7 +21,7 @@ proc consume(tb: var TokenBucket; tokens: float): bool =
   else:
     false
 
-proc newTokenBucket(capacity: float; refillRate: float = 0): TokenBucket =
+proc newTokenBucket(capacity, refillRate: float): TokenBucket =
   TokenBucket(capacity: capacity, tokens: capacity, refillRate: refillRate, lastRefill: getTime())
 
 var
