@@ -1,27 +1,32 @@
 import std/[times, tables]
 
 type
-  TokenBucket[K] = object
+  TokenBucket*[K] = object
     capacity, refillRate: float
-    buckets: Table[K, tuple[tokens: float, lastRefillTime: float]]
+    buckets: Table[K, tuple[tokens, lastRefillTime: float]]
+
+proc refill(bucket: var tuple[tokens, lastRefillTime: float], capacity, refillRate: float) =
+  let now = epochTime()
+  let elapsedSeconds = now - bucket.lastRefillTime
+  let refillAmount = elapsedSeconds * refillRate
+  bucket = (min(capacity, bucket.tokens + refillAmount), now)
 
 proc refill[K](tb: var TokenBucket[K]; key: K) =
   if tb.buckets.hasKeyOrPut(key, (tb.capacity, epochTime())):
-    let (tokens, lastRefillTime) = tb.buckets[key]
-    let now = epochTime()
-    let elapsedSeconds = now - lastRefillTime
-    let refillAmount = elapsedSeconds * tb.refillRate
-    tb.buckets[key] = (min(tb.capacity, tokens + refillAmount), now)
+    tb.buckets[key].refill(tb.capacity, tb.refillRate)
 
-proc consume[K](tb: var TokenBucket[K]; key: K; tokens: float): bool =
-  tb.refill(key)
-  if tokens <= tb.buckets[key].tokens:
-    tb.buckets[key].tokens -= tokens
+proc consume(tokensInBucket: var float, tokens: float): bool =
+  if tokens <= tokensInBucket:
+    tokensInBucket -= tokens
     true
   else:
     false
 
-proc newTokenBucket[K](capacity, refillRate: float): TokenBucket[K] =
+proc consume*[K](tb: var TokenBucket[K]; key: K; tokens: float): bool =
+  tb.refill(key)
+  tb.buckets[key].tokens.consume(tokens)
+
+proc newTokenBucket*[K](capacity, refillRate: float): TokenBucket[K] =
   TokenBucket[K](capacity: capacity, refillRate: refillRate)
 
 import std/os
