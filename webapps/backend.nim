@@ -1,10 +1,6 @@
-import std/[asynchttpserver, asyncdispatch, random, uri, strutils]
+import std/[asynchttpserver, asyncdispatch, algorithm, random, uri]
+import karax/languages
 from std/json import escapeJson
-
-type
-  Language = enum
-    elGR = "el-GR"
-    enUS = "en-US"
 
 type
   Quote = object
@@ -17,7 +13,12 @@ template toQ(a, b): untyped =
   Quote(text: a, author: b)
 
 const
-  defaultLanguage = enUS
+  defaultLanguage = Language.enUS
+
+proc parseLanguage(s: string): Language =
+  let i = binarySearch(languageToCode, s)
+  if i >= 0: result = Language(i)
+  else: result = defaultLanguage
 
 proc getLanguage(url: Uri): Language =
   var lang = ""
@@ -25,12 +26,12 @@ proc getLanguage(url: Uri): Language =
     if key == "lang":
       lang = val
       break
-  parseEnum[Language](lang, defaultLanguage)
+  result = parseLanguage(lang)
 
 proc randQuote(lang: Language): Quote =
   case lang
-  of enUS:
-    sample(@[
+  of Language.enUS:
+    result = sample(@[
       toQ("One thing I know, that I know nothing. This is the source of my wisdom.", "Socrates"),
       toQ("Love is composed of a single soul inhabiting two bodies.", "Aristotle"),
       toQ("There is nothing permanent except change.", "Heraclitus"),
@@ -40,8 +41,8 @@ proc randQuote(lang: Language): Quote =
       toQ("By all means, get married: if you find a good wife, you'll be happy; if not, you'll become a philosopher.", "Socrates"),
       toQ("Small opportunities are often the beginning of great enterprises.", "Demosthenes")
     ])
-  of elGR:
-    sample(@[
+  of Language.elGR:
+    result = sample(@[
       toQ("Ένα πράγμα ξέρω, ότι δεν ξέρω τίποτα. Αυτή είναι η πηγή της σοφίας μου.", "Σωκράτης"),
       toQ("Η αγάπη αποτελείται από μια ψυχή που κατοικεί σε δύο σώματα.", "Αριστοτέλης"),
       toQ("Δεν υπάρχει τίποτα μόνιμο εκτός από την αλλαγή.", "Ηράκλειτος"),
@@ -51,6 +52,7 @@ proc randQuote(lang: Language): Quote =
       toQ("Αν βρεις μια καλή σύζυγο, θα είσαι ευτυχής· αν όχι, θα γίνεις φιλόσοφος.", "Σωκράτης"),
       toQ("Οι μικρές ευκαιρίες συχνά είναι η αρχή των μεγάλων επιχειρήσεων.", "Δημοσθένης")
     ])
+  else: discard
 
 proc main =
   let httpServer = newAsyncHttpServer()

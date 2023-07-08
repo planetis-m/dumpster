@@ -3,14 +3,14 @@ import std/times, os
 type
   TokenBucket = object
     capacity, tokens, refillRate: float
-    lastRefill: float
+    lastRefillTime: float
 
 proc refill(tb: var TokenBucket) =
   let now = epochTime()
-  let elapsedSeconds = now - tb.lastRefill
+  let elapsedSeconds = now - tb.lastRefillTime
   let refillAmount = elapsedSeconds * tb.refillRate
   tb.tokens = min(tb.capacity, tb.tokens + refillAmount)
-  tb.lastRefill = now
+  tb.lastRefillTime = now
 
 proc consume(tb: var TokenBucket; tokens: float): bool =
   tb.refill()
@@ -22,7 +22,7 @@ proc consume(tb: var TokenBucket; tokens: float): bool =
     false
 
 proc newTokenBucket(capacity: float; refillRate: float = 0): TokenBucket =
-  TokenBucket(capacity: capacity, tokens: capacity, refillRate: refillRate, lastRefill: epochTime())
+  TokenBucket(capacity: capacity, tokens: capacity, refillRate: refillRate, lastRefillTime: epochTime())
 
 var
   tokenBucket = newTokenBucket(10, 1)
