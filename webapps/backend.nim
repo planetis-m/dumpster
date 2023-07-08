@@ -29,6 +29,7 @@ proc getLanguage(url: Uri): Language =
   result = parseLanguage(lang)
 
 proc randQuote(lang: Language): Quote =
+  let lang = if lang in {Language.enUS, elGR}: lang else: defaultLanguage
   case lang
   of Language.enUS:
     result = sample(@[
