@@ -24,19 +24,20 @@ proc allowRequest*(sw: var SlidingWindow): bool =
   else:
     false
 
-proc newSlidingWindow(capacity: int, windowSize: float): SlidingWindow =
+proc newSlidingWindow*(capacity: int, windowSize: float): SlidingWindow =
   SlidingWindow(capacity: capacity, previousCount: capacity, currentCount: 0,
       windowSize: windowSize, currentTime: epochTime())
 
-import std/os
+when isMainModule:
+  import std/os
 
-var
-  slidingWindow = newSlidingWindow(1, 1)
+  var
+    slidingWindow = newSlidingWindow(1, 1)
 
-var count = 0
-for i in 1..180:
-  sleep(400)
-  var res = slidingWindow.allowRequest()
-  if res: inc count
-  echo res
-echo count
+  var count = 0
+  for i in 1..180:
+    sleep(400)
+    var res = slidingWindow.allowRequest()
+    if res: inc count
+    echo res
+  echo count

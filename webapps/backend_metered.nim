@@ -2,12 +2,12 @@ import std/[asynchttpserver, asyncdispatch, asyncnet, random, uri, strutils, tim
 from std/json import escapeJson
 
 type
-  SlidingWindow* = object
+  SlidingWindow = object
     capacity, currentCount, previousCount: int
     windowSize: Duration
     currentTime: Time
 
-proc allowRequest*(sw: var SlidingWindow): bool =
+proc allowRequest(sw: var SlidingWindow): bool =
   let now = getTime()
   # If the current time is outside the window, reset the window
   if now - sw.currentTime > sw.windowSize:

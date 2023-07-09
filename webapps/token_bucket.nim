@@ -26,7 +26,7 @@ import std/[times, tables]
 #   TokenBucket[K](capacity: capacity, refillRate: refillRate)
 
 type
-  TokenBucket = object
+  TokenBucket* = object
     capacity, tokens, refillRate: float
     lastRefillTime: float
 
@@ -37,7 +37,7 @@ proc refill(tb: var TokenBucket) =
   tb.tokens = min(tb.capacity, tb.tokens + refillAmount)
   tb.lastRefillTime = now
 
-proc consume(tb: var TokenBucket; tokens: float): bool =
+proc consume*(tb: var TokenBucket; tokens: float): bool =
   # if tb.tokens >= tokens:
   #   tb.tokens -= tokens
   #   return true
@@ -48,18 +48,19 @@ proc consume(tb: var TokenBucket; tokens: float): bool =
   else:
     false
 
-proc newTokenBucket(capacity, refillRate: float): TokenBucket =
+proc newTokenBucket*(capacity, refillRate: float): TokenBucket =
   TokenBucket(capacity: capacity, tokens: capacity, refillRate: refillRate, lastRefillTime: epochTime())
 
-import std/os
+when isMainModule:
+  import std/os
 
-var
-  tokenBucket = newTokenBucket(10, 1)
+  var
+    tokenBucket = newTokenBucket(10, 1)
 
-var count = 0
-for i in 1..180:
-  sleep(400)
-  var res = tokenBucket.consume(1)
-  if res: inc count
-  echo res
-echo count
+  var count = 0
+  for i in 1..180:
+    sleep(400)
+    var res = tokenBucket.consume(1)
+    if res: inc count
+    echo res
+  echo count
