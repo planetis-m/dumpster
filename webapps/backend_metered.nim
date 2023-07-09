@@ -24,9 +24,6 @@ proc consume(tb: var TokenBucket; tokens: float): bool =
 proc newTokenBucket(capacity, refillRate: float): TokenBucket =
   TokenBucket(capacity: capacity, tokens: capacity, refillRate: refillRate, lastRefillTime: epochTime())
 
-var
-  tokenBucket = newTokenBucket(10, 1)
-
 type
   Quote = object
     text, author: string
@@ -38,6 +35,9 @@ template toQ(a, b): untyped =
   Quote(text: a, author: b)
 
 proc main =
+  var
+    tokenBucket = newTokenBucket(10, 1)
+
   let quotes = @[
     toQ("One thing I know, that I know nothing. This is the source of my wisdom.", "Socrates"),
     toQ("Love is composed of a single soul inhabiting two bodies.", "Aristotle"),
