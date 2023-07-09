@@ -2,27 +2,32 @@ import std/[asynchttpserver, asyncdispatch, asyncnet, random, uri, strutils, tim
 from std/json import escapeJson
 
 type
-  TokenBucket = object
-    capacity, tokens, refillRate: float
-    lastRefillTime: float
+  SlidingWindow* = object
+    capacity, currentCount, previousCount: int
+    windowSize: Duration
+    currentTime: Time
 
-proc refill(tb: var TokenBucket) =
-  let now = epochTime()
-  let elapsedSeconds = now - tb.lastRefillTime
-  let refillAmount = elapsedSeconds * tb.refillRate
-  tb.tokens = min(tb.capacity, tb.tokens + refillAmount)
-  tb.lastRefillTime = now
-
-proc consume(tb: var TokenBucket; tokens: float): bool =
-  tb.refill()
-  if tokens <= tb.tokens:
-    tb.tokens -= tokens
+proc allowRequest*(sw: var SlidingWindow): bool =
+  let now = getTime()
+  # If the current time is outside the window, reset the window
+  if now - sw.currentTime > sw.windowSize:
+    sw.currentTime = now
+    sw.previousCount = sw.currentCount
+    sw.currentCount = 0
+  # Calculate the weighted average of the previous and current counts
+  let weight = inMilliseconds(sw.windowSize - (now - sw.currentTime)) / sw.windowSize.inMilliseconds
+  let estimatedCount = sw.previousCount * weight.int + sw.currentCount
+  # Check if the count exceeds the capacity
+  if estimatedCount <= sw.capacity:
+    # Increment the current count and allow the request
+    inc sw.currentCount
     true
   else:
     false
 
-proc newTokenBucket(capacity, refillRate: float): TokenBucket =
-  TokenBucket(capacity: capacity, tokens: capacity, refillRate: refillRate, lastRefillTime: epochTime())
+proc newSlidingWindow(capacity: Positive, windowSize: Duration): SlidingWindow =
+  SlidingWindow(capacity: capacity, previousCount: capacity, currentCount: 0,
+      windowSize: windowSize, currentTime: getTime())
 
 type
   Quote = object
@@ -36,7 +41,7 @@ template toQ(a, b): untyped =
 
 proc main =
   var
-    tokenBucket = newTokenBucket(10, 1)
+    limiter = newSlidingWindow(1, initDuration(seconds=1))
 
   let quotes = @[
     toQ("One thing I know, that I know nothing. This is the source of my wisdom.", "Socrates"),
@@ -59,7 +64,7 @@ proc main =
       let headers = {"Content-Type": "application/javascript;charset=utf-8"}
       await req.respond(Http200, readFile("app.js"), headers.newHttpHeaders())
     of "/quote":
-      if tokenBucket.consume(1):
+      if limiter.allowRequest():
         let headers = {"Content-type": "application/json;charset=utf-8"}
         await req.respond(Http200, %sample(quotes), headers.newHttpHeaders())
       else:

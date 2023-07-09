@@ -31,7 +31,7 @@ proc newSlidingWindow(capacity: int, windowSize: float): SlidingWindow =
 import std/os
 
 var
-  slidingWindow = newSlidingWindow(1, 0.5)
+  slidingWindow = newSlidingWindow(1, 1)
 
 var count = 0
 for i in 1..180:
