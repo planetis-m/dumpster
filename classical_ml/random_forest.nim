@@ -20,7 +20,7 @@ proc generateNode(nodeData: JsonTree, input: NimNode): NimNode =
 
 macro generateClassifier(classifierData: static JsonTree): untyped =
   result = newStmtList()
-  let ensemble = newStmtList()
+  let voting = newStmtList()
   let counter = genSym(nskVar, "count")
   let input = genSym(nskParam, "input")
   for treeData in items(classifierData, JsonPtr"", JsonTree):
@@ -30,12 +30,12 @@ macro generateClassifier(classifierData: static JsonTree): untyped =
         params = [bindSym"TargetNames", newIdentDefs(name = input2,
         kind = newTree(nnkBracketExpr, bindSym"seq", bindSym"float32"))],
         body = generateNode(extract(treeData, JsonPtr"/node"), input2))
-    ensemble.add newCall(bindSym"inc", newTree(nnkBracketExpr, counter, newCall(estimator, input)))
+    voting.add newCall(bindSym"inc", newTree(nnkBracketExpr, counter, newCall(estimator, input)))
   result.add newProc(name = ident"predict", params = [bindSym"TargetNames",
       newIdentDefs(name = input, kind = newTree(nnkBracketExpr, bindSym"seq", bindSym"float32"))],
       body = newStmtList(newTree(nnkVarSection,
         newIdentDefs(counter, newTree(nnkBracketExpr, bindSym"array", bindSym"TargetNames", bindSym"int32"))),
-        ensemble,
+        voting,
         newAssignment(ident"result", newCall(bindSym"TargetNames", newCall(bindSym"maxIndex", counter)))))
   echo result.repr
 
