@@ -58,18 +58,18 @@ proc main =
   proc handler(req: Request) {.async.} =
     case req.url.path
     of "/":
-      let headers = {"Content-Type": "text/html;charset=utf-8"}
-      await req.respond(Http200, readFile("app.html"), headers.newHttpHeaders())
+      let headers = newHttpHeaders({"Content-Type": "text/html;charset=utf-8"})
+      await req.respond(Http200, readFile("app.html"), headers)
     of "/app.js":
-      let headers = {"Content-Type": "application/javascript;charset=utf-8"}
-      await req.respond(Http200, readFile("app.js"), headers.newHttpHeaders())
+      let headers = newHttpHeaders({"Content-Type": "application/javascript;charset=utf-8"})
+      await req.respond(Http200, readFile("app.js"), headers)
     of "/quote":
       if limiter.allowRequest():
-        let headers = {"Content-type": "application/json;charset=utf-8"}
-        await req.respond(Http200, %sample(quotes), headers.newHttpHeaders())
+        let headers = newHttpHeaders({"Content-type": "application/json;charset=utf-8"})
+        await req.respond(Http200, %sample(quotes), headers)
       else:
-        let headers = {"Retry-After": "60"}
-        await req.respond(Http429, "", headers.newHttpHeaders())
+        let headers = newHttpHeaders({"Retry-After": "60"})
+        await req.respond(Http429, "", headers)
     else:
       await req.respond(Http404, "")
 

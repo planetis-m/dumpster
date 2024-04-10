@@ -7,7 +7,7 @@ proc run(game: var Game) =
   const
     TickRate = 25
     TickDuration = 1_000_000_000 div TickRate # to nanosecs per tick
-    MaxTicksSkipped = 5 # 20% of tickRate
+    MaxTicks = 5 # 20% of tickRate
 
   var
     lastTime = getMonoTime().ticks
@@ -21,12 +21,12 @@ proc run(game: var Game) =
     accumulator += now - lastTime
     lastTime = now
 
-    var ticksSkipped = 0
-    while accumulator >= TickDuration and ticksSkipped < MaxTicksSkipped:
+    var ticks = 0
+    while accumulator >= TickDuration and ticks < MaxTicks:
       game.update()
       accumulator -= TickDuration
-      inc ticksSkipped
+      inc ticks
 
-    if ticksSkipped > 0:
+    if ticks > 0:
       let alpha = accumulator.float32 / TickDuration / 1_000_000_000
       game.render(alpha)
