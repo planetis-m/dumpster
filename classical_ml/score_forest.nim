@@ -1,4 +1,4 @@
-import random_forest, std/[parsecsv, strutils, random]
+import random_forest, std/[parsecsv, strutils]
 
 const
   IrisDataLen = 150
@@ -40,7 +40,6 @@ proc accuracy(X: seq[Features], yTrue: seq[int32]): float32 =
   result = (numCorrect.float32/IrisDataLen)*100
 
 proc main =
-  randomize(123)
   let iris = readIrisData()
   echo "Accuracy: ", accuracy(iris.xs, iris.ys), "%"
 

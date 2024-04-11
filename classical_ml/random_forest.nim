@@ -1,5 +1,4 @@
-import jsonpak, jsonpak/[builder, parser, jsonptr, extra]
-import std/[macros, parsecsv, strutils, random]
+import jsonpak, jsonpak/[builder, parser, jsonptr, extra], std/macros
 from std/sequtils import maxIndex
 
 type
