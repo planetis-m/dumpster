@@ -59,7 +59,7 @@ proc generateNode(nodeData: JsonTree, input: NimNode): NimNode =
 macro generateClassifier(classifierData: static JsonTree): untyped =
   let input = genSym(nskParam, "input")
   # proc predict(input: openarray[float32]): TargetNames =
-  result = newProc(name = ident"predict",
+  result = newProc(name = postfix(ident"predict", "*"),
       params = [bindSym"TargetNames", newIdentDefs(name = input,
       kind = newTree(nnkBracketExpr, bindSym"openarray", bindSym"float32"))],
       body = generateNode(extract(classifierData, JsonPtr"/node"), input))

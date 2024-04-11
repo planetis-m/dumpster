@@ -46,6 +46,6 @@ macro generateClassifier(classifierData: static JsonTree): untyped =
         voting,
         # result = TargetNames(maxIndex(count))
         newAssignment(ident"result", newCall(bindSym"TargetNames", newCall(bindSym"maxIndex", counter)))))
-  # echo result.repr
+  echo result.repr
 
 generateClassifier(classifier)

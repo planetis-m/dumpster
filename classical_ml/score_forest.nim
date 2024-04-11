@@ -1,4 +1,4 @@
-import random_forest, std/[parsecsv, strutils]
+import random_forest, std/[parsecsv, strutils, math]
 
 const
   IrisDataLen = 150
@@ -32,15 +32,63 @@ proc readIrisData(): DataSet =
   finally:
     p.close()
 
-proc accuracy(X: seq[Features], yTrue: seq[int32]): float32 =
-  var numCorrect = 0
+proc score(X: seq[Features], yTrue: seq[int32]): tuple[accuracy, precision, recall, f1: float32] =
+  var tp, fp, tn, fn: array[IrisLabels.len, int]
+
   for i in 0..<IrisDataLen:
-    if yTrue[i] == predict(X[i]).int32:
-      inc numCorrect
-  result = (numCorrect.float32/IrisDataLen)*100
+    let trueLabel = yTrue[i]
+    let predLabel = predict(X[i]).int32
+
+    if trueLabel == predLabel:
+      inc tp[trueLabel]
+      for j in 0..<IrisLabels.len:
+        if j != trueLabel:
+          inc tn[j]
+    else:
+      inc fp[predLabel]
+      inc fn[trueLabel]
+      for j in 0..<IrisLabels.len:
+        if j != trueLabel and j != predLabel:
+          inc tn[j]
+
+  var accuracy: float32 = 0
+  var precision, recall, f1: array[IrisLabels.len, float32]
+
+  for i in 0..<IrisLabels.len:
+    let tpVal = tp[i].float32
+    let fpVal = fp[i].float32
+    let fnVal = fn[i].float32
+
+    accuracy += (tpVal + tn[i].float32) / (tpVal + fpVal + fnVal + tn[i].float32)
+
+    if tpVal + fpVal > 0:
+      precision[i] = tpVal / (tpVal + fpVal)
+    else:
+      precision[i] = 0
+
+    if tpVal + fnVal > 0:
+      recall[i] = tpVal / (tpVal + fnVal)
+    else:
+      recall[i] = 0
+
+    if precision[i] + recall[i] > 0:
+      f1[i] = 2*(precision[i]*recall[i]) / (precision[i] + recall[i])
+    else:
+      f1[i] = 0
+
+  accuracy /= IrisLabels.len.float32
+  let avgPrecision = sum(precision) / precision.len.float32
+  let avgRecall = sum(recall) / recall.len.float32
+  let avgF1 = sum(f1) / f1.len.float32
+
+  result = (accuracy, avgPrecision, avgRecall, avgF1)
 
 proc main =
   let iris = readIrisData()
-  echo "Accuracy: ", accuracy(iris.xs, iris.ys), "%"
+  let scores = score(iris.xs, iris.ys)
+  echo "Accuracy: ", scores.accuracy*100, "%"
+  echo "Precision: ", scores.precision*100, "%"
+  echo "Recall: ", scores.recall*100, "%"
+  echo "F1-score: ", scores.f1*100, "%"
 
 main()
