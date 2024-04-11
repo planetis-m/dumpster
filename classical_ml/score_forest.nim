@@ -58,28 +58,29 @@ proc score(X: seq[Features], yTrue: seq[int32]): tuple[accuracy, precision, reca
     let tpVal = tp[i].float32
     let fpVal = fp[i].float32
     let fnVal = fn[i].float32
+    let tnVal = tn[i].float32
 
-    accuracy += (tpVal + tn[i].float32) / (tpVal + fpVal + fnVal + tn[i].float32)
+    accuracy += (tpVal + tnVal)/(tpVal + fpVal + fnVal + tnVal)
 
     if tpVal + fpVal > 0:
-      precision[i] = tpVal / (tpVal + fpVal)
+      precision[i] = tpVal/(tpVal + fpVal)
     else:
       precision[i] = 0
 
     if tpVal + fnVal > 0:
-      recall[i] = tpVal / (tpVal + fnVal)
+      recall[i] = tpVal/(tpVal + fnVal)
     else:
       recall[i] = 0
 
     if precision[i] + recall[i] > 0:
-      f1[i] = 2*(precision[i]*recall[i]) / (precision[i] + recall[i])
+      f1[i] = 2*(precision[i]*recall[i])/(precision[i] + recall[i])
     else:
       f1[i] = 0
 
   accuracy /= IrisLabels.len.float32
-  let avgPrecision = sum(precision) / precision.len.float32
-  let avgRecall = sum(recall) / recall.len.float32
-  let avgF1 = sum(f1) / f1.len.float32
+  let avgPrecision = sum(precision)/precision.len.float32
+  let avgRecall = sum(recall)/recall.len.float32
+  let avgF1 = sum(f1)/f1.len.float32
 
   result = (accuracy, avgPrecision, avgRecall, avgF1)
 
