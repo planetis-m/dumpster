@@ -1,12 +1,12 @@
-import random_forest, std/[parsecsv, strutils, math]
+import decision_tree, std/[parsecsv, strutils, math]
 
 const
   IrisDataLen = 150
   IrisFeatures = 4
   IrisLabels = [
-    "Iris-setosa",
-    "Iris-versicolor",
-    "Iris-virginica"
+    "setosa",
+    "versicolor",
+    "virginica"
   ]
 
 type
@@ -19,6 +19,7 @@ proc readIrisData(): DataSet =
   var p: CsvParser
   try:
     p.open("iris.data")
+    # p.readHeaderRow()
     var xs = newSeq[Features](IrisDataLen)
     var ys = newSeq[int32](IrisDataLen)
     var x = 0
@@ -93,3 +94,17 @@ proc main =
   echo "F1-score: ", scores.f1*100, "%"
 
 main()
+
+# Scores on the Iris Dataset Extended:
+
+# Random Forest:
+# Accuracy: 95.611115%
+# Precision: 93.43219%
+# Recall: 93.416664%
+# F1-score: 93.411865%
+
+# Decision Tree:
+# Accuracy: 95.388885%
+# Precision: 93.555405%
+# Recall: 93.083336%
+# F1-score: 93.05284%
