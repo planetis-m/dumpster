@@ -1,4 +1,4 @@
-import jsonpak, jsonpak/[builder, mapper, parser, jsonptr, extra], std/[macros, sequtils]
+import jsonpak, jsonpak/[builder, parser, jsonptr, extra], std/[macros, sequtils]
 
 type
   TargetNames = enum
@@ -9,7 +9,8 @@ const classifier = parseJson(readFile"rforest_min.json")
 proc generateNode(nodeData: JsonTree, input: NimNode): NimNode =
   if nodeData.contains(JsonPtr"/class"):
     # result = TargetNames(class)
-    result = newAssignment(ident"result", newLit(fromJson(nodeData, JsonPtr"/class", TargetNames)))
+    result = newAssignment(ident"result", newCall(bindSym"TargetNames",
+        newLit(fromJson(nodeData, JsonPtr"/class", int))))
   else:
     result = newNimNode(nnkIfStmt)
     # if input[feature] <= threshold'f32:
