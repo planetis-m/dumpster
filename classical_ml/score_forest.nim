@@ -1,12 +1,12 @@
-import decision_tree, std/[parsecsv, strutils, math]
+import random_forest, std/[parsecsv, strutils, math]
 
 const
   IrisDataLen = 150
   IrisFeatures = 4
   IrisLabels = [
-    "setosa",
-    "versicolor",
-    "virginica"
+    "Iris-setosa",
+    "Iris-versicolor",
+    "Iris-virginica"
   ]
 
 type
@@ -78,7 +78,7 @@ proc score(X: seq[Features], yTrue: seq[int32]): tuple[accuracy, precision, reca
     else:
       f1[i] = 0
 
-  accuracy /= IrisLabels.len.float32
+  accuracy = accuracy/IrisLabels.len.float32
   let avgPrecision = sum(precision)/precision.len.float32
   let avgRecall = sum(recall)/recall.len.float32
   let avgF1 = sum(f1)/f1.len.float32
