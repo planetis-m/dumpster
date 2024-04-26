@@ -67,6 +67,7 @@ macro generateClassifier(classifierData: static JsonTree): untyped =
 
 generateClassifier(classifier)
 
-# echo predict(@[4.9'f32,3.1,1.5,0.1]) # == setosa
-# echo predict(@[6.7'f32,3.0,5.0,1.7]) # == versicolor (fail)
-# echo predict(@[7.7'f32,2.6,6.9,2.3]) # == virginica
+when isMainModule:
+  echo predict(@[4.9'f32,3.1,1.5,0.1]) # == setosa
+  echo predict(@[6.7'f32,3.0,5.0,1.7]) # == versicolor (fail)
+  echo predict(@[7.7'f32,2.6,6.9,2.3]) # == virginica
