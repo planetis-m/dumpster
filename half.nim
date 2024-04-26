@@ -1,7 +1,7 @@
 type
-  float16 = distinct uint16
+  float16* = distinct uint16
 
-proc halfToFloat32(x: float16): float32 =
+proc fromHalf*(x: float16): float32 =
   ## Convert half-float (stored as unsigned short) to float
   ## Ref: https://stackoverflow.com/a/60047308
   let e = (x.uint32 and 0x7c00) shr 10'u32 # Exponent
@@ -13,7 +13,7 @@ proc halfToFloat32(x: float16): float32 =
   # sign : normalized : denormalized
   result = cast[ptr float32](addr r)[]
 
-proc float32ToHalf(x: float32): float16 =
+proc toHalf*(x: float32): float16 =
   ## Convert float to half-float (stored as unsigned short)
   let b = cast[ptr uint32](addr x)[] + 0x00001000 # Round-to-nearest-even: add last bit after truncated mantissa
   let e = (b and 0x7f800000) shr 23'u32 # Exponent
@@ -25,5 +25,6 @@ proc float32ToHalf(x: float32): float16 =
       uint32(e > 143)*0x7fff'u32)
   result = r.float16
 
-let x = float32ToHalf(0.25'f32)
-echo halfToFloat32(x)
+when isMainModule:
+  let x = toHalf(0.125'f32)
+  echo fromHalf(x)
