@@ -1,19 +1,19 @@
 type
-  Float16 = distinct uint16
+  float16 = distinct uint16
 
-proc halfToFloat32(x: Float16): float32 =
+proc halfToFloat32(x: float16): float32 =
   ## Convert half-float (stored as unsigned short) to float
   ## Ref: https://stackoverflow.com/a/60047308
   let e: uint32 = (x.uint32 and 0x7c00) shr 10'u32 # Exponent
   let m: uint32 = (x.uint32 and 0x03ff) shl 13'u32 # Mantissa
-  let fm = cast[float32](m)
+  let fm = float32(m)
   let v = cast[ptr uint32](addr fm)[] shr 23'u32 # Evil log2 bit hack to count leading zeros in denormalized format
   let r: uint32 = (x.uint32 and 0x8000) shl 16'u32 or uint32(e != 0)*((e + 112) shl 23'u32 or m) or
       uint32((e == 0) and (m != 0))*((v - 37) shl 23'u32 or ((m shl (150 - v)) and 0x007fe000))
   # sign : normalized : denormalized
   result = cast[ptr float32](addr r)[]
 
-proc float32ToHalf(x: float32): Float16 =
+proc float32ToHalf(x: float32): float16 =
   ## Convert float to half-float (stored as unsigned short)
   let b = cast[ptr uint32](addr x)[] + 0x00001000 # Round-to-nearest-even: add last bit after truncated mantissa
   let e: uint32 = (b and 0x7f800000) shr 23'u32 # Exponent
@@ -23,7 +23,7 @@ proc float32ToHalf(x: float32): Float16 =
       uint32(e > 112)*((((e - 112) shl 10'u32) and 0x7c00) or (m shr 13'u32)) or
       (uint32(e < 113'u32) and uint32(e > 101'u32))*((((0x007ff000'u32 + m) shr (125 - e)) + 1) shr 1'u32) or
       uint32(e > 143'u32)*0x7fff'u32)
-  result = r.Float16
+  result = r.float16
 
-echo halfToFloat32(0.Float16)
+echo halfToFloat32(0.float16)
 echo float32ToHalf(0).uint16
