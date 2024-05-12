@@ -1,4 +1,3 @@
-
 type
   JDict*[K, V] = ref object
 
@@ -12,13 +11,13 @@ proc contains*[K, V](d: JDict[K, V], k: K): bool {.importcpp: "#.hasOwnProperty(
 proc del*[K, V](d: JDict[K, V], k: K) {.importcpp: "delete #[#]".}
 
 iterator keys*[K, V](d: JDict[K, V]): K =
-   var kkk: K
-   {.emit: ["for (", kkk, " in ", d, ") {"].}
-   yield kkk
-   {.emit: ["}"].}
+  var kkk: K
+  {.emit: ["for (", kkk, " in ", d, ") {"].}
+  yield kkk
+  {.emit: ["}"].}
 
 type
-   JSeq*[T] = ref object
+  JSeq*[T] = ref object
 
 proc `[]`*[T](s: JSeq[T], i: int): T {.importcpp: "#[#]", noSideEffect.}
 proc `[]=`*[T](s: JSeq[T], i: int, v: T) {.importcpp: "#[#] = #", noSideEffect.}

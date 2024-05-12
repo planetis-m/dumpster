@@ -1,4 +1,4 @@
-import jsffi / [jstrutils, jdict, jjson]
+import jsffi/[jstrutils, jdict, jjson]
 
 type
   StdLib = ref object
@@ -15,9 +15,12 @@ proc getStdLib(): StdLib {.importc: "#fs.scripts.lib".}
 proc log(s: StdLib; message: cstring) {.importcpp.}
 proc getLog(s: StdLib): JSeq {.importcpp.}
 
+var std {.exportc.}: StdLib # need this for minifying to work
+
+# let std = getStdLib()
+
 proc crackEz21(c: Context; args: JsonNode): JsonNode {.exportc.} =
   ## Usage: script {target: #s.some_user.their_loc}
-  let std = getStdLib()
   let target = cast[Target](args["target"])
   var ret = target.call(newJObject())
   var success = false
@@ -31,20 +34,20 @@ proc crackEz21(c: Context; args: JsonNode): JsonNode {.exportc.} =
         success = true
         break
   result = %*{
-    "ok": success,
-    "msg": ret
+    ok: success,
+    msg: ret
   }
 
 proc crackEz40(c: Context; args: JsonNode): JsonNode {.exportc.} =
   ## Usage: script {target: #s.some_user.their_loc}
-  let std = getStdLib()
   let target = cast[Target](args["target"])
   var ret = target.call(newJObject())
   var success = false
   if ret.contains("EZ_40"):
     const primes = [
       2, 3, 5, 7, 11, 13, 17, 19, 23, 29, 31, 37, 41,
-      43, 47, 53, 59, 61, 67, 71, 73, 79, 83, 89, 97]
+      43, 47, 53, 59, 61, 67, 71, 73, 79, 83, 89, 97
+    ]
     for p in primes:
       let v = %*{"ez_40": p}
       ret = target.call(v)
@@ -53,6 +56,6 @@ proc crackEz40(c: Context; args: JsonNode): JsonNode {.exportc.} =
         success = true
         break
   result = %*{
-    "ok": success,
-    "msg": ret
+    ok: success,
+    msg: ret
   }
