@@ -17,8 +17,6 @@ proc getLog(s: StdLib): JSeq {.importcpp.}
 
 var std {.exportc.}: StdLib # need this for minifying to work
 
-# let std = getStdLib()
-
 proc crackEz21(c: Context; args: JsonNode): JsonNode {.exportc.} =
   ## Usage: script {target: #s.some_user.their_loc}
   let target = cast[Target](args["target"])
@@ -34,8 +32,8 @@ proc crackEz21(c: Context; args: JsonNode): JsonNode {.exportc.} =
         success = true
         break
   result = %*{
-    ok: success,
-    msg: ret
+    "ok": success,
+    "msg": ret
   }
 
 proc crackEz40(c: Context; args: JsonNode): JsonNode {.exportc.} =
@@ -44,7 +42,7 @@ proc crackEz40(c: Context; args: JsonNode): JsonNode {.exportc.} =
   var ret = target.call(JsonNode())
   var success = false
   if ret.contains("EZ_40"):
-    const primes = [
+    let primes = [
       2, 3, 5, 7, 11, 13, 17, 19, 23, 29, 31, 37, 41,
       43, 47, 53, 59, 61, 67, 71, 73, 79, 83, 89, 97
     ]
@@ -56,6 +54,6 @@ proc crackEz40(c: Context; args: JsonNode): JsonNode {.exportc.} =
         success = true
         break
   result = %*{
-    ok: success,
-    msg: ret
+    "ok": success,
+    "msg": ret
   }

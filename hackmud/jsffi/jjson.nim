@@ -11,6 +11,9 @@ proc `[]=`*[T](obj: JsonNode; fieldname: cstring; value: T)
 proc length(x: JsonNode): int {.importcpp: "#.length".}
 proc len*(x: JsonNode): int = (if x.isNil: 0 else: x.length)
 
+proc parse*(input: cstring): JsonNode {.importcpp: "JSON.parse(#)".}
+proc hasField*(obj: JsonNode; fieldname: cstring): bool {.importcpp: "#[#] !== undefined".}
+
 proc newJArray*(elements: varargs[JsonNode]): JsonNode {.importcpp: "#".}
 
 template `%`*(x: typed): JsonNode = cast[JsonNode](x)
@@ -27,7 +30,7 @@ iterator items*(x: JsonNode): JsonNode =
 
 import macros
 
-proc toJson(x: NimNode): NimNode {.compiletime.} =
+proc toJson(x: NimNode): NimNode =
   case x.kind
   of nnkBracket:
     result = newCall(bindSym"newJArray")
@@ -35,7 +38,7 @@ proc toJson(x: NimNode): NimNode {.compiletime.} =
       result.add(toJson(x[i]))
   of nnkTableConstr:
     let obj = genSym(nskVar, "obj")
-    result = newTree(nnkStmtListExpr, newVarStmt(obj, newCall(bindSym"JsonNode")))
+    result = newTree(nnkStmtListExpr, newVarStmt(obj, newTree(nnkObjConstr, bindSym"JsonNode")))
     for i in 0 ..< x.len:
       x[i].expectKind nnkExprColonExpr
       let key = x[i][0]
@@ -47,7 +50,7 @@ proc toJson(x: NimNode): NimNode {.compiletime.} =
     result.add obj
   of nnkCurly:
     x.expectLen(0)
-    result = newCall(bindSym"JsonNode")
+    result = newTree(nnkObjConstr, bindSym"JsonNode")
   of nnkNilLit:
     result = newNilLit()
   else:
