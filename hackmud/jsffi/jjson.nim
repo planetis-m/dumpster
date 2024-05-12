@@ -13,8 +13,6 @@ proc len*(x: JsonNode): int = (if x.isNil: 0 else: x.length)
 
 proc newJArray*(elements: varargs[JsonNode]): JsonNode {.importcpp: "#".}
 
-proc newJNull*(): JsonNode = nil
-
 template `%`*(x: typed): JsonNode = cast[JsonNode](x)
 template `%`*(x: string): JsonNode = cast[JsonNode](cstring x)
 
@@ -51,7 +49,7 @@ proc toJson(x: NimNode): NimNode {.compiletime.} =
     x.expectLen(0)
     result = newCall(bindSym"JsonNode")
   of nnkNilLit:
-    result = newCall(bindSym"newJNull")
+    result = newNilLit()
   else:
     result = newCall(bindSym"%", x)
 
