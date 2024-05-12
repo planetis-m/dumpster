@@ -22,7 +22,7 @@ var std {.exportc.}: StdLib # need this for minifying to work
 proc crackEz21(c: Context; args: JsonNode): JsonNode {.exportc.} =
   ## Usage: script {target: #s.some_user.their_loc}
   let target = cast[Target](args["target"])
-  var ret = target.call(newJObject())
+  var ret = target.call(JsonNode())
   var success = false
   if ret.contains("EZ_21"):
     let attempts = [cstring"open", "release", "unlock"]
@@ -41,7 +41,7 @@ proc crackEz21(c: Context; args: JsonNode): JsonNode {.exportc.} =
 proc crackEz40(c: Context; args: JsonNode): JsonNode {.exportc.} =
   ## Usage: script {target: #s.some_user.their_loc}
   let target = cast[Target](args["target"])
-  var ret = target.call(newJObject())
+  var ret = target.call(JsonNode())
   var success = false
   if ret.contains("EZ_40"):
     const primes = [

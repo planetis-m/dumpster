@@ -11,14 +11,6 @@ proc `[]=`*[T](obj: JsonNode; fieldname: cstring; value: T)
 proc length(x: JsonNode): int {.importcpp: "#.length".}
 proc len*(x: JsonNode): int = (if x.isNil: 0 else: x.length)
 
-proc newJsonNode*(fields: varargs[(cstring, JsonNode)]): JsonNode =
-  result = JsonNode()
-  for f in fields:
-    result[f[0]] = f[1]
-
-proc newJObject*(): JsonNode =
-  result = JsonNode()
-
 proc newJArray*(elements: varargs[JsonNode]): JsonNode {.importcpp: "#".}
 
 proc newJNull*(): JsonNode = nil
@@ -44,7 +36,8 @@ proc toJson(x: NimNode): NimNode {.compiletime.} =
     for i in 0 ..< x.len:
       result.add(toJson(x[i]))
   of nnkTableConstr:
-    result = newCall(bindSym"newJsonNode")
+    let obj = genSym(nskVar, "obj")
+    result = newTree(nnkStmtListExpr, newVarStmt(obj, newCall(bindSym"JsonNode")))
     for i in 0 ..< x.len:
       x[i].expectKind nnkExprColonExpr
       let key = x[i][0]
@@ -52,10 +45,11 @@ proc toJson(x: NimNode): NimNode {.compiletime.} =
                 newLit($key)
               else:
                 key
-      result.add newTree(nnkTupleConstr, newCall(bindSym"cstring", a), toJson(x[i][1]))
+      result.add newAssignment(newTree(nnkBracketExpr, obj, newCall(bindSym"cstring", a)), toJson(x[i][1]))
+    result.add obj
   of nnkCurly:
     x.expectLen(0)
-    result = newCall(bindSym"newJObject")
+    result = newCall(bindSym"JsonNode")
   of nnkNilLit:
     result = newCall(bindSym"newJNull")
   else:
@@ -65,4 +59,3 @@ macro `%*`*(x: untyped): untyped =
   ## Convert an expression to a JsonNode directly, without having to specify
   ## `%` for every element.
   result = toJson(x)
-  echo result.repr
