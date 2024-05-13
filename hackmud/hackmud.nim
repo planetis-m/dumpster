@@ -19,8 +19,7 @@ proc notImpl(s: StdLib): JsonNode {.importcpp: "#.not_impl()".}
 proc log(s: StdLib; message: cstring) {.importcpp.}
 proc getLog(s: StdLib): JSeq {.importcpp: "#.get_log()".}
 
-# proc debug(ob: JsRoot) {.importc: "#D".}
-proc debug(message: cstring) {.importc: "#D".}
+proc debug[T](ob: T) {.importc: "#D".}
 
 proc crackEz21(c: Context; args: JsonNode): JsonNode {.exportc.} =
   ## Usage: script {target: #s.some_user.their_loc}
