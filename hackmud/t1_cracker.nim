@@ -1,4 +1,4 @@
-import jsffi/[jstrutils, jdict, jjson]
+import jsffi/[jstrutils, jdict, jjson], std/jsre
 
 type
   StdLib = ref object
@@ -27,12 +27,10 @@ proc ezLocksCracker(c: Context; args: JsonNode): JsonNode {.exportc.} =
   var ret = target.call(args)
   while ret.startsWith("Denied access") and attempts <= 5:
     block outer:
-      let startIndex = ret.find("EZ_")
-      if startIndex != -1:
-        let endIndex = ret.find(" ", startIndex)
-        let substr = ret.substr(startIndex, if endIndex == -1: ret.len else: endIndex)
+      let matches = match(ret, newRegExp(r"EZ_\d+"))
+      if matches.len != 0:
         for a in consts["a"].items:
-          args[substr] = a
+          args[matches[0]] = a
           ret = target.call(args)
           if not ret.contains("\"" & a.getStr):
             break outer
