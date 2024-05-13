@@ -4,7 +4,7 @@ type
   StdLib = ref object
 
   Target {.importc.} = ref object
-    call: proc (loc: JsonNode): cstring
+    call: proc (loc: JDict[cstring, JsonNode]): cstring
 
   Context {.importc.} = ref object
     caller: cstring
@@ -16,15 +16,54 @@ proc debug[T](ob: T) {.importc: "D".}
 proc find1(query, projection: JsonNode): JsonNode {.importcpp: "db.f(@).first()".}
 proc upsert(query, command: JsonNode) {.importc: "db.us".}
 
-proc testDb(c: Context; args: JsonNode): JsonNode {.exportc.} =
-  debug(find1(%*{"_id": "consts"}, %*{u:true}))
-  result = %*{ok: true}
+proc ezLocksCracker(c: Context; args: JsonNode): JsonNode {.exportc.} =
+  ## Usage: script {target: #s.some_user.their_loc}
+  # let std = getStdLib()
+  let target = cast[Target](args["target"])
+  var success = false
+  let consts = find1(%*{"_id": "consts"}, JsonNode())
+  var attempts = 1
+  var args = newJDict[cstring, JsonNode]()
+  var ret = target.call(args)
+  while ret.startsWith("Denied access") and attempts <= 5:
+    block outer:
+      let startIndex = ret.find("EZ_")
+      if startIndex != -1:
+        let endIndex = ret.find(" ", startIndex)
+        let substr = ret.substr(startIndex, if endIndex == -1: ret.len else: endIndex)
+        for a in consts["a"].items:
+          args[substr] = a
+          ret = target.call(args)
+          if not ret.contains("\"" & a.getStr):
+            break outer
+      if ret.contains("EZ_35"):
+        for d in 0..9:
+          args["digit"] = %d
+          ret = target.call(args)
+          if not ret.contains(d.toCstr):
+            break outer
+      if ret.contains("EZ_40"):
+        for p in consts["pn"].items:
+          args["ez_prime"] = p
+          ret = target.call(args)
+          if ret.contains(p.getInt.toCstr):
+            break outer
+      return %*{ok: false}
+    if not ret.contains("LOCK_ERROR"):
+      # std.log("Correct password for ez_21 lock: " & args)
+      success = true
+      break
+    inc attempts
+  result = %*{
+    ok: success,
+    msg: ret
+  }
 
 proc updateConsts(): JsonNode {.exportc.} =
   let consts = %*{"_id": "consts"}
   let update = %*{
     "_id": "consts",
-    u: ["unlock", "open", "release"],
+    a: ["unlock", "open", "release"],
     pn: [
       2, 3, 5, 7, 11, 13, 17, 19, 23, 29, 31, 37, 41, 43, 47, 53, 59, 61, 67, 71, 73, 79, 83, 89, 97
     ],
@@ -33,7 +72,6 @@ proc updateConsts(): JsonNode {.exportc.} =
     lk: [
       "sa23uw", "vc2c7q", "xwz7ja", "tvfkyq", "6hh8xw", "cmppiq", "uphlaw", "i874y3", "voon2h"
     ],
-    dm: "lock detected!",
     d: [
       "fran_lee", "robovac", "sentience", "angels",
       "sans_comedy", "minions", "sisters", "petra",
