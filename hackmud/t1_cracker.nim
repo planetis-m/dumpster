@@ -11,7 +11,7 @@ type
 
 proc debug[T](ob: T) {.importc: "D".}
 
-proc find1st(query, projection: JsonNode): JsonNode {.importcpp: "db.f(@).first()".}
+proc findFirst(query, projection: JsonNode): JsonNode {.importcpp: "db.f(@).first()".}
 proc upsert(query, command: JsonNode) {.importc: "db.us".}
 
 proc ezLocksCracker(c: Context; args: JsonNode): JsonNode {.exportc.} =
@@ -19,7 +19,7 @@ proc ezLocksCracker(c: Context; args: JsonNode): JsonNode {.exportc.} =
   # let std = getStdLib()
   let target = cast[Target](args["target"])
   var success = false
-  let consts = find1st(%*{"_id": "consts"}, JsonNode())
+  let consts = findFirst(%*{"_id": "ez"}, JsonNode())
   var attempts = 1
   var args = JsonNode()
   var ret = target.call(args)
@@ -32,19 +32,17 @@ proc ezLocksCracker(c: Context; args: JsonNode): JsonNode {.exportc.} =
           ret = target.call(args)
           if not ret.contains("\"" & a.getStr):
             break
+        var field: cstring = ""
         case matches[0]
         of "EZ_35":
-          for d in 0..9:
-            args["digit"] = d
-            ret = target.call(args)
-            if not ret.contains(d.toCstr):
-              break
+          field = "digit"
         of "EZ_40":
-          for p in consts["pn"].items:
-            args["ez_prime"] = p
-            ret = target.call(args)
-            if ret.contains(p.getInt.toCstr):
-              break
+          field = "ez_prime"
+        for d in consts[field].items:
+          args[field] = d
+          ret = target.call(args)
+          if not ret.contains(d.getInt.toCstr):
+            break
       inc attempts
     else:
       # std.log("Correct password for ez_21 lock: " & args)
@@ -55,26 +53,15 @@ proc ezLocksCracker(c: Context; args: JsonNode): JsonNode {.exportc.} =
     msg: ret
   }
 
-proc updateConsts(): JsonNode {.exportc.} =
-  let consts = %*{"_id": "consts"}
+proc updateEzConsts(): JsonNode {.exportc.} =
+  let consts = %*{"_id": "ez"}
   let update = %*{
-    "_id": "consts",
+    "_id": "ez",
     a: ["unlock", "open", "release"],
-    pn: [
+    digit: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9],
+    ez_prime: [
       2, 3, 5, 7, 11, 13, 17, 19, 23, 29, 31, 37, 41, 43, 47, 53, 59, 61, 67, 71, 73, 79, 83, 89, 97
     ],
-    c: ["red", "purple", "blue", "cyan", "green", "lime", "yellow", "orange"],
-    cd: [3, 4, 5, 6],
-    lk: [
-      "sa23uw", "vc2c7q", "xwz7ja", "tvfkyq", "6hh8xw", "cmppiq", "uphlaw", "i874y3", "voon2h"
-    ],
-    d: [
-      "fran_lee", "robovac", "sentience", "angels",
-      "sans_comedy", "minions", "sisters", "petra",
-      "fountain", "helpdesk", "bunnybat", "get_level",
-      "weathernet", "eve", "resource", "bo",
-      "heard", "teach", "outta_juice", "poetry"
-    ]
   }
   upsert(consts, update)
   result = %*{ok: true}
