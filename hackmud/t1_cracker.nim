@@ -25,33 +25,32 @@ proc ezLocksCracker(c: Context; args: JsonNode): JsonNode {.exportc.} =
   var attempts = 1
   var args = newJDict[cstring, JsonNode]()
   var ret = target.call(args)
-  while ret.startsWith("Denied access") and attempts <= 5:
-    block outer:
+  while attempts <= 5:
+    if ret.contains("Denied access"):
       let matches = match(ret, newRegExp(r"EZ_\d+"))
       if matches.len != 0:
         for a in consts["a"].items:
           args[matches[0]] = a
           ret = target.call(args)
           if not ret.contains("\"" & a.getStr):
-            break outer
-      if ret.contains("EZ_35"):
+            break
+      elif ret.contains("EZ_35"):
         for d in 0..9:
           args["digit"] = %d
           ret = target.call(args)
           if not ret.contains(d.toCstr):
-            break outer
-      if ret.contains("EZ_40"):
+            break
+      elif ret.contains("EZ_40"):
         for p in consts["pn"].items:
           args["ez_prime"] = p
           ret = target.call(args)
           if ret.contains(p.getInt.toCstr):
-            break outer
-      return %*{ok: false}
-    if not ret.contains("LOCK_ERROR"):
+            break
+      inc attempts
+    else:
       # std.log("Correct password for ez_21 lock: " & args)
       success = true
       break
-    inc attempts
   result = %*{
     ok: success,
     msg: ret
