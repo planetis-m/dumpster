@@ -1,10 +1,8 @@
-import jsffi/[jstrutils, jdict, jjson], std/jsre
+import jsffi/[jstrutils, jjson], std/jsre
 
 type
-  StdLib = ref object
-
   Target {.importc.} = ref object
-    call: proc (loc: JDict[cstring, JsonNode]): cstring
+    call: proc (loc: JsonNode): cstring
 
   Context {.importc.} = ref object
     caller: cstring
@@ -13,7 +11,7 @@ type
 
 proc debug[T](ob: T) {.importc: "D".}
 
-proc find1(query, projection: JsonNode): JsonNode {.importcpp: "db.f(@).first()".}
+proc find1st(query, projection: JsonNode): JsonNode {.importcpp: "db.f(@).first()".}
 proc upsert(query, command: JsonNode) {.importc: "db.us".}
 
 proc ezLocksCracker(c: Context; args: JsonNode): JsonNode {.exportc.} =
@@ -21,9 +19,9 @@ proc ezLocksCracker(c: Context; args: JsonNode): JsonNode {.exportc.} =
   # let std = getStdLib()
   let target = cast[Target](args["target"])
   var success = false
-  let consts = find1(%*{"_id": "consts"}, JsonNode())
+  let consts = find1st(%*{"_id": "consts"}, JsonNode())
   var attempts = 1
-  var args = newJDict[cstring, JsonNode]()
+  var args = JsonNode()
   var ret = target.call(args)
   while attempts <= 5:
     if ret.contains("Denied access"):
