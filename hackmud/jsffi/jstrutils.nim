@@ -5,7 +5,7 @@ proc split*(s, sep: cstring): seq[cstring] {.importcpp, nodecl.}
 proc split*(s, sep: cstring; max: int): seq[cstring] {.importcpp, nodecl.}
 
 proc startsWith*(a, b: cstring): bool {.importcpp: "startsWith", nodecl.}
-proc contains*(a, b: cstring): bool {.importcpp: "(#.indexOf(#)>=0)", nodecl.}
+proc contains*(a, b: cstring): bool {.importcpp: "#.includes(#)", nodecl.}
 proc find*(a, b: cstring): int {.importcpp: "(#.indexOf(#))", nodecl.}
 proc find*(a, b: cstring, start: int): int {.importcpp: "(#.indexOf(@))", nodecl.}
 
