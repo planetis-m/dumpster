@@ -50,23 +50,23 @@ proc cond_swap(x, y: var int, c: proc (a, b: int): bool {.nimcall.}) {.inline.} 
   var r = c(x, y)
   # let tmp = if r: x else: y
   var tmp: int
-  {.emit: [tmp, " = ", r, " ? *", x, " : *", y, ";"].}
+  {.emit: "`tmp` = `r` ? *`x` : *`y`;".}
   # y = if r: y else: x
-  {.emit: ["*", y, " = ", r, " ? *", y, " : *", x, ";"].}
+  {.emit: "*`y` = `r` ? *`y` : *`x`;".}
   x = tmp
 
 proc partially_sorted_swap(x, y, z: var int, c: proc (a, b: int): bool {.nimcall.}) {.inline.} =
   var r = c(z, x)
   # var tmp = if r: z else: x
   var tmp: int
-  {.emit: [tmp, " = ", r, " ? *", z, " : *", x, ";"].}
+  {.emit: "`tmp` = `r` ? *`z` : *`x`;".}
   # z = if r: x else: z
-  {.emit: ["*", z, " = ", r, " ? *", x, " : *", z, ";"].}
+  {.emit: "*`z` = `r` ? *`x` : *`z`;".}
   r = c(tmp, y)
   # x = if r: x else: y
-  {.emit: ["*", x, " = ", r, " ? *", x, " : *", y, ";"].}
+  {.emit: "*`x` = `r` ? *`x` : *`y`;".}
   # y = if r: y else: tmp
-  {.emit: ["*", y, " = ", r, " ? *", y, " : ", tmp, ";"].}
+  {.emit: "*`y` = `r` ? *`y` : `tmp`;".}
 
 proc sort3_maybe_branchless(x1, x2, x3: var int, c: proc (a, b: int): bool {.nimcall.}) =
   cond_swap(x2, x3, c)

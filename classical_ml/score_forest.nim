@@ -42,15 +42,12 @@ proc score(X: seq[Features], yTrue: seq[int32]): tuple[accuracy, precision, reca
 
     if trueLabel == predLabel:
       inc tp[trueLabel]
-      for j in 0..<IrisLabels.len:
-        if j != trueLabel:
-          inc tn[j]
     else:
       inc fp[predLabel]
       inc fn[trueLabel]
-      for j in 0..<IrisLabels.len:
-        if j != trueLabel and j != predLabel:
-          inc tn[j]
+    for j in 0..<IrisLabels.len:
+      if j != trueLabel and j != predLabel:
+        inc tn[j]
 
   var accuracy: float32 = 0
   var precision, recall, f1: array[IrisLabels.len, float32]
