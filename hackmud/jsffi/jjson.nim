@@ -25,8 +25,20 @@ proc getInt*(x: JsonNode): int {.importcpp: "#".}
 proc getStr*(x: JsonNode): cstring {.importcpp: "#".}
 proc getFNum*(x: JsonNode): cstring {.importcpp: "#".}
 
+# iterator items*(x: JsonNode): JsonNode =
+#   for i in 0..<len(x): yield x[i]
+
 iterator items*(x: JsonNode): JsonNode =
-  for i in 0..<len(x): yield x[i]
+  var i: int
+  {.emit: ["for (", i, " in 0; ", i, " < (", x, " ? ", x, ".length : 0"; ", i"++)) {"].}
+  yield x[i]
+  {.emit: ["}"].}
+
+# iterator keys*(x: JsonNode): JsonNode =
+#   var kkk: JsonNode
+#   {.emit: ["for (", kkk, " in ", x, ") {if (", x, ".hasOwnProperty(", kkk,")) {"].}
+#   yield kkk
+#   {.emit: ["}}"].}
 
 import macros
 
@@ -42,7 +54,7 @@ proc toJson(x: NimNode): NimNode =
     for i in 0 ..< x.len:
       x[i].expectKind nnkExprColonExpr
       let key = x[i][0]
-      let a = if x[i][0].kind in {nnkIdent, nnkSym, nnkAccQuoted}:
+      let a = if key.kind in {nnkIdent, nnkSym, nnkAccQuoted}:
                 newLit($key)
               else:
                 key

@@ -81,7 +81,7 @@ proc crackEz40(c: Context; args: JsonNode): JsonNode {.exportc.} =
 const
   data = """
 {"attempts":["open","release","unlock"],"primes":[2,3,5,7,11,13,17,19,23,29,31,37,41,43,47,53,59,61,67,71,73,79,83,89,97]}"""
-{.emit: ["//", data, "//"].} # note: manually re-add the js comment after minifying
+{.emit: "//`data`//".} # note: manually re-add the js comment after minifying
 
 proc crackEz40Short(c: Context; args: JsonNode): JsonNode {.exportc.} =
   ## Usage: script {target: #s.some_user.their_loc}
