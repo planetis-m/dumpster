@@ -56,18 +56,18 @@ proc rand*(ctr: uint64; max: range[0'f32..high(float32)]): float32 =
 #     if  b * b <= -T(4) * a * a * ln(a): break
 #   result = mu + sigma * (b / a)
 
-proc gauss*[T: SomeFloat](ctr: uint64; mu, sigma: T): T =
-  var
-    u1, u2, s, factor: T
-    ctr = ctr
-  while true:
-    u1 = T(2) * rand(ctr, T(1)) - T(1)
-    u2 = T(2) * rand(ctr+1, T(1)) - T(1)
-    inc(ctr, 2)
-    s = u1 * u1 + u2 * u2
-    if s > T(0) and s < T(1): break
-  factor = sqrt(-T(2) * ln(s) / s)
-  result = mu + sigma * (u1 * factor)
+# proc gauss*[T: SomeFloat](ctr: uint64; mu, sigma: T): T =
+#   var
+#     u1, u2, s, factor: T
+#     ctr = ctr
+#   while true:
+#     u1 = T(2) * rand(ctr, T(1)) - T(1)
+#     u2 = T(2) * rand(ctr+1, T(1)) - T(1)
+#     inc(ctr, 2)
+#     s = u1 * u1 + u2 * u2
+#     if s > T(0) and s < T(1): break
+#   factor = sqrt(-T(2) * ln(s) / s)
+#   result = mu + sigma * (u1 * factor)
 
 proc gauss*[T: SomeFloat](ctr: uint64; mu, sigma: T): (T, T) =
   var
@@ -87,9 +87,10 @@ type
     u2: T
     saved: bool
 
-proc gauss*[T: SomeFloat](state: var GaussState[T], ctr: var uint64; mu, sigma: T): T =
+proc gauss*[T: SomeFloat](state: var GaussState[T], ctr: uint64; mu, sigma: T): T =
   var
     u1, u2, s, factor: T
+    ctr = ctr
   if state.saved:
     state.saved = false
     result = mu + sigma * state.u2
@@ -106,12 +107,54 @@ proc gauss*[T: SomeFloat](state: var GaussState[T], ctr: var uint64; mu, sigma: 
     state.saved = true
     result = mu + sigma * (u1 * factor)
 
+# type
+#   BoxMullerState*[T] = object
+#     saved: bool
+#     z1: T
+#
+# proc gauss*[T: SomeFloat](state: var BoxMullerState[T], ctr: uint64, mu, sigma: T): T =
+#   var
+#     u1, u2, r, theta: T
+#     ctr = ctr
+#   if state.saved:
+#     state.saved = false
+#     result = mu + sigma * state.z1
+#   else:
+#     while true:
+#       u1 = rand(ctr, T(1))
+#       u2 = rand(ctr, T(1))
+#       inc(ctr, 2)
+#       if u1 > T(0): break
+#
+#     r = sqrt(-T(2) * ln(u1))
+#     theta = T(TAU) * u2
+#     let z0 = r * cos(theta)
+#     state.z1 = r * sin(theta)
+#     state.saved = true
+#     result = mu + sigma * z0
+#
+# proc gauss*[T: SomeFloat](ctr: uint64, mu, sigma: T): (T, T) =
+#   var
+#     u1, u2, r, theta: T
+#     ctr = ctr
+#   while true:
+#     u1 = rand(ctr, T(1))
+#     u2 = rand(ctr, T(1))
+#     if u1 > T(0): break
+#   inc(ctr, 2)
+#
+#   r = sqrt(-T(2) * ln(u1))
+#   theta = T(TAU) * u2
+#   let z0 = r * cos(theta)
+#   let z1 = r * sin(theta)
+#
+#   result = (mu + sigma * z0, mu + sigma * z1)
+
 import std/stats
 var rs: RunningStat
 for j in 1..5:
   for i in 1 .. 100_000:
-    rs.push(gauss(123456789+i.uint64*1000, 0.0f, 1.0f))
-  echo (rs.mean, rs.standardDeviation())
+    rs.push(gauss(123456789+i.uint64*1000, 0.0f, 1.0f)[0])
   doAssert abs(rs.mean) < 0.08, $rs.mean
   doAssert abs(rs.standardDeviation()-1.0) < 0.1
   let bounds = [3.5, 5.0]
