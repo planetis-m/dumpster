@@ -1,7 +1,7 @@
 # https://www.ea.com/seed/news/constant-time-stateless-shuffling
 type
   StatelessShuffle = object
-    roundCount: uint32
+    roundCount: uint32 # The number of rounds in a Feistel network is tuneable for quality versus speed.
     halfIndexBits: uint32
     halfIndexBitsMask: uint32
     seed: uint32 # The "random seed" that determines ordering
@@ -46,11 +46,20 @@ proc decrypt(self: StatelessShuffle, index: uint32): uint32 =
     right = newRight
   result = (left shl self.halfIndexBits) or right
 
-proc indexToShuffledIndex*(s: StatelessShuffle, index: uint32): uint32 {.inline.} =
+proc toShuffledIdx*(s: StatelessShuffle, index: uint32): uint32 {.inline.} =
   s.encrypt(index)
 
-proc shuffledIndexToIndex*(s: StatelessShuffle, index: uint32): uint32 {.inline.} =
+proc fromShuffledIdx*(s: StatelessShuffle, index: uint32): uint32 {.inline.} =
   s.decrypt(index)
+
+import std/math
+
+proc shuffle*[T](s: StatelessShuffle, x: var openarray[T]) =
+  for i in 0..<nextPowerOfTwo(x.len):
+    let j = s.toShuffledIdx(i.uint32)
+    if j.int < x.len:
+      assert i.uint32 == s.fromShuffledIdx(j), "roundtrip failure"
+      swap(x[i], x[j])
 
 import std/random
 
@@ -66,10 +75,10 @@ proc shuffleTest() =
     shuffleIterator.setSeed(seed)
     var first = true
     for index in 0 ..< 16:
-      let shuffledIndex = shuffleIterator.indexToShuffledIndex(uint32(index))
-      let unshuffledIndex = shuffleIterator.shuffledIndexToIndex(shuffledIndex)
+      let shuffledIndex = shuffleIterator.toShuffledIdx(index.uint32)
+      let unshuffledIndex = shuffleIterator.fromShuffledIdx(shuffledIndex)
       stdout.write (if first: "" else: ", "), shuffledIndex
-      if index != int(unshuffledIndex):
+      if index.uint32 != unshuffledIndex:
         quit "Error! Round trip failure in shuffleTest"
       first = false
     echo()
@@ -84,16 +93,51 @@ proc shuffleTest() =
     shuffleIterator.setSeed(seed)
     var first = true
     for index in 0 ..< 16:
-      let shuffledIndex = shuffleIterator.indexToShuffledIndex(uint32(index))
-
+      let shuffledIndex = shuffleIterator.toShuffledIdx(index.uint32)
       if shuffledIndex >= 12: continue
-
-      let unshuffledIndex = shuffleIterator.shuffledIndexToIndex(shuffledIndex)
+      let unshuffledIndex = shuffleIterator.fromShuffledIdx(shuffledIndex)
       stdout.write (if first: "" else: ", "), shuffledIndex
-      if index != int(unshuffledIndex):
+      if index.uint32 != unshuffledIndex:
         quit "Error! Round trip failure in shuffleTest"
       first = false
     echo()
 
-# Call the test function
 shuffleTest()
+
+proc getRequiredBits(length: uint32): uint32 {.inline.} =
+  result = ceil(log2(float(length))).uint32
+  if (result and 1) != 0:
+    inc(result)
+
+const times = 100_000
+
+randomize()
+proc frequencyTest[Size: static int]() =
+  var frequencies: array[Size, array[Size, int]] # Position frequencies
+
+  var s = StatelessShuffle()
+  let requiredBits = getRequiredBits(Size)
+  s.setIndexBits(requiredBits)
+  s.setRoundCount(4)
+
+  for _ in 0..<times:
+    let seed = rand(uint32)
+    s.setSeed(seed)
+    var arr: array[Size, int]
+    for i in 0..<Size:
+      arr[i] = i
+    s.shuffle(arr)
+    for i in 0..<Size:
+      frequencies[i][arr[i]].inc
+
+  let expectedFrequency = times div Size
+  let tolerance = expectedFrequency.float / 4 # 25% tolerance
+
+  for i in 0..<Size:
+    for j in 0..<Size:
+      doAssert abs(frequencies[i][j] - expectedFrequency).float <= tolerance, "Frequency test failed"
+
+frequencyTest[16]()
+# frequencyTest[128]()
+# frequencyTest[256]()
+# frequencyTest[260]()
