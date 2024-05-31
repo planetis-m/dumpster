@@ -23,8 +23,26 @@ proc pcgHash(x: uint32): uint32 =
   let word = ((state shr ((state shr 28'u32) + 4'u32)) xor state) * 277803737'u32
   result = (word shr 22'u32) xor word
 
+const key = 0xeb314a6fe49f6b17'u64
+
+proc squares32(ctr, key: uint64): uint32 {.inline.} =
+  # Widynski, Bernard (2020). "Squares: A Fast Counter-Based RNG". arXiv:2004.06278
+  var x = ctr * key
+  let y = x
+  let z = y + key
+  x = x * x + y
+  x = (x shr 32) or (x shl 32) # round 1
+  x = x * x + z
+  x = (x shr 32) or (x shl 32) # round 2
+  x = x * x + y
+  x = (x shr 32) or (x shl 32) # round 3
+  result = uint32((x * x + z) shr 32) # round 4
+
 proc roundFunction(s: StatelessShuffle, x: uint32): uint32 =
-  result = (pcgHash(x xor s.seed)) and s.halfIndexBitsMask
+  result = (squares32(x xor s.seed, key)) and s.halfIndexBitsMask
+
+# proc roundFunction(s: StatelessShuffle, x: uint32): uint32 =
+#   result = (pcgHash(x xor s.seed)) and s.halfIndexBitsMask
 
 proc encrypt(s: StatelessShuffle, index: uint32): uint32 =
   var left = index shr s.halfIndexBits
@@ -99,7 +117,6 @@ import std/math
 
 proc shuffle*[T](s: var StatelessShuffle, x: var openarray[T]) =
   for i in 0..<nextPowerOfTwo(x.len):
-    s.setSeed(rand(uint32))
     let j = s.toShuffledIdx(i.uint32)
     if j.int < x.len:
       assert i.uint32 == s.fromShuffledIdx(j), "roundtrip failure"
@@ -119,8 +136,8 @@ proc frequencyTest[Size: static int]() =
   s.setIndexBits(getRequiredBits(Size))
   s.setRoundCount(10)
 
-  for _ in 0..<times:
-    s.setSeed(rand(uint32))
+  for t in 0..<times:
+    s.setSeed(squares32(t.uint64, key))
     var arr: array[Size, int]
     for i in 0..<Size:
       arr[i] = i
@@ -133,9 +150,8 @@ proc frequencyTest[Size: static int]() =
 
   for i in 0..<Size:
     for j in 0..<Size:
+      echo abs(frequencies[i][j] - expectedFrequency).float
       doAssert abs(frequencies[i][j] - expectedFrequency).float <= tolerance, "Frequency test failed"
-
-randomize()
 
 frequencyTest[16]()
 # frequencyTest[128]()
