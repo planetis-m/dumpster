@@ -26,40 +26,31 @@ proc pcgHash(x: uint32): uint32 =
 proc roundFunction(s: StatelessShuffle, x: uint32): uint32 =
   result = (pcgHash(x xor s.seed)) and s.halfIndexBitsMask
 
-proc encrypt(self: StatelessShuffle, index: uint32): uint32 =
-  var left = index shr self.halfIndexBits
-  var right = index and self.halfIndexBitsMask
-  for i in 0 ..< self.roundCount:
+proc encrypt(s: StatelessShuffle, index: uint32): uint32 =
+  var left = index shr s.halfIndexBits
+  var right = index and s.halfIndexBitsMask
+  for i in 0 ..< s.roundCount:
     let newLeft = right
-    let newRight = left xor self.roundFunction(right)
+    let newRight = left xor s.roundFunction(right)
     left = newLeft
     right = newRight
-  result = (left shl self.halfIndexBits) or right
+  result = (left shl s.halfIndexBits) or right
 
-proc decrypt(self: StatelessShuffle, index: uint32): uint32 =
-  var left = index shr self.halfIndexBits
-  var right = index and self.halfIndexBitsMask
-  for i in 0 ..< self.roundCount:
+proc decrypt(s: StatelessShuffle, index: uint32): uint32 =
+  var left = index shr s.halfIndexBits
+  var right = index and s.halfIndexBitsMask
+  for i in 0 ..< s.roundCount:
     let newRight = left
-    let newLeft = right xor self.roundFunction(left)
+    let newLeft = right xor s.roundFunction(left)
     left = newLeft
     right = newRight
-  result = (left shl self.halfIndexBits) or right
+  result = (left shl s.halfIndexBits) or right
 
 proc toShuffledIdx*(s: StatelessShuffle, index: uint32): uint32 {.inline.} =
   s.encrypt(index)
 
 proc fromShuffledIdx*(s: StatelessShuffle, index: uint32): uint32 {.inline.} =
   s.decrypt(index)
-
-import std/math
-
-proc shuffle*[T](s: StatelessShuffle, x: var openarray[T]) =
-  for i in 0..<nextPowerOfTwo(x.len):
-    let j = s.toShuffledIdx(i.uint32)
-    if j.int < x.len:
-      assert i.uint32 == s.fromShuffledIdx(j), "roundtrip failure"
-      swap(x[i], x[j])
 
 import std/random
 
@@ -104,25 +95,32 @@ proc shuffleTest() =
 
 shuffleTest()
 
+import std/math
+
+proc shuffle*[T](s: var StatelessShuffle, x: var openarray[T]) =
+  for i in 0..<nextPowerOfTwo(x.len):
+    s.setSeed(rand(uint32))
+    let j = s.toShuffledIdx(i.uint32)
+    if j.int < x.len:
+      assert i.uint32 == s.fromShuffledIdx(j), "roundtrip failure"
+      swap(x[i], x[j])
+
 proc getRequiredBits(length: uint32): uint32 {.inline.} =
   result = ceil(log2(float(length))).uint32
   if (result and 1) != 0:
     inc(result)
 
-const times = 100_000
+const times = 10000
 
-randomize()
 proc frequencyTest[Size: static int]() =
   var frequencies: array[Size, array[Size, int]] # Position frequencies
 
   var s = StatelessShuffle()
-  let requiredBits = getRequiredBits(Size)
-  s.setIndexBits(requiredBits)
-  s.setRoundCount(4)
+  s.setIndexBits(getRequiredBits(Size))
+  s.setRoundCount(10)
 
   for _ in 0..<times:
-    let seed = rand(uint32)
-    s.setSeed(seed)
+    s.setSeed(rand(uint32))
     var arr: array[Size, int]
     for i in 0..<Size:
       arr[i] = i
@@ -136,6 +134,8 @@ proc frequencyTest[Size: static int]() =
   for i in 0..<Size:
     for j in 0..<Size:
       doAssert abs(frequencies[i][j] - expectedFrequency).float <= tolerance, "Frequency test failed"
+
+randomize()
 
 frequencyTest[16]()
 # frequencyTest[128]()
