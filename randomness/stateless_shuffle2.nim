@@ -4,10 +4,18 @@ when defined(trueRandom):
 else:
   import std/random
 
+proc getRequiredBits(len: Natural): uint32 {.inline.} =
+  if len == 0:
+    result = 0'u32
+  else:
+    result = fastLog2(len).uint32 + 1'u32
+    if (result and 1) != 0:
+      inc(result)
+
 const
   Rounds = 10
   Len = 24
-  BitWidth = fastLog2(Len).uint32 + 1'u32 # Bit width of the input
+  BitWidth = getRequiredBits(Len) # Bit width of the input
   BitMask = (1'u32 shl BitWidth) - 1'u32
 
 proc genKeySet(keys: var openarray[uint32]) =
@@ -47,11 +55,12 @@ proc arrhrDecrypt(y: uint32): uint32 =
     result = (result - KeySet[i mod Rounds]) and BitMask
 
 proc shuffle[T](x: var openArray[T]) =
-  for i in 0..<len(x):
+  for i in 0..<nextPowerOfTwo(x.len):
     let j = arrhrEncrypt(i.uint32).int
     if j < x.len:
       assert i == arrhrDecrypt(j.uint32).int, "roundtrip failure"
       swap(x[i], x[j])
+    else: echo j
 
 # Example usage
 proc main() =
@@ -62,7 +71,7 @@ proc main() =
   for i in 0..<Len:
     data[i] = i
   # var data = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9]
-  for _ in 1..12:
+  for _ in 1..1:
     genKeySet(KeySet)
     shuffle(data)
     echo data
