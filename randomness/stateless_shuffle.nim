@@ -23,20 +23,20 @@ proc pcg32(x: uint32): uint32 =
   let word = ((state shr ((state shr 28'u32) + 4'u32)) xor state) * 277803737'u32
   result = (word shr 22'u32) xor word
 
-# const key = 0xeb314a6fe49f6b17'u64
-#
-# proc squares32(ctr, key: uint64): uint32 {.inline.} =
-#   # Widynski, Bernard (2020). "Squares: A Fast Counter-Based RNG". arXiv:2004.06278
-#   var x = ctr * key
-#   let y = x
-#   let z = y + key
-#   x = x * x + y
-#   x = (x shr 32) or (x shl 32) # round 1
-#   x = x * x + z
-#   x = (x shr 32) or (x shl 32) # round 2
-#   x = x * x + y
-#   x = (x shr 32) or (x shl 32) # round 3
-#   result = uint32((x * x + z) shr 32) # round 4
+const key = 0xeb314a6fe49f6b17'u64
+
+proc squares32(ctr, key: uint64): uint32 {.inline.} =
+  # Widynski, Bernard (2020). "Squares: A Fast Counter-Based RNG". arXiv:2004.06278
+  var x = ctr * key
+  let y = x
+  let z = y + key
+  x = x * x + y
+  x = (x shr 32) or (x shl 32) # round 1
+  x = x * x + z
+  x = (x shr 32) or (x shl 32) # round 2
+  x = x * x + y
+  x = (x shr 32) or (x shl 32) # round 3
+  result = uint32((x * x + z) shr 32) # round 4
 
 # proc roundFunction(s: StatelessShuffle, x: uint32): uint32 =
 #   result = (squares32(x xor s.seed, key)) and s.halfIndexBitsMask
@@ -115,25 +115,27 @@ shuffleTest()
 
 import std/math
 
-proc shuffle*[T](s: var StatelessShuffle, x: var openarray[T]) =
+proc shuffle[T](s: var StatelessShuffle, x: var openArray[T]) =
+  var k = 0
   for i in 0..<nextPowerOfTwo(x.len):
-    let j = s.toShuffledIdx(i.uint32)
-    if j.int < x.len:
-      assert i.uint32 == s.fromShuffledIdx(j), "roundtrip failure"
-      swap(x[i], x[j])
+    let j = s.toShuffledIdx(i.uint32).int
+    if j < x.len:
+      assert i == s.fromShuffledIdx(j.uint32).int, "roundtrip failure"
+      x[k] = j
+      inc k
 
-# proc getRequiredBits(length: uint32): uint32 {.inline.} =
-#   result = ceil(log2(float(length))).uint32
-#   if (result and 1) != 0:
-#     inc(result)
+proc getRequiredBits(length: uint32): uint32 {.inline.} =
+  result = ceil(log2(float(length))).uint32
+  if (result and 1) != 0:
+    inc(result)
 
-proc getRequiredBits(len: Natural): uint32 {.inline.} =
-  if len == 0:
-    result = 0'u32
-  else:
-    result = fastLog2(len).uint32 + 1'u32
-    if (result and 1) != 0:
-      inc(result)
+# proc getRequiredBits(len: Natural): uint32 {.inline.} =
+#   if len == 0:
+#     result = 0'u32
+#   else:
+#     result = fastLog2(len).uint32 + 1'u32
+#     if (result and 1) != 0:
+#       inc(result)
 
 const times = 10000
 

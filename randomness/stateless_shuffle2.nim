@@ -1,4 +1,4 @@
-import std/[bitops, sequtils, math]
+import std/[algorithm, bitops, sequtils, math]
 when defined(trueRandom):
   import std/sysrand
 else:
@@ -9,19 +9,17 @@ proc getRequiredBits(len: Natural): uint32 {.inline.} =
     result = 0'u32
   else:
     result = fastLog2(len).uint32 + 1'u32
-    if (result and 1) != 0:
-      inc(result)
 
 const
   Rounds = 10
-  Len = 24
+  Len = 23
   BitWidth = getRequiredBits(Len) # Bit width of the input
   BitMask = (1'u32 shl BitWidth) - 1'u32
 
 proc genKeySet(keys: var openarray[uint32]) =
   # Generate a cryptographically secure random key set
   const size = ceilDiv(BitWidth, 8) # Calculate the number of bytes needed for the width
-  for i in 0..<Rounds:
+  for i in 0..(Rounds div 2):
     var value: uint32 = 0
     when defined(trueRandom):
       let bytes = urandom(size)
@@ -33,7 +31,7 @@ proc genKeySet(keys: var openarray[uint32]) =
     # keys[i] = value
 
 var
-  KeySet: array[Rounds, uint32]
+  KeySet: array[Rounds div 2 + 1, uint32]
 
 proc rotateLeft(x, bits, BitWidth: uint32): uint32 {.inline.} =
   (x shl bits) or (x shr (BitWidth - bits))
@@ -44,34 +42,34 @@ proc rotateRight(x, bits, BitWidth: uint32): uint32 {.inline.} =
 proc arrhrEncrypt(x: uint32): uint32 =
   result = x
   for i in 0..<(Rounds div 2):
-    result = (result + KeySet[i mod Rounds]) and BitMask
+    result = (result + KeySet[i]) and BitMask
     result = rotateLeft(result, 1, BitWidth)
-  result = (result + KeySet[Rounds div 2 mod Rounds]) and BitMask
+  result = (result + KeySet[Rounds div 2]) and BitMask
 
 proc arrhrDecrypt(y: uint32): uint32 =
-  result = (y - KeySet[Rounds div 2 mod Rounds]) and BitMask
+  result = (y - KeySet[Rounds div 2]) and BitMask
   for i in countdown(Rounds div 2 - 1, 0):
     result = rotateRight(result, 1, BitWidth)
-    result = (result - KeySet[i mod Rounds]) and BitMask
+    result = (result - KeySet[i]) and BitMask
 
 proc shuffle[T](x: var openArray[T]) =
+  var k = 0
   for i in 0..<nextPowerOfTwo(x.len):
     let j = arrhrEncrypt(i.uint32).int
     if j < x.len:
       assert i == arrhrDecrypt(j.uint32).int, "roundtrip failure"
-      swap(x[i], x[j])
-    else: echo j
+      x[k] = j
+      inc k
 
 # Example usage
 proc main() =
   when not defined(trueRandom):
-    randomize()
+    randomize(123)
 
   var data: array[Len, int]
-  for i in 0..<Len:
-    data[i] = i
   # var data = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9]
   for _ in 1..1:
+    fill(data, 0)
     genKeySet(KeySet)
     shuffle(data)
     echo data
