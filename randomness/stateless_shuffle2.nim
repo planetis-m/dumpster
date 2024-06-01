@@ -14,7 +14,8 @@ proc getRequiredBits(len: Natural): uint32 {.inline.} =
 
 const
   Rounds = 10
-  BitWidth = getRequiredBits(10) # Bit width of the input
+  Len = 128
+  BitWidth = getRequiredBits(Len) # Bit width of the input
   BitMask = (1'u32 shl BitWidth) - 1'u32
 
 proc genKeySet(keys: var openarray[uint32]) =
@@ -28,8 +29,8 @@ proc genKeySet(keys: var openarray[uint32]) =
         value = (value shl 8) or uint32(bytes[j])
     else:
       value = rand(uint32)
-    # keys[i] = masked(value, BitMask)
-    keys[i] = value
+    keys[i] = masked(value, BitMask)
+    # keys[i] = value
 
 var
   KeySet: array[Rounds, uint32]
@@ -64,7 +65,11 @@ proc shuffle[T](x: var openArray[T]) =
 proc main() =
   when not defined(trueRandom):
     randomize()
-  var data = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9]
+
+  var data: array[Len, int]
+  for i in 0..<Len:
+    data[i] = i
+  # var data = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9]
   for _ in 1..12:
     genKeySet(KeySet)
     shuffle(data)
