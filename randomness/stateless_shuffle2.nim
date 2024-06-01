@@ -4,18 +4,10 @@ when defined(trueRandom):
 else:
   import std/random
 
-proc getRequiredBits(len: Natural): uint32 {.inline.} =
-  if len == 0:
-    result = 0'u32
-  else:
-    result = fastLog2(len).uint32 + 1'u32
-    if (result and 1) != 0:
-      inc(result)
-
 const
   Rounds = 10
-  Len = 128
-  BitWidth = getRequiredBits(Len) # Bit width of the input
+  Len = 24
+  BitWidth = fastLog2(Len).uint32 + 1'u32 # Bit width of the input
   BitMask = (1'u32 shl BitWidth) - 1'u32
 
 proc genKeySet(keys: var openarray[uint32]) =

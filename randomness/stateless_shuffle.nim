@@ -122,10 +122,18 @@ proc shuffle*[T](s: var StatelessShuffle, x: var openarray[T]) =
       assert i.uint32 == s.fromShuffledIdx(j), "roundtrip failure"
       swap(x[i], x[j])
 
-proc getRequiredBits(length: uint32): uint32 {.inline.} =
-  result = ceil(log2(float(length))).uint32
-  if (result and 1) != 0:
-    inc(result)
+# proc getRequiredBits(length: uint32): uint32 {.inline.} =
+#   result = ceil(log2(float(length))).uint32
+#   if (result and 1) != 0:
+#     inc(result)
+
+proc getRequiredBits(len: Natural): uint32 {.inline.} =
+  if len == 0:
+    result = 0'u32
+  else:
+    result = fastLog2(len).uint32 + 1'u32
+    if (result and 1) != 0:
+      inc(result)
 
 const times = 10000
 
