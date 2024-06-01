@@ -16,33 +16,33 @@ proc setIndexBits*(s: var StatelessShuffle, bits: uint32) {.inline.} =
 proc setRoundCount*(s: var StatelessShuffle, count: uint32) {.inline.} =
   s.roundCount = count
 
-proc pcgHash(x: uint32): uint32 =
+proc pcg32(x: uint32): uint32 =
   # https://www.pcg-random.org/
   # https://www.reedbeta.com/blog/hash-functions-for-gpu-rendering/
   let state = x * 747796405'u32 + 2891336453'u32
   let word = ((state shr ((state shr 28'u32) + 4'u32)) xor state) * 277803737'u32
   result = (word shr 22'u32) xor word
 
-const key = 0xeb314a6fe49f6b17'u64
-
-proc squares32(ctr, key: uint64): uint32 {.inline.} =
-  # Widynski, Bernard (2020). "Squares: A Fast Counter-Based RNG". arXiv:2004.06278
-  var x = ctr * key
-  let y = x
-  let z = y + key
-  x = x * x + y
-  x = (x shr 32) or (x shl 32) # round 1
-  x = x * x + z
-  x = (x shr 32) or (x shl 32) # round 2
-  x = x * x + y
-  x = (x shr 32) or (x shl 32) # round 3
-  result = uint32((x * x + z) shr 32) # round 4
-
-proc roundFunction(s: StatelessShuffle, x: uint32): uint32 =
-  result = (squares32(x xor s.seed, key)) and s.halfIndexBitsMask
+# const key = 0xeb314a6fe49f6b17'u64
+#
+# proc squares32(ctr, key: uint64): uint32 {.inline.} =
+#   # Widynski, Bernard (2020). "Squares: A Fast Counter-Based RNG". arXiv:2004.06278
+#   var x = ctr * key
+#   let y = x
+#   let z = y + key
+#   x = x * x + y
+#   x = (x shr 32) or (x shl 32) # round 1
+#   x = x * x + z
+#   x = (x shr 32) or (x shl 32) # round 2
+#   x = x * x + y
+#   x = (x shr 32) or (x shl 32) # round 3
+#   result = uint32((x * x + z) shr 32) # round 4
 
 # proc roundFunction(s: StatelessShuffle, x: uint32): uint32 =
-#   result = (pcgHash(x xor s.seed)) and s.halfIndexBitsMask
+#   result = (squares32(x xor s.seed, key)) and s.halfIndexBitsMask
+
+proc roundFunction(s: StatelessShuffle, x: uint32): uint32 =
+  result = (pcg32(x xor s.seed)) and s.halfIndexBitsMask
 
 proc encrypt(s: StatelessShuffle, index: uint32): uint32 =
   var left = index shr s.halfIndexBits
