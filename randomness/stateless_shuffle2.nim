@@ -27,7 +27,7 @@ proc genKeySet(keys: var openarray[uint32]) =
         value = (value shl 8) or uint32(bytes[j])
     else:
       value = rand(uint32)
-    keys[i] = masked(value, BitMask)
+    keys[i] = masked(value, BitMask - 2)
     # keys[i] = value
 
 var
@@ -68,10 +68,31 @@ proc main() =
 
   var data: array[Len, int]
   # var data = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9]
-  for _ in 1..1:
+  for _ in 1..5:
     fill(data, 0)
     genKeySet(KeySet)
     shuffle(data)
     echo data
 
 main()
+
+const NumIters = 10000
+
+proc frequencyTest() =
+  var frequencies: array[Len, array[Len, int]] # Position frequencies
+
+  for t in 0..<NumIters:
+    var arr: array[Len, int]
+    genKeySet(KeySet)
+    shuffle(arr)
+    for i in 0..<Len:
+      frequencies[i][arr[i]].inc
+
+  let expectedFrequency = NumIters div Len
+  let tolerance = expectedFrequency.float / 4 # 25% tolerance
+
+  for i in 0..<Len:
+    for j in 0..<Len:
+      doAssert abs(frequencies[i][j] - expectedFrequency).float <= tolerance, "Frequency test failed"
+
+# frequencyTest()
