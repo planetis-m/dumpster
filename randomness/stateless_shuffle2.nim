@@ -1,33 +1,56 @@
-import std/[bitops, sequtils]
+import std/[bitops, sequtils, math]
+when defined(trueRandom):
+  import std/sysrand
+else:
+  import std/random
 
-# Define the key set (precomputed for simplicity)
+proc getRequiredBits(len: Natural): uint32 {.inline.} =
+  if len == 0:
+    result = 0'u32
+  else:
+    result = fastLog2(len).uint32 + 1'u32
+    if (result and 1) != 0:
+      inc(result)
+
 const
   Rounds = 10
-  BitWidth = 32'u32 # Bit width of the input
+  BitWidth = getRequiredBits(10) # Bit width of the input
   BitMask = (1'u32 shl BitWidth) - 1'u32
 
-  KeySet: array[10, uint32] = mapLiterals([
-    0x73E9D5D1, 0xA2C5442C, 0xC9E94D8C, 0xCA8EDF64, 0x6813909B,
-    0xFC008911, 0x7C2145A0, 0x307B8035, 0x88BAA1DE, 0xAF375D34
-  ], uint32)
+proc genKeySet(keys: var openarray[uint32]) =
+  # Generate a cryptographically secure random key set
+  const size = ceilDiv(BitWidth, 8) # Calculate the number of bytes needed for the width
+  for i in 0..<Rounds:
+    var value: uint32 = 0
+    when defined(trueRandom):
+      let bytes = urandom(size)
+      for j in 0..bytes.high:
+        value = (value shl 8) or uint32(bytes[j])
+    else:
+      value = rand(uint32)
+    # keys[i] = masked(value, BitMask)
+    keys[i] = value
 
-# proc rotateLeft(x, bits, BitWidth: uint32): uint32 {.inline.} =
-#   (x shl bits) or (x shr (BitWidth - bits))
-#
-# proc rotateRight(x, bits, BitWidth: uint32): uint32 {.inline.} =
-#   (x shr bits) or (x shl (BitWidth - bits))
+var
+  KeySet: array[Rounds, uint32]
+
+proc rotateLeft(x, bits, BitWidth: uint32): uint32 {.inline.} =
+  (x shl bits) or (x shr (BitWidth - bits))
+
+proc rotateRight(x, bits, BitWidth: uint32): uint32 {.inline.} =
+  (x shr bits) or (x shl (BitWidth - bits))
 
 proc arrhrEncrypt(x: uint32): uint32 =
   result = x
   for i in 0..<(Rounds div 2):
     result = (result + KeySet[i mod Rounds]) and BitMask
-    result = rotateLeftBits(result, 1)
+    result = rotateLeft(result, 1, BitWidth)
   result = (result + KeySet[Rounds div 2 mod Rounds]) and BitMask
 
 proc arrhrDecrypt(y: uint32): uint32 =
   result = (y - KeySet[Rounds div 2 mod Rounds]) and BitMask
   for i in countdown(Rounds div 2 - 1, 0):
-    result = rotateRightBits(result, 1)
+    result = rotateRight(result, 1, BitWidth)
     result = (result - KeySet[i mod Rounds]) and BitMask
 
 proc shuffle[T](x: var openArray[T]) =
@@ -39,12 +62,12 @@ proc shuffle[T](x: var openArray[T]) =
 
 # Example usage
 proc main() =
+  when not defined(trueRandom):
+    randomize()
   var data = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9]
-  shuffle(data)
-  var first = true
-  for i in 0..<data.len:
-    stdout.write (if first: "" else: ", "), data[i]
-    first = false
-  stdout.write "\n"
+  for _ in 1..12:
+    genKeySet(KeySet)
+    shuffle(data)
+    echo data
 
 main()
