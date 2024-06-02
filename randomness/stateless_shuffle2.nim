@@ -1,4 +1,4 @@
-import std/[algorithm, bitops, sequtils, math]
+import std/[algorithm, bitops, sequtils, math, tables]
 when defined(trueRandom):
   import std/sysrand
 else:
@@ -9,6 +9,8 @@ proc requiredBits(len: Natural): uint32 {.inline.} =
     result = 0'u32
   else:
     result = fastLog2(len).uint32
+    # if (1'u32 shl result) < len:
+    #   inc result
 
 const
   Rounds = 10
@@ -78,6 +80,7 @@ proc shuffle[T](x: var openArray[T]) =
       assert i == arrhrDecrypt(j.uint32).int, "roundtrip failure"
       x[k] = j
       inc k
+      # if k == x.len: break
 
 # Example usage
 proc main() =
@@ -114,3 +117,25 @@ proc frequencyTest() =
       doAssert abs(frequencies[i][j] - expectedFrequency).float <= tolerance, "Frequency test failed"
 
 frequencyTest()
+
+proc permutationTest() =
+  var permutationCount: Table[seq[int], int]
+
+  var data: array[Len, int]
+  for t in 0..<NumIters:
+    fill(data, 0)
+    genKeySet(KeySet)
+    shuffle(data)
+    let perm = toSeq(data)
+    if perm in permutationCount:
+      permutationCount[perm] += 1
+    else:
+      permutationCount[perm] = 1
+
+  let expectedFrequency = NumIters.float / fac(Len).float
+  let tolerance = expectedFrequency / 4 # 25% tolerance
+
+  for count in permutationCount.values:
+    doAssert abs(count.float - expectedFrequency) <= tolerance, "Permutation test failed"
+
+# permutationTest()
