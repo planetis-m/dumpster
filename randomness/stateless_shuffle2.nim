@@ -4,16 +4,16 @@ when defined(trueRandom):
 else:
   import std/random
 
-proc getRequiredBits(len: Natural): uint32 {.inline.} =
+proc requiredBits(len: Natural): uint32 {.inline.} =
   if len == 0:
     result = 0'u32
   else:
-    result = fastLog2(len).uint32 + 1'u32
+    result = fastLog2(len).uint32
 
 const
   Rounds = 10
   Len = 32
-  BitWidth = getRequiredBits(Len) # Bit width of the input
+  BitWidth = requiredBits(Len) # Bit width of the input
   BitMask = (1'u32 shl BitWidth) - 1'u32
 
 proc genKeySet(keys: var openarray[uint32]) =
@@ -85,7 +85,6 @@ proc main() =
     randomize(123)
 
   var data: array[Len, int]
-  # var data = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9]
   for _ in 1..5:
     fill(data, 0)
     genKeySet(KeySet)
@@ -99,19 +98,19 @@ const NumIters = 10000
 proc frequencyTest() =
   var frequencies: array[Len, array[Len, int]] # Position frequencies
 
+  var data: array[Len, int]
   for t in 0..<NumIters:
-    var arr: array[Len, int]
+    fill(data, 0)
     genKeySet(KeySet)
-    shuffle(arr)
+    shuffle(data)
     for i in 0..<Len:
-      frequencies[i][arr[i]].inc
+      frequencies[i][data[i]].inc
 
   let expectedFrequency = NumIters div Len
   let tolerance = expectedFrequency.float / 4 # 25% tolerance
-  echo tolerance
+
   for i in 0..<Len:
     for j in 0..<Len:
-      echo abs(frequencies[i][j] - expectedFrequency).float
       doAssert abs(frequencies[i][j] - expectedFrequency).float <= tolerance, "Frequency test failed"
 
-# frequencyTest()
+frequencyTest()

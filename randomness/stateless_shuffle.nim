@@ -1,4 +1,5 @@
 # https://www.ea.com/seed/news/constant-time-stateless-shuffling
+# Crap do NOT use look at stateless_shuffle2
 type
   StatelessShuffle = object
     roundCount: uint32 # The number of rounds in a Feistel network is tuneable for quality versus speed.
