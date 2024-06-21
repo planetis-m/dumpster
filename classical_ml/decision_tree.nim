@@ -56,7 +56,7 @@ proc generateNode(nodeData: JsonTree, input: NimNode): NimNode =
     # else:
     result.add(newTree(nnkElse, generateNode(extract(nodeData, JsonPtr"/right"), input)))
 
-macro generateClassifier(classifierData: static JsonTree): untyped =
+macro generateClassifier(classifierData: static[JsonTree]): untyped =
   let input = genSym(nskParam, "input")
   # proc predict(input: openarray[float32]): TargetNames =
   result = newProc(name = postfix(ident"predict", "*"),

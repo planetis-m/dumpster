@@ -9,12 +9,12 @@ proc requiredBits(len: Natural): uint32 {.inline.} =
     result = 0'u32
   else:
     result = fastLog2(len).uint32
-    # if (1'u32 shl result) < len:
-    #   inc result
+    if (1 shl result) < len:
+      inc result
 
 const
   Rounds = 10
-  Len = 32
+  Len = 31
   BitWidth = requiredBits(Len) # Bit width of the input
   BitMask = (1'u32 shl BitWidth) - 1'u32
 
@@ -80,7 +80,6 @@ proc shuffle[T](x: var openArray[T]) =
       assert i == arrhrDecrypt(j.uint32).int, "roundtrip failure"
       x[k] = j
       inc k
-      # if k == x.len: break
 
 # Example usage
 proc main() =
