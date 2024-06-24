@@ -2,10 +2,9 @@
 type
   Stack* = object
     buf: ptr UncheckedArray[byte]
-    bufLen: int
-    offset: uint
+    bufLen, offset: int
 
-  StackMarker* = distinct uint
+  StackMarker* = distinct int
 
 const
   DefaultAlignment = 8
@@ -20,13 +19,13 @@ proc init*(s: var Stack; buffer: openarray[byte]) =
 
 proc alignedAlloc*(s: var Stack; size, align: Natural): pointer =
   let
-    currAddr = cast[uint](s.buf) + s.offset
+    currAddr = cast[uint](s.buf) + s.offset.uint
     alignedAddr = alignup(currAddr, align.uint)
     padding = (alignedAddr - currAddr).int
-  if s.offset.int + padding + size > s.bufLen:
+  if s.offset + padding + size > s.bufLen:
     # Stack allocator is out of memory
     return nil
-  s.offset = s.offset + size.uint + padding.uint
+  s.offset = s.offset + size + padding
   result = cast[pointer](alignedAddr)
   zeroMem(result, size)
 
@@ -34,8 +33,8 @@ proc alloc*(s: var Stack; size: Natural): pointer =
   alignedAlloc(s, size, DefaultAlignment)
 
 proc freeToMarker*(s: var Stack; marker: StackMarker) =
-  assert(marker.uint >= 0 and marker.uint <= s.offset)
-  s.offset = marker.uint
+  assert(marker.int >= 0 and marker.int <= s.offset)
+  s.offset = marker.int
 
 proc getMarker*(s: Stack): StackMarker =
   result = StackMarker(s.offset)
