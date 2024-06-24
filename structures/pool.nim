@@ -1,16 +1,14 @@
 # https://www.gingerbill.org/code/memory-allocation-strategies/part004.c
 
-const DEFAULT_ALIGNMENT = 8
-
 type
-  FixedPoolFreeNode = object
-    next: ptr FixedPoolFreeNode
+  FreeNode = object
+    next: ptr FreeNode
 
   FixedPool*[T] = object
     buf: ptr UncheckedArray[byte]
     bufLen: int
     chunkSize: int
-    head: ptr FixedPoolFreeNode  # Free List Head
+    head: ptr FreeNode # Free List Head
 
 proc alignup(n, align: uint): uint {.inline.} =
   (n + align - 1) and (not (align - 1))
@@ -24,7 +22,7 @@ proc init*[T](x: var FixedPool[T], buffer: openarray[byte]) =
   # Align chunk size up to the required chunkAlignment
   let alignedSize = alignup(sizeof(T).uint, alignof(T).uint).int
   # Assert that the parameters passed are valid
-  assert alignedSize >= sizeof(FixedPoolFreeNode), "Chunk size is too small"
+  assert alignedSize >= sizeof(FreeNode), "Chunk size is too small"
   assert alignedLen >= alignedSize, "Backing buffer length is smaller than the chunk size"
   # Store the adjusted parameters
   x.buf = cast[ptr UncheckedArray[byte]](alignedStart)
@@ -56,7 +54,7 @@ proc dealloc*[T](x: var FixedPool[T], p: ptr T) =
     assert false, "Memory is out of bounds of the buffer in this pool"
     return
   # Push free node
-  let node = cast[ptr FixedPoolFreeNode](p)
+  let node = cast[ptr FreeNode](p)
   node.next = x.head
   x.head = node
 
@@ -65,7 +63,7 @@ proc deallocAll*(x: var FixedPool) =
   # Set all chunks to be free
   for i in 0 ..< chunkCount:
     let p = cast[pointer](cast[uint](x.buf) + uint(i * x.chunkSize))
-    let node = cast[ptr FixedPoolFreeNode](p)
+    let node = cast[ptr FreeNode](p)
     # Push free node onto the free list
     node.next = x.head
     x.head = node
