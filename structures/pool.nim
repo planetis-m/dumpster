@@ -5,10 +5,10 @@ type
     next: ptr FreeNode
 
   FixedPool*[T] = object
-    buf: ptr UncheckedArray[byte]
-    bufLen: int
     chunkSize: int
     head: ptr FreeNode # Free List Head
+    bufLen: int
+    buf: ptr UncheckedArray[byte]
 
 proc alignup(n, align: uint): uint {.inline.} =
   (n + align - 1) and (not (align - 1))
@@ -73,7 +73,7 @@ when isMainModule:
     Vector2D = object
       x, y: float32
 
-  var backingBuffer: array[1024, byte]
+  var backingBuffer {.align: DefaultAlignment.}: array[1024, byte]
   var x: FixedPool[Vector2D]
   init(x, backingBuffer)
 

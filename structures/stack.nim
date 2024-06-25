@@ -1,8 +1,8 @@
 # https://www.gingerbill.org/article/2019/02/15/memory-allocation-strategies-003/
 type
   Stack* = object
-    buf: ptr UncheckedArray[byte]
     bufLen, offset: int
+    buf: ptr UncheckedArray[byte]
 
   StackMarker* = distinct int
 
@@ -78,7 +78,7 @@ when isMainModule:
     SmallStruct = object
       value: int8
 
-  var backingBuffer: array[1024, byte]
+  var backingBuffer {.align: DefaultAlignment.}: array[1024, byte]
   var s: Stack
   init(s, backingBuffer)
 

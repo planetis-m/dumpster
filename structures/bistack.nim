@@ -1,8 +1,8 @@
 type
   BiStack* = object # Double-ended stack (aka Deque)
-    buf: ptr UncheckedArray[byte]
-    bufLen: int
     front, back: int
+    bufLen: int
+    buf: ptr UncheckedArray[byte]
 
 const
   DefaultAlignment = 8
