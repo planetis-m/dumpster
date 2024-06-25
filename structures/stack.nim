@@ -32,6 +32,31 @@ proc alignedAlloc*(s: var Stack; size, align: Natural): pointer =
 proc alloc*(s: var Stack; size: Natural): pointer =
   alignedAlloc(s, size, DefaultAlignment)
 
+proc alignedRealloc*(s: var Stack, p: pointer, oldSize, newSize, align: int): pointer =
+  if p == nil:
+    return alignedAlloc(s, newSize, align)
+  elif newSize == 0:
+    # Implement stack_free here if needed
+    return nil
+  else:
+    let
+      start = cast[uint](s.buf)
+      endAddr = start + s.bufLen.uint
+      currAddr = cast[uint](p)
+    assert start <= currAddr and currAddr < endAddr,
+        "Out of bounds memory address passed to stack allocator (resize)"
+    if currAddr >= start + s.offset.uint:
+      # Treat as a double free
+      return nil
+    if oldSize == newSize:
+      return p
+    result = alignedAlloc(s, newSize, align)
+    if result != nil:
+      copyMem(result, p, min(oldSize, newSize))
+
+proc realloc*(s: var Stack, p: pointer, oldSize, newSize: Natural): pointer =
+  alignedRealloc(s, p, oldSize, newSize, DefaultAlignment)
+
 proc freeToMarker*(s: var Stack; marker: StackMarker) =
   assert(marker.int >= 0 and marker.int <= s.offset)
   s.offset = marker.int

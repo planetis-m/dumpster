@@ -74,6 +74,7 @@ when isMainModule:
   s.resetAll()
   assert s.allocBack(14) != nil
   # Try to allocate memory from the front
+  assert s.allocFront(4) == nil
   assert s.allocFront(2) != nil
   # Try to allocate more memory from the back
   assert s.allocBack(1) == nil

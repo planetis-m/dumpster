@@ -77,12 +77,12 @@ when isMainModule:
   var x: FixedPool[Vector2D]
   init(x, backingBuffer)
 
-  var a = alloc(x)
-  var b = alloc(x)
-  var c = alloc(x)
-  var d = alloc(x)
-  var e = alloc(x)
-  var f = alloc(x)
+  let a = alloc(x)
+  let b = alloc(x)
+  let c = alloc(x)
+  let d = alloc(x)
+  let e = alloc(x)
+  let f = alloc(x)
 
   dealloc(x, f)
   dealloc(x, c)
