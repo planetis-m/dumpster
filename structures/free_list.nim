@@ -38,9 +38,35 @@ proc init*(x: var FreeList, buffer: openarray[byte]) =
   freeAll(x)
 
 proc calcPaddingWithHeader(p, align: uint, headerSize: int): int
-proc coalescence(fl: var FreeList, prevNode, freeNode: FreeNode)
-proc nodeInsert(phead: var FreeNode, prevNode, newNode: FreeNode)
-proc nodeRemove(phead: var FreeNode, prevNode, delNode: FreeNode)
+
+proc nodeInsert(head: var FreeNode, prevNode, newNode: FreeNode) =
+  if prevNode == nil:
+    if head != nil:
+      newNode.next = head
+    head = newNode
+  else:
+    if prevNode.next == nil:
+      prevNode.next = newNode
+      newNode.next = nil
+    else:
+      newNode.next = prevNode.next
+      prevNode.next = newNode
+
+proc nodeRemove(head: var FreeNode, prevNode, delNode: FreeNode) =
+  if prevNode == nil:
+    head = delNode.next
+  else:
+    prevNode.next = delNode.next
+
+proc coalescence(fl: var FreeList, prevNode, freeNode: FreeNode) =
+  if freeNode.next != nil and
+      (cast[uint](freeNode) + freeNode.blockSize.uint == cast[uint](freeNode.next)):
+    inc freeNode.blockSize, freeNode.next.blockSize
+    nodeRemove(fl.head, freeNode, freeNode.next)
+  if prevNode != nil and
+      (cast[uint](prevNode) + prevNode.blockSize.uint == cast[uint](freeNode)):
+    inc prevNode.blockSize, freeNode.blockSize
+    nodeRemove(fl.head, prevNode, freeNode)
 
 proc findFirst(x: FreeList, size, align: int): tuple[node, prev: FreeNode, padding: int] =
   var
@@ -73,7 +99,7 @@ proc findBest(x: FreeList, size, align: int): tuple[node, prev: FreeNode, paddin
     node = node.next
   result = (bestNode, prev, padding)
 
-proc alignedAlloc*(fl: var FreeList, size, align: Natural): pointer =
+proc alignedAlloc*(x: var FreeList, size, align: Natural): pointer =
   var
     padding = 0
     prevNode: FreeNode = nil
@@ -82,10 +108,10 @@ proc alignedAlloc*(fl: var FreeList, size, align: Natural): pointer =
     headerPtr: ptr AllocationHeader
   let adjustedSize = max(size, sizeof(FreeNodeObj))
   let adjustedAlign = max(align, DefaultAlignment)
-  if fl.policy == FindBest:
-    (node, prevNode, padding) = findBest(fl, adjustedSize, adjustedAlign)
+  if x.policy == FindBest:
+    (node, prevNode, padding) = findBest(x, adjustedSize, adjustedAlign)
   else:
-    (node, prevNode, padding) = findFirst(fl, adjustedSize, adjustedAlign)
+    (node, prevNode, padding) = findFirst(x, adjustedSize, adjustedAlign)
   if node == nil:
     assert false, "Free list has no free memory"
     return nil
@@ -95,15 +121,18 @@ proc alignedAlloc*(fl: var FreeList, size, align: Natural): pointer =
   if remaining > 0:
     let newNode = cast[FreeNode](cast[uint](node) + requiredSpace.uint)
     newNode.blockSize = remaining
-    nodeInsert(fl.head, node, newNode)
-  nodeRemove(fl.head, prevNode, node)
+    nodeInsert(x.head, node, newNode)
+  nodeRemove(x.head, prevNode, node)
   headerPtr = cast[ptr AllocationHeader](cast[uint](node) + alignmentPadding.uint)
   headerPtr.blockSize = requiredSpace
   headerPtr.padding = alignmentPadding
-  fl.used += requiredSpace
+  inc x.used, requiredSpace
   result = cast[pointer](cast[uint](headerPtr) + sizeof(AllocationHeader).uint)
 
-proc free(fl: var FreeList, p: pointer) =
+proc alloc*(x: var FreeList; size: Natural): pointer =
+  alignedAlloc(x, size, DefaultAlignment)
+
+proc free*(x: var FreeList, p: pointer) =
   if p == nil:
     return
   let header = cast[ptr AllocationHeader](cast[uint](p) - sizeof(AllocationHeader).uint)
@@ -111,43 +140,15 @@ proc free(fl: var FreeList, p: pointer) =
   freeNode.blockSize = header.blockSize + header.padding
   freeNode.next = nil
   var
-    node = fl.head
+    node = x.head
     prevNode: FreeNode = nil
   while node != nil:
     if cast[uint](p) < cast[uint](node):
-      nodeInsert(fl.head, prevNode, freeNode)
+      nodeInsert(x.head, prevNode, freeNode)
       break
     prevNode = node
     node = node.next
-  fl.used -= freeNode.blockSize
-  coalescence(fl, prevNode, freeNode)
-
-proc coalescence(fl: var FreeList, prevNode, freeNode: FreeNode) =
-  if freeNode.next != nil and (cast[uint](freeNode) + freeNode.blockSize.uint == cast[uint](freeNode.next)):
-    freeNode.blockSize += freeNode.next.blockSize
-    nodeRemove(fl.head, freeNode, freeNode.next)
-  if prevNode != nil and (prevNode.next != nil) and
-      (cast[uint](prevNode) + prevNode.blockSize.uint == cast[uint](freeNode)):
-    prevNode.blockSize += freeNode.blockSize
-    nodeRemove(fl.head, prevNode, freeNode)
-
-proc nodeInsert(phead: var FreeNode, prevNode, newNode: FreeNode) =
-  if prevNode == nil:
-    if phead != nil:
-      newNode.next = phead
-      # phead = newNode
-    else:
-      phead = newNode
-  else:
-    if prevNode.next == nil:
-      prevNode.next = newNode
-      newNode.next = nil
-    else:
-      newNode.next = prevNode.next
-      prevNode.next = newNode
-
-proc nodeRemove(phead: var FreeNode, prevNode, delNode: FreeNode) =
-  if prevNode == nil:
-    phead = delNode.next
-  else:
-    prevNode.next = delNode.next
+  if node == nil:
+    nodeInsert(x.head, nil, freeNode)
+  dec x.used, freeNode.blockSize
+  coalescence(x, prevNode, freeNode)
