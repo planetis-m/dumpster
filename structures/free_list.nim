@@ -96,16 +96,18 @@ proc findBest(x: FreeList, size, align: int): tuple[node, prev: FreeNode, paddin
     node = x.head
     prevNode: FreeNode = nil
     bestNode: FreeNode = nil
+    bestPrevNode: FreeNode = nil
     padding = 0
   while node != nil:
     padding = calcPaddingWithHeader(cast[uint](node), align.uint, sizeof(AllocationHeader))
     let requiredSpace = size + padding
     if node.blockSize >= requiredSpace and (node.blockSize - requiredSpace < smallestDiff):
       bestNode = node
+      bestPrevNode = prevNode
       smallestDiff = node.blockSize - requiredSpace
     prevNode = node
     node = node.next
-  result = (bestNode, prevNode, padding)
+  result = (bestNode, bestPrevNode, padding)
 
 proc alignedAlloc*(x: var FreeList, size, align: Natural): pointer =
   var
@@ -126,11 +128,11 @@ proc alignedAlloc*(x: var FreeList, size, align: Natural): pointer =
   let remaining = node.blockSize - requiredSpace
   if remaining >= sizeof(int)*3:
     let newAddr = cast[uint](node) + requiredSpace.uint
-    let newNode = cast[FreeNode](alignup(newAddr, DefaultAlignment))
-    let padding = int(cast[uint](newNode) - newAddr)
-    newNode.blockSize = remaining - padding
+    let alignedNode = cast[FreeNode](alignup(newAddr, DefaultAlignment))
+    let padding = int(cast[uint](alignedNode) - newAddr)
+    alignedNode.blockSize = remaining - padding
     inc requiredSpace, padding
-    nodeInsert(x.head, node, newNode)
+    nodeInsert(x.head, node, alignedNode)
   else:
     inc requiredSpace, remaining
   nodeRemove(x.head, prevNode, node)
@@ -253,9 +255,7 @@ when isMainModule:
     x.free(p1)
 
     x.policy = FindBest
-    var p3 = x.alloc(50)
-    x.policy = FindFirst
-    p3 = x.alloc(50)
+    let p3 = x.alloc(50)
 
     assert cast[uint](p3) < cast[uint](p2)
 
