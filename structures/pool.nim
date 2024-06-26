@@ -1,5 +1,7 @@
 # https://www.gingerbill.org/code/memory-allocation-strategies/part004.c
 
+import sanitizers
+
 type
   FreeNode = object
     next: ptr FreeNode
@@ -9,6 +11,14 @@ type
     head: ptr FreeNode # Free List Head
     bufLen: int
     buf: ptr UncheckedArray[byte]
+
+const
+  DefaultAlignment = 8
+
+template guardedAccess(p: ptr FreeNode, body: untyped): untyped =
+  unpoisonMemRegion(p, sizeof(FreeNode))
+  body
+  poisonMemRegion(p, sizeof(FreeNode))
 
 proc alignup(n, align: uint): uint {.inline.} =
   (n + align - 1) and (not (align - 1))
@@ -27,6 +37,7 @@ proc init*[T](x: var FixedPool[T], buffer: openarray[byte]) =
   # Store the adjusted parameters
   x.buf = cast[ptr UncheckedArray[byte]](alignedStart)
   x.bufLen = alignedLen
+  poisonMemRegion(x.buf, alignedLen)
   x.chunkSize = alignedSize
   x.head = nil # Free List Head
   # Set up the free list for free chunks
@@ -35,12 +46,14 @@ proc init*[T](x: var FixedPool[T], buffer: openarray[byte]) =
 proc alloc*[T](x: var FixedPool[T]): ptr T =
   # Get latest free node
   let node = x.head
-  if node == nil:
-    assert false, "FixedPool allocator has no free memory"
-    return nil
-  # Pop free node
-  x.head = node.next
+  guardedAccess(node):
+    if node == nil:
+      assert false, "FixedPool allocator has no free memory"
+      return nil
+    # Pop free node
+    x.head = node.next
   # Zero memory by default
+  unpoisonMemRegion(node, sizeof(T))
   zeroMem(node, x.chunkSize)
   result = cast[ptr T](node)
 
@@ -54,9 +67,12 @@ proc dealloc*[T](x: var FixedPool[T], p: ptr T) =
     assert false, "Memory is out of bounds of the buffer in this pool"
     return
   # Push free node
+  # poisonMemRegion(p, sizeof(T))
+  # poisonMemRegion(cast[pointer](cast[uint](p) + sizeof(FreeNode)), x.chunkSize - sizeof(FreeNode))
   let node = cast[ptr FreeNode](p)
-  node.next = x.head
-  x.head = node
+  guardedAccess(node):
+    node.next = x.head
+    x.head = node
 
 proc deallocAll*(x: var FixedPool) =
   let chunkCount = x.bufLen div x.chunkSize
@@ -64,9 +80,10 @@ proc deallocAll*(x: var FixedPool) =
   for i in 0 ..< chunkCount:
     let p = cast[pointer](cast[uint](x.buf) + uint(i * x.chunkSize))
     let node = cast[ptr FreeNode](p)
-    # Push free node onto the free list
-    node.next = x.head
-    x.head = node
+    guardedAccess(node):
+      # Push free node onto the free list
+      node.next = x.head
+      x.head = node
 
 when isMainModule:
   type
@@ -77,10 +94,10 @@ when isMainModule:
   var x: FixedPool[Vector2D]
   init(x, backingBuffer)
 
-  let a = alloc(x)
+  var a = alloc(x)
   let b = alloc(x)
   let c = alloc(x)
-  let d = alloc(x)
+  var d = alloc(x)
   let e = alloc(x)
   let f = alloc(x)
 
