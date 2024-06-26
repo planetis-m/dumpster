@@ -37,12 +37,9 @@ proc init*(x: var FreeList, buffer: openarray[byte]) =
   x.bufLen = buffer.len
   freeAll(x)
 
-proc calcPaddingWithHeader(p, align: uint, headerSize: int): int
-
 proc nodeInsert(head: var FreeNode, prevNode, newNode: FreeNode) =
   if prevNode == nil:
-    if head != nil:
-      newNode.next = head
+    newNode.next = head
     head = newNode
   else:
     newNode.next = prevNode.next
@@ -54,35 +51,47 @@ proc nodeRemove(head: var FreeNode, prevNode, delNode: FreeNode) =
   else:
     prevNode.next = delNode.next
 
-proc coalescence(fl: var FreeList, prevNode, freeNode: FreeNode) =
+proc coalescence(x: var FreeList, prevNode, freeNode: FreeNode) =
   if freeNode.next != nil and
       (cast[uint](freeNode) + freeNode.blockSize.uint == cast[uint](freeNode.next)):
     inc freeNode.blockSize, freeNode.next.blockSize
-    nodeRemove(fl.head, freeNode, freeNode.next)
+    nodeRemove(x.head, freeNode, freeNode.next)
   if prevNode != nil and
       (cast[uint](prevNode) + prevNode.blockSize.uint == cast[uint](freeNode)):
     inc prevNode.blockSize, freeNode.blockSize
-    nodeRemove(fl.head, prevNode, freeNode)
+    nodeRemove(x.head, prevNode, freeNode)
+
+proc alignup(n, align: uint): uint {.inline.} =
+  (n + align - 1) and (not (align - 1))
+
+proc calcPaddingWithHeader(address, align: uint, headerSize: int): int =
+  # assert isPowerOfTwo(align.int)
+  let
+    neededSpace = headerSize.uint
+    headerAddress = address + neededSpace
+    alignedAddress = alignup(headerAddress, align)
+    padding = alignedAddress - address
+  result = padding.int
 
 proc findFirst(x: FreeList, size, align: int): tuple[node, prev: FreeNode, padding: int] =
   var
     node = x.head
-    prev: FreeNode = nil
+    prevNode: FreeNode = nil
     padding = 0
   while node != nil:
     padding = calcPaddingWithHeader(cast[uint](node), align.uint, sizeof(AllocationHeader))
     let requiredSpace = size + padding
     if node.blockSize >= requiredSpace:
       break
-    prev = node
+    prevNode = node
     node = node.next
-  result = (node, prev, padding)
+  result = (node, prevNode, padding)
 
 proc findBest(x: FreeList, size, align: int): tuple[node, prev: FreeNode, padding: int] =
   var
     smallestDiff = high(int)
     node = x.head
-    prev: FreeNode = nil
+    prevNode: FreeNode = nil
     bestNode: FreeNode = nil
     padding = 0
   while node != nil:
@@ -91,9 +100,9 @@ proc findBest(x: FreeList, size, align: int): tuple[node, prev: FreeNode, paddin
     if node.blockSize >= requiredSpace and (node.blockSize - requiredSpace < smallestDiff):
       bestNode = node
       smallestDiff = node.blockSize - requiredSpace
-    prev = node
+    prevNode = node
     node = node.next
-  result = (bestNode, prev, padding)
+  result = (bestNode, prevNode, padding)
 
 proc alignedAlloc*(x: var FreeList, size, align: Natural): pointer =
   var
@@ -114,10 +123,12 @@ proc alignedAlloc*(x: var FreeList, size, align: Natural): pointer =
   alignmentPadding = padding - sizeof(AllocationHeader)
   requiredSpace = adjustedSize + padding
   remaining = node.blockSize - requiredSpace
-  if remaining > 0:
+  if remaining >= sizeof(FreeNodeObj):
     let newNode = cast[FreeNode](cast[uint](node) + requiredSpace.uint)
     newNode.blockSize = remaining
     nodeInsert(x.head, node, newNode)
+  else:
+    inc requiredSpace, remaining
   nodeRemove(x.head, prevNode, node)
   headerPtr = cast[ptr AllocationHeader](cast[uint](node) + alignmentPadding.uint)
   headerPtr.blockSize = requiredSpace
@@ -139,7 +150,7 @@ proc free*(x: var FreeList, p: pointer) =
     node = x.head
     prevNode: FreeNode = nil
   while node != nil:
-    if cast[uint](p) < cast[uint](node):
+    if cast[uint](node) > cast[uint](p):
       nodeInsert(x.head, prevNode, freeNode)
       break
     prevNode = node
