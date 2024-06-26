@@ -45,12 +45,8 @@ proc nodeInsert(head: var FreeNode, prevNode, newNode: FreeNode) =
       newNode.next = head
     head = newNode
   else:
-    if prevNode.next == nil:
-      prevNode.next = newNode
-      newNode.next = nil
-    else:
-      newNode.next = prevNode.next
-      prevNode.next = newNode
+    newNode.next = prevNode.next
+    prevNode.next = newNode
 
 proc nodeRemove(head: var FreeNode, prevNode, delNode: FreeNode) =
   if prevNode == nil:
@@ -149,6 +145,6 @@ proc free*(x: var FreeList, p: pointer) =
     prevNode = node
     node = node.next
   if node == nil:
-    nodeInsert(x.head, nil, freeNode)
+    nodeInsert(x.head, prevNode, freeNode)
   dec x.used, freeNode.blockSize
   coalescence(x, prevNode, freeNode)
