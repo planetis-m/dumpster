@@ -67,8 +67,7 @@ proc dealloc*[T](x: var FixedPool[T], p: ptr T) =
     assert false, "Memory is out of bounds of the buffer in this pool"
     return
   # Push free node
-  # poisonMemRegion(p, sizeof(T))
-  # poisonMemRegion(cast[pointer](cast[uint](p) + sizeof(FreeNode)), x.chunkSize - sizeof(FreeNode))
+  # poisonMemRegion(cast[pointer](cast[uint](p) + sizeof(FreeNode).uint), x.chunkSize - sizeof(FreeNode))
   let node = cast[ptr FreeNode](p)
   guardedAccess(node):
     node.next = x.head
@@ -79,6 +78,7 @@ proc deallocAll*(x: var FixedPool) =
   # Set all chunks to be free
   for i in 0 ..< chunkCount:
     let p = cast[pointer](cast[uint](x.buf) + uint(i * x.chunkSize))
+    # poisonMemRegion(cast[pointer](cast[uint](p) + sizeof(FreeNode).uint), x.chunkSize - sizeof(FreeNode))
     let node = cast[ptr FreeNode](p)
     guardedAccess(node):
       # Push free node onto the free list
