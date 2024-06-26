@@ -1,14 +1,14 @@
 # https://www.gingerbill.org/article/2021/11/30/memory-allocation-strategies-005/
 # https://youtu.be/UTii4dyhR5c
-# Total sh*t
+#
 type
   AllocationHeader = object
     blockSize: int
     padding: int
 
   FreeNodeObj = object
-    next: FreeNode
     blockSize: int
+    next: FreeNode
   FreeNode = ptr FreeNodeObj
 
   PlacementPolicy = enum
@@ -16,9 +16,9 @@ type
     FindBest
 
   FreeList = object
+    policy: PlacementPolicy
     used: int
     head: FreeNode
-    policy: PlacementPolicy
     bufLen: int
     buf: ptr UncheckedArray[byte]
 
@@ -32,7 +32,8 @@ proc freeAll*(x: var FreeList) =
   firstNode.next = nil
   x.head = firstNode
 
-proc init*(x: var FreeList, buffer: openarray[byte]) =
+proc init*(x: var FreeList, buffer: openarray[byte]; policy = FindFirst) =
+  x.policy = policy
   x.buf = cast[ptr UncheckedArray[byte]](buffer)
   x.bufLen = buffer.len
   freeAll(x)
@@ -51,13 +52,13 @@ proc nodeRemove(head: var FreeNode, prevNode, delNode: FreeNode) =
   else:
     prevNode.next = delNode.next
 
-proc coalescence(x: var FreeList, prevNode, freeNode: FreeNode) =
+proc coalescence(x: var FreeList, prevNode, freeNode: FreeNode, padding: uint) =
   if freeNode.next != nil and
-      (cast[uint](freeNode) + freeNode.blockSize.uint == cast[uint](freeNode.next)):
+      (cast[uint](freeNode) + freeNode.blockSize.uint - padding == cast[uint](freeNode.next)):
     inc freeNode.blockSize, freeNode.next.blockSize
     nodeRemove(x.head, freeNode, freeNode.next)
   if prevNode != nil and
-      (cast[uint](prevNode) + prevNode.blockSize.uint == cast[uint](freeNode)):
+      (cast[uint](prevNode) + prevNode.blockSize.uint + padding == cast[uint](freeNode)):
     inc prevNode.blockSize, freeNode.blockSize
     nodeRemove(x.head, prevNode, freeNode)
 
@@ -143,8 +144,9 @@ proc free*(x: var FreeList, p: pointer) =
   if p == nil:
     return
   let header = cast[ptr AllocationHeader](cast[uint](p) - sizeof(AllocationHeader).uint)
+  let padding = header.padding
   var freeNode = cast[FreeNode](header)
-  freeNode.blockSize = header.blockSize + header.padding
+  freeNode.blockSize = header.blockSize
   freeNode.next = nil
   var
     node = x.head
@@ -158,4 +160,29 @@ proc free*(x: var FreeList, p: pointer) =
   if node == nil:
     nodeInsert(x.head, prevNode, freeNode)
   dec x.used, freeNode.blockSize
-  coalescence(x, prevNode, freeNode)
+  coalescence(x, prevNode, freeNode, padding.uint)
+
+when isMainModule:
+  const BufferSize = 1024
+  var backingBuffer: array[BufferSize, byte]
+  var x: FreeList
+  init(x, backingBuffer)
+
+  assert x.used == 0
+  assert x.head != nil
+  assert x.head.blockSize == BufferSize
+  assert x.head.next == nil
+
+  let p1 = x.alloc(100)
+  assert p1 != nil
+  assert x.used > 100
+
+  let p2 = x.alloc(200)
+  assert p2 != nil
+  assert cast[uint](p2) > cast[uint](p1)
+  x.free(p1)
+  assert x.head != nil
+
+  x.free(p2)
+  assert x.used == 0
+  assert x.head.blockSize == BufferSize
