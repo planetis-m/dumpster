@@ -141,6 +141,7 @@ proc alignedAlloc*(x: var FreeList, size, align: Natural): pointer =
   headerPtr.padding = alignmentPadding.uint8
   inc x.used, requiredSpace
   result = cast[pointer](cast[uint](headerPtr) + sizeof(AllocationHeader).uint)
+  zeroMem(result, size)
 
 proc alloc*(x: var FreeList; size: Natural): pointer =
   alignedAlloc(x, size, DefaultAlignment)
@@ -168,6 +169,8 @@ proc free*(x: var FreeList, p: pointer) =
   coalescence(x, prevNode, freeNode)
 
 when isMainModule:
+  import std/random
+
   const BufferSize = 1024
   var backingBuffer: array[BufferSize, byte]
   var x: FreeList
@@ -261,3 +264,25 @@ when isMainModule:
 
     x.free(p2)
     x.free(p3)
+
+    assert x.used == 0
+    assert x.head.blockSize == x.bufLen
+
+  block: # stress test
+    var ptrs: seq[pointer] = @[]
+    for i in 1..100:
+      let size = rand(1..50)
+      let p = x.alloc(size)
+      if p != nil:
+        ptrs.add(p)
+
+    for i in 0..<ptrs.len:
+      if i mod 2 == 0:
+        x.free(ptrs[i])
+
+    for i in 0..<ptrs.len:
+      if i mod 2 != 0:
+        x.free(ptrs[i])
+
+    assert x.used == 0
+    assert x.head.blockSize == x.bufLen

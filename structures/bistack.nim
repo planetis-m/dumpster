@@ -20,7 +20,7 @@ proc alignedAllocFront*(s: var BiStack, size, align: Natural): pointer =
   let
     currAddr = cast[uint](s.buf) + s.front.uint
     alignedAddr = alignup(currAddr, align.uint)
-    padding = (alignedAddr - currAddr).int
+    padding = int(alignedAddr - currAddr)
   if s.front + padding + size > s.back:
     # Stack allocator is out of memory
     return nil
