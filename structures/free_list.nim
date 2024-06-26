@@ -25,6 +25,9 @@ const
   DefaultAlignment = 8
   MaxAlignment = 128
 
+proc alignup(n, align: uint): uint {.inline.} =
+  (n + align - 1) and (not (align - 1))
+
 proc freeAll*(x: var FreeList) =
   x.used = 0
   let firstNode = cast[FreeNode](x.buf)
@@ -34,8 +37,10 @@ proc freeAll*(x: var FreeList) =
 
 proc init*(x: var FreeList, buffer: openarray[byte]; policy = FindFirst) =
   x.policy = policy
-  x.buf = cast[ptr UncheckedArray[byte]](buffer)
-  x.bufLen = buffer.len
+  let startAddr = alignup(cast[uint](buffer), DefaultAlignment)
+  x.buf = cast[ptr UncheckedArray[byte]](startAddr)
+  let padding = int(startAddr - cast[uint](buffer))
+  x.bufLen = buffer.len - padding
   freeAll(x)
 
 proc nodeInsert(head: var FreeNode, prevNode, newNode: FreeNode) =
@@ -61,9 +66,6 @@ proc coalescence(x: var FreeList, prevNode, freeNode: FreeNode) =
       (cast[uint](prevNode) + prevNode.blockSize.uint == cast[uint](freeNode)):
     inc prevNode.blockSize, freeNode.blockSize
     nodeRemove(x.head, prevNode, freeNode)
-
-proc alignup(n, align: uint): uint {.inline.} =
-  (n + align - 1) and (not (align - 1))
 
 proc calcPaddingWithHeader(address, align: uint, headerSize: int): int =
   # assert isPowerOfTwo(align.int)
@@ -117,14 +119,17 @@ proc alignedAlloc*(x: var FreeList, size, align: Natural): pointer =
   else:
     (node, prevNode, padding) = findFirst(x, adjustedSize, adjustedAlign)
   if node == nil:
-    assert false, "Free list has no free memory"
+    # assert false, "Free list has no free memory"
     return nil
   let alignmentPadding = padding - sizeof(AllocationHeader)
   var requiredSpace = adjustedSize + padding
   let remaining = node.blockSize - requiredSpace
   if remaining >= sizeof(int)*3:
-    let newNode = cast[FreeNode](cast[uint](node) + requiredSpace.uint)
-    newNode.blockSize = remaining
+    let newAddr = cast[uint](node) + requiredSpace.uint
+    let newNode = cast[FreeNode](alignup(newAddr, DefaultAlignment))
+    let padding = int(cast[uint](newNode) - newAddr)
+    newNode.blockSize = remaining - padding
+    inc requiredSpace, padding
     nodeInsert(x.head, node, newNode)
   else:
     inc requiredSpace, remaining
@@ -142,7 +147,7 @@ proc free*(x: var FreeList, p: pointer) =
   if p == nil:
     return
   let header = cast[ptr AllocationHeader](cast[uint](p) - sizeof(AllocationHeader).uint)
-  let padding = header.padding
+  let padding = header.padding.int
   let freeNode = cast[FreeNode](cast[uint](header) - padding.uint)
   freeNode.blockSize = header.blockSize
   freeNode.next = nil
@@ -166,22 +171,93 @@ when isMainModule:
   var x: FreeList
   init(x, backingBuffer)
 
-  assert x.used == 0
-  assert x.head != nil
-  assert x.head.blockSize == BufferSize
-  assert x.head.next == nil
+  block:
+    assert x.used == 0
+    assert x.head != nil
+    assert x.head.blockSize == x.bufLen
+    assert x.head.next == nil
 
-  let p1 = x.alloc(100)
-  assert p1 != nil
-  assert x.used > 100
+    let p1 = x.alloc(100)
+    assert p1 != nil
+    assert x.used > 100
 
-  let p2 = x.alloc(200)
-  assert p2 != nil
-  assert cast[uint](p2) > cast[uint](p1)
+    let p2 = x.alloc(200)
+    assert p2 != nil
+    assert cast[uint](p2) > cast[uint](p1)
 
-  x.free(p1)
-  assert x.head != nil
+    x.free(p1)
+    assert x.head != nil
 
-  x.free(p2)
-  assert x.used == 0
-  assert x.head.blockSize == BufferSize
+    x.free(p2)
+    assert x.used == 0
+    assert x.head.blockSize == x.bufLen
+
+  block: # Edge cases
+    let p1 = x.alloc(x.bufLen - sizeof(AllocationHeader))
+    assert p1 != nil
+    assert x.head == nil # All memory should be allocated
+
+    x.free(p1)
+    assert x.used == 0
+    assert x.head.blockSize == x.bufLen
+
+    let p2 = x.alloc(x.bufLen * 2)
+    assert p2 == nil
+
+  block: # Coalescence
+    let p1 = x.alloc(100)
+    let p2 = x.alloc(100)
+    let p3 = x.alloc(100)
+
+    x.free(p2)  # Create a hole
+    let usedAfterFree = x.used
+
+    x.free(p1)  # Should coalesce with the hole
+    assert x.used < usedAfterFree
+
+    x.free(p3)  # Should coalesce everything back
+    assert x.used == 0
+    assert x.head.blockSize == x.bufLen
+
+  block: # Aligned
+    let p1 = x.alignedAlloc(100, 64)
+    assert p1 != nil
+    assert cast[uint](p1) mod 64 == 0
+
+    let p2 = x.alignedAlloc(100, 128)
+    assert p2 != nil
+    assert cast[uint](p2) mod 128 == 0
+
+    x.free(p1)
+    x.free(p2)
+    assert x.used == 0
+    assert x.head.blockSize == x.bufLen
+
+  block: # Multiple
+    var ptrs: seq[pointer] = @[]
+    for i in 1..10:
+      let p = x.alloc(i * 10)
+      assert p != nil
+      ptrs.add(p)
+
+    for p in ptrs:
+      x.free(p)
+
+    assert x.used == 0
+    assert x.head.blockSize == x.bufLen
+
+  block:
+    x.policy = FindFirst
+    let p1 = x.alloc(100)
+    let p2 = x.alloc(100)
+    x.free(p1)
+
+    x.policy = FindBest
+    var p3 = x.alloc(50)
+    x.policy = FindFirst
+    p3 = x.alloc(50)
+
+    assert cast[uint](p3) < cast[uint](p2)
+
+    x.free(p2)
+    x.free(p3)
