@@ -1,10 +1,9 @@
 # https://www.gingerbill.org/article/2021/11/30/memory-allocation-strategies-005/
 # https://youtu.be/UTii4dyhR5c
-#
 type
   AllocationHeader = object
     blockSize: int
-    padding: int
+    padding: uint8
 
   FreeNodeObj = object
     blockSize: int
@@ -24,6 +23,7 @@ type
 
 const
   DefaultAlignment = 8
+  MaxAlignment = 128
 
 proc freeAll*(x: var FreeList) =
   x.used = 0
@@ -52,13 +52,13 @@ proc nodeRemove(head: var FreeNode, prevNode, delNode: FreeNode) =
   else:
     prevNode.next = delNode.next
 
-proc coalescence(x: var FreeList, prevNode, freeNode: FreeNode, padding: uint) =
+proc coalescence(x: var FreeList, prevNode, freeNode: FreeNode) =
   if freeNode.next != nil and
-      (cast[uint](freeNode) + freeNode.blockSize.uint - padding == cast[uint](freeNode.next)):
+      (cast[uint](freeNode) + freeNode.blockSize.uint == cast[uint](freeNode.next)):
     inc freeNode.blockSize, freeNode.next.blockSize
     nodeRemove(x.head, freeNode, freeNode.next)
   if prevNode != nil and
-      (cast[uint](prevNode) + prevNode.blockSize.uint + padding == cast[uint](freeNode)):
+      (cast[uint](prevNode) + prevNode.blockSize.uint == cast[uint](freeNode)):
     inc prevNode.blockSize, freeNode.blockSize
     nodeRemove(x.head, prevNode, freeNode)
 
@@ -113,7 +113,7 @@ proc alignedAlloc*(x: var FreeList, size, align: Natural): pointer =
     alignmentPadding, requiredSpace, remaining: int
     headerPtr: ptr AllocationHeader
   let adjustedSize = max(size, sizeof(FreeNodeObj))
-  let adjustedAlign = max(align, DefaultAlignment)
+  let adjustedAlign = clamp(align, DefaultAlignment, MaxAlignment)
   if x.policy == FindBest:
     (node, prevNode, padding) = findBest(x, adjustedSize, adjustedAlign)
   else:
@@ -133,7 +133,7 @@ proc alignedAlloc*(x: var FreeList, size, align: Natural): pointer =
   nodeRemove(x.head, prevNode, node)
   headerPtr = cast[ptr AllocationHeader](cast[uint](node) + alignmentPadding.uint)
   headerPtr.blockSize = requiredSpace
-  headerPtr.padding = alignmentPadding
+  headerPtr.padding = alignmentPadding.uint8
   inc x.used, requiredSpace
   result = cast[pointer](cast[uint](headerPtr) + sizeof(AllocationHeader).uint)
 
@@ -145,7 +145,7 @@ proc free*(x: var FreeList, p: pointer) =
     return
   let header = cast[ptr AllocationHeader](cast[uint](p) - sizeof(AllocationHeader).uint)
   let padding = header.padding
-  var freeNode = cast[FreeNode](header)
+  var freeNode = cast[FreeNode](cast[uint](header) - padding.uint)
   freeNode.blockSize = header.blockSize
   freeNode.next = nil
   var
@@ -160,7 +160,7 @@ proc free*(x: var FreeList, p: pointer) =
   if node == nil:
     nodeInsert(x.head, prevNode, freeNode)
   dec x.used, freeNode.blockSize
-  coalescence(x, prevNode, freeNode, padding.uint)
+  coalescence(x, prevNode, freeNode)
 
 when isMainModule:
   const BufferSize = 1024
@@ -180,6 +180,7 @@ when isMainModule:
   let p2 = x.alloc(200)
   assert p2 != nil
   assert cast[uint](p2) > cast[uint](p1)
+
   x.free(p1)
   assert x.head != nil
 
