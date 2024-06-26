@@ -110,8 +110,6 @@ proc alignedAlloc*(x: var FreeList, size, align: Natural): pointer =
     padding = 0
     prevNode: FreeNode = nil
     node: FreeNode = nil
-    alignmentPadding, requiredSpace, remaining: int
-    headerPtr: ptr AllocationHeader
   let adjustedSize = max(size, sizeof(FreeNodeObj))
   let adjustedAlign = clamp(align, DefaultAlignment, MaxAlignment)
   if x.policy == FindBest:
@@ -121,17 +119,17 @@ proc alignedAlloc*(x: var FreeList, size, align: Natural): pointer =
   if node == nil:
     assert false, "Free list has no free memory"
     return nil
-  alignmentPadding = padding - sizeof(AllocationHeader)
-  requiredSpace = adjustedSize + padding
-  remaining = node.blockSize - requiredSpace
-  if remaining >= sizeof(FreeNodeObj):
+  let alignmentPadding = padding - sizeof(AllocationHeader)
+  var requiredSpace = adjustedSize + padding
+  let remaining = node.blockSize - requiredSpace
+  if remaining >= sizeof(int)*3:
     let newNode = cast[FreeNode](cast[uint](node) + requiredSpace.uint)
     newNode.blockSize = remaining
     nodeInsert(x.head, node, newNode)
   else:
     inc requiredSpace, remaining
   nodeRemove(x.head, prevNode, node)
-  headerPtr = cast[ptr AllocationHeader](cast[uint](node) + alignmentPadding.uint)
+  let headerPtr = cast[ptr AllocationHeader](cast[uint](node) + alignmentPadding.uint)
   headerPtr.blockSize = requiredSpace
   headerPtr.padding = alignmentPadding.uint8
   inc x.used, requiredSpace
@@ -145,7 +143,7 @@ proc free*(x: var FreeList, p: pointer) =
     return
   let header = cast[ptr AllocationHeader](cast[uint](p) - sizeof(AllocationHeader).uint)
   let padding = header.padding
-  var freeNode = cast[FreeNode](cast[uint](header) - padding.uint)
+  let freeNode = cast[FreeNode](cast[uint](header) - padding.uint)
   freeNode.blockSize = header.blockSize
   freeNode.next = nil
   var
