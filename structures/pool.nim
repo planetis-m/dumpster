@@ -46,11 +46,11 @@ proc init*[T](x: var FixedPool[T], buffer: openarray[byte]) =
 proc alloc*[T](x: var FixedPool[T]): ptr T =
   # Get latest free node
   let node = x.head
+  if node == nil:
+    assert false, "FixedPool allocator has no free memory"
+    return nil
+  # Pop free node
   guardedAccess(node):
-    if node == nil:
-      assert false, "FixedPool allocator has no free memory"
-      return nil
-    # Pop free node
     x.head = node.next
   # Zero memory by default
   unpoisonMemRegion(node, sizeof(T))
@@ -67,23 +67,21 @@ proc dealloc*[T](x: var FixedPool[T], p: ptr T) =
     assert false, "Memory is out of bounds of the buffer in this pool"
     return
   # Push free node
-  # poisonMemRegion(cast[pointer](cast[uint](p) + sizeof(FreeNode).uint), x.chunkSize - sizeof(FreeNode))
   let node = cast[ptr FreeNode](p)
   guardedAccess(node):
     node.next = x.head
-    x.head = node
+  x.head = node
 
 proc deallocAll*(x: var FixedPool) =
   let chunkCount = x.bufLen div x.chunkSize
   # Set all chunks to be free
   for i in 0 ..< chunkCount:
     let p = cast[pointer](cast[uint](x.buf) + uint(i * x.chunkSize))
-    # poisonMemRegion(cast[pointer](cast[uint](p) + sizeof(FreeNode).uint), x.chunkSize - sizeof(FreeNode))
     let node = cast[ptr FreeNode](p)
     guardedAccess(node):
       # Push free node onto the free list
       node.next = x.head
-      x.head = node
+    x.head = node
 
 when isMainModule:
   type
