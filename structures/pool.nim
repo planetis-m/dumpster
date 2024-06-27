@@ -78,8 +78,8 @@ proc deallocAll*(x: var FixedPool) =
   for i in 0 ..< chunkCount:
     let p = cast[pointer](cast[uint](x.buf) + uint(i * x.chunkSize))
     let node = cast[ptr FreeNode](p)
+    # Push free node onto the free list
     guardedAccess(node):
-      # Push free node onto the free list
       node.next = x.head
     x.head = node
 
