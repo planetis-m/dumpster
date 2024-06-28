@@ -4,7 +4,7 @@ import utils
 
 const
   MaxBins = when sizeof(int) > 2: 32 else: 16
-  MemAlign = when defined(amd64): 16 else: 8
+  MemAlign = sizeof(pointer) * 4
   MinChunkSize = MemAlign * 2
   MaxChunkSize = (high(int) shr 1) + 1
 
@@ -45,22 +45,22 @@ proc reBin(x: var FixedHeap, b: ptr Chunk) =
   # assert b != nil
   # assert b.header.size >= MinChunkSize
   # assert (b.header.size mod MinChunkSize) == 0
-  let i = log2Floor(b.header.size div MinChunkSize)
+  let idx = log2Floor(b.header.size div MinChunkSize)
   # assert i < MaxBins
   # Add the new block to the beginning of the bin list
-  b.nextFree = x.bins[i]
+  b.nextFree = x.bins[idx]
   b.prevFree = nil
-  if x.bins[i] != nil:
-    x.bins[i].prevFree = b
-  x.bins[i] = b
-  x.nonEmptyBinMask = x.nonEmptyBinMask or (1'u shl i)
+  if x.bins[idx] != nil:
+    x.bins[idx].prevFree = b
+  x.bins[idx] = b
+  x.nonEmptyBinMask = x.nonEmptyBinMask or pow2(idx.uint)
 
 proc unBin(x: var FixedHeap, b: ptr Chunk) =
   ## Removes the specified block from its bin.
   # assert b != nil
   # assert b.header.size >= MinChunkSize
   # assert (b.header.size mod MinChunkSize) == 0
-  let i = log2Floor(b.header.size div MinChunkSize)
+  let idx = log2Floor(b.header.size div MinChunkSize)
   # assert(i < MaxBins)
   # Remove the bin from the free block list
   if b.nextFree != nil:
@@ -68,11 +68,11 @@ proc unBin(x: var FixedHeap, b: ptr Chunk) =
   if b.prevFree != nil:
     b.prevFree.nextFree = b.nextFree
   # Update the bin header
-  if x.bins[i] == b:
+  if x.bins[idx] == b:
     # assert b.prevFree == nil
-    x.bins[i] = b.nextFree
-    if x.bins[i] == nil:
-      x.nonEmptyBinMask = x.nonEmptyBinMask and not (1'u shl i)
+    x.bins[idx] = b.nextFree
+    if x.bins[idx] == nil:
+      x.nonEmptyBinMask = x.nonEmptyBinMask and not pow2(idx.uint)
 
 proc createFixedHeap*(buffer: openarray[byte]): ptr FixedHeap =
   result = nil
@@ -107,16 +107,16 @@ proc createFixedHeap*(buffer: openarray[byte]): ptr FixedHeap =
     # assert result.nonEmptyBinMask != 0
 
 proc alloc(x: var FixedHeap, amount: int): pointer =
-  # assert x.diagnostics.capacity <= MaxChunkSize)
+  # assert x.capacity <= MaxChunkSize)
   result = nil
-  if amount > 0 and amount <= (x.diagnostics.capacity - MemAlign):
+  if amount > 0 and amount <= (x.capacity - MemAlign):
     let chunkSize = nextPowerOfTwo(amount + MemAlign)
     # assert chunkSize <= MaxChunkSize
     # assert chunkSize >= MinChunkSize
     # assert chunkSize >= amount + MemAlign
     # assert isPowerOfTwo(chunkSize)
 
-    let optimalBinIndex = log2Floor(chunkSize div MinChunkSize) # Use ceil when fetching.
+    let optimalBinIndex = log2Ceil(chunkSize div MinChunkSize) # Use ceil when fetching.
     # assert optimalBinIndex < MaxBins
     let candidateBinMask = not (pow2(optimalBinIndex) - 1)
 
@@ -135,7 +135,7 @@ proc alloc(x: var FixedHeap, amount: int): pointer =
       unBin(x, b)
       let leftover = b.header.size - chunkSize
       b.header.size = chunkSize
-      # assert leftover < x.diagnostics.capacity # Overflow check.
+      # assert leftover < x.capacity # Overflow check.
       # assert leftover mod MinChunkSize == 0 # Alignment check.
       if leftover >= MinChunkSize:
         let newBlock = cast[Chunk](cast[uint](b) + chunkSize)
@@ -145,35 +145,35 @@ proc alloc(x: var FixedHeap, amount: int): pointer =
         interlink(newBlock, b.header.next)
         interlink(b, newBlock)
         reBin(x, newBlock)
-      # assert (x.diagnostics.allocated mod MinChunkSize) == 0)
-      x.diagnostics.allocated += chunkSize
-      # assert x.diagnostics.allocated <= x.diagnostics.capacity
-      if x.diagnostics.peak_allocated < x.diagnostics.allocated:
-        x.diagnostics.peak_allocated = x.diagnostics.allocated
+      # assert (x.occ mod MinChunkSize) == 0)
+      x.occ += chunkSize
+      # assert x.occ <= x.capacity
+      if x.diagnostics.peak_allocated < x.occ:
+        x.diagnostics.peak_allocated = x.occ
       # assert b.header.size >= amount + MemAlign)
       b.header.used = true
       result = cast[pointer](cast[uint](b) + MemAlign)
 
-proc free(x: var FixedHeap, pointer: pointer) =
-  # assert x.diagnostics.capacity <= MaxChunkSize
-  if pointer != nil:  # NULL pointer is a no-op.
-    let b = cast[ptr Chunk](cast[uint](pointer) - MemAlign)
+proc free(x: var FixedHeap, p: pointer) =
+  # assert x.capacity <= MaxChunkSize
+  if p != nil:  # NULL pointer is a no-op.
+    let b = cast[ptr Chunk](cast[uint](p) - MemAlign)
     # Check for heap corruption in debug builds.
     # assert cast[uint](b) mod sizeof(pointer) == 0
     # assert cast[uint](b) >= (cast[uint](addr x) + InstanceSizePadded)
     # assert cast[uint](b) <=
-    #   (cast[uint](addr x) + InstanceSizePadded + x.diagnostics.capacity - MinChunkSize)
+    #   (cast[uint](addr x) + InstanceSizePadded + x.capacity - MinChunkSize)
     # assert b.header.used # Catch double-free
     # assert cast[uint](b.header.next) mod sizeof(pointer) == 0
     # assert cast[uint](b.header.prev) mod sizeof(pointer) == 0
     # assert b.header.size >= MinChunkSize
-    # assert b.header.size <= x.diagnostics.capacity
+    # assert b.header.size <= x.capacity
     # assert (b.header.size mod MinChunkSize) == 0
     # Even if we're going to drop the block later, mark it free anyway to prevent double-free.
     b.header.used = false
     # Update the diagnostics. It must be done before merging because it invalidates the block size information.
-    # assert x.diagnostics.allocated >= b.header.size # Heap corruption check.
-    x.diagnostics.allocated -= b.header.size
+    # assert x.occ >= b.header.size # Heap corruption check.
+    x.occ -= b.header.size
     # Merge with siblings and insert the returned block into the appropriate bin and update metadata.
     let prev = b.header.prev
     let next = b.header.next

@@ -17,11 +17,11 @@ const
   TlsfMaxSize = (1 shl (TlsfFlMax - 1)) - sizeof(int)
 
 type
-  Tlsf = object
+  MemRegion* = object
     fl: uint32
     sl: array[TlsfFlCount, uint32]
     region: array[TlsfFlCount, array[TlsfSlCount, ptr TlsfRegion]]
-    size: int
+    size, occ: int
 
   TlsfRegion = object
     prev: ptr TlsfRegion
@@ -47,22 +47,39 @@ const
   RegionSizeMax = 1 shl (FlMax - 1)
   RegionSizeSmall = 1 shl FlShift
 
-const
-  BufferSize = 1024 * 1024  # 1 MB, adjust as needed
-
-var
-  fixedBuffer: array[BufferSize, byte]
-  bufferStart: pointer = addr fixedBuffer[0]
-  bufferUsed: int = 0
-
 proc regionInsert(t: ptr Tlsf, region: ptr TlsfRegion) {.inline.}
 
-proc tlsfInit(): Tlsf =
-  result = Tlsf(size: 0)
+proc arenaGrow(t: ptr Tlsf; buffer: pointer; size: int): bool =
+  let reqSize = (if t.size != 0: t.size + RegionOverhead else: 2 * RegionOverhead) + size
+  # let p = tlsfResize(t, reqSize)
+  if p == nil:
+    return false
+  assert cast[int](p) mod AlignSize == 0, "wrong heap alignment address"
+  var region = toRegion(
+    if t.size != 0:
+      cast[pointer](cast[int](p) + t.size - 2 * RegionOverhead)
+    else:
+      cast[pointer](cast[int](p) - RegionOverhead)
+  )
+  if t.size == 0:
+    region.header = 0
+  checkSentinel(region)
+  region.header = region.header or (size or RegionBitFree)
+  region = mergePrev(t, region)
+  regionInsert(t, region)
+  let sentinel = regionLinkNext(region)
+  sentinel.header = RegionBitPrevFree
+  t.size = reqSize
+  checkSentinel(sentinel)
+  result = true
+
+proc init(x: var Tlsf; buffer: openarray[byte]): Tlsf =
+  x.size = 0
+  x.occ = 0
   # Initialize the first free region
-  let firstRegion = cast[ptr TlsfRegion](bufferStart)
-  firstRegion.header = (BufferSize - sizeof(TlsfRegion)).int or RegionBitFree
-  regionInsert(addr result, firstRegion)
+  let firstFree = cast[ptr TlsfRegion](buffer)
+  firstFree.header = (buffer.len - sizeof(TlsfRegion)) or RegionBitFree
+  regionInsert(x, firstFree)
 
 static:
   assert sizeof(int) == 4 or sizeof(int) == 8, "int must be 32 or 64 bit"
@@ -76,82 +93,77 @@ static:
   assert SlCount == TlsfSlCount, "invalid level configuration"
 
 proc bitmapFfs(x: uint32): uint32 {.inline.} =
-  result = uint32(countTrailingZeroBits(x))
+  result = uint32(firstSetBit(x))
   assert result != 0, "no set bit found"
 
 proc log2floor(x: int): uint32 {.inline.} =
   assert x > 0, "log2 of zero"
-  when sizeof(int) == 8:
-    result = uint32(63 - countLeadingZeroBits(uint64(x)))
-  else:
-    result = uint32(31 - countLeadingZeroBits(uint32(x)))
+  result = fastLog2(uint32(x))
 
-proc regionSize(region: ptr TlsfRegion): int {.inline.} =
-  result = region.header and not RegionBits
+proc size(x: TlsfRegion): int {.inline.} =
+  result = x.header and not RegionBits
 
-proc regionSetSize(region: ptr TlsfRegion, size: int) {.inline.} =
+proc setSize(x: var TlsfRegion, size: int) {.inline.} =
   assert size mod AlignSize == 0, "invalid size"
-  region.header = size or (region.header and RegionBits)
+  x.header = size or (x.header and RegionBits)
 
-proc regionIsFree(region: ptr TlsfRegion): bool {.inline.} =
-  result = (region.header and RegionBitFree) != 0
+proc isFree(x: TlsfRegion): bool {.inline.} =
+  (x.header and RegionBitFree) != 0
 
-proc regionIsPrevFree(region: ptr TlsfRegion): bool {.inline.} =
-  result = (region.header and RegionBitPrevFree) != 0
+proc isPrevFree(x: TlsfRegion): bool {.inline.} =
+  (x.header and RegionBitPrevFree) != 0
 
-proc regionSetPrevFree(region: ptr TlsfRegion, free: bool) {.inline.} =
+proc setPrevFree(x: var TlsfRegion, free: bool) {.inline.} =
   if free:
-    region.header = region.header or RegionBitPrevFree
+    x.header = x.header or RegionBitPrevFree
   else:
-    region.header = region.header and not RegionBitPrevFree
+    x.header = x.header and not RegionBitPrevFree
 
-proc alignUp(x, align: int): int {.inline.} =
+proc alignup(x, align: int): int {.inline.} =
   assert isPowerOfTwo(align), "must align to a power of two"
-  result = (((x - 1) or (align - 1)) + 1)
+  result = ((x - 1) or (align - 1)) + 1
 
-proc alignPtr(p: pointer, align: int): pointer {.inline.} =
-  result = cast[pointer](alignUp(cast[int](p), align))
+proc alignptr(p: pointer, align: int): pointer {.inline.} =
+  result = cast[pointer](alignup(cast[int](p), align))
 
-proc regionPayload(region: ptr TlsfRegion): pointer {.inline.} =
-  result = cast[pointer](cast[int](region) + offsetOf(TlsfRegion, header) + RegionOverhead)
+proc payload(x: TlsfRegion): pointer {.inline.} =
+  result = cast[pointer](cast[int](x) + offsetOf(TlsfRegion, header) + RegionOverhead)
 
 proc toRegion(p: pointer): ptr TlsfRegion {.inline.} =
   result = cast[ptr TlsfRegion](p)
-  assert regionPayload(result) == alignPtr(regionPayload(result), AlignSize), "region not aligned properly"
+  assert regionPayload(result) == alignptr(payload(result), AlignSize), "region not aligned properly"
 
-proc regionFromPayload(p: pointer): ptr TlsfRegion {.inline.} =
+proc fromPayload(p: pointer): ptr TlsfRegion {.inline.} =
   result = toRegion(cast[pointer](cast[int](p) - offsetOf(TlsfRegion, header) - RegionOverhead))
 
-proc regionPrev(region: ptr TlsfRegion): ptr TlsfRegion {.inline.} =
-  assert regionIsPrevFree(region), "previous region must be free"
-  result = region.prev
+proc prev(x: TlsfRegion): ptr TlsfRegion {.inline.} =
+  assert isPrevFree(x), "previous region must be free"
+  result = x.prev
 
-proc regionNext(region: ptr TlsfRegion): ptr TlsfRegion {.inline.} =
-  result = toRegion(cast[pointer](cast[int](regionPayload(region)) + regionSize(region) - RegionOverhead))
-  assert regionSize(region) != 0, "region is last"
+proc next(x: TlsfRegion): ptr TlsfRegion {.inline.} =
+  result = toRegion(cast[pointer](cast[int](payload(x)) + size(x) - RegionOverhead))
+  assert size(x) != 0, "region is last"
 
-proc regionLinkNext(region: ptr TlsfRegion): ptr TlsfRegion {.inline.} =
-  result = regionNext(region)
-  result.prev = region
+proc linkNext(x: TlsfRegion): ptr TlsfRegion {.inline.} =
+  result = next(x)
+  result.prev = x
 
-proc regionCanSplit(region: ptr TlsfRegion, size: int): bool {.inline.} =
-  result = regionSize(region) >= sizeof(TlsfRegion) + size
+proc canSplit(x: TlsfRegion, size: int): bool {.inline.} =
+  result = size(x) >= sizeof(TlsfRegion) + size
 
-proc regionSetFree(region: ptr TlsfRegion, free: bool) {.inline.} =
-  assert regionIsFree(region) != free, "region free bit unchanged"
+proc setFree(x: var TlsfRegion, free: bool) {.inline.} =
+  assert isFree(x) != free, "region free bit unchanged"
   if free:
-    region.header = region.header or RegionBitFree
+    x.header = x.header or RegionBitFree
   else:
-    region.header = region.header and not RegionBitFree
-  regionSetPrevFree(regionLinkNext(region), free)
+    x.header = x.header and not RegionBitFree
+  setPrevFree(linkNext(x), free)
 
 proc adjustSize(size, align: int): int {.inline.} =
-  result = alignUp(size, align)
-  if result < RegionSizeMin:
-    result = RegionSizeMin
+  result = max(alignup(size, align), RegionSizeMin)
 
 proc roundRegionSize(size: int): int {.inline.} =
-  let t = (1 shl (log2floor(size) - SlShift)) - 1
+  let t = (1 shl (fastLog2(size) - SlShift)) - 1
   if size >= RegionSizeSmall:
     result = (size + t) and not t
   else:
@@ -162,7 +174,7 @@ proc mapping(size: int, fl, sl: var uint32) {.inline.} =
     fl = 0
     sl = uint32(size div (RegionSizeSmall div SlCount))
   else:
-    let t = log2floor(size)
+    let t = fastLog2(size)
     sl = uint32((size shr (t - SlShift)) xor SlCount)
     fl = uint32(t - FlShift + 1)
   assert fl < FlCount, "wrong first level"
@@ -237,7 +249,7 @@ proc regionAbsorb(prev, region: ptr TlsfRegion): ptr TlsfRegion {.inline.} =
   discard regionLinkNext(prev)
   result = prev
 
-proc regionMergePrev(t: ptr Tlsf, region: ptr TlsfRegion): ptr TlsfRegion {.inline.} =
+proc mergePrev(t: var Tlsf, region: ptr TlsfRegion): ptr TlsfRegion {.inline.} =
   result = region
   if regionIsPrevFree(region):
     let prev = regionPrev(region)
@@ -285,54 +297,6 @@ proc regionUse(t: ptr Tlsf, region: ptr TlsfRegion, size: int): pointer {.inline
   regionRtrimFree(t, region, size)
   regionSetFree(region, false)
   result = regionPayload(region)
-
-proc checkSentinel(region: ptr TlsfRegion) {.inline.} =
-  assert regionSize(region) == 0, "sentinel should be last"
-  assert not regionIsFree(region), "sentinel region should not be free"
-
-
-proc tlsfResize(t: ptr Tlsf, reqSize: int): pointer =
-  if reqSize <= BufferSize - bufferUsed:
-    result = cast[pointer](cast[int](bufferStart) + bufferUsed)
-    bufferUsed = reqSize
-  else:
-    result = nil
-
-proc arenaGrow(t: ptr Tlsf, size: int): bool =
-  let reqSize = (if t.size != 0: t.size + RegionOverhead else: 2 * RegionOverhead) + size
-  let p = tlsfResize(t, reqSize)
-  if p == nil:
-    return false
-  assert cast[int](p) mod AlignSize == 0, "wrong heap alignment address"
-  var region = toRegion(
-    if t.size != 0:
-      cast[pointer](cast[int](p) + t.size - 2 * RegionOverhead)
-    else:
-      cast[pointer](cast[int](p) - RegionOverhead)
-  )
-  if t.size == 0:
-    region.header = 0
-  checkSentinel(region)
-  region.header = region.header or (size or RegionBitFree)
-  region = regionMergePrev(t, region)
-  regionInsert(t, region)
-  let sentinel = regionLinkNext(region)
-  sentinel.header = RegionBitPrevFree
-  t.size = reqSize
-  checkSentinel(sentinel)
-  result = true
-
-proc arenaShrink(t: ptr Tlsf, region: ptr TlsfRegion) =
-  checkSentinel(regionNext(region))
-  let size = regionSize(region)
-  assert t.size + RegionOverhead >= size, "invalid heap size before shrink"
-  t.size = t.size - size - RegionOverhead
-  if t.size == RegionOverhead:
-    t.size = 0
-  discard tlsfResize(t, t.size)
-  if t.size != 0:
-    region.header = 0
-    checkSentinel(region)
 
 proc regionFindFree(t: ptr Tlsf, size: int): ptr TlsfRegion {.inline.} =
   let rounded = roundRegionSize(size)
@@ -384,27 +348,25 @@ proc tlsfFree*(t: ptr Tlsf, mem: pointer) =
   else:
     regionInsert(t, region)
 
-proc memcpy(dst, src: pointer, size: int) {.importc, header: "<string.h>".}
-
-proc tlsfRealloc*(t: ptr Tlsf, mem: pointer, size: int): pointer =
+proc tlsfRealloc*(t: var Tlsf, mem: pointer, size: int): pointer =
   if unlikely(mem != nil and size == 0):
     tlsfFree(t, mem)
     return nil
   if unlikely(mem == nil):
     return tlsfMalloc(t, size)
-  var region = regionFromPayload(mem)
-  let avail = regionSize(region)
+  var region = fromPayload(mem)
+  let avail = size(region)
   let adjustedSize = adjustSize(size, AlignSize)
   if unlikely(adjustedSize > TlsfMaxSize):
     return nil
-  assert not regionIsFree(region), "region already marked as free"
+  assert not isFree(region), "region already marked as free"
   if adjustedSize > avail:
-    let next = regionNext(region)
-    if not regionIsFree(next) or
-       adjustedSize > avail + regionSize(next) + RegionOverhead:
+    let next = next(region)
+    if not isFree(next) or
+       adjustedSize > avail + size(next) + RegionOverhead:
       result = tlsfMalloc(t, adjustedSize)
       if result != nil:
-        memcpy(result, mem, avail)
+        copyMem(result, mem, avail)
         tlsfFree(t, mem)
       return result
     discard regionMergeNext(t, region)
