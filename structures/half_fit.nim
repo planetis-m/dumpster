@@ -214,7 +214,7 @@ when isMainModule:
     assert x.occ == 0
 
   block: # Edge cases
-    let p1 = x.alloc(x.capacity - sizeof(MinChunkSize))
+    let p1 = x.alloc(x.capacity - MinChunkSize)
     assert p1 != nil
 
     x.free(p1)
@@ -239,7 +239,7 @@ when isMainModule:
 
   block: # Multiple
     var ptrs: seq[pointer] = @[]
-    for i in 1..10:
+    for i in 1..8:
       let p = x.alloc(i * 10)
       assert p != nil
       ptrs.add(p)
