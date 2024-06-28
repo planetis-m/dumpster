@@ -78,8 +78,8 @@ proc createFixedHeap*(buffer: openarray[byte]): ptr FixedHeap =
   result = nil
   let base = cast[pointer](buffer)
   let size = buffer.len
-  if (base != nil) and (cast[uint](base) mod MemAlign == 0) and
-     (size >= InstanceSizePadded + MinChunkSize):
+  if base != nil and cast[uint](base) mod MemAlign == 0 and
+      size >= InstanceSizePadded + MinChunkSize:
     # Allocate the core heap metadata structure in the beginning of the arena
     result = cast[ptr FixedHeap](base)
     result.nonEmptyBinMask = 0
@@ -89,7 +89,7 @@ proc createFixedHeap*(buffer: openarray[byte]): ptr FixedHeap =
     var capacity = size - InstanceSizePadded
     if capacity > MaxChunkSize:
       capacity = MaxChunkSize
-    while (capacity mod MinChunkSize) != 0:
+    while capacity mod MinChunkSize != 0:
       # assert capacity > 0
       dec(capacity)
     # assert capacity mod MinChunkSize == 0
@@ -109,7 +109,7 @@ proc createFixedHeap*(buffer: openarray[byte]): ptr FixedHeap =
 proc alloc(x: var FixedHeap, amount: int): pointer =
   # assert x.capacity <= MaxChunkSize)
   result = nil
-  if amount > 0 and amount <= (x.capacity - MemAlign):
+  if amount > 0 and amount <= x.capacity - MemAlign:
     let chunkSize = nextPowerOfTwo(amount + MemAlign)
     # assert chunkSize <= MaxChunkSize
     # assert chunkSize >= MinChunkSize
@@ -118,13 +118,13 @@ proc alloc(x: var FixedHeap, amount: int): pointer =
 
     let optimalBinIndex = log2Ceil(chunkSize div MinChunkSize) # Use ceil when fetching.
     # assert optimalBinIndex < MaxBins
-    let candidateBinMask = not (pow2(optimalBinIndex) - 1)
+    let candidateBinMask = not (pow2(optimalBinIndex.uint) - 1)
 
     let suitableBins = x.nonEmptyBinMask and candidateBinMask
     let smallestBinMask = suitableBins and not (suitableBins - 1)  # Clear all bits but the lowest.
     if smallestBinMask != 0:
       # assert isPowerOfTwo(smallestBinMask)
-      let binIndex = log2Floor(smallestBinMask)
+      let binIndex = log2Floor(smallestBinMask.int)
       # assert binIndex >= optimalBinIndex
       # assert binIndex < MaxBins
       let b = x.bins[binIndex]
@@ -138,7 +138,7 @@ proc alloc(x: var FixedHeap, amount: int): pointer =
       # assert leftover < x.capacity # Overflow check.
       # assert leftover mod MinChunkSize == 0 # Alignment check.
       if leftover >= MinChunkSize:
-        let newBlock = cast[Chunk](cast[uint](b) + chunkSize)
+        let newBlock = cast[ptr Chunk](cast[uint](b) + chunkSize.uint)
         # assert cast[uint](newBlock) mod MemAlign == 0)
         newBlock.header.size = leftover
         newBlock.header.used = false
@@ -148,8 +148,8 @@ proc alloc(x: var FixedHeap, amount: int): pointer =
       # assert (x.occ mod MinChunkSize) == 0)
       x.occ += chunkSize
       # assert x.occ <= x.capacity
-      if x.diagnostics.peak_allocated < x.occ:
-        x.diagnostics.peak_allocated = x.occ
+      # if x.maxMem < x.occ:
+      #   x.maxMem = x.occ
       # assert b.header.size >= amount + MemAlign)
       b.header.used = true
       result = cast[pointer](cast[uint](b) + MemAlign)

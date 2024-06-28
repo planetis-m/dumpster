@@ -20,10 +20,10 @@ proc pow2*(power: uint): uint {.inline.} =
   # Raise 2 into the specified power.
   result = 1'u shl power
 
-proc alignUp*(n, align: uint): uint {.inline.} =
-  (n + align - 1) and (not (align - 1))
+proc alignUp*(n: uint, align: int): int {.inline.} =
+  int((n + align.uint - 1) and (not (align.uint - 1)))
 
-proc alignUp(p: pointer, align: uint): pointer {.inline.} =
+proc alignUp*(p: pointer, align: int): pointer {.inline.} =
   cast[pointer](alignUp(cast[uint](p), align))
 
 proc alignOffset*(base: pointer, align: uint): uint {.inline.} =

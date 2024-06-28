@@ -46,7 +46,7 @@ proc addToBin(x: var FixedHeap, b: ptr Chunk) =
   if x.bins[idx] != nil:
     x.bins[idx].prevFree = b
   x.bins[idx] = b
-  x.nonEmptyBinMask = x.nonEmptyBinMask or pow2(idx.uint) # if x.bins[idx] == nil
+  x.nonEmptyBinMask = x.nonEmptyBinMask or pow2(idx.uint)
 
 proc delFromBin(x: var FixedHeap, b: ptr Chunk) =
   ## Removes the specified block from its bin.
@@ -64,15 +64,15 @@ proc delFromBin(x: var FixedHeap, b: ptr Chunk) =
 
 proc createFixedHeap*(buffer: openarray[byte]): FixedHeap =
   result = FixedHeap()
-  let padding = alignOffset(cast[pointer](buffer), MemAlign)
-  let base = cast[pointer](cast[uint](buffer) + padding)
+  let base = alignUp(cast[pointer](buffer), MemAlign)
+  let padding = cast[uint](base) - cast[uint](base)
   let size = buffer.len - padding.int
   if base != nil and size >= MinChunkSize:
     # Limit and align the capacity
     var capacity = size
     if capacity > MaxChunkSize:
       capacity = MaxChunkSize
-    while (capacity mod MinChunkSize) != 0:
+    while capacity mod MinChunkSize != 0:
       dec(capacity)
     # Initialize the root block
     let b = cast[ptr Chunk](base)
