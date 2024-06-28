@@ -191,14 +191,92 @@ proc free(x: var FixedHeap, p: pointer) =
       addToBin(x, b)
 
 when isMainModule:
+  import std/random
+
   const BufferSize = 1024
   var backingBuffer: array[BufferSize, byte]
   var x = createFixedHeap(backingBuffer)
-  import strutils
+
   block:
-    let p2 = x.alloc(134)
-    echo cast[uint](p2).toHex
-    let p1 = x.alloc(120)
-    echo cast[uint](p1).toHex
+    assert x.occ == 0
+
+    let p1 = x.alloc(100)
     assert p1 != nil
-    free(x, p1)
+    assert x.occ > 100
+
+    let p2 = x.alloc(200)
+    assert p2 != nil
+    assert cast[uint](p2) > cast[uint](p1)
+
+    x.free(p1)
+
+    x.free(p2)
+    assert x.occ == 0
+
+  block: # Edge cases
+    let p1 = x.alloc(x.capacity - sizeof(MinChunkSize))
+    assert p1 != nil
+
+    x.free(p1)
+    assert x.occ == 0
+
+    let p2 = x.alloc(x.capacity * 2)
+    assert p2 == nil
+
+  block: # Coalescence
+    let p1 = x.alloc(100)
+    let p2 = x.alloc(100)
+    let p3 = x.alloc(100)
+
+    x.free(p2)  # Create a hole
+    let usedAfterFree = x.occ
+
+    x.free(p1)  # Should coalesce with the hole
+    assert x.occ < usedAfterFree
+
+    x.free(p3)  # Should coalesce everything back
+    assert x.occ == 0
+
+  block: # Multiple
+    var ptrs: seq[pointer] = @[]
+    for i in 1..10:
+      let p = x.alloc(i * 10)
+      assert p != nil
+      ptrs.add(p)
+
+    for p in ptrs:
+      x.free(p)
+
+    assert x.occ == 0
+
+  block:
+    let p1 = x.alloc(100)
+    let p2 = x.alloc(100)
+    x.free(p1)
+
+    let p3 = x.alloc(50)
+
+    assert cast[uint](p3) < cast[uint](p2)
+
+    x.free(p2)
+    x.free(p3)
+
+    assert x.occ == 0
+
+  block: # stress test
+    var ptrs: seq[pointer] = @[]
+    for i in 1..100:
+      let size = rand(1..50)
+      let p = x.alloc(size)
+      if p != nil:
+        ptrs.add(p)
+
+    for i in 0..<ptrs.len:
+      if i mod 2 == 0:
+        x.free(ptrs[i])
+
+    for i in 0..<ptrs.len:
+      if i mod 2 != 0:
+        x.free(ptrs[i])
+
+    assert x.occ == 0
