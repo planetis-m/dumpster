@@ -1,3 +1,4 @@
+# https://forum.nim-lang.org/t/11893
 type
   StableChunk[T] = object
     next: ptr StableChunk[T]
@@ -89,8 +90,8 @@ when isMainModule:
   s[500] = 7
   s[998] = 13
 
-  for elem in s:
-    echo elem
+  # for elem in s:
+  #   echo elem
 
   for i in countup(0, 990, 100):
     echo "s[", i, "] = ", s[i]
