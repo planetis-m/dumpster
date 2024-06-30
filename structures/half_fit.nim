@@ -3,10 +3,10 @@ from std/math import isPowerOfTwo
 import utils
 
 const
-  MaxBins = when sizeof(int) > 2: 32 else: 16
+  MaxBins = when sizeof(int) > 2: 32 else: 20
   MemAlign = sizeof(pointer) * 4
   MinChunkSize = MemAlign * 2
-  MaxChunkSize = (high(int) shr 1) + 1
+  MaxChunkSize = high(int) shr 1 + 1
 
 static:
   assert isPowerOfTwo(MemAlign)
@@ -28,7 +28,7 @@ type
   FixedHeap = object
     bins: array[MaxBins, ptr Chunk]
     nonEmptyBinMask: uint
-    capacity, occ: int
+    capacity, occupied: int
 
 proc interlink(left, right: ptr Chunk) =
   ## Links two blocks so that their next/prev pointers point to each other; left goes before right.
@@ -50,7 +50,7 @@ proc addToBin(x: var FixedHeap, b: ptr Chunk) =
   if x.bins[idx] != nil:
     x.bins[idx].prevFree = b
   x.bins[idx] = b
-  x.nonEmptyBinMask = x.nonEmptyBinMask or pow2(idx.uint)
+  x.nonEmptyBinMask = x.nonEmptyBinMask or pow2(idx).uint
 
 proc delFromBin(x: var FixedHeap, b: ptr Chunk) =
   ## Removes the specified block from its bin.
@@ -69,7 +69,7 @@ proc delFromBin(x: var FixedHeap, b: ptr Chunk) =
     assert b.prevFree == nil
     x.bins[idx] = b.nextFree
     if x.bins[idx] == nil:
-      x.nonEmptyBinMask = x.nonEmptyBinMask and not pow2(idx.uint)
+      x.nonEmptyBinMask = x.nonEmptyBinMask and not pow2(idx).uint
 
 proc createFixedHeap*(buffer: openarray[byte]): FixedHeap =
   result = FixedHeap()
@@ -110,8 +110,8 @@ proc alloc(x: var FixedHeap, amount: int): pointer =
     assert isPowerOfTwo(chunkSize)
     let optimalBinIndex = log2Ceil(chunkSize div MinChunkSize) # Use ceil when fetching
     assert optimalBinIndex < MaxBins
-    let candidateBinMask = not (pow2(optimalBinIndex.uint) - 1)
-    let suitableBins = x.nonEmptyBinMask and candidateBinMask
+    let candidateBinMask = not (pow2(optimalBinIndex) - 1)
+    let suitableBins = x.nonEmptyBinMask and candidateBinMask.uint
     let smallestBinMask = suitableBins and not (suitableBins - 1) # Clear all bits but the lowest
     if smallestBinMask != 0:
       assert isPowerOfTwo(smallestBinMask.int)
@@ -136,9 +136,9 @@ proc alloc(x: var FixedHeap, amount: int): pointer =
         interlink(newBlock, b.header.next)
         interlink(b, newBlock)
         addToBin(x, newBlock)
-      assert x.occ mod MinChunkSize == 0
-      inc x.occ, chunkSize
-      assert x.occ <= x.capacity
+      assert x.occupied mod MinChunkSize == 0
+      inc x.occupied, chunkSize
+      assert x.occupied <= x.capacity
       assert b.header.size >= amount + MemAlign
       b.header.used = true
       result = cast[pointer](cast[uint](b) + MemAlign)
@@ -157,8 +157,8 @@ proc free(x: var FixedHeap, p: pointer) =
     # Even if we're going to drop the block later, mark it free anyway to prevent double-free
     b.header.used = false
     # Update the diagnostics. It must be done before merging because it invalidates the block size information.
-    assert x.occ >= b.header.size # Heap corruption check
-    dec x.occ, b.header.size
+    assert x.occupied >= b.header.size # Heap corruption check
+    dec x.occupied, b.header.size
     # Merge with siblings and insert the returned block into the appropriate bin and update metadata.
     let prev = b.header.prev
     let next = b.header.next
@@ -191,18 +191,20 @@ proc free(x: var FixedHeap, p: pointer) =
       addToBin(x, b)
 
 when isMainModule:
-  import std/random
+  import std/random, strutils
 
+  proc `$`(x: ptr Chunk): string =
+    $cast[uint](x)
   const BufferSize = 1024
   var backingBuffer: array[BufferSize, byte]
   var x = createFixedHeap(backingBuffer)
 
   block:
-    assert x.occ == 0
+    assert x.occupied == 0
 
     let p1 = x.alloc(100)
     assert p1 != nil
-    assert x.occ > 100
+    assert x.occupied > 100
 
     let p2 = x.alloc(200)
     assert p2 != nil
@@ -211,14 +213,14 @@ when isMainModule:
     x.free(p1)
 
     x.free(p2)
-    assert x.occ == 0
+    assert x.occupied == 0
 
   block: # Edge cases
     let p1 = x.alloc(x.capacity - MinChunkSize)
     assert p1 != nil
 
     x.free(p1)
-    assert x.occ == 0
+    assert x.occupied == 0
 
     let p2 = x.alloc(x.capacity * 2)
     assert p2 == nil
@@ -229,13 +231,13 @@ when isMainModule:
     let p3 = x.alloc(100)
 
     x.free(p2)  # Create a hole
-    let usedAfterFree = x.occ
+    let usedAfterFree = x.occupied
 
     x.free(p1)  # Should coalesce with the hole
-    assert x.occ < usedAfterFree
+    assert x.occupied < usedAfterFree
 
     x.free(p3)  # Should coalesce everything back
-    assert x.occ == 0
+    assert x.occupied == 0
 
   block: # Multiple
     var ptrs: seq[pointer] = @[]
@@ -247,7 +249,7 @@ when isMainModule:
     for p in ptrs:
       x.free(p)
 
-    assert x.occ == 0
+    assert x.occupied == 0
 
   block:
     let p1 = x.alloc(100)
@@ -261,7 +263,7 @@ when isMainModule:
     x.free(p2)
     x.free(p3)
 
-    assert x.occ == 0
+    assert x.occupied == 0
 
   block: # stress test
     var ptrs: seq[pointer] = @[]
@@ -279,4 +281,16 @@ when isMainModule:
       if i mod 2 != 0:
         x.free(ptrs[i])
 
-    assert x.occ == 0
+    assert x.occupied == 0
+
+  block:
+    let buffer = newSeq[byte](pow2(20)) # fill 13 bins
+    var x = createFixedHeap(buffer)
+    var allocs: array[1..13, pointer]
+    for i, p in allocs.mpairs:
+      p = x.alloc(pow2(i+6) - MinChunkSize)
+      assert p != nil
+      # echo (memory: x.occupied)
+      # echo (binmask: toBin(x.nonEmptyBinMask.int, 64))
+    for p in allocs:
+      x.free(p)
