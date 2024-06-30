@@ -191,10 +191,8 @@ proc free(x: var FixedHeap, p: pointer) =
       addToBin(x, b)
 
 when isMainModule:
-  import std/random, strutils
+  import std/random
 
-  proc `$`(x: ptr Chunk): string =
-    $cast[uint](x)
   const BufferSize = 1024
   var backingBuffer: array[BufferSize, byte]
   var x = createFixedHeap(backingBuffer)
@@ -294,3 +292,5 @@ when isMainModule:
       # echo (binmask: toBin(x.nonEmptyBinMask.int, 64))
     for p in allocs:
       x.free(p)
+      # echo (binmask: toBin(x.nonEmptyBinMask.int, 64))
+      # echo (bins: x.bins)
