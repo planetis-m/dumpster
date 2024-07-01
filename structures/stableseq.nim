@@ -83,17 +83,20 @@ when isMainModule:
   # Test reading values
   echo "s[0] = ", s[0]
   echo "s[500] = ", s[500]
-  echo "s[998] = ", s[998]
+  echo "s[900] = ", s[900]
 
   # Test writing values
   s[0] = 5
   s[500] = 7
-  s[998] = 13
+  s[900] = 13
 
   # for elem in s:
   #   echo elem
 
   for i in countup(0, 990, 100):
+    echo "s[", i, "] = ", s[i]
+
+  for i in countdown(900, 0, 100):
     echo "s[", i, "] = ", s[i]
 
   destroy s
