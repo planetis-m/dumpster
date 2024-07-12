@@ -29,10 +29,7 @@ proc init*[T](x: var FixedPool[T], buffer: openarray[byte]) =
   let alignedStart = alignup(start, maxAlign)
   let alignedLen = buffer.len - int(alignedStart - start)
   # Align chunk size up to the required chunkAlignment
-  when not supportsCopyMem(T):
-    let alignedSize = alignup(sizeof(PoolElement[T]).uint, maxAlign).int
-  else:
-    let alignedSize = alignup(sizeof(T).uint, maxAlign).int
+  let alignedSize = alignup(sizeof(PoolElement[T]).uint, maxAlign).int
   # Assert that the parameters passed are valid
   assert sizeof(T) >= sizeof(FreeNode), "Chunk size is too small"
   assert alignedLen >= alignedSize, "Backing buffer length is smaller than the chunk size"
@@ -53,10 +50,9 @@ proc alloc*[T](x: var FixedPool[T]): ptr T =
   # Pop free node
   x.head = node.next
   # Zero memory by default
-  when not supportsCopyMem(T):
-    let e = cast[ptr PoolElement[T]](node)
-    assert not e.used # Forgot to free
-    e.used = true
+  let e = cast[ptr PoolElement[T]](node)
+  assert not e.used # Forgot to free
+  e.used = true
   zeroMem(node, sizeof(T))
   result = cast[ptr T](node)
 
@@ -70,11 +66,11 @@ proc dealloc*[T](x: var FixedPool[T], p: ptr T) =
     assert false, "Memory is out of bounds of the buffer in this pool"
     return
   # Push free node
+  let e = cast[ptr PoolElement[T]](p)
+  assert e.used # Catch double-free
   when not supportsCopyMem(T):
-    let e = cast[ptr PoolElement[T]](p)
-    assert e.used # Catch double-free
     `=destroy`(e.data)
-    e.used = false
+  e.used = false
   let node = cast[ptr FreeNode](p)
   node.next = x.head
   x.head = node
@@ -84,10 +80,10 @@ proc deallocAll*[T](x: var FixedPool[T]) =
   # Set all chunks to be free
   for i in 0 ..< chunkCount:
     let p = cast[pointer](cast[uint](x.buf) + uint(i * x.chunkSize))
+    let e = cast[ptr PoolElement[T]](p)
     when not supportsCopyMem(T):
-      let e = cast[ptr PoolElement[T]](p)
       if e.used: `=destroy`(e.data)
-      e.used = false
+    e.used = false
     let node = cast[ptr FreeNode](p)
     # Push free node onto the free list
     node.next = x.head
