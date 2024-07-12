@@ -1,5 +1,6 @@
 # https://www.gingerbill.org/article/2021/11/30/memory-allocation-strategies-005/
 # https://youtu.be/UTii4dyhR5c
+# https://youtu.be/sP7xRUyP3e0
 
 type
   AllocationHeader = object

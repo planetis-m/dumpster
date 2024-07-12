@@ -21,7 +21,7 @@ proc add*[T](s: var StableSeq[T], v: sink T): ptr T =
   while i >= s.data.len:
     let p = cast[ptr UncheckedArray[T]](alloc0(sizeof(T)*pow2(s.data.len)))
     s.data.add p
-  s.len += 1
+  inc s.len
   result = s.data[i][j].addr
   result[] = ensureMove(v)
 
@@ -30,7 +30,7 @@ proc `[]`*[T](s: var StableSeq[T], k: int): var T =
   let j = k+1 - pow2(i)
   return s.data[i][j]
 
-proc `[]=`*[T](s: var StableSeq[T], k: int, v: sink T)=
+proc `[]=`*[T](s: var StableSeq[T], k: int, v: sink T) =
   let i = log2(k+1)
   let j = k+1 - pow2(i)
   s.data[i][j] = v
