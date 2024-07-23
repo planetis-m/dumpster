@@ -9,9 +9,10 @@ const
   Complete = 2
 
 template once*(o: Once, body: untyped) =
-  let notCalled = Incomplete
-  if atomicCompareExchangeN(addr o.int, unsafeAddr notCalled,
-      Running, false, AtomicRelease, AtomicRelaxed):
+  var expected = Incomplete
+  if atomicLoadN(addr o.int, AtomicRelaxed) == Incomplete and
+      atomicCompareExchangeN(addr o.int, addr expected, Running, false,
+          AtomicAcquire, AtomicRelaxed):
     body
     atomicStoreN(addr o.int, Complete, AtomicRelease)
   else:

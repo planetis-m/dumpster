@@ -2,10 +2,13 @@ import std/[times, stats, strformat, random]
 import pools_destroy
 
 type
-  Vector2D = object
-    x, y: float32
+  Matrix = object
+    m0, m4, m8, m12: float
+    m1, m5, m9, m13: float
+    m2, m6, m10, m14: float
+    m3, m7, m11, m15: float
 
-# proc `=destroy`(v: Vector2D) =
+# proc `=destroy`(v: Matrix) =
 #   discard
 
 const
@@ -13,10 +16,10 @@ const
 
 proc runThroughputBenchmark(duration: float, poolSize: int) =
   var backingBuffer {.align: DefaultAlignment.}: array[1024 * 1024, byte]
-  var pool: FixedPool[Vector2D]
+  var pool: FixedPool[Matrix]
   init(pool, backingBuffer)
 
-  var ptrs = newSeq[ptr Vector2D](poolSize)
+  var ptrs = newSeq[ptr Matrix](poolSize)
   var allocated = newSeq[bool](poolSize)
   var operationCount: int = 0
   var throughputStats: RunningStat
