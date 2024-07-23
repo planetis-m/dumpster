@@ -1,7 +1,9 @@
 # https://github.com/llvm/llvm-project/tree/main/libc/src/threads
+import std/atomics
 
 type
-  Once* = distinct int
+  Once* = object
+    flag: Atomic[int]
 
 const
   Incomplete = 0
@@ -10,13 +12,12 @@ const
 
 template once*(o: Once, body: untyped) =
   var expected = Incomplete
-  if atomicLoadN(addr o.int, AtomicRelaxed) == Incomplete and
-      atomicCompareExchangeN(addr o.int, addr expected, Running, false,
-          AtomicAcquire, AtomicRelaxed):
+  if load(o.flag, moRelaxed) == Incomplete and
+      compareExchange(o.flag, expected, Running, moAcquire, moRelaxed):
     body
-    atomicStoreN(addr o.int, Complete, AtomicRelease)
+    store(o.flag, Complete, moRelease)
   else:
-    while atomicLoadN(addr o.int, AtomicAcquire) != Complete: cpuRelax()
+    while load(o.flag, moAcquire) != Complete: cpuRelax()
 
 var o: Once
 proc smokeOnce() =
