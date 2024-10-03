@@ -32,37 +32,35 @@ proc newDotAsgn(tmp: NimNode, key: string, x: NimNode): NimNode =
   result = newTree(nnkAsgn, newDotExpr(tmp, newIdentNode key), x)
 
 proc traverse(n, dest: NimNode): NimNode =
-  if n.kind in nnkCallKinds:
-    if n[0].eqIdent("asis"):
+  if n.kind in nnkCallKinds - {nnkInfix}:
+    let op = normalize(getName(n[0]))
+    if isNimNode(op):
+      let tmpTree = genSym(nskVar, "tmpTree")
+      result = newTree(nnkStmtList,
+        newVarStmt(tmpTree, newCall(bindSym"newNimNode", ident("nnk" & op))))
+      for i in 1..<n.len:
+        let x = n[i]
+        if x.kind == nnkExprEqExpr:
+          let key = normalize(getName(x[0]))
+          if key in SpecialAttrs:
+            result.add newDotAsgn(tmpTree, key, x[1])
+          else: error("Unsupported setter: " & key, x)
+        else:
+          result.add traverse(x, tmpTree)
+      if dest != nil:
+        result.add newCall(bindSym"add", dest, tmpTree)
+    elif op == "ident":
       expectLen n, 2
+      if dest != nil:
+        result = newCall(bindSym"add", dest, n)
+    elif op == "!" and n.len == 2:
       if dest != nil:
         result = newCall(bindSym"add", dest, n[1])
     else:
-      let op = normalize(getName(n[0]))
-      if isNimNode(op):
-        let tmpTree = genSym(nskVar, "tmpTree")
-        result = newTree(nnkStmtList,
-          newVarStmt(tmpTree, newCall(bindSym"newNimNode", ident("nnk" & op))))
-        for i in 1..<n.len:
-          let x = n[i]
-          if x.kind == nnkExprEqExpr:
-            let key = normalize(getName(x[0]))
-            if key in SpecialAttrs:
-              result.add newDotAsgn(tmpTree, key, x[1])
-            else: error("Unsupported setter: " & key, x)
-          else:
-            result.add traverse(x, tmpTree)
-        if dest != nil:
-          result.add newCall(bindSym"add", dest, tmpTree)
-      elif op == "ident":
-        expectLen n, 2
-        if dest != nil:
-          result = newCall(bindSym"add", dest, n)
-      else:
-        result = copyNimNode(n)
-        result.add n[0]
-        for i in 1..<n.len:
-          result.add traverse(n[i], nil)
+      result = copyNimNode(n)
+      result.add n[0]
+      for i in 1..<n.len:
+        result.add traverse(n[i], nil)
   else:
     result = copyNimNode(n)
     for child in n:
@@ -83,8 +81,8 @@ when isMainModule:
   macro test1: untyped =
     let e = genSym(nskVar, "e")
     result = buildAst:
-      asis newVarStmt(e, newLit(2))
+      !newVarStmt(e, newLit(2))
       call(ident"echo"):
-        infix(ident("+"), asis e, intLit(intVal = 2))
+        infix(ident("+"), !e, intLit(intVal = 2))
     assert result == getAst(templ1(e))
   test1()
