@@ -1,7 +1,7 @@
 import std/[tables, options, sugar]
 
 type
-  Constraint*[V, D] = ref object
+  Constraint*[V, D] = object
     # Base class for all constraints
     variables*: seq[V] # The variables that the constraint is between
     satisfied*: proc (assignment: Table[V, D]): bool

@@ -1,8 +1,9 @@
 import std/times
 
 type
-  SlidingWindow* = object
-    capacity, currentCount, previousCount: int
+  SlidingWindow* = object # Approximate
+    capacity: int
+    currentCount, previousCount: int
     windowSize: float
     currentTime: float
 
@@ -15,7 +16,7 @@ proc allowRequest*(sw: var SlidingWindow): bool =
     sw.currentCount = 0
   # Calculate the weighted average of the previous and current counts
   let weight = (sw.windowSize - (now - sw.currentTime)) / sw.windowSize
-  let estimatedCount = sw.previousCount * weight.int + sw.currentCount
+  let estimatedCount = int(sw.previousCount.float * weight) + sw.currentCount
   # Check if the count exceeds the capacity
   if estimatedCount <= sw.capacity:
     # Increment the current count and allow the request
@@ -24,9 +25,13 @@ proc allowRequest*(sw: var SlidingWindow): bool =
   else:
     false
 
-proc newSlidingWindow*(capacity: int, windowSize: float): SlidingWindow =
-  SlidingWindow(capacity: capacity, previousCount: capacity, currentCount: 0,
-      windowSize: windowSize, currentTime: epochTime())
+proc newSlidingWindow*(capacity: Positive, windowSize: Duration): SlidingWindow =
+  SlidingWindow(
+    capacity: capacity,
+    previousCount: capacity, currentCount: 0,
+    windowSize: windowSize,
+    currentTime: getTime()
+  )
 
 when isMainModule:
   import std/os

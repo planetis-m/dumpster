@@ -2,8 +2,9 @@ import std/[asynchttpserver, asyncdispatch, random, uri, times]
 from std/json import escapeJson
 
 type
-  SlidingWindow = object
-    capacity, currentCount, previousCount: int
+  SlidingWindow = object # Approximate
+    capacity: int
+    currentCount, previousCount: int
     windowSize: Duration
     currentTime: Time
 
@@ -16,7 +17,7 @@ proc allowRequest(sw: var SlidingWindow): bool =
     sw.currentCount = 0
   # Calculate the weighted average of the previous and current counts
   let weight = inMilliseconds(sw.windowSize - (now - sw.currentTime)) / sw.windowSize.inMilliseconds
-  let estimatedCount = sw.previousCount * weight.int + sw.currentCount
+  let estimatedCount = int(sw.previousCount.float * weight) + sw.currentCount
   # Check if the count exceeds the capacity
   if estimatedCount <= sw.capacity:
     # Increment the current count and allow the request
@@ -26,8 +27,12 @@ proc allowRequest(sw: var SlidingWindow): bool =
     false
 
 proc newSlidingWindow(capacity: Positive, windowSize: Duration): SlidingWindow =
-  SlidingWindow(capacity: capacity, previousCount: capacity, currentCount: 0,
-      windowSize: windowSize, currentTime: getTime())
+  SlidingWindow(
+    capacity: capacity,
+    previousCount: capacity, currentCount: 0,
+    windowSize: windowSize,
+    currentTime: getTime()
+  )
 
 type
   Quote = object
@@ -41,7 +46,7 @@ template toQ(a, b): untyped =
 
 proc main =
   var
-    limiter = newSlidingWindow(1, initDuration(seconds=1))
+    limiter = newSlidingWindow(2, initDuration(seconds=1))
 
   let quotes = @[
     toQ("One thing I know, that I know nothing. This is the source of my wisdom.", "Socrates"),
