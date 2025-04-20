@@ -1,4 +1,4 @@
-import std/[asynchttpserver, asyncdispatch, random, uri, times]
+import std/[asynchttpserver, asyncdispatch, random, uri, monotimes, times]
 from std/json import escapeJson
 
 type
@@ -6,10 +6,10 @@ type
     capacity: int
     currentCount, previousCount: int
     windowSize: Duration
-    currentTime: Time
+    currentTime: MonoTime
 
 proc allowRequest(sw: var SlidingWindow): bool =
-  let now = getTime()
+  let now = getMonoTime()
   # If the current time is outside the window, reset the window
   if now - sw.currentTime > sw.windowSize:
     sw.currentTime = now
@@ -19,7 +19,7 @@ proc allowRequest(sw: var SlidingWindow): bool =
   let weight = inMilliseconds(sw.windowSize - (now - sw.currentTime)) / sw.windowSize.inMilliseconds
   let estimatedCount = int(sw.previousCount.float * weight) + sw.currentCount
   # Check if the count exceeds the capacity
-  if estimatedCount <= sw.capacity:
+  if estimatedCount < sw.capacity:
     # Increment the current count and allow the request
     inc sw.currentCount
     true
@@ -31,7 +31,7 @@ proc newSlidingWindow(capacity: Positive, windowSize: Duration): SlidingWindow =
     capacity: capacity,
     previousCount: capacity, currentCount: 0,
     windowSize: windowSize,
-    currentTime: getTime()
+    currentTime: getMonoTime()
   )
 
 type
