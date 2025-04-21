@@ -11,10 +11,13 @@ type
 proc allowRequest(sw: var SlidingWindow): bool =
   let now = getMonoTime()
   # If the current time is outside the window, reset the window
-  if now - sw.currentTime > sw.windowSize:
-    sw.currentTime = now
-    sw.previousCount = sw.currentCount
+  let elapsedTime = now - sw.currentTime
+  if elapsedTime > sw.windowSize:
+    sw.previousCount =
+      if elapsedTime > sw.windowSize * 2: 0 # Handles long pauses
+      else: sw.currentCount # Normal window transition
     sw.currentCount = 0
+    sw.currentTime = now # no time-aligned windows
   # Calculate the weighted average of the previous and current counts
   let weight = inMilliseconds(sw.windowSize - (now - sw.currentTime)) / sw.windowSize.inMilliseconds
   let estimatedCount = int(sw.previousCount.float * weight) + sw.currentCount
