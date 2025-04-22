@@ -4,11 +4,11 @@ type
   SlidingWindow = object # Approximate
     capacity: int
     currentCount, previousCount: int
-    windowSize: Duration
-    currentTime: MonoTime
+    windowSize: int
+    currentTime: int64
 
 proc allowRequest(sw: var SlidingWindow): bool =
-  let now = getMonoTime()
+  let now = getMonoTime().ticks
   # If the current time is outside the window, reset the window
   let elapsedTime = now - sw.currentTime
   if elapsedTime > sw.windowSize:
@@ -18,7 +18,7 @@ proc allowRequest(sw: var SlidingWindow): bool =
     sw.currentCount = 0
     sw.currentTime = now # no time-aligned windows
   # Calculate the weighted average of the previous and current counts
-  let weight = inMilliseconds(sw.windowSize - (now - sw.currentTime)) / sw.windowSize.inMilliseconds
+  let weight = (sw.windowSize - (now - sw.currentTime)) / sw.windowSize
   let estimatedCount = int(sw.previousCount.float * weight) + sw.currentCount
   # Check if the count exceeds the capacity
   if estimatedCount < sw.capacity:
@@ -32,8 +32,8 @@ proc newSlidingWindow(capacity: Positive, windowSize: Duration): SlidingWindow =
   SlidingWindow(
     capacity: capacity,
     previousCount: 0, currentCount: 0,
-    windowSize: windowSize,
-    currentTime: getMonoTime()
+    windowSize: windowSize.inNanoseconds,
+    currentTime: getMonoTime().ticks
   )
 
 when isMainModule:
