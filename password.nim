@@ -11,7 +11,7 @@ type
     excludedChars: set[char]                    # Characters to exclude
 
 proc newPasswordOptions(
-    length = 16,
+    length: Positive = 16,
     includeUppercase = true,
     includeLowercase = true,
     includeDigits = true,
@@ -53,7 +53,7 @@ proc validateOptions(options: PasswordOptions): bool =
   ## Validates that password options are consistent and possible to satisfy
   result = true
   # Check if we have any character classes to work with
-  if options.charClasses.len == 0:
+  if options.charClasses.card == 0:
     return false
   # Check if minimum requirements exceed total length
   var totalMinimum = 0
@@ -74,7 +74,7 @@ proc generateRandomChars(length: int, charsSet: set[char]): string =
     # How many more chars we need?
     let needed = length - result.len
     # Fetch slightly more random bytes than needed (factor of ~3 seems reasonable)
-    let bytesToFetch = max(needed, 8) * 3
+    let bytesToFetch = max(needed, length) * 3
     let randomBytes = urandom(bytesToFetch)
 
     for byteVal in randomBytes:
@@ -115,17 +115,52 @@ proc generatePassword(options: PasswordOptions): string =
   assert validateOptions(options), "Invalid password options"
 
   let fullCharSet = getFullCharSet(options)
-  var classCounts = default(array[CharacterClass, int])
+  var attempt = 0
+  const maxAttempts = 100 # Prevent infinite loops for impossible constraints
+  while attempt < maxAttempts:
+    inc attempt
+    result = generateRandomChars(options.length, fullCharSet)
+    var classCounts = default(array[CharacterClass, int])
+    block requirementCheck:
+      for ch in result.items:
+        let charClass = getCharacterClass(ch)
+        inc classCounts[charClass]
+      # Verify all minimums are met
+      for charClass in options.charClasses:
+        if classCounts[charClass] < options.minRequirements[charClass]:
+          break requirementCheck
+      # # Shuffle the result before returning
+      # shuffle(result)
+      return
+  # If we exit the loop, we failed to meet constraints after many tries
+  quit "Failed to generate password meeting constraints after " & $maxAttempts & " attempts."
 
-  result = generateRandomChars(options.length, fullCharSet)
-  for ch in result.items:
-    let charClass = getCharacterClass(ch)
-    inc classCounts[charClass]
-
-  # Verify all minimums are met
-  for charClass in options.charClasses:
-    if classCounts[charClass] < options.minRequirements[charClass]:
-      return generatePassword(options) # Try generating again
+proc generatePassword(
+    length = 16,
+    includeUppercase = true,
+    includeLowercase = true,
+    includeDigits = true,
+    includeSpecials = true,
+    minUppercase = 1,
+    minLowercase = 1,
+    minDigits = 1,
+    minSpecials = 1,
+    excludedChars: set[char] = {}
+  ): string =
+  ## Convenience function to generate a secure password with common parameters
+  let options = newPasswordOptions(
+    length,
+    includeUppercase,
+    includeLowercase,
+    includeDigits,
+    includeSpecials,
+    minUppercase,
+    minLowercase,
+    minDigits,
+    minSpecials,
+    excludedChars
+  )
+  generatePassword(options)
 
 when isMainModule:
-  echo generatePassword(newPasswordOptions(minDigits=3))
+  echo generatePassword(minDigits=3)
