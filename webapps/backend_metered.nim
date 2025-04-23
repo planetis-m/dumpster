@@ -32,7 +32,7 @@ proc allowRequest(sw: var SlidingWindow): bool =
 proc newSlidingWindow(capacity: Positive, windowSize: Duration): SlidingWindow =
   SlidingWindow(
     capacity: capacity,
-    previousCount: capacity, currentCount: 0,
+    previousCount: 0, currentCount: 0,
     windowSize: windowSize.inNanoseconds,
     currentTime: getMonoTime().ticks
   )

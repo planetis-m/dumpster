@@ -4,7 +4,7 @@ proc snapshot(
     device = "/dev/video0",
     resolution = "640x480",
     seekTime = "0:0:2",
-    outputFile = "snapshot.jpg") =
+    outputFile = "/tmp/snapshot.jpg") =
   # ffmpeg -f video4linux2 -s 640x480 -i /dev/video0 -ss 0:0:2 -frames 1 /tmp/out.jpg
   let a = [
     "-f", "video4linux2", "-s", resolution, "-i", device,
