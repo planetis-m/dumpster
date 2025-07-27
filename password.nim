@@ -109,8 +109,6 @@ proc getFullCharSet(options: PasswordOptions): set[char] =
     result = result + getCharSet(charClass)
   # Remove excluded characters
   result = result - options.excludedChars
-  echo PunctuationChars
-  echo PunctuationChars - options.excludedChars
 
 proc generatePassword(options: PasswordOptions): string =
   ## Generates a random password according to the given options
@@ -140,7 +138,7 @@ proc generatePassword(options: PasswordOptions): string =
 proc generateDefaultPassword(): string =
   ## Convenience function to generate a secure password with the default options.
   # Paypal only allows: !"#$%&()*+=@\^~
-  # generatePassword(newPasswordOptions(excludedChars={'.', ',', ':', ';', '\'', '|', '[', ']', '{', '}', '/', '_', '<', '>', '`', '?', '-'}))
+  # generatePassword(newPasswordOptions(excludedChars={'\'', ','..'/', ':'..'<', '>', '?', '[', ']', '_', '`', '{'..'}'}))
   generatePassword(newPasswordOptions())
 
 when isMainModule:
