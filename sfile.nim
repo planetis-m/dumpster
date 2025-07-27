@@ -1,8 +1,10 @@
+import std/syncio
+
 type
   ScopedFile* = distinct File
 
 proc `=copy`*(dest: var ScopedFile; source: ScopedFile) {.error.}
-proc `=destroy`*(x: var ScopedFile) =
+proc `=destroy`*(x: ScopedFile) =
   close(File(x))
 
 proc main =

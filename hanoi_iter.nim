@@ -4,7 +4,7 @@ proc hanoi(numOfDisks: Natural) =
    proc topDiskSize(rod: seq[int]): int {.inline.} =
       if rod.len == 0:
          return high(int)
-      rod[rod.len - 1]
+      rod[^1]
 
    template moveDisk(fr, to) =
       let disk = rods[fr].pop

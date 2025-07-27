@@ -1,4 +1,4 @@
-import math
+import std/[syncio, math]
 
 type Func = proc(x: float): float
 

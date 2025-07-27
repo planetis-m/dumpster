@@ -4,6 +4,7 @@ proc magicSquare(n: int): seq[float] =
    assert n != 2, "Magic square of order 2 cannot be constructed"
    template `[]`(s: seq; a, b: int): untyped = s[a * n + b]
    template `[]=`(s: seq; a, b: int; val: untyped) = s[a * n + b] = float(val)
+
    var m = newSeq[float](n * n)
    # Odd order
    if n mod 2 == 1:

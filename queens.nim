@@ -1,3 +1,5 @@
+import std/syncio
+
 const
   N = 8
 

@@ -1,4 +1,4 @@
-import tables
+import std/tables
 
 type
    State = tuple[r: int, s: Transition]

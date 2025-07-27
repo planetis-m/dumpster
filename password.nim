@@ -109,6 +109,8 @@ proc getFullCharSet(options: PasswordOptions): set[char] =
     result = result + getCharSet(charClass)
   # Remove excluded characters
   result = result - options.excludedChars
+  echo PunctuationChars
+  echo PunctuationChars - options.excludedChars
 
 proc generatePassword(options: PasswordOptions): string =
   ## Generates a random password according to the given options
@@ -131,36 +133,15 @@ proc generatePassword(options: PasswordOptions): string =
           break requirementCheck
       # # Shuffle the result before returning
       # shuffle(result)
-      return
+      return result
   # If we exit the loop, we failed to meet constraints after many tries
   quit "Failed to generate password meeting constraints after " & $maxAttempts & " attempts."
 
-proc generatePassword(
-    length = 16,
-    includeUppercase = true,
-    includeLowercase = true,
-    includeDigits = true,
-    includeSpecials = true,
-    minUppercase = 1,
-    minLowercase = 1,
-    minDigits = 1,
-    minSpecials = 1,
-    excludedChars: set[char] = {}
-  ): string =
-  ## Convenience function to generate a secure password with common parameters
-  let options = newPasswordOptions(
-    length,
-    includeUppercase,
-    includeLowercase,
-    includeDigits,
-    includeSpecials,
-    minUppercase,
-    minLowercase,
-    minDigits,
-    minSpecials,
-    excludedChars
-  )
-  generatePassword(options)
+proc generateDefaultPassword(): string =
+  ## Convenience function to generate a secure password with the default options.
+  # Paypal only allows: !"#$%&()*+=@\^~
+  # generatePassword(newPasswordOptions(excludedChars={'.', ',', ':', ';', '\'', '|', '[', ']', '{', '}', '/', '_', '<', '>', '`', '?', '-'}))
+  generatePassword(newPasswordOptions())
 
 when isMainModule:
-  echo generatePassword(minDigits=3)
+  echo generateDefaultPassword()
