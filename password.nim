@@ -30,10 +30,9 @@ proc newPasswordOptions*(
     if minCount >= 0:
       # Include and Require
       charClasses.incl(charClass)
-      minRequirements[charClass] = minCount
     else:
       charClasses.excl(charClass)
-      minRequirements[charClass] = minCount
+    minRequirements[charClass] = minCount
 
   PasswordOptions(
     length: length,
@@ -133,7 +132,8 @@ proc generatePassword(options: PasswordOptions): string =
       # shuffle(result)
       return
   # If we exit the loop, we failed to meet constraints after many tries
-  quit "Failed to generate password meeting constraints after " & $maxAttempts & " attempts."
+  raise newException(ValueError,
+    "Failed to generate password meeting constraints after " & $maxAttempts & " attempts.")
 
 proc generateDefaultPassword(): string =
   ## Convenience function to generate a secure password with the default options.
@@ -144,5 +144,8 @@ when isMainModule:
   # Paypal only allows: !"#$%&()*+=@\^~
   let paypalSpecials = {'!', '"', '#', '$', '%', '&', '(', ')', '*', '+', '=', '@', '\\', '^', '~'}
   echo "PayPal-Compliant Password: ", generatePassword(newPasswordOptions(requirements = {ccSpecials: 1}, specialChars = paypalSpecials))
-  let customOpts = newPasswordOptions(20, {ccUppercase: 5, ccLowercase: 5, ccDigits: 5, ccSpecials: -1})
-  echo "Custom Password: ", generatePassword(customOpts)
+  try:
+    let customOpts = newPasswordOptions(20, {ccUppercase: 5, ccLowercase: 5, ccDigits: 5, ccSpecials: -1})
+    echo "Custom Password: ", generatePassword(customOpts)
+  except ValueError as e:
+    echo "Caught expected error: ", e.msg
