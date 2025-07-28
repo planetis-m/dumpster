@@ -1,4 +1,4 @@
-import std/[sysrand, strutils, assertions]
+import std/[sysrand, strutils, assertions, sequtils, oserrors]
 
 type
   CharacterClass = enum
@@ -66,25 +66,28 @@ proc validateOptions(options: PasswordOptions): bool =
     return false
 
 proc generateRandomChars(length: int, charsSet: set[char]): string =
-  ## Generates a password of the specified length using characters from the provided set,
+  ## Generates a password of the specified length using characters from the provided set.
   assert charsSet.len > 0, "Character set cannot be empty"
-  # Initialize result string
-  result = newStringOfCap(length) # Reserve capacity for efficiency
-  while result.len < length:
-    # How many more chars we need?
-    let needed = length - result.len
-    # Fetch slightly more random bytes than needed (factor of ~3 seems reasonable)
-    let bytesToFetch = max(needed, length) * 3
-    let randomBytes = urandom(bytesToFetch)
-
-    for byteVal in randomBytes:
-      # Only consider bytes within the valid ASCII range (0-127)
-      if byteVal <= 127:
-        let c = char(byteVal)
-        if c in charsSet: # Check if the character is in our allowed set
-          result.add(c)
-          if result.len == length:
-            break # Stop adding once we reach the desired length
+  result = newString(length)
+  let allowedChars = toSeq(charsSet)
+  let numAllowed = allowedChars.len
+  let usableRange = (256 div numAllowed) * numAllowed
+  var charCount = 0
+  # Buffer for random bytes, fetched in chunks to minimize syscalls.
+  var randomBytes = newSeq[byte](length * 2)
+  var byteIndex = randomBytes.len
+  while charCount < length:
+    # If the buffer is exhausted, fetch a new chunk.
+    if byteIndex >= randomBytes.len:
+      if not urandom(randomBytes):
+        raiseOSError(osLastError())
+      byteIndex = 0
+    let randValue = ord(randomBytes[byteIndex])
+    inc byteIndex
+    # Rejection sampling: only use bytes within the calculated uniform range.
+    if randValue < usableRange:
+      result[charCount] = allowedChars[randValue mod numAllowed]
+      inc charCount
 
 proc getCharacterClass(c: char): CharacterClass =
   ## Determines which character class a character belongs to
@@ -131,7 +134,7 @@ proc generatePassword(options: PasswordOptions): string =
           break requirementCheck
       # # Shuffle the result before returning
       # shuffle(result)
-      return result
+      return
   # If we exit the loop, we failed to meet constraints after many tries
   quit "Failed to generate password meeting constraints after " & $maxAttempts & " attempts."
 
