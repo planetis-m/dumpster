@@ -9,47 +9,38 @@ type
     charClasses: set[CharacterClass]            # Which character classes to include
     minRequirements: array[CharacterClass, int] # Minimum counts for each class
     excludedChars: set[char]                    # Characters to exclude
-    allowedSpecials: set[char]
+    specialChars: set[char]                     # Defaults to punctuation chars
 
-proc newPasswordOptions(
+proc newPasswordOptions*(
     length: Positive = 16,
-    includeUppercase = true,
-    includeLowercase = true,
-    includeDigits = true,
-    includeSpecials = true,
-    minUppercase = 1,
-    minLowercase = 1,
-    minDigits = 1,
-    minSpecials = 1,
+    requirements: openarray[(CharacterClass, int)] = [],
     excludedChars: set[char] = {},
-    allowedSpecials: set[char] = PunctuationChars
+    specialChars: set[char] = PunctuationChars
   ): PasswordOptions =
   ## Creates a new PasswordOptions object with specified settings
   var charClasses: set[CharacterClass] = {}
-  var minRequirements = default(array[CharacterClass, int])
+  var minRequirements {.noinit.}: array[CharacterClass, int]
 
-  if includeUppercase:
-    charClasses.incl(ccUppercase)
-    minRequirements[ccUppercase] = minUppercase
+  # Start with all classes as optional (minCount = 0).
+  for c in CharacterClass:
+    charClasses.incl(c)
+    minRequirements[c] = 0
 
-  if includeLowercase:
-    charClasses.incl(ccLowercase)
-    minRequirements[ccLowercase] = minLowercase
-
-  if includeDigits:
-    charClasses.incl(ccDigits)
-    minRequirements[ccDigits] = minDigits
-
-  if includeSpecials:
-    charClasses.incl(ccSpecials)
-    minRequirements[ccSpecials] = minSpecials
+  for (charClass, minCount) in items(requirements):
+    if minCount >= 0:
+      # Include and Require
+      charClasses.incl(charClass)
+      minRequirements[charClass] = minCount
+    else:
+      charClasses.excl(charClass)
+      minRequirements[charClass] = minCount
 
   PasswordOptions(
     length: length,
     charClasses: charClasses,
     minRequirements: minRequirements,
     excludedChars: excludedChars,
-    allowedSpecials: allowedSpecials
+    specialChars: specialChars
   )
 
 proc getCharacterClass(c: char): CharacterClass =
@@ -66,7 +57,7 @@ proc getCharSet(charClass: CharacterClass, options: PasswordOptions): set[char] 
   of ccUppercase: UppercaseLetters
   of ccLowercase: LowercaseLetters
   of ccDigits: Digits
-  of ccSpecials: options.allowedSpecials
+  of ccSpecials: options.specialChars
 
 proc getFullCharSet(options: PasswordOptions): set[char] =
   ## Gets the combined set of all allowed characters based on options
@@ -77,33 +68,27 @@ proc getFullCharSet(options: PasswordOptions): set[char] =
   result = result - options.excludedChars
 
 proc validateOptions(options: PasswordOptions): bool =
-  ## Validates that password options are consistent and possible to satisfy.
-  if options.charClasses.card == 0:
+  # First, calculate the total set of characters that are actually available.
+  let totalAvailableChars = getFullCharSet(options)
+  if totalAvailableChars.len == 0:
     return false
+  # Second, calculate the total minimum required characters.
   var totalMinimum = 0
-  var totalAvailableChars: set[char] = {}
   for charClass in options.charClasses:
     let minCount = options.minRequirements[charClass]
-    totalMinimum += minCount
-    # Check if each required class has enough available characters
-    let baseChars = getCharSet(charClass, options)
-    let availableCharsInClass = baseChars - options.excludedChars
-    if availableCharsInClass.card == 0 and minCount > 0:
-      # Impossible to satisfy minimum for this class as the pool is empty.
-      return false
-    # Add the unique available characters to the total pool
-    totalAvailableChars = totalAvailableChars + availableCharsInClass
-  # Check if minimum requirements exceed total length
+    if minCount > 0:
+      totalMinimum += minCount
+      # Check if the character pool for this required class is empty.
+      let availableCharsInClass = getCharSet(charClass, options) - options.excludedChars
+      if availableCharsInClass.len == 0:
+        return false # This required class has no characters available.
+  # Finally, check if the minimums can be satisfied by the password length.
   if totalMinimum > options.length:
-    return false
-  # Check if there are any characters left to generate the password from
-  if totalAvailableChars.card == 0:
     return false
   return true
 
 proc generateRandomChars(length: int, allowedChars: seq[char]): string =
   ## Generates a password of the specified length using characters from the provided set.
-  assert allowedChars.len > 0, "Character set cannot be empty"
   result = newString(length)
   let numAllowed = allowedChars.len
   let usableRange = (256 div numAllowed) * numAllowed
@@ -155,7 +140,9 @@ proc generateDefaultPassword(): string =
   generatePassword(newPasswordOptions())
 
 when isMainModule:
+  echo "Default Password: ", generateDefaultPassword()
   # Paypal only allows: !"#$%&()*+=@\^~
   let paypalSpecials = {'!', '"', '#', '$', '%', '&', '(', ')', '*', '+', '=', '@', '\\', '^', '~'}
-  echo generatePassword(newPasswordOptions(allowedSpecials = paypalSpecials))
-  # echo generateDefaultPassword()
+  echo "PayPal-Compliant Password: ", generatePassword(newPasswordOptions(requirements = {ccSpecials: 1}, specialChars = paypalSpecials))
+  let customOpts = newPasswordOptions(20, {ccUppercase: 5, ccLowercase: 5, ccDigits: 5, ccSpecials: -1})
+  echo "Custom Password: ", generatePassword(customOpts)
