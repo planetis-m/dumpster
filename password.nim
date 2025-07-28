@@ -127,9 +127,7 @@ proc generatePassword(options: PasswordOptions): string =
       for charClass in options.charClasses:
         if classCounts[charClass] < options.minRequirements[charClass]:
           break requirementCheck
-      # # Shuffle the result before returning
-      # shuffle(result)
-      return
+      return result
   # If we exit the loop, we failed to meet constraints after many tries
   raise newException(ValueError,
     "Failed to generate password meeting constraints after " & $maxAttempts & " attempts.")
