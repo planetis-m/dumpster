@@ -1,3 +1,4 @@
+# https://research.kudelskisecurity.com/2020/07/28/the-definitive-guide-to-modulo-bias-and-how-to-avoid-it/
 import std/[sysrand, strutils, assertions, sequtils, oserrors]
 
 type
@@ -111,9 +112,7 @@ proc generateRandomChars(length: int, allowedChars: seq[char]): string =
 proc generatePassword(options: PasswordOptions): string =
   ## Generates a random password according to the given options
   assert validateOptions(options), "Invalid password options"
-
-  let fullCharSet = getFullCharSet(options)
-  let allowedChars = toSeq(fullCharSet)
+  let allowedChars = toSeq(getFullCharSet(options))
   var attempt = 0
   const maxAttempts = 100 # Prevent infinite loops for impossible constraints
   while attempt < maxAttempts:
@@ -145,7 +144,7 @@ when isMainModule:
   let paypalSpecials = {'!', '"', '#', '$', '%', '&', '(', ')', '*', '+', '=', '@', '\\', '^', '~'}
   echo "PayPal-Compliant Password: ", generatePassword(newPasswordOptions(requirements = {ccSpecials: 1}, specialChars = paypalSpecials))
   try:
-    let customOpts = newPasswordOptions(20, {ccUppercase: 5, ccLowercase: 5, ccDigits: 5, ccSpecials: -1})
+    let customOpts = newPasswordOptions(20, {ccUppercase: 3, ccLowercase: 3, ccDigits: 3, ccSpecials: 1}, specialChars = paypalSpecials)
     echo "Custom Password: ", generatePassword(customOpts)
-  except ValueError as e:
-    echo "Caught expected error: ", e.msg
+  except ValueError:
+    discard
