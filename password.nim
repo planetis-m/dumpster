@@ -9,6 +9,7 @@ type
     charClasses: set[CharacterClass]            # Which character classes to include
     minRequirements: array[CharacterClass, int] # Minimum counts for each class
     excludedChars: set[char]                    # Characters to exclude
+    allowedSpecials: set[char]
 
 proc newPasswordOptions(
     length: Positive = 16,
@@ -20,7 +21,8 @@ proc newPasswordOptions(
     minLowercase = 1,
     minDigits = 1,
     minSpecials = 1,
-    excludedChars: set[char] = {}
+    excludedChars: set[char] = {},
+    allowedSpecials: set[char] = PunctuationChars
   ): PasswordOptions =
   ## Creates a new PasswordOptions object with specified settings
   var charClasses: set[CharacterClass] = {}
@@ -46,30 +48,63 @@ proc newPasswordOptions(
     length: length,
     charClasses: charClasses,
     minRequirements: minRequirements,
-    excludedChars: excludedChars
+    excludedChars: excludedChars,
+    allowedSpecials: allowedSpecials
   )
 
+proc getCharacterClass(c: char): CharacterClass =
+  ## Determines which character class a character belongs to
+  case c
+  of UppercaseLetters: ccUppercase
+  of LowercaseLetters: ccLowercase
+  of Digits: ccDigits
+  else: ccSpecials
+
+proc getCharSet(charClass: CharacterClass, options: PasswordOptions): set[char] =
+  ## Returns the set of characters for a given character class
+  case charClass
+  of ccUppercase: UppercaseLetters
+  of ccLowercase: LowercaseLetters
+  of ccDigits: Digits
+  of ccSpecials: options.allowedSpecials
+
+proc getFullCharSet(options: PasswordOptions): set[char] =
+  ## Gets the combined set of all allowed characters based on options
+  result = {}
+  for charClass in options.charClasses:
+    result = result + getCharSet(charClass, options)
+  # Remove excluded characters
+  result = result - options.excludedChars
+
 proc validateOptions(options: PasswordOptions): bool =
-  ## Validates that password options are consistent and possible to satisfy
-  result = true
-  # Check if we have any character classes to work with
+  ## Validates that password options are consistent and possible to satisfy.
   if options.charClasses.card == 0:
     return false
-  # Check if minimum requirements exceed total length
   var totalMinimum = 0
-  for charClass, minCount in options.minRequirements.pairs:
-    if charClass notin options.charClasses:
-      # Can't satisfy minimum for a class that's not included
-      return false
+  var totalAvailableChars: set[char] = {}
+  for charClass in options.charClasses:
+    let minCount = options.minRequirements[charClass]
     totalMinimum += minCount
+    # Check if each required class has enough available characters
+    let baseChars = getCharSet(charClass, options)
+    let availableCharsInClass = baseChars - options.excludedChars
+    if availableCharsInClass.card == 0 and minCount > 0:
+      # Impossible to satisfy minimum for this class as the pool is empty.
+      return false
+    # Add the unique available characters to the total pool
+    totalAvailableChars = totalAvailableChars + availableCharsInClass
+  # Check if minimum requirements exceed total length
   if totalMinimum > options.length:
     return false
+  # Check if there are any characters left to generate the password from
+  if totalAvailableChars.card == 0:
+    return false
+  return true
 
-proc generateRandomChars(length: int, charsSet: set[char]): string =
+proc generateRandomChars(length: int, allowedChars: seq[char]): string =
   ## Generates a password of the specified length using characters from the provided set.
-  assert charsSet.len > 0, "Character set cannot be empty"
+  assert allowedChars.len > 0, "Character set cannot be empty"
   result = newString(length)
-  let allowedChars = toSeq(charsSet)
   let numAllowed = allowedChars.len
   let usableRange = (256 div numAllowed) * numAllowed
   var charCount = 0
@@ -89,40 +124,17 @@ proc generateRandomChars(length: int, charsSet: set[char]): string =
       result[charCount] = allowedChars[randValue mod numAllowed]
       inc charCount
 
-proc getCharacterClass(c: char): CharacterClass =
-  ## Determines which character class a character belongs to
-  case c
-  of UppercaseLetters: ccUppercase
-  of LowercaseLetters: ccLowercase
-  of Digits: ccDigits
-  else: ccSpecials
-
-proc getCharSet(charClass: CharacterClass): set[char] =
-  ## Returns the set of characters for a given character class
-  case charClass
-  of ccUppercase: UppercaseLetters
-  of ccLowercase: LowercaseLetters
-  of ccDigits: Digits
-  of ccSpecials: PunctuationChars
-
-proc getFullCharSet(options: PasswordOptions): set[char] =
-  ## Gets the combined set of all allowed characters based on options
-  result = {}
-  for charClass in options.charClasses:
-    result = result + getCharSet(charClass)
-  # Remove excluded characters
-  result = result - options.excludedChars
-
 proc generatePassword(options: PasswordOptions): string =
   ## Generates a random password according to the given options
   assert validateOptions(options), "Invalid password options"
 
   let fullCharSet = getFullCharSet(options)
+  let allowedChars = toSeq(fullCharSet)
   var attempt = 0
   const maxAttempts = 100 # Prevent infinite loops for impossible constraints
   while attempt < maxAttempts:
     inc attempt
-    result = generateRandomChars(options.length, fullCharSet)
+    result = generateRandomChars(options.length, allowedChars)
     var classCounts = default(array[CharacterClass, int])
     block requirementCheck:
       for ch in result.items:
@@ -140,9 +152,10 @@ proc generatePassword(options: PasswordOptions): string =
 
 proc generateDefaultPassword(): string =
   ## Convenience function to generate a secure password with the default options.
-  # Paypal only allows: !"#$%&()*+=@\^~
-  # generatePassword(newPasswordOptions(excludedChars={'\'', ','..'/', ':'..'<', '>', '?', '[', ']', '_', '`', '{'..'}'}))
   generatePassword(newPasswordOptions())
 
 when isMainModule:
-  echo generateDefaultPassword()
+  # Paypal only allows: !"#$%&()*+=@\^~
+  let paypalSpecials = {'!', '"', '#', '$', '%', '&', '(', ')', '*', '+', '=', '@', '\\', '^', '~'}
+  echo generatePassword(newPasswordOptions(allowedSpecials = paypalSpecials))
+  # echo generateDefaultPassword()
