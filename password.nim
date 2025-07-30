@@ -1,5 +1,9 @@
 # https://research.kudelskisecurity.com/2020/07/28/the-definitive-guide-to-modulo-bias-and-how-to-avoid-it/
-import std/[sysrand, strutils, assertions, sequtils, oserrors]
+import std/[sysrand, strutils, sequtils, oserrors]
+
+# ==================
+# Type Definitions
+# ==================
 
 type
   CharacterClass = enum
@@ -12,13 +16,32 @@ type
     excludedChars: set[char]                    # Characters to exclude
     specialChars: set[char]                     # Defaults to punctuation chars
 
-proc newPasswordOptions*(
+  PasswordGenerationError = object of CatchableError
+    # Raised when password generation fails to meet constraints after multiple attempts
+
+# ==================
+# Configuration Constants
+# ==================
+
+const
+  MaxPasswordAttempts = 100 # Maximum attempts for password generation
+
+# ==================
+# Password Options Creation
+# ==================
+
+proc newPasswordOptions(
     length: Positive = 16,
     requirements: openarray[(CharacterClass, int)] = [],
     excludedChars: set[char] = {},
-    specialChars: set[char] = PunctuationChars
-  ): PasswordOptions =
+    specialChars: set[char] = PunctuationChars): PasswordOptions =
   ## Creates a new PasswordOptions object with specified settings
+  ## Parameters:
+  ##   - length: Password length (default: 16)
+  ##   - requirements: Character class requirements (positive = required, negative = excluded)
+  ##   - excludedChars: Characters to exclude from generation
+  ##   - specialChars: Special character set to use (default: punctuation)
+
   var charClasses: set[CharacterClass] = {}
   var minRequirements {.noinit.}: array[CharacterClass, int]
 
@@ -43,6 +66,10 @@ proc newPasswordOptions*(
     specialChars: specialChars
   )
 
+# ==================
+# Utility Functions
+# ==================
+
 proc getCharacterClass(c: char): CharacterClass =
   ## Determines which character class a character belongs to
   case c
@@ -63,16 +90,26 @@ proc getFullCharSet(options: PasswordOptions): set[char] =
   ## Gets the combined set of all allowed characters based on options
   result = {}
   for charClass in options.charClasses:
-    result = result + getCharSet(charClass, options)
+    result.incl getCharSet(charClass, options)
   # Remove excluded characters
-  result = result - options.excludedChars
+  result.excl options.excludedChars
+
+# ==================
+# Validation Logic
+# ==================
 
 proc validateOptions(options: PasswordOptions): bool =
-  # First, calculate the total set of characters that are actually available.
+  ## Validates password options to ensure they're feasible
+  ## Returns false if:
+  ##   - No characters are available
+  ##   - Required character classes have no available characters
+  ##   - Minimum requirements exceed password length
+
+  # Check if any characters are available
   let totalAvailableChars = getFullCharSet(options)
   if totalAvailableChars.len == 0:
     return false
-  # Second, calculate the total minimum required characters.
+  # Calculate total minimum required characters
   var totalMinimum = 0
   for charClass in options.charClasses:
     let minCount = options.minRequirements[charClass]
@@ -82,19 +119,26 @@ proc validateOptions(options: PasswordOptions): bool =
       let availableCharsInClass = getCharSet(charClass, options) - options.excludedChars
       if availableCharsInClass.len == 0:
         return false # This required class has no characters available.
-  # Finally, check if the minimums can be satisfied by the password length.
+  # Check if minimum requirements fit in password length
   if totalMinimum > options.length:
     return false
   return true
 
+# ==================
+# Password Generation
+# ==================
+
 proc generateRandomChars(length: int, allowedChars: seq[char]): string =
   ## Generates a password of the specified length using characters from the provided set.
+  ## Uses rejection sampling to avoid modulo bias.
+
   result = newString(length)
   let numAllowed = allowedChars.len
+  # Calculate maximum value that avoids modulo bias
   let usableRange = (256 div numAllowed) * numAllowed
   var charCount = 0
   # Buffer for random bytes, fetched in chunks to minimize syscalls.
-  var randomBytes = newSeq[byte](length * 2)
+  var randomBytes = newSeq[byte](length + length div 2)
   var byteIndex = randomBytes.len
   while charCount < length:
     # If the buffer is exhausted, fetch a new chunk.
@@ -109,13 +153,18 @@ proc generateRandomChars(length: int, allowedChars: seq[char]): string =
       result[charCount] = allowedChars[randValue mod numAllowed]
       inc charCount
 
+# ==================
+# Core Functions
+# ==================
+
 proc generatePassword(options: PasswordOptions): string =
   ## Generates a random password according to the given options
-  assert validateOptions(options), "Invalid password options"
+  if not validateOptions(options):
+    raise newException(ValueError, "Invalid password options: " & $options)
+
   let allowedChars = toSeq(getFullCharSet(options))
   var attempt = 0
-  const maxAttempts = 100 # Prevent infinite loops for impossible constraints
-  while attempt < maxAttempts:
+  while attempt < MaxPasswordAttempts:
     inc attempt
     result = generateRandomChars(options.length, allowedChars)
     var classCounts = default(array[CharacterClass, int])
@@ -129,20 +178,26 @@ proc generatePassword(options: PasswordOptions): string =
           break requirementCheck
       return result
   # If we exit the loop, we failed to meet constraints after many tries
-  raise newException(ValueError,
-    "Failed to generate password meeting constraints after " & $maxAttempts & " attempts.")
+  raise newException(PasswordGenerationError,
+    "Failed to generate password meeting constraints after " & $MaxPasswordAttempts & " attempts.")
 
 proc generateDefaultPassword(): string =
   ## Convenience function to generate a secure password with the default options.
   generatePassword(newPasswordOptions())
 
+# ==================
+# Main Execution Block
+# ==================
+
 when isMainModule:
   echo "Default Password: ", generateDefaultPassword()
+
   # Paypal only allows: !"#$%&()*+=@\^~
   let paypalSpecials = {'!', '"', '#', '$', '%', '&', '(', ')', '*', '+', '=', '@', '\\', '^', '~'}
   echo "PayPal-Compliant Password: ", generatePassword(newPasswordOptions(requirements = {ccSpecials: 1}, specialChars = paypalSpecials))
+
   try:
     let customOpts = newPasswordOptions(20, {ccUppercase: 3, ccLowercase: 3, ccDigits: 3, ccSpecials: 1}, specialChars = paypalSpecials)
     echo "Custom Password: ", generatePassword(customOpts)
-  except ValueError:
+  except PasswordGenerationError:
     discard
